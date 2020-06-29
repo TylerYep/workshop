@@ -206,8 +206,6 @@ def to_rank_array(text: str) -> List[int]:
         result.append(char_map[ch])
     # End string terminator
     result.append(0)
-    # if return_char_map:
-    #     return result, char_map
     return result
 
 

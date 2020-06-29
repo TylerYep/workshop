@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from typing import Optional
+from typing import Any, List, Optional
 
 
 class LinkedListNode:
-    def __init__(self, data: int, next_node: Optional[LinkedListNode]) -> None:
+    def __init__(self, data: int, next_node: Optional[LinkedListNode] = None) -> None:
         self.data = data
         self.next = next_node
 
@@ -12,22 +12,37 @@ class LinkedListNode:
         return f"({self.data}) -> {self.next}"
 
 
-def remove_last(l: LinkedListNode) -> Optional[LinkedListNode]:
-    """ Deletes the last element of a linked list. """
-    if l is None or l.next is None:
-        return None
-    l.next = remove_last(l.next)
-    return l
+class LinkedList:
+    def __init__(self, lst: Optional[LinkedListNode] = None):
+        self.head = lst
 
+    @classmethod
+    def from_list(cls, lst: List[Any]) -> LinkedList:
+        linked_lst = LinkedList()
+        for item in lst:
+            linked_lst.add(item)
+        return linked_lst
 
-if __name__ == "__main__":
-    head = LinkedListNode(0, None)
-    curr = head
-    for i in range(1, 10):
-        curr.next = LinkedListNode(i, None)
-        curr = curr.next
-    print(head)
-    remove_last(head)
-    print(head)
-    remove_last(head)
-    print(head)
+    def add(self, data: Any) -> None:
+        if self.head is None:
+            self.head = LinkedListNode(data)
+            return
+
+        curr = self.head
+        while curr.next is not None:
+            curr = curr.next
+        curr.next = LinkedListNode(data)
+
+    def remove_last(self) -> Optional[LinkedListNode]:
+        """ Deletes the last element of a linked list using only self.head. """
+
+        def _remove_last(lst: Optional[LinkedListNode]) -> Optional[LinkedListNode]:
+            if lst is None or lst.next is None:
+                return None
+            lst.next = _remove_last(lst.next)
+            return lst
+
+        return _remove_last(self.head)
+
+    def __repr__(self) -> str:
+        return str(self.head)

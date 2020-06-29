@@ -1,0 +1,10 @@
+from src.structures.linked_list import LinkedList
+
+
+def test_linked_list_node():
+    lst = LinkedList.from_list([i for i in range(5)])
+    assert str(lst) == "(0) -> (1) -> (2) -> (3) -> (4) -> None"
+    removed = lst.remove_last()
+    assert str(removed) == "(0) -> (1) -> (2) -> (3) -> None"
+    removed = lst.remove_last()
+    assert str(removed) == "(0) -> (1) -> (2) -> None"
