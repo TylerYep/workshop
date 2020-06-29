@@ -1,4 +1,5 @@
-from hash_table import Cuckoo, HashTable, LinearProbing, LinearProbingClean, RobinHood
+import sys
+from src.structures.hash_table import Cuckoo, HashTable, LinearProbingClean, RobinHood
 
 
 def main() -> None:
@@ -56,7 +57,7 @@ def choose_hash_table_type(num_buckets: int) -> HashTable:
         user_input = input("Your choice: ")
         letter = user_input[0].lower()
         if user_input == "" or letter == "q":
-            return
+            sys.exit(0)
 
         if letter == "l":
             return LinearProbingClean(num_buckets)
@@ -64,8 +65,7 @@ def choose_hash_table_type(num_buckets: int) -> HashTable:
             return RobinHood(num_buckets)
         if letter == "c":
             return Cuckoo(num_buckets)
-        else:
-            print("  Sorry, I didn't understand that.")
+        print("  Sorry, I didn't understand that.")
 
 
 if __name__ == "__main__":

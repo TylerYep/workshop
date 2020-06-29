@@ -3,7 +3,7 @@ import time
 
 from tqdm import tqdm
 
-from src.structures.rmq import FischerHeunRMQ, HybridRMQ, PrecomputedRMQ, SparseTableRMQ
+from src.structures.rmq import FischerHeunRMQ, SparseTableRMQ
 
 ProposedRMQ = FischerHeunRMQ
 RMQ = SparseTableRMQ
@@ -16,8 +16,8 @@ def print_arr_with_index(data, low):
     return result
 
 
-def run_tests(minimum, maximum, step, num_builds, num_queries, verbose=False):
-    for _ in range(minimum, maximum + 1, step):
+def run_tests(minimum, maximum, num_builds, num_queries, verbose=False):
+    for _ in range(minimum, maximum + 1):
         data = [random.randint(minimum, maximum - 1) for _ in range(maximum)]
 
         total_build_time_ref, total_build_time_test = 0, 0
@@ -78,7 +78,7 @@ def run_tests(minimum, maximum, step, num_builds, num_queries, verbose=False):
 
 def test_rmq():
     random.seed(0)
-    run_tests(0, 1, 1, 10, 100)
-    run_tests(15, 25, 4, 10, 100)
+    run_tests(0, 1, 10, 100)
+    run_tests(20, 25, 10, 100)
     # run_tests(10, 25, 15, 100, 1000)
     # run_tests(0, 10000, 5000, 100, 10000)

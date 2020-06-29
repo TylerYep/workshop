@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import OrderedDict
-from typing import Any, Mapping, Optional, TypeVar
+from typing import Mapping, TypeVar
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")

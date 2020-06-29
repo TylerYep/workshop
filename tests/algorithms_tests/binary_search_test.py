@@ -8,7 +8,7 @@ def test_binary_search():
     assert binary_search([1, 2, 3, 4, 5, 6, 7, 8], target=5) == 4
     assert binary_search([1, 2, 3, 4, 5, 6, 7, 8], target=8) == 7
     UPPER_BOUND = 800
-    nums = [z for z in range(0, UPPER_BOUND, 2)]
+    nums = list(range(0, UPPER_BOUND, 2))
     for x in range(0, UPPER_BOUND, 4):
         assert binary_search(nums, target=x) == x // 2
     assert binary_search(nums, target=UPPER_BOUND + 1) == -1

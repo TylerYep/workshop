@@ -1,7 +1,7 @@
 from collections import Counter
 from dataclasses import dataclass
 from enum import Enum, unique
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 
 @unique
@@ -133,7 +133,6 @@ def induced_sort(
         bucket_starts[i] = bucket_starts[i - 1] + histogram[i - 1]
         bucket_ends[i] = bucket_ends[i - 1] + histogram[i]
 
-    orig_bucket_starts = list(bucket_starts)
     orig_bucket_ends = list(bucket_ends)
 
     # Make backward pass and insert all LMS suffixes into their

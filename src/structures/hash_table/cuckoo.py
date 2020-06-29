@@ -22,7 +22,7 @@ def hash_function(n: int) -> Callable[[int], int]:
 
 class Cuckoo(HashTable):
     def __init__(self, num_buckets: int) -> None:
-        self.num_buckets = num_buckets // 2
+        super().__init__(num_buckets // 2)
         self.table_1 = [-1 for _ in range(self.num_buckets)]
         self.table_2 = list(self.table_1)
         self.curr_hash_fn_num = 1

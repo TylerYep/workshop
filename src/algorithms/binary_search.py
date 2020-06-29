@@ -10,9 +10,9 @@ def binary_search(nums: List[Any], target: int) -> int:
         mid_val = nums[mid]
         if target == mid_val:
             return mid
-        elif mid_val < target:
+        if mid_val < target:
             left = mid + 1
-        elif mid_val > target:
+        else:
             right = mid - 1
     return -1
 
@@ -37,6 +37,6 @@ def left_right_binary_search(nums: List[Any], target: int, is_left: bool = True)
                 left = mid + 1
         elif mid_val < target:
             left = mid + 1
-        elif mid_val > target:
+        else:
             right = mid - 1
     return index

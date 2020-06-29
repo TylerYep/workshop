@@ -3,7 +3,7 @@ from collections import Counter, defaultdict
 
 
 def test(fruit_set):
-    ROLE_COUNTS = dict(Counter(fruit_set))
+    _ = dict(Counter(fruit_set))
 
 
 def test2(fruit_set):

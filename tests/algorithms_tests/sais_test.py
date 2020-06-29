@@ -1,8 +1,6 @@
 from src.algorithms.sais import (
-    get_reduced_string,
     get_suffix_annotations,
     induced_sort,
-    reorder_lms_substrings,
     sais,
     to_rank_array,
 )

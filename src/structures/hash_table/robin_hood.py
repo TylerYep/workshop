@@ -15,8 +15,8 @@ class Pair:
 
 class RobinHood(HashTable):
     def __init__(self, num_buckets: int) -> None:
+        super().__init__(num_buckets)
         self.table: List[Pair] = [Pair() for _ in range(num_buckets)]
-        self.num_buckets = num_buckets
         self.hash: Callable[[int], int] = lambda x: x % num_buckets
         self.capacity = num_buckets
         self.num_elems = 0
@@ -28,7 +28,7 @@ class RobinHood(HashTable):
 
         curr_dist = 0
         bucket = self.hash(data) % self.num_buckets
-        while self.table[bucket].val != data and data != -1:
+        while data not in (self.table[bucket].val, -1):
             if self.table[bucket].val == -1 or self.table[bucket].dist < curr_dist:
                 temp = self.table[bucket]
                 self.table[bucket] = Pair(data, curr_dist)
@@ -79,4 +79,4 @@ class RobinHood(HashTable):
         return f"\n{indices}\n{'--' * sum(widths)}\n{table}\n"
 
     def get_elems(self) -> Set[int]:
-        return set([x.val for x in self.table])
+        return {x.val for x in self.table}

@@ -5,8 +5,8 @@ from .hash_table import HashTable
 
 class LinearProbingClean(HashTable):
     def __init__(self, num_buckets: int) -> None:
+        super().__init__(num_buckets)
         self.table = [-1 for _ in range(num_buckets)]
-        self.num_buckets = num_buckets
         self.capacity = num_buckets
         self.num_elems = 0
 

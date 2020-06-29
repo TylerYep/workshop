@@ -3,22 +3,19 @@ import sys
 
 
 def regex(filename, regexp):
-    with open(filename, "r") as f:
+    with open(filename) as f:
         matches = []
-        regex = re.compile(regexp)
+        reg = re.compile(regexp)
         for line in f:
-            if regex.search(line):
+            if reg.search(line):
                 matches.append(line[:-1])
         for m in matches:
             print(m)
 
 
 def regex_str(line, regexp):
-    matches = []
-    regex = re.compile(regexp)
-    matches.append(regex.findall(line))
-    for m in matches:
-        print(m)
+    reg = re.compile(regexp)
+    print(reg.findall(line))
 
 
 if __name__ == "__main__":
@@ -26,5 +23,5 @@ if __name__ == "__main__":
     if len(args) == 2:
         regex(args[0], args[1])
     else:
-        line = "1 5 71 13"
-        regex_str(line, args[0])
+        line_to_search = "1 5 71 13"
+        regex_str(line_to_search, args[0])

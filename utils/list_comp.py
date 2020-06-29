@@ -14,29 +14,29 @@ def timed(f):
 def append_loop(n):
     """Simple loop with append"""
     my_list = []
-    for i in range(n):
+    for _ in range(n):
         my_list.append(0)
 
 
 def add_loop(n):
     """Simple loop with +="""
     my_list = []
-    for i in range(n):
+    for _ in range(n):
         my_list += [0]
 
 
 def list_comprehension(n):
     """List comprehension"""
-    my_list = [0 for i in range(n)]
+    _ = [0 for _ in range(n)]
 
 
 def integer_multiplication(n):
     """List and integer multiplication"""
-    my_list = [0] * n
+    _ = [0] * n
 
 
 def numpy_array(n):
-    my_list = np.zeros(n)
+    _ = np.zeros(n)
 
 
 print(
