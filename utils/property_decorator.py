@@ -22,4 +22,3 @@ sample.__read_only = 30
 print(sample.read_only)
 print(sample.__read_only)
 print(vars(sample))
-

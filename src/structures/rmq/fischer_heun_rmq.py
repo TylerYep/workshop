@@ -1,5 +1,5 @@
-from typing import List
 import math
+from typing import Dict, List
 
 from .precomputed_rmq import PrecomputedRMQ
 from .rmq import RMQ
@@ -54,13 +54,13 @@ class FischerHeunRMQ(RMQ):
         self.summary_rmq = SparseTableRMQ(block_min_vals)
 
         self.block_index_to_cart = []
-        self.cart_to_rmq = [None] * (4 ** self.block_size)
+        self.cart_to_rmq: Dict[int, RMQ] = {}  # [None] * (4 ** self.block_size)
         for i in range(math.ceil(len(elems) / self.block_size)):
             start = i * self.block_size
             current_range = self.elems[start : min(len(elems), start + self.block_size)]
             cartesian_num = calc_cart_num(current_range)
             self.block_index_to_cart.append(cartesian_num)
-            if self.cart_to_rmq[cartesian_num] is None:
+            if cartesian_num not in self.cart_to_rmq:
                 self.cart_to_rmq[cartesian_num] = PrecomputedRMQ(current_range)
 
     def rmq(self, low: int, high: int) -> int:

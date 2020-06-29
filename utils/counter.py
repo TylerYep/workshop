@@ -1,5 +1,5 @@
-from collections import defaultdict, Counter
 import timeit
+from collections import Counter, defaultdict
 
 
 def test(fruit_set):
@@ -34,16 +34,7 @@ def test4(fruit_set):
 
 
 if __name__ == "__main__":
-    FRUITS = (
-        "Apple",
-        "Orange",
-        "Grape",
-        "Banana",
-        "Banana",
-        "Watermelon",
-        "Lemon",
-        "Peach",
-    ) * 2
+    FRUITS = ("Apple", "Orange", "Grape", "Banana", "Banana", "Watermelon", "Lemon", "Peach",) * 2
     print(len(FRUITS))
     y = timeit.timeit(lambda: test(FRUITS))
     print(y)

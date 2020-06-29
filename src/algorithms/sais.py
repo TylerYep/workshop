@@ -1,7 +1,7 @@
-from typing import List, Dict, Tuple
-from enum import Enum, unique
 from collections import Counter
 from dataclasses import dataclass
+from enum import Enum, unique
+from typing import Dict, List, Optional, Tuple
 
 
 @unique
@@ -18,7 +18,7 @@ class LMSBlock:
 
 def sais(text: List[int]) -> List[int]:
     # Handle empty string edge case
-    if text == "":
+    if not text:
         return [0]
 
     # Step 1: Annotate all suffixes as L/S and get LMS suffixes.
@@ -34,7 +34,7 @@ def sais(text: List[int]) -> List[int]:
     if should_recurse:
         reduced_suffix_arr = sais(reduced_str)
     else:
-        reduced_suffix_arr = [None] * len(reduced_str)
+        reduced_suffix_arr = [-1] * len(reduced_str)
         for i, item in enumerate(reduced_str):
             reduced_suffix_arr[item] = i
 
@@ -44,7 +44,9 @@ def sais(text: List[int]) -> List[int]:
     return induced_sort(text, suffix_marks, sorted_lms_suffixes)
 
 
-def create_lms_blocks(suffix_arr: List[int], lms_suffixes: List[int]) -> Tuple[List[LMSBlock], Dict[int, int]]:
+def create_lms_blocks(
+    suffix_arr: List[int], lms_suffixes: List[int]
+) -> Tuple[List[LMSBlock], Dict[int, int]]:
     """ This function fetches all LMS blocks, which span from one LMS suffix to another. """
     # Stores the index in the original lms_suffix list.
     is_lms_suffix = [-1] * len(suffix_arr)
@@ -83,7 +85,9 @@ def assign_block_numbers(text: List[int], lms_blocks: List[LMSBlock]) -> bool:
     return should_recurse
 
 
-def get_reduced_string(text: List[int], suffix_arr: List[int], lms_suffixes: List[int]) -> Tuple[List[int], bool]:
+def get_reduced_string(
+    text: List[int], suffix_arr: List[int], lms_suffixes: List[int]
+) -> Tuple[List[int], bool]:
     """
     >>> suffix_arr = [10, 0, 1, 2, 3, 4, 6, 8, 5, 7, 9]
     >>> lms_suffixes = [6, 8, 10]
@@ -113,14 +117,13 @@ def reorder_lms_substrings(lms_suffixes: List[int], reduced_str: List[int]) -> L
 
 
 def induced_sort(
-    text: List[int], suffix_marks: List[SuffixType], lms_suffixes: List[int], validate: bool = False
+    text: List[int], suffix_marks: List[SuffixType], lms_suffixes: List[int],
 ) -> List[int]:
     """
     Runs induced sort on the text and returns a suffix array.
     """
-    suffix_arr_validation = []
     alphabet_size = max(text)
-    suffix_arr = [None] * len(text)
+    suffix_arr = [-1] * len(text)
 
     histogram = Counter(text)
     bucket_starts = [0] * (alphabet_size + 1)  # text -> start ind
@@ -139,32 +142,29 @@ def induced_sort(
         bucket = bucket_ends[text[lms_suffix]]
         suffix_arr[bucket] = lms_suffix
         bucket_ends[text[lms_suffix]] -= 1
-    suffix_arr_validation.append(list(suffix_arr))
 
     # Make forward pass and insert all L-type suffixes into the proper places at the bucket starts.
     for i, key in enumerate(suffix_arr):
-        if key is not None and key > 0:
+        if key > 0:
             ind = key - 1
             if suffix_marks[ind] == SuffixType.L:
                 bucket = bucket_starts[text[ind]]
                 suffix_arr[bucket] = ind
                 bucket_starts[text[ind]] += 1
-    suffix_arr_validation.append(list(suffix_arr))
 
     # Make final backward pass and reinsert all S-type suffixes into the proper
     # places at the bucket ends, overwriting any previously placed suffixes.
     bucket_ends = orig_bucket_ends
     for i in range(len(suffix_arr) - 1, 0, -1):
         key = suffix_arr[i]
-        if key is not None and key > 0:
+        if key > 0:
             ind = key - 1
             if suffix_marks[ind] == SuffixType.S:
                 bucket = bucket_ends[text[ind]]
                 suffix_arr[bucket] = ind
                 bucket_ends[text[ind]] -= 1
-    suffix_arr_validation.append(list(suffix_arr))
 
-    return suffix_arr_validation if validate else suffix_arr
+    return suffix_arr
 
 
 def get_suffix_annotations(text: List[int]) -> Tuple[List[SuffixType], List[int]]:

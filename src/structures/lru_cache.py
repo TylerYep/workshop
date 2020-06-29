@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from collections import OrderedDict
+from typing import Any, Mapping, Optional, TypeVar
 
-from typing import Any, TypeVar, Mapping, Optional
+KT = TypeVar("KT")
+VT = TypeVar("VT")
 
-KT = TypeVar('KT')
-VT = TypeVar('VT')
 
 class LRUCache(Mapping[KT, VT]):
     def __init__(self, max_capacity: int) -> None:

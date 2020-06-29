@@ -1,5 +1,6 @@
-from .rmq import RMQ
 from typing import List
+
+from .rmq import RMQ
 
 
 class PrecomputedRMQ(RMQ):

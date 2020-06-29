@@ -4,8 +4,8 @@ import time
 from tqdm import tqdm
 
 # from rmq import SparseTableRMQ, HybridRMQ, PrecomputedRMQ, FischerHeunRMQ
-from rmq import SparseTableRMQ as RMQ
 from rmq import FischerHeunRMQ as TestRMQ
+from rmq import SparseTableRMQ as RMQ
 
 
 def print_arr_with_index(data, low=None):

@@ -1,6 +1,5 @@
-from typing import Set, Callable, List
-
 from dataclasses import dataclass
+from typing import Callable, List, Set
 
 from .hash_table import HashTable
 
@@ -79,5 +78,5 @@ class RobinHood(HashTable):
         table = "  |  ".join([str(self.table[i]) for i in range(self.num_buckets)])
         return f"\n{indices}\n{'--' * sum(widths)}\n{table}\n"
 
-    def get_elems(self) -> Set[HashTable]:
+    def get_elems(self) -> Set[int]:
         return set([x.val for x in self.table])

@@ -3,7 +3,7 @@ import sys
 
 
 def regex(filename, regexp):
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         matches = []
         regex = re.compile(regexp)
         for line in f:
@@ -20,10 +20,11 @@ def regex_str(line, regexp):
     for m in matches:
         print(m)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     args = sys.argv[1:]
     if len(args) == 2:
         regex(args[0], args[1])
     else:
-        line = '1 5 71 13'
+        line = "1 5 71 13"
         regex_str(line, args[0])

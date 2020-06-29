@@ -1,8 +1,12 @@
 from typing import List, Optional
 
+
 class RMQ:
     def __init__(self, elems: List[int]) -> None:
         self.elems = elems
+
+    def rmq(self, low: int, high: int) -> int:
+        raise NotImplementedError
 
     def return_smaller_index(self, index1: Optional[int], index2: Optional[int]) -> int:
         assert index1 is not None  # Can return index2 but shouldn't happen realistically
