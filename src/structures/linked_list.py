@@ -18,7 +18,7 @@ class LinkedList:
 
     @classmethod
     def from_list(cls, lst: List[Any]) -> LinkedList:
-        linked_lst = LinkedList()
+        linked_lst = cls()
         for item in lst:
             linked_lst.add(item)
         return linked_lst

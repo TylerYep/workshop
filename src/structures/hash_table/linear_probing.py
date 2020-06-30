@@ -8,36 +8,45 @@ class LinearProbing(HashTable):
         super().__init__(num_buckets)
         self.table = [-1 for _ in range(num_buckets)]
 
-    def insert(self, data: int) -> None:
+    def insert(self, data: int) -> bool:
         assert data >= 0
+        if self.num_elems == self.capacity or self.contains(data):
+            return False
+
         bucket = hash(data) % self.num_buckets
         while self.table[bucket] >= 0:
             if self.table[bucket] == data:
-                return
+                return False
             bucket = (bucket + 1) % self.num_buckets
+
         self.table[bucket] = data
+        self.num_elems += 1
+        return True
+
+    def _find_data(self, data: int) -> int:
+        assert data >= 0
+        bucket = hash(data) % self.num_buckets
+        for i in range(self.num_buckets):
+            index = (bucket + i) % self.num_buckets
+            if self.table[index] == data:
+                return index
+            if self.table[index] == -1:
+                break
+        return -1
 
     def contains(self, data: int) -> bool:
         assert data >= 0
-        bucket = hash(data) % self.num_buckets
-        for i in range(self.num_buckets):
-            index = (bucket + i) % self.num_buckets
-            if self.table[index] == data:
-                return True
-            if self.table[index] == -1:
-                break
-        return False
+        return self._find_data(data) >= 0
 
-    def remove(self, data: int) -> None:
+    def remove(self, data: int) -> bool:
         assert data >= 0
-        bucket = hash(data) % self.num_buckets
-        for i in range(self.num_buckets):
-            index = (bucket + i) % self.num_buckets
-            if self.table[index] == data:
-                self.table[index] = -2
-                return
-            if self.table[index] == -1:
-                break
+        index = self._find_data(data)
+        if index == -1:
+            return False
+
+        self.table[index] = -2
+        self.num_elems -= 1
+        return True
 
     def get_elems(self) -> Set[int]:
         return set(self.table)

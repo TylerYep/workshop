@@ -1,5 +1,6 @@
 import sys
-from src.structures.hash_table import Cuckoo, HashTable, LinearProbingClean, RobinHood
+
+from src.structures.hash_table import Cuckoo, HashTable, LinearProbing, RobinHood
 
 
 def main() -> None:
@@ -9,7 +10,7 @@ def main() -> None:
     curr_elements = set()
 
     while True:
-        user_input = input("  Enter command: ")
+        user_input = input("Enter command: ")
         if user_input == "" or user_input[0] == "q":
             return
         interpreted = user_input.split()
@@ -40,7 +41,10 @@ def get_num_buckets() -> int:
     while size <= 1:
         if size != -1:
             print("For safety, the minimum hash table size is 2.")
-        size = int(input("Enter hash table size: "))
+        try:
+            size = int(input("Enter hash table size: "))
+        except ValueError:
+            continue
     return size
 
 
@@ -60,7 +64,7 @@ def choose_hash_table_type(num_buckets: int) -> HashTable:
             sys.exit(0)
 
         if letter == "l":
-            return LinearProbingClean(num_buckets)
+            return LinearProbing(num_buckets)
         if letter == "r":
             return RobinHood(num_buckets)
         if letter == "c":

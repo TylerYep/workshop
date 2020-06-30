@@ -5,6 +5,17 @@ class HashTable:
     def __init__(self, num_buckets: int) -> None:
         self.table: List[Any] = []
         self.num_buckets = num_buckets
+        self.capacity = num_buckets
+        self.num_elems = 0
+
+    def insert(self, data: int) -> bool:
+        raise NotImplementedError
+
+    def contains(self, data: int) -> bool:
+        raise NotImplementedError
+
+    def remove(self, data: int) -> bool:
+        raise NotImplementedError
 
     def __repr__(self) -> str:
         widths = [

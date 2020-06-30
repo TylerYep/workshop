@@ -1,9 +1,4 @@
-from src.algorithms.sais import (
-    get_suffix_annotations,
-    induced_sort,
-    sais,
-    to_rank_array,
-)
+from src.algorithms.sais import get_suffix_annotations, induced_sort, sais, to_rank_array
 from src.structures.suffix_array import SuffixArray
 
 
