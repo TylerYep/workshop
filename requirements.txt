@@ -1,3 +1,4 @@
 numpy==1.19.0
 # matplotlib==3.2.2
 tqdm==4.47.0
+fibonacci_heap_mod==1.1.0
