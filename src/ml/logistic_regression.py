@@ -1,3 +1,4 @@
+# type: ignore
 import numpy as np
 import torch
 import torch.nn as nn
@@ -8,7 +9,7 @@ from torch.optim import Adam
 class LogisticRegression(nn.Module):
     """ Think of this as Sigmoidal Classification! """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         # define parameters to be part of the model
         initial1 = torch.zeros(1)
@@ -18,7 +19,7 @@ class LogisticRegression(nn.Module):
         # "bias" of linear model
         self.theta0 = nn.Parameter(initial2)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         This function is called to apply your function to input. In this case:
             weight * input + bias
@@ -28,7 +29,7 @@ class LogisticRegression(nn.Module):
         return torch.sigmoid(self.theta1 * x + self.theta0)
 
 
-def optimize(model, data):
+def optimize(model: nn.Module, data: torch.Tensor) -> None:
     # Binds the model to the optimizer.
     # Notice we set a learning rate (lr)! this is really important in
     # machine learning -- try a few different ones and see what happens.
@@ -43,7 +44,6 @@ def optimize(model, data):
 
     # at the beginning, default minimum loss to infinity
     min_loss = float("inf")
-    best_params = None
 
     while True:
         # Wipe any existing gradients from previous iterations!
@@ -78,7 +78,7 @@ def optimize(model, data):
         print(f"loss = {curr_loss:.4f}, c1 = {best_params[0]:.4f}, c2 = {best_params[1]:.4f}")
 
 
-def make_input_tensor(data):
+def make_input_tensor(data: np.array) -> torch.Tensor:
     """
     Torch is very specific that the input has to be a list of matrices.
     Our current input is just a single value, so we are going to need
@@ -87,7 +87,7 @@ def make_input_tensor(data):
     return torch.tensor(data[:, 0]).unsqueeze(1).float()
 
 
-def make_output_tensor(data):
+def make_output_tensor(data: np.array) -> torch.Tensor:
     """
     Torch is very specific that the output has to be a list of matrices.
     Our current output is just a single value, so we are going to need
@@ -96,11 +96,11 @@ def make_output_tensor(data):
     return torch.tensor(data[:, 1]).unsqueeze(1).float()
 
 
-def load_data():
+def load_data() -> np.array:
     return np.genfromtxt("data/logRegData.csv", delimiter=",")
 
 
-def main():
+def main() -> None:
     data = load_data()
     model = LogisticRegression()
     optimize(model, data)
