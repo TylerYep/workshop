@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Generic, Iterator, List, Optional, TypeVar
+from typing import Generic, Iterator, List, Optional, TypeVar
 
 T = TypeVar("T")
 
@@ -34,7 +34,7 @@ class LinkedList(Generic[T]):
         elif index < self.size:
             curr = self.head
             prev = None
-            for i in range(index):
+            for _ in range(index):
                 prev = curr
                 assert curr is not None
                 curr = curr.next

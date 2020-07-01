@@ -1,11 +1,12 @@
 import random
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Dict, List, Set
+from typing import Any, List, Set
 
 from fibonacci_heap_mod import Fibonacci_heap
 
 Vertex = int
+INF = 1000
 
 
 @dataclass
@@ -13,9 +14,6 @@ class Edge:
     weight: float
     start: int
     end: int
-
-
-INF = -1
 
 
 class UIntPQueue:
@@ -53,7 +51,6 @@ class ApproxDistanceOracle:
             self.a_i_v_distances represents delta(A_i, v)
         """
         self.E = E
-        self.V = V
         self.n = len(V)  # number of vertices
 
         # Create lists of neighbors
@@ -65,7 +62,7 @@ class ApproxDistanceOracle:
                     self.neighbors[v].append(u)
 
         # Initialize k+1 sets of vertices with decreasing sizes. (i-centers)
-        self.A: List[Set[Vertex]] = [None for _ in range(k + 1)]  # type: ignore
+        self.A: List[Set[Vertex]] = [V] * (k + 1)
         self.A[0] = V
         self.A[k] = set()
         for i in range(1, k):  # for i = 1 to k - 1
@@ -156,30 +153,3 @@ class ApproxDistanceOracle:
 def weighted_coin_flip(prob: float) -> bool:
     """ Returns True with probability prob. """
     return random.choices([True, False], [prob, 1 - prob])[0]
-
-
-if __name__ == "__main__":
-    # Fix seed to preserve sanity
-    random.seed(0)
-
-    V: Set[Vertex] = set(range(4))
-    # INF means there is no edge between the vertices
-    E: List[List[int]] = [
-        # [1, 2, 3, 4],
-        # [2, 2, 5, 6],
-        # [3, 5, 7, 1],
-        # [4, 6, 1, 9],
-        # 0    1    2    3
-        [0, 4, 3, INF],  # 0
-        [4, 0, 2, INF],  # 1
-        [3, 2, 0, 1],  # 2
-        [INF, INF, 1, 0],  # 3
-    ]
-
-    print(f"V: {V}")
-    print(f"E: {E}")
-    print()
-
-    ado = ApproxDistanceOracle(V, E)
-    x = ado.query(0, 1)
-    print(x)  # The actual distance is 4, but the estimate should be 5

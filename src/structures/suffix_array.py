@@ -15,7 +15,8 @@ class SuffixArray:
         return str([self.text[suffix_index:] for suffix_index in self.suffix_arr])
 
     def search(self, pattern: str) -> List[int]:
-        """ Returns a list of indices where all matching strings start.
+        """
+        Returns a list of indices where all matching strings start.
         Uses a two-pass binary search.
         """
 

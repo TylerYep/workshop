@@ -37,7 +37,7 @@ class ApproxFiniteMetricOracle:
         self.n = n
         self.k = k
 
-        V = set([i for i in range(n)])
+        V = set(range(n))
         A: List[Set[int]] = [None for _ in range(k + 1)]  # type: ignore
         A[0] = V
         A[k] = set()
@@ -103,7 +103,7 @@ def weighted_coin_flip(prob: float) -> bool:
 if __name__ == "__main__":
     dist_matrix = [[0, 1, 0, 5], [1, 0, 0, 0], [0, 0, 0, 0], [5, 0, 0, 0]]
 
-    distance_matrix = [[float(i) for i in row] for row in dist_matrix]
-    ado = ApproxFiniteMetricOracle(distance_matrix)
+    distances = [[float(i) for i in row] for row in dist_matrix]
+    ado = ApproxFiniteMetricOracle(distances)
     x = ado.query(0, 2)
     print(x)
