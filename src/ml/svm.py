@@ -5,10 +5,10 @@ import numpy as np
 from linear_classifier import LinearClassifier
 
 
-class LinearSVM(LinearClassifier):
+class SVM(LinearClassifier):
     """ A subclass that uses the Multiclass SVM loss function """
 
-    def loss(self, X: np.ndarray, y: np.ndarray, reg: float) -> Tuple[float, np.ndarray]:
+    def loss(self, X: np.ndarray, y: np.ndarray) -> Tuple[float, np.ndarray]:
         """
         Structured SVM loss function, vectorized implementation.
         Inputs have dimension D, there are C classes, and we operate on minibatches
@@ -36,9 +36,9 @@ class LinearSVM(LinearClassifier):
         margin[np.arange(num_train), y] = -num_y
         dW = X.T.dot(margin)
 
-        return self.regularize(loss, dW, num_train, reg)
+        return loss, dW
 
-    def svm_loss_naive(self, X: np.ndarray, y: np.ndarray, reg: float) -> Tuple[float, np.ndarray]:
+    def svm_loss_naive(self, X: np.ndarray, y: np.ndarray) -> Tuple[float, np.ndarray]:
         """
         Structured SVM loss function, naive implementation (with loops).
         Inputs and outputs are the same as svm_loss_vectorized.
@@ -61,4 +61,4 @@ class LinearSVM(LinearClassifier):
                     dW[:, j] += X[i]
                     dW[:, y[i]] -= X[i]
 
-        return self.regularize(loss, dW, num_train, reg)
+        return loss, dW

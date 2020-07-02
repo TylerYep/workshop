@@ -37,6 +37,7 @@ class LinearClassifier(ABC):
         num_train, dim = X.shape
         num_classes = np.max(y) + 1  # assume y takes values 0...K-1 where K is number of classes
         self.W = 0.001 * np.random.randn(dim, num_classes)
+        self.reg = reg
 
         # Run stochastic gradient descent to optimize W
         for it in range(num_iters):
@@ -49,8 +50,8 @@ class LinearClassifier(ABC):
             X_batch = X[inds]
             y_batch = y[inds]
 
-            # evaluate loss and gradient
-            loss, grad = self.loss(X_batch, y_batch, reg)
+            # Evaluate loss and gradient
+            loss, grad = self.regularize(*self.loss(X_batch, y_batch), num_train)
             self.W -= learning_rate * grad
 
             if verbose and it % 100 == 0:
@@ -73,7 +74,7 @@ class LinearClassifier(ABC):
         return y_pred
 
     @abstractmethod
-    def loss(self, X: np.ndarray, y: np.ndarray, reg: float) -> Tuple[float, np.ndarray]:
+    def loss(self, X: np.ndarray, y: np.ndarray) -> Tuple[float, np.ndarray]:
         """
         Compute the loss function and its derivative.
         Subclasses will override this.
@@ -88,12 +89,10 @@ class LinearClassifier(ABC):
         - loss as a single float
         - gradient with respect to self.W; an array of the same shape as W
         """
-        del X, y, reg
+        del X, y
         return 0.0, np.zeros_like(self.W)
 
-    def regularize(
-        self, loss: float, dW: np.ndarray, num_train: int, reg: float
-    ) -> Tuple[float, np.ndarray]:
+    def regularize(self, loss: float, dW: np.ndarray, num_train: int) -> Tuple[float, np.ndarray]:
         """
         Right now, the loss is a sum over all training examples, but we want it
         to be an average instead so we divide by num_train.
@@ -102,6 +101,6 @@ class LinearClassifier(ABC):
         loss /= num_train
         dW /= num_train
 
-        loss += reg * np.sum(self.W ** 2)
-        dW += reg * 2 * self.W
+        loss += self.reg * np.sum(self.W ** 2)
+        dW += self.reg * 2 * self.W
         return loss, dW

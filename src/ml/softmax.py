@@ -16,7 +16,7 @@ class Softmax(LinearClassifier):
             return exp_f / np.sum(exp_f, axis=0)
         return exp_f / np.sum(exp_f, axis=1).reshape(-1, 1)
 
-    def loss(self, X: np.ndarray, y: np.ndarray, reg: float) -> Tuple[float, np.ndarray]:
+    def loss(self, X: np.ndarray, y: np.ndarray) -> Tuple[float, np.ndarray]:
         """
         Softmax loss function, vectorized version.
         Inputs and outputs are the same as softmax_loss_naive.
@@ -32,11 +32,9 @@ class Softmax(LinearClassifier):
         kronecker[np.arange(num_train), y] = 1
         dW = X.T.dot(kronecker - softmx)
 
-        return self.regularize(loss, dW, num_train, reg)
+        return loss, dW
 
-    def softmax_loss_naive(
-        self, X: np.ndarray, y: np.ndarray, reg: float
-    ) -> Tuple[float, np.ndarray]:
+    def softmax_loss_naive(self, X: np.ndarray, y: np.ndarray) -> Tuple[float, np.ndarray]:
         """
         Softmax loss function, naive implementation (with loops)
         Inputs have dimension D, there are C classes, and we operate on minibatches
@@ -68,4 +66,4 @@ class Softmax(LinearClassifier):
                 else:
                     dW[:, j] += softmx[j] * X[i]
 
-        return self.regularize(loss, dW, num_train, reg)
+        return loss, dW

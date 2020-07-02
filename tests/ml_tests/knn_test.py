@@ -4,7 +4,7 @@ from src.ml.knn import KNearestNeighbors
 
 
 def test_knn_compute_distance(fashion_mnist):
-    X_train, y_train, X_test, y_test = fashion_mnist
+    X_train, y_train, X_test, _ = fashion_mnist
 
     knn = KNearestNeighbors(X_train, y_train)
 
@@ -13,5 +13,5 @@ def test_knn_compute_distance(fashion_mnist):
     assert np.linalg.norm(distsA - distsB) < 0.001
 
 
-def test_knn_predict_labels(fashion_mnist):
-    pass
+# def test_knn_predict_labels(fashion_mnist):
+#     pass
