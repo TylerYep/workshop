@@ -73,7 +73,7 @@ class LinearClassifier(ABC):
         return y_pred
 
     @abstractmethod
-    def loss(self, X: np.ndarray, y: np.ndarray, reg: float) -> Tuple[float, float]:
+    def loss(self, X: np.ndarray, y: np.ndarray, reg: float) -> Tuple[float, np.ndarray]:
         """
         Compute the loss function and its derivative.
         Subclasses will override this.
@@ -89,4 +89,18 @@ class LinearClassifier(ABC):
         - gradient with respect to self.W; an array of the same shape as W
         """
         del self, X, y, reg
-        return 0.0, 0.0
+        return 0.0, None
+
+    def regularize(
+        self, loss: float, dW: np.ndarray, num_train: int, reg: float
+    ) -> Tuple[float, np.ndarray]:
+        # Right now the loss is a sum over all training examples, but we want it
+        # to be an average instead so we divide by num_train.
+        loss /= num_train
+        dW /= num_train
+
+        # Add regularization to the loss.
+        loss += reg * np.sum(self.W ** 2)
+        dW += reg * 2 * self.W
+
+        return loss, dW
