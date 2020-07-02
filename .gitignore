@@ -3,7 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 .DS_Store
-ml/data
+data/*
+!data/logRegData.csv
 
 # C extensions
 *.so
