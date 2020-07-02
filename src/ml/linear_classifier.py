@@ -88,19 +88,20 @@ class LinearClassifier(ABC):
         - loss as a single float
         - gradient with respect to self.W; an array of the same shape as W
         """
-        del self, X, y, reg
-        return 0.0, None
+        del X, y, reg
+        return 0.0, np.zeros_like(self.W)
 
     def regularize(
         self, loss: float, dW: np.ndarray, num_train: int, reg: float
     ) -> Tuple[float, np.ndarray]:
-        # Right now the loss is a sum over all training examples, but we want it
-        # to be an average instead so we divide by num_train.
+        """
+        Right now, the loss is a sum over all training examples, but we want it
+        to be an average instead so we divide by num_train.
+        We then add regularization to the loss.
+        """
         loss /= num_train
         dW /= num_train
 
-        # Add regularization to the loss.
         loss += reg * np.sum(self.W ** 2)
         dW += reg * 2 * self.W
-
         return loss, dW

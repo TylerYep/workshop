@@ -27,7 +27,7 @@ class LogisticRegression(nn.Module):
         return torch.sigmoid(self.theta1 * x + self.theta0)
 
 
-def optimize(model: nn.Module, data: torch.Tensor, convergence: int = 100) -> None:
+def optimize(model: nn.Module, data: torch.Tensor, max_iters: int = 100) -> None:
     # Binds the model to the optimizer.
     # Notice we set a learning rate (lr)! this is really important in
     # machine learning -- try a few different ones and see what happens.
@@ -44,7 +44,7 @@ def optimize(model: nn.Module, data: torch.Tensor, convergence: int = 100) -> No
     min_loss = float("inf")
     counter = 0
 
-    while counter < convergence:
+    while counter < max_iters:
         # Wipe any existing gradients from previous iterations!
         # (don't forget to do this for your own code!)
         optimizer.zero_grad()
@@ -74,7 +74,6 @@ def optimize(model: nn.Module, data: torch.Tensor, convergence: int = 100) -> No
         if curr_loss < min_loss:
             best_params = (model.theta1.item(), model.theta0.item())
             min_loss = curr_loss
-            counter = 0
 
         print(f"loss = {curr_loss:.4f}, c1 = {best_params[0]:.4f}, c2 = {best_params[1]:.4f}")
 
