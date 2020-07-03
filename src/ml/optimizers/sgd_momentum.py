@@ -1,5 +1,8 @@
+from typing import Any, Tuple
+
 import numpy as np
 
+from ..layers.module import Module
 from .optimizer import Optimizer
 
 
@@ -15,12 +18,22 @@ class SGDMomentum(Optimizer):
         moving average of the gradients.
     """
 
-    def __init__(self, w: np.ndarray, lr: float = 1e-2, momentum: float = 0.9) -> None:
+    def __init__(self, model: Module, lr: float = 1e-2, momentum: float = 0.9) -> None:
+        super().__init__(model)
         self.lr = lr
-        self.b = momentum
-        self.v = np.zeros_like(w)
 
-    def _step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
-        self.v = self.b * self.v - self.lr * dw
-        w += self.v
-        return w
+        def init_context(w: np.ndarray) -> Tuple[Any, ...]:
+            """ Initialize context using weights. """
+            b = momentum
+            v = np.zeros_like(w)
+            return b, v
+
+        self.set_context(init_context)
+
+    def _step(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+        (b, v) = context
+
+        v = b * v - self.lr * dw
+        w += v
+
+        return w, (b, v)

@@ -1,7 +1,8 @@
-from typing import Tuple
+from typing import Any, Tuple
 
 import numpy as np
 
+from ..layers.module import Module
 from .optimizer import Optimizer
 
 
@@ -20,31 +21,40 @@ class Adam(Optimizer):
 
     def __init__(
         self,
-        w: np.ndarray,
+        model: Module,
         lr: float = 1e-3,
         betas: Tuple[float, float] = (0.9, 0.999),
         eps: float = 1e-08,
     ) -> None:
+        super().__init__(model)
         self.lr = lr
         self.betas = betas
         self.eps = eps
 
-        self.m = np.zeros_like(w)
-        self.v = np.zeros_like(w)
-        self.t = 0
+        def init_context(w: np.ndarray) -> Tuple[Any, ...]:
+            """ Initialize context using weights. """
+            m = np.zeros_like(w)
+            v = np.zeros_like(w)
+            t = 0
+            return m, v, t
 
-    def _step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+        self.set_context(init_context)
+
+    def _step(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
         """
         w must have the same shape as params.
 
         For efficiency, update rules may perform in-place updates, mutating w and
         setting next_w equal to w.
         """
-        beta1, beta2 = self.betas
-        self.m = beta1 * self.m + (1 - beta1) * dw
-        self.v = beta2 * self.v + (1 - beta2) * (dw * dw)
-        self.t += 1
+        (m, v, t) = context
 
-        alpha = self.lr * np.sqrt(1 - beta2 ** self.t) / (1 - beta1 ** self.t)
-        w -= alpha * (self.m / (np.sqrt(self.v) + self.eps))
-        return w
+        beta1, beta2 = self.betas
+        m = beta1 * m + (1 - beta1) * dw
+        v = beta2 * v + (1 - beta2) * (dw * dw)
+        t += 1
+
+        alpha = self.lr * np.sqrt(1 - beta2 ** t) / (1 - beta1 ** t)
+        w -= alpha * (m / (np.sqrt(v) + self.eps))
+
+        return w, (m, v, t)

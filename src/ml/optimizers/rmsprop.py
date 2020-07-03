@@ -1,5 +1,8 @@
+from typing import Any, Tuple
+
 import numpy as np
 
+from ..layers.module import Module
 from .optimizer import Optimizer
 
 
@@ -17,14 +20,24 @@ class RMSProp(Optimizer):
     """
 
     def __init__(
-        self, w: np.ndarray, lr: float = 1e-2, decay_rate: float = 0.99, eps: float = 1e-8
+        self, model: Module, lr: float = 1e-2, decay_rate: float = 0.99, eps: float = 1e-8
     ) -> None:
+        super().__init__(model)
         self.lr = lr
         self.decay_rate = decay_rate
         self.eps = eps
-        self.v = np.zeros_like(w)
 
-    def _step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
-        self.v = self.decay_rate * self.v + (1 - self.decay_rate) * dw ** 2
-        w -= self.lr * dw / (np.sqrt(self.v) + self.eps)
-        return w
+        def init_context(w: np.ndarray) -> Tuple[Any, ...]:
+            """ Initialize context using weights. """
+            v = np.zeros_like(w)
+            return (v,)
+
+        self.set_context(init_context)
+
+    def _step(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+        (v,) = context
+
+        v = self.decay_rate * v + (1 - self.decay_rate) * dw ** 2
+        w -= self.lr * dw / (np.sqrt(v) + self.eps)
+
+        return w, (v,)

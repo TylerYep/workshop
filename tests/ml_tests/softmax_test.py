@@ -1,9 +1,8 @@
 import numpy as np
 
-from src.ml.layers.linear import Linear
-from src.ml.layers.module import Module
+from src.ml.layers.linear import Linear, Module
 from src.ml.losses import softmax_loss
-from src.ml.optimizers.sgd import SGD
+from src.ml.optimizers import SGDMomentum
 
 
 class Example(Module):
@@ -37,13 +36,16 @@ def test_softmax(fashion_mnist):
     X_train, y_train, _, _ = fashion_mnist
 
     model = Example()
+
     save1 = np.array(model.fc1.w)
     save2 = np.array(model.fc2.w)
-    optimizer = SGD(model)  # hook into all parameters
+
+    optimizer = SGDMomentum(model)
     out = model(X_train)
     loss, dx = softmax_loss(out, y_train)
     grads = model.backward(dx)
     optimizer.step(model, grads)
-    print(loss)
+
+    assert loss < 3
     assert not (model.fc1.w == save1).all()
     assert not (model.fc2.w == save2).all()

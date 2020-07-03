@@ -1,4 +1,4 @@
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, Union
 
 import numpy as np
 
@@ -13,17 +13,16 @@ class Module:
     def __call__(self, x: np.ndarray) -> np.ndarray:
         return self.forward(x)
 
-    def parameters(self, *layers: str) -> Dict[str, Dict[str, Any]]:
+    def parameters(self, *layers: str) -> Dict[str, Any]:
         result = {}
-        for submodel_name in layers:
-            if hasattr(self, submodel_name):  # Guaranteed
-                submodel = getattr(self, submodel_name)
-                if isinstance(submodel, Module):
-                    result[submodel_name] = submodel.parameters()
-                else:
-                    result[submodel_name] = {}
+        for layer_name in layers:
+            if hasattr(self, layer_name):
+                submodel = getattr(self, layer_name)
+                result[layer_name] = (
+                    submodel.parameters() if isinstance(submodel, Module) else submodel
+                )
             else:
                 raise ValueError(
-                    f"Not a valid attribute of {self.__class__.__name__}: {submodel_name} "
+                    f"Not a valid attribute of {self.__class__.__name__}: {layer_name} "
                 )
         return result

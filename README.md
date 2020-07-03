@@ -28,4 +28,9 @@ Using this mode, the code is compiled uniquely and increases runtime.
 
 Once you are confident with your shapes, you can simply run your program normally.
 
-#
+# Goals
+1. Readability. Everything should make it immediately obvious how the layer or mmodel works on its own.
+2.
+
+
+No autograd - if you want a simple autograd implementation, check out Karpathy's micrograd repo.
