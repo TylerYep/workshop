@@ -1,7 +1,9 @@
 import numpy as np
 
+from .optimizer import Optimizer
 
-class RMSProp:
+
+class RMSProp(Optimizer):
     """
     Uses the RMSProp update rule, which uses a moving average of squared
     gradient values to set adaptive per-parameter learning rates.
@@ -9,7 +11,7 @@ class RMSProp:
     config format:
     - learning_rate: Scalar learning rate.
     - decay_rate: Scalar between 0 and 1 giving the decay rate for the squared
-      gradient cache.
+        gradient cache.
     - epsilon: Small scalar used for smoothing to avoid dividing by zero.
     - cache: Moving average of second moments of gradients.
     """
@@ -22,7 +24,7 @@ class RMSProp:
         self.eps = eps
         self.v = np.zeros_like(w)
 
-    def step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+    def _step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
         self.v = self.decay_rate * self.v + (1 - self.decay_rate) * dw ** 2
         w -= self.lr * dw / (np.sqrt(self.v) + self.eps)
         return w

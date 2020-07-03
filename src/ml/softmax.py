@@ -2,19 +2,12 @@ from typing import Tuple
 
 import numpy as np
 
-from linear_classifier import LinearClassifier
+from .functional import softmax
+from .linear_classifier import LinearClassifier
 
 
-class Softmax(LinearClassifier):
-    """ A subclass that uses the Softmax + Cross-entropy loss function """
-
-    @staticmethod
-    def softmax(f: np.ndarray) -> np.ndarray:
-        f -= np.max(f)
-        exp_f = np.exp(f)
-        if len(f.shape) == 1:
-            return exp_f / np.sum(exp_f, axis=0)
-        return exp_f / np.sum(exp_f, axis=1).reshape(-1, 1)
+class SoftmaxClassifier(LinearClassifier):
+    """ A subclass that uses the Softmax + Cross-entropy loss function. """
 
     def loss(self, X: np.ndarray, y: np.ndarray) -> Tuple[float, np.ndarray]:
         """
@@ -24,7 +17,7 @@ class Softmax(LinearClassifier):
         num_classes = self.W.shape[1]
         num_train = X.shape[0]
         scores = X.dot(self.W)
-        softmx = self.softmax(scores)
+        softmx = softmax(scores)
 
         loss = np.sum(np.log(softmx[np.arange(num_train), y]))
 
@@ -57,7 +50,7 @@ class Softmax(LinearClassifier):
         num_train = X.shape[0]
         for i in range(num_train):
             scores = X[i].dot(self.W)
-            softmx = self.softmax(scores)
+            softmx = softmax(scores)
             loss -= np.log(softmx[y[i]])
 
             for j in range(num_classes):

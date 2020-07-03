@@ -5,7 +5,7 @@ import numpy as np
 from linear_classifier import LinearClassifier
 
 
-class SVM(LinearClassifier):
+class SVMClassifier(LinearClassifier):
     """ A subclass that uses the Multiclass SVM loss function """
 
     def loss(self, X: np.ndarray, y: np.ndarray) -> Tuple[float, np.ndarray]:

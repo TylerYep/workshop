@@ -2,8 +2,10 @@ from typing import Tuple
 
 import numpy as np
 
+from .optimizer import Optimizer
 
-class Adam:
+
+class Adam(Optimizer):
     """
     Uses the Adam update rule, which incorporates moving averages of both the
     gradient and its square and a bias correction term.
@@ -31,7 +33,7 @@ class Adam:
         self.v = np.zeros_like(w)
         self.t = 0
 
-    def step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+    def _step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
         """
         w must have the same shape as params.
 

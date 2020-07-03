@@ -1,7 +1,9 @@
 import numpy as np
 
+from .optimizer import Optimizer
 
-class SGD:
+
+class SGD(Optimizer):
     """
     Performs vanilla stochastic gradient descent.
     """
@@ -10,6 +12,7 @@ class SGD:
         del w
         self.lr = lr
 
-    def step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+    def _step(self, w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+        assert w.shape == dw.shape
         w -= self.lr * dw
         return w

@@ -10,8 +10,8 @@ def fashion_mnist(num_train: int = 100, num_test: int = 10) -> Tuple[np.ndarray,
     train_set = datasets.FashionMNIST("data/", train=True, download=True)
     test_set = datasets.FashionMNIST("data/", train=False, download=True)
 
-    X_train, y_train = train_set.data.numpy().astype(float), train_set.targets.numpy().astype(float)
-    X_test, y_test = test_set.data.numpy().astype(float), test_set.targets.numpy().astype(float)
+    X_train, y_train = train_set.data.numpy().astype(float), train_set.targets.numpy()
+    X_test, y_test = test_set.data.numpy().astype(float), test_set.targets.numpy()
 
     mask = list(range(num_train))
     X_train = X_train[mask]
