@@ -1,18 +1,29 @@
-from typing import Any, Callable, Dict, Optional, Tuple, Union
+from dataclasses import dataclass
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import numpy as np
 
 from ..layers.module import Module
 
 
+@dataclass
 class Optimizer:
-    def __init__(self, model: Module) -> None:
-        self.param_tree = model.parameters()
+    model: Module
+
+    def __post_init__(self) -> None:
+        print(self.model)
+        self.param_tree = self.model.parameters()
+        self.set_context(self.init_context)
+
+    def init_context(self, w: np.ndarray) -> Tuple[Any, ...]:  # pylint: disable=no-self-use
+        """ Initialize context using weights. """
+        del w
+        return ()
 
     def set_context(
         self,
         context_initializer: Callable[[np.ndarray], Tuple[Any, ...]],
-        param_tree: Optional[Dict[str, Any]] = None,
+        param_tree: Any = None,  # Optional[Dict[str, Any]]
     ) -> None:
         if param_tree is None:
             param_tree = self.param_tree
@@ -30,7 +41,7 @@ class Optimizer:
         self,
         model: Module,
         gradients: Dict[str, np.ndarray],
-        context: Optional[Dict[str, Any]] = None,
+        context: Any = None,  # Optional[Dict[str, Any]]
     ) -> None:
         """
         Model parameters and gradients should be matching dictionaries.

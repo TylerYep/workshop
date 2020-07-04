@@ -2,7 +2,7 @@ import numpy as np
 
 from src.ml.layers.linear import Linear, Module
 from src.ml.losses import softmax_loss
-from src.ml.optimizers import SGDMomentum
+from src.ml.optimizers import Adam
 
 
 class Example(Module):
@@ -10,6 +10,7 @@ class Example(Module):
         super().__init__()
         self.fc1 = Linear(784, 30)
         self.fc2 = Linear(30, 10)
+        self.set_parameters("fc1", "fc2")
 
     def forward(self, x):
         x = self.fc1(x)
@@ -24,28 +25,22 @@ class Example(Module):
         grads["fc1"] = {"w": dw1, "b": db1}
         return grads
 
-    def parameters(self):
-        """
-        This function returns the parameters of the model that need gradients,
-        in the order that they are returned in backward().
-        """
-        return super().parameters("fc1", "fc2")
 
-
-def test_softmax(fashion_mnist):
+def test_torch(fashion_mnist):
+    np.random.seed(0)
     X_train, y_train, _, _ = fashion_mnist
 
     model = Example()
 
     save1 = np.array(model.fc1.w)
     save2 = np.array(model.fc2.w)
+    optimizer = Adam(model)
 
-    optimizer = SGDMomentum(model)
-    out = model(X_train)
-    loss, dx = softmax_loss(out, y_train)
-    grads = model.backward(dx)
-    optimizer.step(model, grads)
-
-    assert loss < 3
+    for _ in range(100):
+        out = model(X_train)
+        loss, dx = softmax_loss(out, y_train)
+        grads = model.backward(dx)
+        optimizer.step(model, grads)
+        print(loss)
     assert not (model.fc1.w == save1).all()
     assert not (model.fc2.w == save2).all()

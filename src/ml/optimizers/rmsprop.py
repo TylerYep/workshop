@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Any, Tuple
 
 import numpy as np
@@ -6,6 +7,7 @@ from ..layers.module import Module
 from .optimizer import Optimizer
 
 
+@dataclass
 class RMSProp(Optimizer):
     """
     Uses the RMSProp update rule, which uses a moving average of squared
@@ -19,20 +21,15 @@ class RMSProp(Optimizer):
     - cache: Moving average of second moments of gradients.
     """
 
-    def __init__(
-        self, model: Module, lr: float = 1e-2, decay_rate: float = 0.99, eps: float = 1e-8
-    ) -> None:
-        super().__init__(model)
-        self.lr = lr
-        self.decay_rate = decay_rate
-        self.eps = eps
+    model: Module
+    lr: float = 1e-2
+    decay_rate: float = 0.99
+    eps: float = 1e-8
 
-        def init_context(w: np.ndarray) -> Tuple[Any, ...]:
-            """ Initialize context using weights. """
-            v = np.zeros_like(w)
-            return (v,)
-
-        self.set_context(init_context)
+    def init_context(self, w: np.ndarray) -> Tuple[Any, ...]:
+        """ Initialize context using weights. """
+        v = np.zeros_like(w)
+        return (v,)
 
     def _step(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
         (v,) = context

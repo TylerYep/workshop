@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Any, Tuple
 
 import numpy as np
@@ -6,6 +7,7 @@ from ..layers.module import Module
 from .optimizer import Optimizer
 
 
+@dataclass
 class Adam(Optimizer):
     """
     Uses the Adam update rule, which incorporates moving averages of both the
@@ -19,26 +21,17 @@ class Adam(Optimizer):
     - t: Iteration number.
     """
 
-    def __init__(
-        self,
-        model: Module,
-        lr: float = 1e-3,
-        betas: Tuple[float, float] = (0.9, 0.999),
-        eps: float = 1e-08,
-    ) -> None:
-        super().__init__(model)
-        self.lr = lr
-        self.betas = betas
-        self.eps = eps
+    model: Module
+    lr: float = 1e-3
+    betas: Tuple[float, float] = (0.9, 0.999)
+    eps: float = 1e-08
 
-        def init_context(w: np.ndarray) -> Tuple[Any, ...]:
-            """ Initialize context using weights. """
-            m = np.zeros_like(w)
-            v = np.zeros_like(w)
-            t = 0
-            return m, v, t
-
-        self.set_context(init_context)
+    def init_context(self, w: np.ndarray) -> Tuple[Any, ...]:
+        """ Initialize context using weights. """
+        m = np.zeros_like(w)
+        v = np.zeros_like(w)
+        t = 0
+        return m, v, t
 
     def _step(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
         """

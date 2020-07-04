@@ -34,3 +34,7 @@ Once you are confident with your shapes, you can simply run your program normall
 
 
 No autograd - if you want a simple autograd implementation, check out Karpathy's micrograd repo.
+
+TODO:
+
+- Convert to dataclasses?

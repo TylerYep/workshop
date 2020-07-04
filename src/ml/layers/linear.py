@@ -1,24 +1,14 @@
-from typing import Any, Dict
-
 import numpy as np
 
 from .module import Module
 
 
 class Linear(Module):
-    def __init__(self, input_dim: int, output_dim: int, bias: bool = True) -> None:
+    def __init__(self, input_dim: int, output_dim: int) -> None:
         super().__init__()
-        del bias
         self.w = np.random.normal(scale=1e-3, size=(input_dim, output_dim))
         self.b = np.zeros(output_dim)
-
-    def parameters(self, *layers: str) -> Dict[str, Dict[str, Any]]:
-        """
-        This function returns the parameters of the model that need gradients,
-        in the order that they are returned in backward().
-        """
-        del layers
-        return super().parameters("w", "b")
+        self.set_parameters("w", "b")
 
     def forward(self, x: np.ndarray) -> np.ndarray:
         """
