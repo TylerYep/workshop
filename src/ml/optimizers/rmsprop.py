@@ -31,7 +31,7 @@ class RMSProp(Optimizer):
         v = np.zeros_like(w)
         return (v,)
 
-    def _step(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+    def update(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
         (v,) = context
 
         v = self.decay_rate * v + (1 - self.decay_rate) * dw ** 2

@@ -33,7 +33,7 @@ class Adam(Optimizer):
         t = 0
         return m, v, t
 
-    def _step(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+    def update(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
         """
         w must have the same shape as params.
 

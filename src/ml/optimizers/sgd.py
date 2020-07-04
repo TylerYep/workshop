@@ -16,7 +16,7 @@ class SGD(Optimizer):
     model: Module
     lr: float = 1e-2
 
-    def _step(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
+    def update(self, context: Tuple[Any, ...], w: np.ndarray, dw: np.ndarray) -> np.ndarray:
         del context
 
         w -= self.lr * dw
