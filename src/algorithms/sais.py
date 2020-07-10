@@ -109,10 +109,6 @@ def reorder_lms_substrings(lms_suffixes: List[int], reduced_str: List[int]) -> L
     >>> reorder_lms_substrings([2, 6, 8, 11, 13, 16, 20], [6, 5, 3, 1, 0, 4, 2])
     [20, 16, 11, 6, 2, 13, 8]
     """
-    # sorted_lms_suffixes = [None] * len(lms_suffixes)
-    # for i in range(len(reduced_str)):
-    #     sorted_lms_suffixes[i] = lms_suffixes[reduced_str[i]]
-    # return sorted_lms_suffixes
     return [lms_suffixes[reduced_str[i]] for i in range(len(reduced_str))]
 
 

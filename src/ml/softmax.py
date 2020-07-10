@@ -2,8 +2,16 @@ from typing import Tuple
 
 import numpy as np
 
-from .functional import softmax
 from .linear_classifier import LinearClassifier
+
+
+def softmax(f: np.ndarray) -> np.ndarray:
+    """ Numerically stable implementation of softmax. """
+    f -= np.max(f)
+    exp_f = np.exp(f)
+    if len(f.shape) == 1:
+        return exp_f / np.sum(exp_f, axis=0)
+    return exp_f / np.sum(exp_f, axis=1).reshape(-1, 1)
 
 
 class SoftmaxClassifier(LinearClassifier):

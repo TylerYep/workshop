@@ -2,7 +2,7 @@ from typing import Tuple
 
 import numpy as np
 
-from linear_classifier import LinearClassifier
+from .linear_classifier import LinearClassifier
 
 
 class SVMClassifier(LinearClassifier):
