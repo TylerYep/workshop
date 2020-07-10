@@ -22,15 +22,15 @@ def add_statement(indent: int) -> str:
 
 
 def get_two_statements(indent: int) -> str:
-    return f"{get_statement(indent, get_two_statements)}\n" f"{add_statement(indent)}"
+    return f"{get_statement(indent, get_two_statements)}\n{add_statement(indent)}"
 
 
 def get_if(indent: int) -> str:
-    return f"if {get_condition()}:\n" f"{add_statement(indent + 1)}"
+    return f"if {get_condition()}:\n{add_statement(indent + 1)}"
 
 
 def get_if_else(indent: int) -> str:
-    return f"{get_if(indent)}\n" f"{add_indent(indent)}else:\n" f"{add_statement(indent + 1)}"
+    return f"{get_if(indent)}\n{add_indent(indent)}else:\n{add_statement(indent + 1)}"
 
 
 def get_if_elif_else(indent: int) -> str:
@@ -44,11 +44,11 @@ def get_if_elif_else(indent: int) -> str:
 
 
 def get_while(indent: int) -> str:
-    return f"while {get_condition()}:\n" f"{add_statement(indent + 1)}"
+    return f"while {get_condition()}:\n{add_statement(indent + 1)}"
 
 
 def get_for(indent: int) -> str:
-    return f"for _ in range({get_num()}):\n" f"{add_statement(indent + 1)}"
+    return f"for _ in range({get_num()}):\n{add_statement(indent + 1)}"
 
 
 def get_condition() -> str:
@@ -83,7 +83,7 @@ def add_indent(indent: int) -> str:
 
 def main() -> str:
     indent = 1
-    return f"def main():\n" f"{add_indent(indent)}{get_statement(indent, None)}"
+    return f"def main():\n{add_indent(indent)}{get_statement(indent, None)}"
 
 
 if __name__ == "__main__":
