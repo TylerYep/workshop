@@ -1,7 +1,11 @@
-from typing import Any, List
+from typing import List, TypeVar
+
+from src.algorithms.util.comparable_type import Comparable
+
+C = TypeVar("C", bound=Comparable)
 
 
-def binary_search(arr: List[Any], target: int) -> int:
+def binary_search(arr: List[C], target: int) -> int:
     """ Returns the index of target element, or -1 if it cannot be found. """
     left = 0
     right = len(arr) - 1
@@ -17,7 +21,7 @@ def binary_search(arr: List[Any], target: int) -> int:
     return -1
 
 
-def left_right_binary_search(arr: List[Any], target: int, is_left: bool = True) -> int:
+def left_right_binary_search(arr: List[C], target: int, is_left: bool = True) -> int:
     """
     Returns the leftmost index of target element, or -1 if it cannot be found.
     Returns rightmost index if is_left is False.

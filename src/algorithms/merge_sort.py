@@ -1,9 +1,8 @@
-from abc import abstractmethod
-from typing import Any, List, TypeVar
+from typing import List, TypeVar
 
-from typing_extensions import Protocol
+from src.algorithms.util.comparable_type import Comparable
 
-C = TypeVar("C", bound="Comparable")
+C = TypeVar("C", bound=Comparable)
 
 
 def merge(left: List[C], right: List[C]) -> List[C]:
@@ -32,22 +31,3 @@ def merge_sort(array: List[C]) -> List[C]:
     left = merge_sort(array[:half])
     right = merge_sort(array[half:])
     return merge(left, right)
-
-
-class Comparable(Protocol):
-    @abstractmethod
-    def __eq__(self, other: Any) -> bool:
-        pass
-
-    @abstractmethod
-    def __lt__(self: C, other: C) -> bool:
-        pass
-
-    def __gt__(self: C, other: C) -> bool:
-        return (not self < other) and self != other
-
-    def __le__(self: C, other: C) -> bool:
-        return self < other or self == other
-
-    def __ge__(self: C, other: C) -> bool:
-        return not self < other

@@ -1,6 +1,5 @@
-numpy==1.19.0
-# matplotlib==3.2.2
-tqdm==4.47.0
+numpy==1.19.1
+tqdm==4.48.0
 fibonacci_heap_mod==1.1.0
 torch==1.5.1
 torchvision==0.6.1
