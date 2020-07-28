@@ -1,5 +1,6 @@
 import random
 import time
+from typing import List
 
 from tqdm import tqdm
 
@@ -9,19 +10,21 @@ ProposedRMQ = FischerHeunRMQ
 RMQ = SparseTableRMQ
 
 
-def print_arr_with_index(data, low):
+def print_arr_with_index(data: List[int], low: int) -> str:
     result = f"\nIndex | Data\n{'-' * 15}\n"
     for i, value in enumerate(data):
         result += f"{low+i if low else i:5d} | {value}\n"
     return result
 
 
-def run_tests(minimum, maximum, num_builds, num_queries, verbose=False):
+def run_tests(
+    minimum: int, maximum: int, num_builds: int, num_queries: int, verbose: bool = False
+) -> None:
     for _ in range(minimum, maximum + 1):
         data = [random.randint(minimum, maximum - 1) for _ in range(maximum)]
 
-        total_build_time_ref, total_build_time_test = 0, 0
-        total_run_time_ref, total_run_time_test = 0, 0
+        total_build_time_ref, total_build_time_test = 0.0, 0.0
+        total_run_time_ref, total_run_time_test = 0.0, 0.0
         for _ in tqdm(range(num_builds), disable=not verbose):
             # Generate reference RMQ
             t_start = time.perf_counter()
@@ -76,7 +79,7 @@ def run_tests(minimum, maximum, num_builds, num_queries, verbose=False):
         print("Tests completed!")
 
 
-def test_rmq():
+def test_rmq() -> None:
     random.seed(0)
     run_tests(0, 1, 10, 100)
     run_tests(20, 25, 10, 100)

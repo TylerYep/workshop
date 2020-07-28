@@ -1,5 +1,6 @@
-numpy==1.19.1
-tqdm==4.48.0
 fibonacci_heap_mod==1.1.0
-torch==1.5.1
-torchvision==0.6.1
+numpy==1.19.1
+torch==1.6.0
+torchvision==0.7.0
+tqdm==4.48.0
+typing-extensions==3.7.4.2

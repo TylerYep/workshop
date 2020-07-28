@@ -3,7 +3,7 @@ import random
 from src.structures.ado_graph import INF, ApproxDistanceOracle
 
 
-def test_zero_distance_approx():
+def test_zero_distance_approx() -> None:
     random.seed(0)
 
     vertices = set(range(4))

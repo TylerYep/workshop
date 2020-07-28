@@ -1,4 +1,3 @@
-# type: ignore
 import numpy as np
 import torch
 import torch.nn as nn
@@ -10,7 +9,7 @@ class LogisticRegression(nn.Module):
     """ Think of this as Sigmoidal Classification! """
 
     def __init__(self) -> None:
-        super().__init__()
+        super().__init__()  # type: ignore
         # define parameters to be part of the model
         # "weight" of linear model
         self.theta1 = nn.Parameter(torch.zeros(1))
@@ -63,7 +62,7 @@ def optimize(model: nn.Module, data: torch.Tensor, max_iters: int = 100) -> None
 
         # This step computes all gradients with "autograd"
         # i.e. automatic differentiation
-        loss.backward()
+        loss.backward()  # type: ignore
 
         # This function actually change the parameters
         optimizer.step()
@@ -72,7 +71,7 @@ def optimize(model: nn.Module, data: torch.Tensor, max_iters: int = 100) -> None
         curr_loss = loss.item()
         counter += 1
         if curr_loss < min_loss:
-            best_params = (model.theta1.item(), model.theta0.item())
+            best_params = (model.theta1.item(), model.theta0.item())  # type: ignore
             min_loss = curr_loss
 
         print(f"loss = {curr_loss:.4f}, c1 = {best_params[0]:.4f}, c2 = {best_params[1]:.4f}")

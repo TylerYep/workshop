@@ -1,3 +1,4 @@
+# type: ignore
 import timeit
 from collections import Counter, defaultdict
 

@@ -1,7 +1,7 @@
 from src.structures.suffix_array import SuffixArray
 
 
-def test_suffix_array():
+def test_suffix_array() -> None:
     s = SuffixArray("nonsense")
     result = s.search("nse")
     assert result == [2, 5], result

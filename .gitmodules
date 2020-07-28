@@ -1,3 +1,0 @@
-[submodule "src/ml/edutorch"]
-	path = src/ml/edutorch
-	url = https://github.com/TylerYep/edutorch.git

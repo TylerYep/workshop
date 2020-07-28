@@ -2,7 +2,7 @@ import re
 import sys
 
 
-def regex(filename, regexp):
+def regex(filename: str, regexp: str) -> None:
     with open(filename) as f:
         matches = []
         reg = re.compile(regexp)
@@ -13,7 +13,7 @@ def regex(filename, regexp):
             print(m)
 
 
-def regex_str(line, regexp):
+def regex_str(line: str, regexp: str) -> None:
     reg = re.compile(regexp)
     print(reg.findall(line))
 
