@@ -25,7 +25,10 @@ class Trie:
         index = self.char_to_index(key[0])
         if self.children[index] is None:
             self.children[index] = Trie()
-        self.children[index].insert(key[1:])  # type: ignore
+
+        child = self.children[index]
+        assert isinstance(child, Trie)
+        child.insert(key[1:])
 
     def search(self, key: str) -> bool:
         """ Search key in the trie. Returns true if key is present in trie. """
@@ -35,4 +38,7 @@ class Trie:
         index = self.char_to_index(key[0])
         if self.children[index] is None:
             return False
-        return self.children[index].search(key[1:])  # type: ignore
+
+        child = self.children[index]
+        assert isinstance(child, Trie)
+        return child.search(key[1:])

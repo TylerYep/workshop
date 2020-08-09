@@ -26,7 +26,9 @@ class LogisticRegression(nn.Module):
         return torch.sigmoid(self.theta1 * x + self.theta0)
 
 
-def optimize(model: nn.Module, data: torch.Tensor, max_iters: int = 100) -> None:
+def optimize(
+    model: nn.Module, data: torch.Tensor, max_iters: int = 100, verbose: bool = True
+) -> None:
     # Binds the model to the optimizer.
     # Notice we set a learning rate (lr)! this is really important in
     # machine learning -- try a few different ones and see what happens.
@@ -74,7 +76,8 @@ def optimize(model: nn.Module, data: torch.Tensor, max_iters: int = 100) -> None
             best_params = (model.theta1.item(), model.theta0.item())  # type: ignore
             min_loss = curr_loss
 
-        print(f"loss = {curr_loss:.4f}, c1 = {best_params[0]:.4f}, c2 = {best_params[1]:.4f}")
+        if verbose:
+            print(f"loss = {curr_loss:.4f}, c1 = {best_params[0]:.4f}, c2 = {best_params[1]:.4f}")
 
 
 def make_tensor(data: np.array, is_input: bool) -> torch.Tensor:

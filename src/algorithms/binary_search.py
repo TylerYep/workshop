@@ -1,6 +1,6 @@
 from typing import List, TypeVar
 
-from src.algorithms.util.comparable_type import Comparable
+from src.algorithms.util.comparable import Comparable
 
 C = TypeVar("C", bound=Comparable)
 

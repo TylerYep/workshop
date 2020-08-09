@@ -1,7 +1,7 @@
 from src.structures.trie import Trie
 
 
-def trie_test() -> None:
+def test_trie() -> None:
     keys = ["the", "a", "there", "anaswe", "any", "by", "their"]
     t = Trie()
     for key in keys:
