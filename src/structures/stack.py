@@ -8,20 +8,26 @@ T = TypeVar("T")
 class Stack(Generic[T]):
     """ You should probably use the Python built-in List instead. """
 
-    stack: List[T] = field(default_factory=list)
+    _stack: List[T] = field(default_factory=list)
 
-    def pop(self) -> T:
-        if len(self.stack) == 0:
-            raise IndexError
-        return self.stack.pop()
-
-    def push(self, item: T) -> None:
-        self.stack.append(item)
-
-    def peek(self) -> T:
-        if len(self.stack) == 0:
-            raise IndexError
-        return self.stack[len(self.stack) - 1]
+    def __bool__(self) -> bool:
+        return bool(self._stack)
 
     def __len__(self) -> int:
-        return len(self.stack)
+        return len(self._stack)
+
+    def __contains__(self, item: T) -> bool:
+        return item in self._stack
+
+    def push(self, item: T) -> None:
+        self._stack.append(item)
+
+    def pop(self) -> T:
+        if not self._stack:
+            raise IndexError
+        return self._stack.pop()
+
+    def peek(self) -> T:
+        if not self._stack:
+            raise IndexError
+        return self._stack[-1]

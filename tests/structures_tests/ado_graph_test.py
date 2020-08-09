@@ -1,6 +1,8 @@
 import random
 
-from src.structures.ado_graph import INF, ApproxDistanceOracle
+from src.structures.ado import ApproxDistanceOracle
+
+INF = 1000
 
 
 def test_zero_distance_approx() -> None:

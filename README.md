@@ -10,6 +10,15 @@ Separated into two sections:
 - Algorithms + Data Structures
 - AI/ML
 
+## Key Tenets
+- Must work functionally
+    - Unit tested, applicable
+- Must be easy to read
+    - Type-checkable, linted, and formatted code
+    - Educational, designed for a CS students
+    - Sacrifice efficiency and concision for readability
+
+
 # Dynamic Shape-Checking / Type-Checking (Typorch)
 I'm interested in shape-checking for tensors. It doesnt need to be static type checking,
 having fancy asserts would be good enough.

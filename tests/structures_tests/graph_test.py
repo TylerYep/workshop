@@ -4,7 +4,7 @@ from src.structures.graph import Graph
 
 
 def test_int_directed_graph() -> None:
-    graph = Graph[int]()
+    graph = Graph[int, None]()
     for i in range(5):
         graph.add_node(i)
 
@@ -32,7 +32,7 @@ def test_int_directed_graph() -> None:
 
 
 def test_int_undirected_graph() -> None:
-    graph = Graph[int](is_directed=False)
+    graph = Graph[int, None](is_directed=False)
     for i in range(5):
         graph.add_node(i)
 
@@ -61,7 +61,7 @@ def test_int_undirected_graph() -> None:
 
 def test_str_adj_graph() -> None:
     vertices = ["hi", "hello", "what up", "bye"]
-    graph = Graph[str]()
+    graph = Graph[str, None]()
     for item in vertices:
         graph.add_node(item)
 
