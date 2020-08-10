@@ -1,8 +1,8 @@
-from src.algorithms.dfs import depth_first_search, depth_first_search_recursive
+from src.algorithms import breadth_first_search
 from src.structures import Graph
 
 
-def test_dfs() -> None:
+def test_bfs() -> None:
     graph: Graph[str, None] = Graph.from_iterable(
         {
             "A": ["B", "C"],
@@ -13,12 +13,10 @@ def test_dfs() -> None:
             "F": ["C", "E"],
         }
     )
-    assert depth_first_search(graph, "A", "F") == ["A", "C", "F"]
-    assert depth_first_search_recursive(graph, "A", "F") == ["A", "B", "E", "F"]
+    assert breadth_first_search(graph, "A", "F") == ["A", "C", "F"]
 
     graph_2: Graph[int, None] = Graph.from_iterable(
         {0: [1, 2], 1: [0, 3, 4], 2: [0, 3], 3: [1], 4: [2, 3]}
     )
 
-    assert depth_first_search(graph_2, 0, 4) == [0, 2, 3, 1, 4]
-    assert depth_first_search_recursive(graph_2, 0, 4) == [0, 1, 4]
+    assert breadth_first_search(graph_2, 0, 4) == [0, 1, 4]

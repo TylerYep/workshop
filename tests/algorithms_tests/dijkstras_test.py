@@ -14,9 +14,7 @@ def test_dijkstra() -> None:
         }
     )
 
-    G2 = Graph[str, float](
-        {"B": {"C": 1}, "C": {"D": 1}, "D": {"F": 1}, "E": {"B": 1, "F": 3}, "F": {}}
-    )
+    G2 = Graph[int, float]({2: {3: 1}, 3: {4: 1}, 4: {6: 1}, 5: {2: 1, 6: 3}, 6: {}})
 
     G3 = Graph[str, float](
         {
@@ -30,7 +28,7 @@ def test_dijkstra() -> None:
     )
 
     assert dijkstra(G, "E", "C") == 6
-    assert dijkstra(G2, "E", "F") == 3
+    assert dijkstra(G2, 5, 6) == 3
     assert dijkstra(G3, "E", "F") == 3
 
     r"""

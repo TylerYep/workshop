@@ -1,16 +1,20 @@
 import heapq
-from typing import List, Optional, Set, Tuple
+from typing import List, Optional, Set, Tuple, TypeVar
 
 from src.structures import Graph
 
+V = TypeVar("V")
 
-def dijkstra(graph: Graph[str, float], start: str, end: str) -> Optional[float]:
+
+def dijkstra(graph: Graph[V, float], start: V, end: V) -> Optional[float]:
     """
-    Return the cost of the shortest path between vertices start and end.
+    Identical to BFS and DFS, except uses a priority queue and gets weights from the graph.
+
+    Returns the cost of the shortest path between vertices start and end.
     Cost is first in the tuple because heaps are sorted by the first element.
     """
-    heap: List[Tuple[float, str]] = [(0, start)]
-    visited: Set[str] = set()
+    heap: List[Tuple[float, V]] = [(0, start)]
+    visited: Set[V] = set()
     while heap:
         cost, u = heapq.heappop(heap)
         if u == end:
