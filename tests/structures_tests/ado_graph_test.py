@@ -1,6 +1,6 @@
 import random
 
-from src.structures.ado import ApproxDistanceOracle
+from src.structures import ApproxDistanceOracle
 
 INF = 1000
 

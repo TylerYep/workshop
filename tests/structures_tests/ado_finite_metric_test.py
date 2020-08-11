@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from src.structures.ado import ApproxFiniteMetricOracle
+from src.structures import ApproxFiniteMetricOracle
 
 
 def test_zero_distance_approx() -> None:

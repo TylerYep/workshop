@@ -1,4 +1,4 @@
-from src.algorithms.binary_search import binary_search, left_right_binary_search
+from src.algorithms import binary_search, left_right_binary_search
 
 
 def test_binary_search() -> None:

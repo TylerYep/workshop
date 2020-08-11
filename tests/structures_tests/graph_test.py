@@ -1,6 +1,6 @@
 import pytest
 
-from src.structures.graph import Graph
+from src.structures import Graph
 
 # @dataclass
 # class Node(Generic[V]):
@@ -20,6 +20,36 @@ from src.structures.graph import Graph
 #     def __repr__(self) -> str:
 #         """ Does not show weight if weight is None. """
 #         return str(prettyprinter.pformat(self))
+
+
+def test_custom_node_edge_graph() -> None:
+    graph = Graph[int, None]()
+    for i in range(5):
+        graph.add_node(i)
+
+    graph.add_edge(0, 1)
+    for i in range(3, 5):
+        for j in range(1, 4):
+            graph.add_edge(i, j)
+
+    assert len(graph) == 5
+    assert list(graph.nodes) == list(range(5))
+    assert len(graph.edges) == 7
+    for i, node in enumerate(graph):
+        assert node == i
+
+    assert list(graph.adj(3)) == [1, 2, 3]
+    assert graph.degree(3) == 4
+    assert graph.out_degree(3) == 3
+    assert graph.in_degree(3) == 1
+
+    with pytest.raises(KeyError):
+        graph.remove_node(7)
+
+    for i in range(3):
+        graph.remove_node(i)
+    assert len(graph) == 2
+    assert len(graph.edges) == 2
 
 
 def test_int_directed_graph() -> None:

@@ -1,6 +1,6 @@
 import sys
 
-from src.structures.hash_table import Cuckoo, HashTable, LinearProbing, RobinHood
+from src.structures import Cuckoo, HashTable, LinearProbing, RobinHood
 
 
 def main() -> None:

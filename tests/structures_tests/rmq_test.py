@@ -4,7 +4,7 @@ from typing import List
 
 from tqdm import tqdm
 
-from src.structures.rmq import FischerHeunRMQ, SparseTableRMQ
+from src.structures import FischerHeunRMQ, SparseTableRMQ
 
 ProposedRMQ = FischerHeunRMQ
 RMQ = SparseTableRMQ

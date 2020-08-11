@@ -1,4 +1,4 @@
-from src.structures.stack import Stack
+from src.structures import Stack
 
 
 def test_stack() -> None:

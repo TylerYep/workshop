@@ -1,4 +1,4 @@
-from src.structures.linked_list import LinkedList
+from src.structures import LinkedList
 
 
 def test_remove_last() -> None:

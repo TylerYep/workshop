@@ -1,7 +1,7 @@
 from typing import List
 
 from src.algorithms.sais import get_suffix_annotations, induced_sort, sais, to_rank_array
-from src.structures.suffix_array import SuffixArray
+from src.structures import SuffixArray
 
 
 def test_suffix_array() -> None:

@@ -18,6 +18,10 @@ Separated into two sections:
     - Educational, designed for a CS students
     - Sacrifice efficiency and concision for readability
 
+# Design Decisions
+Three packages are exposed to the user - algorithms, ml, and structures.
+Imports are done quickly and painlessly.
+
 
 # Dynamic Shape-Checking / Type-Checking (Typorch)
 I'm interested in shape-checking for tensors. It doesnt need to be static type checking,

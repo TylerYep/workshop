@@ -6,7 +6,7 @@ from src.structures import Graph
 V = TypeVar("V")
 
 
-def dijkstra(graph: Graph[V, float], start: V, end: V) -> Optional[float]:
+def dijkstra_search(graph: Graph[V, float], start: V, end: V) -> Optional[float]:
     """
     Identical to BFS and DFS, except uses a priority queue and gets weights from the graph.
 

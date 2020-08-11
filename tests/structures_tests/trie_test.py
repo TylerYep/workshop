@@ -1,4 +1,4 @@
-from src.structures.trie import Trie
+from src.structures import Trie
 
 
 def test_trie() -> None:

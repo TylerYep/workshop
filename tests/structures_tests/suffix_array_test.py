@@ -1,4 +1,4 @@
-from src.structures.suffix_array import SuffixArray
+from src.structures import SuffixArray
 
 
 def test_suffix_array() -> None:

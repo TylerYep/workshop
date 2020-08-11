@@ -1,4 +1,4 @@
-from src.algorithms import dijkstra
+from src.algorithms import dijkstra_search
 from src.structures import Graph
 
 
@@ -27,9 +27,9 @@ def test_dijkstra() -> None:
         }
     )
 
-    assert dijkstra(G, "E", "C") == 6
-    assert dijkstra(G2, 5, 6) == 3
-    assert dijkstra(G3, "E", "F") == 3
+    assert dijkstra_search(G, "E", "C") == 6
+    assert dijkstra_search(G2, 5, 6) == 3
+    assert dijkstra_search(G3, "E", "F") == 3
 
     r"""
     Layout of G2:
