@@ -1,12 +1,12 @@
 from typing import List, Optional
 
-from ..algorithms.sais import sais, to_rank_array
-
 
 class SuffixArray:
     def __init__(self, text: str) -> None:
+        from src.algorithms import sais
+
         self.text = text + "$"
-        self.suffix_arr = sais(to_rank_array(text))
+        self.suffix_arr = sais(text)
 
     def __getitem__(self, key: int) -> int:
         return self.suffix_arr[key]

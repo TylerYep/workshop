@@ -16,32 +16,40 @@ class LMSBlock:
     block_num: int = -1
 
 
-def sais(text: List[int]) -> List[int]:
-    # Handle empty string edge case
-    if not text:
-        return [0]
+def sais(orig_text: str) -> List[int]:
+    """ SAIS algorithm to form a Suffix Array. """
 
-    # Step 1: Annotate all suffixes as L/S and get LMS suffixes.
-    suffix_marks, lms_suffixes = get_suffix_annotations(text)
+    def _sais(text: List[int]) -> List[int]:
+        """ Helper function required to handle the recursive call. """
 
-    # Step 2: Run Induced sorting on the suffix array.
-    suffix_arr = induced_sort(text, suffix_marks, lms_suffixes)
+        # Handle empty string edge case
+        if not orig_text:
+            return [0]
 
-    # Step 3: Get the reduced string.
-    reduced_str, should_recurse = get_reduced_string(text, suffix_arr, lms_suffixes)
+        # Step 1: Annotate all suffixes as L/S and get LMS suffixes.
+        suffix_marks, lms_suffixes = get_suffix_annotations(text)
 
-    # Step 4: Sort the reduced string by computing its suffix array!
-    if should_recurse:
-        reduced_suffix_arr = sais(reduced_str)
-    else:
-        reduced_suffix_arr = [-1] * len(reduced_str)
-        for i, item in enumerate(reduced_str):
-            reduced_suffix_arr[item] = i
+        # Step 2: Run Induced sorting on the suffix array.
+        suffix_arr = induced_sort(text, suffix_marks, lms_suffixes)
 
-    sorted_lms_suffixes = reorder_lms_substrings(lms_suffixes, reduced_suffix_arr)
+        # Step 3: Get the reduced string.
+        reduced_str, should_recurse = get_reduced_string(text, suffix_arr, lms_suffixes)
 
-    # Step 5: Final induced sorting pass.
-    return induced_sort(text, suffix_marks, sorted_lms_suffixes)
+        # Step 4: Sort the reduced string by computing its suffix array!
+        if should_recurse:
+            reduced_suffix_arr = _sais(reduced_str)
+        else:
+            reduced_suffix_arr = [-1] * len(reduced_str)
+            for i, item in enumerate(reduced_str):
+                reduced_suffix_arr[item] = i
+
+        sorted_lms_suffixes = reorder_lms_substrings(lms_suffixes, reduced_suffix_arr)
+
+        # Step 5: Final induced sorting pass.
+        return induced_sort(text, suffix_marks, sorted_lms_suffixes)
+
+    # Step 0: Convert text to rank array.
+    return _sais(to_rank_array(orig_text))
 
 
 def create_lms_blocks(
