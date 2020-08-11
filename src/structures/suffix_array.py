@@ -22,8 +22,7 @@ class SuffixArray:
 
         def left_right_binary_search(target: str, is_left: bool) -> Optional[int]:
             """ Returns the leftmost index of target element, or -1 if it cannot be found. """
-            left = 0
-            right = len(self.text) - 1
+            left, right = 0, len(self.text) - 1
             index = None
             while left <= right:
                 mid = left + (right - left) // 2

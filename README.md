@@ -20,7 +20,7 @@ Separated into two sections:
 
 # Design Decisions
 Three packages are exposed to the user - algorithms, ml, and structures.
-Imports are done quickly and painlessly.
+Imports are done quickly and painlessly. We avoid circular imports by importing algorithms needed to create data structures inline.
 
 
 # Dynamic Shape-Checking / Type-Checking (Typorch)
