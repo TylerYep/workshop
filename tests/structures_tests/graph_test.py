@@ -1,53 +1,36 @@
 import pytest
 
-from src.structures import Graph
-
-# @dataclass
-# class Node(Generic[V]):
-#     v_id: V
-#     data: Any
-#     neighbors: List[V] = field(default_factory=list)
-
-
-# @dataclass(repr=False)
-# class Edge(Generic[V]):
-#     """ Stores edge data. """
-
-#     start: V
-#     end: V
-#     weight: Optional[float] = None
-
-#     def __repr__(self) -> str:
-#         """ Does not show weight if weight is None. """
-#         return str(prettyprinter.pformat(self))
+from src.structures import Edge, Graph, Node
 
 
 def test_custom_node_edge_graph() -> None:
-    graph = Graph[int, None]()
+    graph = Graph[Node[int], Edge[int]]()
+    nodes = [Node(i) for i in range(5)]
     for i in range(5):
-        graph.add_node(i)
+        graph.add_node(nodes[i])
 
-    graph.add_edge(0, 1)
+    graph.add_edge(nodes[0], nodes[1], Edge(0, 1, weight=15))
     for i in range(3, 5):
         for j in range(1, 4):
-            graph.add_edge(i, j)
+            graph.add_edge(nodes[i], nodes[j], Edge(i, j, weight=i + j))
 
     assert len(graph) == 5
-    assert list(graph.nodes) == list(range(5))
+    assert list(graph.nodes) == nodes
     assert len(graph.edges) == 7
     for i, node in enumerate(graph):
-        assert node == i
+        assert node == Node(i)
 
-    assert list(graph.adj(3)) == [1, 2, 3]
-    assert graph.degree(3) == 4
-    assert graph.out_degree(3) == 3
-    assert graph.in_degree(3) == 1
+    node_3 = nodes[3]
+    assert list(graph.adj(node_3)) == nodes[1:4]
+    assert graph.degree(node_3) == 4
+    assert graph.out_degree(node_3) == 3
+    assert graph.in_degree(node_3) == 1
 
     with pytest.raises(KeyError):
-        graph.remove_node(7)
+        graph.remove_node(Node(7))
 
     for i in range(3):
-        graph.remove_node(i)
+        graph.remove_node(nodes[i])
     assert len(graph) == 2
     assert len(graph.edges) == 2
 

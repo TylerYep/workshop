@@ -1,6 +1,6 @@
 from .ado.ado_finite_metric import ApproxFiniteMetricOracle
 from .ado.ado_graph import ApproxDistanceOracle
-from .graph import Graph
+from .graph import Edge, Graph, Node
 from .hash_table.cuckoo import Cuckoo
 from .hash_table.hash_table import HashTable
 from .hash_table.linear_probing import LinearProbing

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, Generic, Iterable, Iterator, KeysView, List, TypeVar, cast
+from typing import Any, Dict, Generic, Iterable, Iterator, KeysView, List, Optional, TypeVar, cast
 
 import prettyprinter
 from prettyprinter.prettyprinter import IMPLICIT_MODULES
@@ -138,3 +138,26 @@ class Graph(Generic[V, E]):
         self.exists_node(v_id1, v_id2)
         if v_id2 in self._graph[v_id1]:
             del self._graph[v_id1][v_id2]
+
+
+@dataclass
+class Node(Generic[V]):
+    """ An example node class that stores node data. """
+
+    data: V
+
+    def __hash__(self) -> int:
+        return hash(self.data)
+
+
+@dataclass(repr=False)
+class Edge(Generic[V]):
+    """ An example edge class that stores edge data. """
+
+    start: V
+    end: V
+    weight: Optional[float] = None
+
+    def __repr__(self) -> str:
+        """ Does not show weight if weight is None. """
+        return str(prettyprinter.pformat(self))

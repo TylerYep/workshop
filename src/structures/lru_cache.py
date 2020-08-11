@@ -1,15 +1,21 @@
 from __future__ import annotations
 
 from collections import OrderedDict
-
-# from dataclasses import dataclass
+from dataclasses import dataclass
 from typing import Any, Callable, Dict, Generic, Optional, TypeVar, no_type_check
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
 
 
-# @dataclass
+@dataclass
+class CacheInfo:
+    hits: int
+    misses: int
+    capacity: int
+    current_size: int
+
+
 class LRUCache(Generic[KT, VT]):
     """ Must use an OrderedDict in order to use the move_to_end() command """
 
@@ -20,7 +26,7 @@ class LRUCache(Generic[KT, VT]):
         self.cache: OrderedDict[KT, VT] = OrderedDict()  # pylint: disable=unsubscriptable-object
         self.max_capacity = max_capacity
         self.hits = 0
-        self.miss = 0
+        self.misses = 0
 
     def __getitem__(self, key: KT) -> Optional[VT]:
         if key in self.cache:
@@ -28,7 +34,7 @@ class LRUCache(Generic[KT, VT]):
             self.cache.move_to_end(key)
             return self.cache[key]
 
-        self.miss += 1
+        self.misses += 1
         return None
 
     def __setitem__(self, key: KT, val: VT) -> None:
@@ -38,14 +44,17 @@ class LRUCache(Generic[KT, VT]):
         if len(self.cache) > self.max_capacity:
             self.cache.popitem(last=False)
 
+    def __bool__(self) -> bool:
+        return bool(self.cache)
+
+    def __len__(self) -> int:
+        return len(self.cache)
+
     def __contains__(self, key: KT) -> bool:
         return key in self.cache
 
     def __repr__(self) -> str:
-        return (
-            f"CacheInfo(hits={self.hits}, misses={self.miss}, "
-            f"capacity={self.max_capacity}, current_size={len(self.cache)})"
-        )
+        return str(CacheInfo(self.hits, self.misses, self.max_capacity, len(self.cache)))
 
 
 @no_type_check
