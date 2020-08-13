@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Generic, Iterator, Optional, TypeVar
 
 T = TypeVar("T")
@@ -68,13 +69,11 @@ class BinaryTree(Generic[T]):
     #         self.data = data
 
 
+@dataclass
 class TreeNode(Generic[T]):
-    def __init__(
-        self, data: T, left: Optional[TreeNode[T]] = None, right: Optional[TreeNode[T]] = None
-    ) -> None:
-        self.data = data
-        self.left = left
-        self.right = right
+    data: T
+    left: Optional[TreeNode[T]] = None
+    right: Optional[TreeNode[T]] = None
 
     def __repr__(self) -> str:
         return f"({self.data})\n" f"-> {self.left}\n" f"-> {self.right}"

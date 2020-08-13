@@ -1,44 +1,84 @@
-from typing import List, Optional
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Dict, Optional
+
+from src.util import formatter
 
 
+@dataclass
 class Trie:
-    def __init__(self) -> None:
-        self.children: List[Optional[Trie]] = [None] * 26
-        self.end_of_word = False
+    """ char is None for the head of the Trie. """
 
-    @staticmethod
-    def char_to_index(ch: str) -> int:
+    char: Optional[str] = None
+    is_leaf: bool = False
+    size: int = 0
+    children: Dict[str, Trie] = field(default_factory=dict)
+
+    def __len__(self) -> int:
+        return self.size
+
+    def __bool__(self) -> bool:
+        return bool(self.children)
+
+    def __contains__(self, prefix: str) -> bool:
         """
-        Converts key current character into index. Uses only lower case 'a' through 'z'.
+        Tries to find word in a Trie
+        :param word: word to look for
+        :return: Returns True if word is found, False otherwise
         """
-        return ord(ch) - ord("a")
+        trie = self
+        for ch in prefix:
+            if ch not in trie.children:
+                return False
+            trie = trie.children[ch]
+        return trie.is_leaf
 
-    def insert(self, key: str) -> None:
+    def __repr__(self) -> str:
+        return str(formatter.pformat(self))
+
+    def insert(self, text: str) -> None:
         """
-        If not present, inserts key into trie.
-        If the key is prefix of trie node, just marks leaf node.
+        Inserts a word into the Trie
+        :param word: word to be inserted
+        :return: None
         """
-        if not key:
-            self.end_of_word = True
-            return
+        trie = self
+        for ch in text:
+            trie.size += 1
+            if ch not in trie.children:
+                trie.children[ch] = Trie(ch)
+            trie = trie.children[ch]
+        trie.is_leaf = True
 
-        index = self.char_to_index(key[0])
-        if self.children[index] is None:
-            self.children[index] = Trie()
+    def delete(self, word: str) -> None:
+        """
+        Deletes a word in a Trie
+        :param word: word to delete
+        :return: None
+        """
 
-        child = self.children[index]
-        assert isinstance(child, Trie)
-        child.insert(key[1:])
+        def _delete(curr: Trie, word: str) -> bool:
+            # If word is empty, attempt to set the word to not a leaf.
+            # If the word has no other children, return False so that we can delete above keys.
+            curr.size -= 1
+            if not word:
+                if not curr.is_leaf:
+                    return False
+                curr.is_leaf = False
+                return not curr.children
 
-    def search(self, key: str) -> bool:
-        """ Search key in the trie. Returns true if key is present in trie. """
-        if not key:
-            return True
+            ch = word[0]
+            if ch not in curr.children:
+                return False
 
-        index = self.char_to_index(key[0])
-        if self.children[index] is None:
-            return False
+            should_delete_curr = _delete(curr.children[ch], word[1:])
+            if should_delete_curr:
+                del curr.children[ch]
+                return not curr.children
+            return should_delete_curr
 
-        child = self.children[index]
-        assert isinstance(child, Trie)
-        return child.search(key[1:])
+        if word not in self:
+            raise KeyError(f"Trie does not contain key: {word}")
+
+        _ = _delete(self, word)

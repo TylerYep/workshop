@@ -8,7 +8,30 @@ def test_trie() -> None:
         t.insert(key)
 
     # Search for different keys
-    assert t.search("the") is True
-    assert t.search("these") is False
-    assert t.search("their") is True
-    assert t.search("thaw") is False
+    assert len(t) == 7
+    assert "the" in t
+    assert "these" not in t
+    assert "their" in t
+    assert "thaw" not in t
+
+    t.delete("by")
+    t.delete("the")
+    assert len(t) == 5
+    assert "by" not in t
+    assert "the" not in t
+
+
+def test_trie_deletes() -> None:
+    words = "banana bananas bandana band apple all beast".split()
+    root = Trie()
+    for word in words:
+        root.insert(word)
+
+    assert all(word in root for word in words)
+    assert "bandanas" not in root
+    assert "apps" not in root
+    root.delete("all")
+    assert "all" not in root
+    root.delete("banana")
+    assert "banana" not in root
+    assert "bananas" in root

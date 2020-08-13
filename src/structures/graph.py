@@ -3,11 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict, Generic, Iterable, Iterator, KeysView, List, Optional, TypeVar, cast
 
-import prettyprinter
-from prettyprinter.prettyprinter import IMPLICIT_MODULES
+from src.util import formatter
 
-prettyprinter.install_extras(include=frozenset({"python", "dataclasses"}))
-IMPLICIT_MODULES.add("src.structures.graph")
 V = TypeVar("V")
 E = TypeVar("E")
 
@@ -42,7 +39,7 @@ class Graph(Generic[V, E]):
         yield from self._graph
 
     def __repr__(self) -> str:
-        return str(prettyprinter.pformat(self._graph))
+        return str(formatter.pformat(self._graph))
 
     @property
     def nodes(self) -> KeysView[V]:
@@ -160,4 +157,4 @@ class Edge(Generic[V]):
 
     def __repr__(self) -> str:
         """ Does not show weight if weight is None. """
-        return str(prettyprinter.pformat(self))
+        return str(formatter.pformat(self))
