@@ -6,6 +6,15 @@ from typing import Generic, Iterator, List, Optional, TypeVar
 T = TypeVar("T")
 
 
+@dataclass
+class LinkedListNode(Generic[T]):
+    data: T
+    next: Optional[LinkedListNode[T]] = None
+
+    def __repr__(self) -> str:
+        return f"({self.data}) -> {self.next}"
+
+
 class LinkedList(Generic[T]):
     def __init__(self) -> None:
         self.head: Optional[LinkedListNode[T]] = None
@@ -111,12 +120,3 @@ class LinkedList(Generic[T]):
     #             return
 
     #         node_1.data, node_2.data = node_2.data, node_1.data
-
-
-@dataclass
-class LinkedListNode(Generic[T]):
-    data: T
-    next: Optional[LinkedListNode[T]] = None
-
-    def __repr__(self) -> str:
-        return f"({self.data}) -> {self.next}"
