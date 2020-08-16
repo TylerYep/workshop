@@ -1,19 +1,28 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+from typing import Dict, Union
 
 from src.util import formatter
 
 
 @dataclass
+class TrieNode:
+    char: str
+    is_leaf: bool = False
+    children: Dict[str, TrieNode] = field(default_factory=dict)
+
+    def __repr__(self) -> str:
+        return str(formatter.pformat(self))
+
+
 class Trie:
     """ char is None for the head of the Trie. """
 
-    char: Optional[str] = None
-    is_leaf: bool = False
-    size: int = 0
-    children: Dict[str, Trie] = field(default_factory=dict)
+    def __init__(self) -> None:
+        self.children: Dict[str, TrieNode] = {}
+        self.is_leaf = False
+        self.size = 0
 
     def __len__(self) -> int:
         return self.size
@@ -27,7 +36,7 @@ class Trie:
         :param word: word to look for
         :return: Returns True if word is found, False otherwise
         """
-        trie = self
+        trie: Union[Trie, TrieNode] = self
         for ch in prefix:
             if ch not in trie.children:
                 return False
@@ -35,7 +44,7 @@ class Trie:
         return trie.is_leaf
 
     def __repr__(self) -> str:
-        return str(formatter.pformat(self))
+        return str(self.children)
 
     def insert(self, text: str) -> None:
         """
@@ -43,11 +52,11 @@ class Trie:
         :param word: word to be inserted
         :return: None
         """
-        trie = self
+        self.size += 1
+        trie: Union[Trie, TrieNode] = self
         for ch in text:
-            trie.size += 1
             if ch not in trie.children:
-                trie.children[ch] = Trie(ch)
+                trie.children[ch] = TrieNode(ch)
             trie = trie.children[ch]
         trie.is_leaf = True
 
@@ -58,10 +67,9 @@ class Trie:
         :return: None
         """
 
-        def _delete(curr: Trie, word: str) -> bool:
+        def _delete(curr: Union[Trie, TrieNode], word: str) -> bool:
             # If word is empty, attempt to set the word to not a leaf.
             # If the word has no other children, return False so that we can delete above keys.
-            curr.size -= 1
             if not word:
                 if not curr.is_leaf:
                     return False
@@ -81,4 +89,5 @@ class Trie:
         if word not in self:
             raise KeyError(f"Trie does not contain key: {word}")
 
+        self.size -= 1
         _ = _delete(self, word)
