@@ -1,16 +1,20 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+from typing import Dict
 
 from src.util import formatter
 
 
 @dataclass
 class Trie:
-    """ char is None for the head of the Trie. """
+    """
+    Does not use a TrieNode struct because the root node can contain several children nodes,
+    thus making the internal logic more complex.
+    Instead, sets char to the empty string for the head of the Trie.
+    """
 
-    char: Optional[str] = None
+    char: str = ""
     is_leaf: bool = False
     size: int = 0
     children: Dict[str, Trie] = field(default_factory=dict)

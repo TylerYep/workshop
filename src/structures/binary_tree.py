@@ -56,6 +56,9 @@ class BinarySearchTree(Generic[T]):
     def __contains__(self, data: T) -> bool:
         return self.search(data) is not None
 
+    def clear(self) -> None:
+        self.root = None
+
     def depth(self) -> int:
         def _depth(tree: Optional[TreeNode[T]]) -> int:
             if tree is None:
