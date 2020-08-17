@@ -14,6 +14,7 @@ class TreeNode(Generic[T]):
     left: Optional[TreeNode[T]] = None
     right: Optional[TreeNode[T]] = None
     parent: Optional[TreeNode[T]] = None
+    # TODO add depth field?
 
     def __repr__(self) -> str:
         return f"({self.data})\n-> {self.left}\n-> {self.right}"
