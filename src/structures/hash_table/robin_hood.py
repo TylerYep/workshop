@@ -37,7 +37,7 @@ class RobinHood(HashTable):
         self.num_elems += 1
         return True
 
-    def contains(self, data: int) -> bool:
+    def __contains__(self, data: int) -> bool:
         assert data >= 0
         bucket = self.hash(data) % self.num_buckets
         for i in range(self.num_buckets):

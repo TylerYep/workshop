@@ -1,5 +1,6 @@
 from .ado.ado_finite_metric import ApproxFiniteMetricOracle
 from .ado.ado_graph import ApproxDistanceOracle
+from .binary_heap import BinaryHeap
 from .binary_tree import BinarySearchTree
 from .graph import Edge, Graph, Node
 from .hash_table.cuckoo import Cuckoo

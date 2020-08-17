@@ -10,7 +10,7 @@ class LinearProbing(HashTable):
 
     def insert(self, data: int) -> bool:
         assert data >= 0
-        if self.num_elems == self.capacity or self.contains(data):
+        if self.num_elems == self.capacity or data in self:
             return False
 
         bucket = hash(data) % self.num_buckets
@@ -34,7 +34,7 @@ class LinearProbing(HashTable):
                 break
         return -1
 
-    def contains(self, data: int) -> bool:
+    def __contains__(self, data: int) -> bool:
         assert data >= 0
         return self._find_data(data) >= 0
 

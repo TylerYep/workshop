@@ -32,7 +32,7 @@ class Cuckoo(HashTable):
     def insert(self, data: int) -> bool:
         assert data >= 0
 
-        if self.contains(data):
+        if data in self:
             return False
 
         use_table_1 = True
@@ -75,7 +75,7 @@ class Cuckoo(HashTable):
 
         return True
 
-    def contains(self, data: int) -> bool:
+    def __contains__(self, data: int) -> bool:
         assert data >= 0
         bucket = self.hash_1(data) % self.num_buckets
         if self.table_1[bucket] == data:
@@ -110,7 +110,7 @@ class Cuckoo(HashTable):
             )
             for i in range(self.num_buckets)
         ]
-        indices = "  |  ".join([f"{i:{widths[i]}}" for i in range(self.num_buckets)])
-        table1 = "  |  ".join([f"{self.table_1[i]:{widths[i]}}" for i in range(self.num_buckets)])
-        table2 = "  |  ".join([f"{self.table_2[i]:{widths[i]}}" for i in range(self.num_buckets)])
+        indices = "  |  ".join([f"{i:{width}}" for i, width in enumerate(widths)])
+        table1 = "  |  ".join([f"{self.table_1[i]:{width}}" for i, width in enumerate(widths)])
+        table2 = "  |  ".join([f"{self.table_2[i]:{width}}" for i, width in enumerate(widths)])
         return f"\n{indices}\n{'---' * sum(widths)}\n{table1}\n{table2}\n"

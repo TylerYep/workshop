@@ -24,7 +24,7 @@ def main() -> None:
             print(f"    Called table.insert({data})")
             curr_elements.add(data)
         elif method == "c":
-            ans = hash_table.contains(data)
+            ans = data in hash_table
             print(f"    Called table.contains({data}). Returned {ans}.")
         elif method == "r":
             hash_table.remove(data)

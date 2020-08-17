@@ -11,7 +11,7 @@ class HashTable:
     def insert(self, data: int) -> bool:
         raise NotImplementedError
 
-    def contains(self, data: int) -> bool:
+    def __contains__(self, data: int) -> bool:
         raise NotImplementedError
 
     def remove(self, data: int) -> bool:
