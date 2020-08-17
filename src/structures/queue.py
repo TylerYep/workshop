@@ -31,6 +31,3 @@ class Queue(Generic[T]):
         if not self._queue:
             raise IndexError
         return self._queue[0]
-
-    def is_empty(self) -> bool:
-        return not self._queue

@@ -80,6 +80,14 @@ class TestBinarySearchTree:
         assert t.search(2) is None
 
     @staticmethod
+    def test_basic_remove() -> None:
+        t = BinarySearchTree[int]()
+        t.insert(3)
+        assert t.search(3) is not None
+        t.remove(3)
+        assert t.search(3) is None
+
+    @staticmethod
     def test_remove(t: BinarySearchTree[int]) -> None:
 
         t.remove(13)
@@ -167,6 +175,9 @@ class TestBinarySearchTree:
         assert t.root.left.left.data == 1
         assert t.root.left.parent == t.root
         assert t.root.left.left.parent == t.root.left
+
+        with pytest.raises(Exception):
+            t.remove(42)
 
         t.remove(8)
         t.remove(1)

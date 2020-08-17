@@ -1,9 +1,8 @@
 from src.structures import BinaryHeap
 
 
-def test_heap() -> None:
-
-    h = BinaryHeap[int]()  # Max-heap
+def test_max_heap() -> None:
+    h = BinaryHeap[int]()
     h.insert(34)
     h.insert(31)
     h.insert(37)
@@ -11,7 +10,10 @@ def test_heap() -> None:
     assert h.extract_top() == 37
     assert h.extract_top() == 34
     assert h.extract_top() == 31
-    h = BinaryHeap[int](key=lambda x: -x)  # Min heap
+
+
+def test_min_heap() -> None:
+    h = BinaryHeap[int](key=lambda x: -x)
     h.insert(34)
     h.insert(31)
     h.insert(37)

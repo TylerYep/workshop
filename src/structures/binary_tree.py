@@ -18,13 +18,6 @@ class TreeNode(Generic[T]):
     def __repr__(self) -> str:
         return f"({self.data})\n-> {self.left}\n-> {self.right}"
 
-    # def __repr__(self) -> str:
-    #     from pprint import pformat
-
-    #     if self.left is None and self.right is None:
-    #         return str(self.data)
-    #     return formatter.pformat({"%s" % (self.data): (self.left, self.right)}, indent=1)
-
 
 class BinarySearchTree(Generic[T]):
     def __init__(self) -> None:
@@ -68,18 +61,7 @@ class BinarySearchTree(Generic[T]):
         return _depth(self.root)
 
     def search(self, data: T) -> Optional[TreeNode[T]]:
-        """
-        Searches a node in the tree
-
-        >>> t = BinarySearchTree()
-        >>> t.insert(8)
-        >>> t.insert(10)
-        >>> node = t.search(8)
-        >>> assert node.data == 8
-
-        >>> node = t.search(3)
-        >>> assert node is None
-        """
+        """ Searches a node in the tree. """
 
         def _search(node: Optional[TreeNode[T]]) -> Optional[TreeNode[T]]:
             if node is None:
@@ -93,22 +75,7 @@ class BinarySearchTree(Generic[T]):
         return _search(self.root)
 
     def insert(self, data: T) -> None:
-        """
-        Put a new node in the tree
-
-        >>> t = BinarySearchTree()
-        >>> t.insert(8)
-        >>> assert t.root.parent is None
-        >>> assert t.root.data == 8
-
-        >>> t.insert(10)
-        >>> assert t.root.right.parent == t.root
-        >>> assert t.root.right.data == 10
-
-        >>> t.insert(3)
-        >>> assert t.root.left.parent == t.root
-        >>> assert t.root.left.data == 3
-        """
+        """ Puts a new node in the tree. """
 
         def _insert(
             node: Optional[TreeNode[T]], parent: Optional[TreeNode[T]] = None
@@ -126,25 +93,7 @@ class BinarySearchTree(Generic[T]):
         self.size += 1
 
     def remove(self, data: T) -> None:
-        """
-        Removes a node in the tree
-
-        >>> t = BinarySearchTree()
-        >>> t.insert(8)
-        >>> t.insert(10)
-        >>> t.remove(8)
-        >>> assert t.root.data == 10
-
-        >>> t.insert(3)
-        >>> assert t.search(3) is not None
-        >>> t.remove(3)
-        >>> assert t.search(3) is None
-
-        >>> t.remove(42)
-        Traceback (most recent call last):
-            ...
-        Exception: TreeNode with data 42 does not exist
-        """
+        """ Removes a node in the tree. """
 
         def _reassign_nodes(node: TreeNode[T], new_children: Optional[TreeNode[T]]) -> None:
             if new_children is not None:
@@ -187,20 +136,7 @@ class BinarySearchTree(Generic[T]):
 
     @property
     def max_element(self) -> T:
-        """
-        Gets the max data inserted in the tree
-
-        >>> t = BinarySearchTree()
-        >>> t.max_element
-        Traceback (most recent call last):
-            ...
-        Exception: Binary search tree is empty
-
-        >>> t.insert(8)
-        >>> t.insert(10)
-        >>> t.max_element
-        10
-        """
+        """ Gets the max data inserted in the tree. """
         if self.root is None:
             raise Exception("Binary search tree is empty")
         node = self.root
@@ -210,20 +146,7 @@ class BinarySearchTree(Generic[T]):
 
     @property
     def min_element(self) -> T:
-        """
-        Gets the min data inserted in the tree
-
-        >>> t = BinarySearchTree()
-        >>> t.min_element
-        Traceback (most recent call last):
-            ...
-        Exception: Binary search tree is empty
-
-        >>> t.insert(8)
-        >>> t.insert(10)
-        >>> t.min_element
-        8
-        """
+        """ Gets the min data inserted in the tree. """
         if self.root is None:
             raise Exception("Binary search tree is empty")
         node = self.root
@@ -232,33 +155,7 @@ class BinarySearchTree(Generic[T]):
         return node.data
 
     def traversal(self, method: str = "inorder") -> Iterator[TreeNode[T]]:
-        """
-        Return the preorder traversal of the tree
-
-        >>> t = BinarySearchTree()
-        >>> [i.data for i in t.traversal()]
-        []
-
-        >>> t.insert(8)
-        >>> t.insert(10)
-        >>> t.insert(9)
-        >>> [i.data for i in t.traversal("preorder")]
-        [8, 10, 9]
-
-        >>> t = BinarySearchTree()
-        >>> t.insert(8)
-        >>> t.insert(10)
-        >>> t.insert(9)
-        >>> [i.data for i in t.traversal()]
-        [8, 9, 10]
-
-        >>> t = BinarySearchTree()
-        >>> t.insert(8)
-        >>> t.insert(10)
-        >>> t.insert(9)
-        >>> [i.data for i in t.traversal("postorder")]
-        [9, 10, 8]
-        """
+        """ Return the pre-order, in-order, or post-order traversal of the tree. """
         if method not in ("preorder", "inorder", "postorder"):
             raise ValueError("Method must be one of: 'preorder', 'inorder', or 'postorder'")
 
