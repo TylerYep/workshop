@@ -8,9 +8,7 @@ from src.algorithms import (
     quick_sort,
     radix_sort,
     selection_sort,
-    topological_sort,
 )
-from src.structures import Graph
 
 
 def test_sort() -> None:
@@ -40,19 +38,3 @@ def test_positive_int_sort() -> None:
     for sort_fn in sort_fns:
         for array in arrays:
             assert sort_fn(list(array)) == sorted(array)
-
-
-def test_topological_sort() -> None:
-    """
-    Ordered from bottom to top
-        a
-       / \
-      b   c
-     / \
-    d   e
-    """
-    graph: Graph[str, None] = Graph.from_iterable(
-        {"a": ["c", "b"], "b": ["d", "e"], "c": [], "d": [], "e": []}
-    )
-
-    assert topological_sort(graph, "a") == ["c", "d", "e", "b", "a"]

@@ -11,6 +11,7 @@ INF = 1000
 
 @dataclass
 class Edge:
+    __slots__ = ("weight", "start", "end")
     weight: float
     start: int
     end: int

@@ -50,13 +50,16 @@ class Graph(Generic[V, E]):
         return [self._graph[v_id1][v_id2] for v_id1 in self._graph for v_id2 in self._graph[v_id1]]
 
     @classmethod
-    def from_iterable(cls, iterable: Dict[V, Iterable[V]], default_val: Any = None) -> Graph[V, E]:
+    def from_iterable(
+        cls, iterable: Dict[V, Iterable[V]], is_directed: bool = False, default_val: Any = None
+    ) -> Graph[V, E]:
         if default_val is None:
             default_val = 1
         else:
             cast(E, default_val)
         return Graph(
-            {node: {neighbor: default_val for neighbor in iterable[node]} for node in iterable}
+            {node: {neighbor: default_val for neighbor in iterable[node]} for node in iterable},
+            is_directed=is_directed,
         )
 
     def exists_node(self, *v_ids: V) -> None:

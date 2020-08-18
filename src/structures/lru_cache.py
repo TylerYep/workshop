@@ -10,6 +10,7 @@ VT = TypeVar("VT")
 
 @dataclass
 class CacheInfo:
+    __slots__ = ("hits", "misses", "capacity", "current_size")
     hits: int
     misses: int
     capacity: int
