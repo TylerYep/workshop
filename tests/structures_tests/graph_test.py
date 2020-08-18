@@ -25,6 +25,7 @@ def test_custom_node_edge_graph() -> None:
     assert graph.degree(node_3) == 4
     assert graph.out_degree(node_3) == 3
     assert graph.in_degree(node_3) == 1
+    assert not graph.is_bipartite()
 
     with pytest.raises(KeyError):
         graph.remove_node(Node(7))
@@ -55,6 +56,7 @@ def test_int_directed_graph() -> None:
     assert graph.degree(3) == 4
     assert graph.out_degree(3) == 3
     assert graph.in_degree(3) == 1
+    assert not graph.is_bipartite()
 
     with pytest.raises(KeyError):
         graph.remove_node(7)
@@ -80,6 +82,7 @@ def test_int_undirected_graph() -> None:
     assert len(graph.edges) == 13
     assert list(graph.adj(3)) == [1, 2, 3, 4]
     assert graph.degree(3) == 4
+    assert not graph.is_bipartite()
     for i, node in enumerate(graph):
         assert node == i
 
@@ -112,3 +115,10 @@ def test_str_adj_graph() -> None:
 
     for i, node in enumerate(graph):
         assert node == vertices[i]
+
+
+def test_bipartite() -> None:
+    graph: Graph[int, None] = Graph.from_iterable(
+        {0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: []}
+    )
+    assert graph.is_bipartite()

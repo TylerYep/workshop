@@ -227,19 +227,19 @@ class TestBinarySearchTree:
 
     @staticmethod
     def test_get_max_data(t: BinarySearchTree[int]) -> None:
-        assert t.max_element == 14
+        assert t.max_element() == 14
 
         t.clear()
         with pytest.raises(Exception):
-            t.max_element
+            t.max_element()
 
     @staticmethod
     def test_get_min_data(t: BinarySearchTree[int]) -> None:
-        assert t.min_element == 1
+        assert t.min_element() == 1
 
         t.clear()
         with pytest.raises(Exception):
-            t.min_element
+            t.min_element()
 
     @staticmethod
     def test_inorder_traversal(t: BinarySearchTree[int]) -> None:

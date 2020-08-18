@@ -11,4 +11,5 @@ from .sort.quick_sort import quick_sort
 from .sort.radix_sort import radix_sort
 from .sort.selection_sort import selection_sort
 from .sort.topological_sort import topological_sort
+from .strings.lcs import longest_common_subsequence
 from .strings.sais import sais

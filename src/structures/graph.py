@@ -136,6 +136,31 @@ class Graph(Generic[V, E]):
         if v_id2 in self._graph[v_id1]:
             del self._graph[v_id1][v_id2]
 
+    def is_bipartite(self) -> bool:
+        """
+        Check whether Graph is bipartite using DFS.
+        Should not be a property because the calculation changes and this should not
+        be thought of as an easily accessible attribute.
+        """
+        visited = set()
+        color: Dict[V, bool] = {}
+
+        def dfs(v: V, curr_color: bool) -> None:
+            visited.add(v)
+            color[v] = curr_color
+            for u in self._graph[v]:
+                if u not in visited:
+                    dfs(u, not curr_color)
+
+        for node in self._graph:
+            if node not in visited:
+                dfs(node, True)
+        for i in self._graph:
+            for j in self._graph[i]:
+                if color[i] == color[j]:
+                    return False
+        return True
+
 
 @dataclass
 class Node(Generic[V]):

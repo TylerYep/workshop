@@ -135,7 +135,6 @@ class BinarySearchTree(Generic[T]):
                 node.right.parent = lowest_node
             _reassign_nodes(node, lowest_node)
 
-    @property
     def max_element(self) -> T:
         """ Gets the max data inserted in the tree. """
         if self.root is None:
@@ -145,7 +144,6 @@ class BinarySearchTree(Generic[T]):
             node = node.right
         return node.data
 
-    @property
     def min_element(self) -> T:
         """ Gets the min data inserted in the tree. """
         if self.root is None:
