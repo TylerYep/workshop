@@ -1,5 +1,5 @@
 import heapq
-from typing import List, Optional, Set, Tuple, TypeVar
+from typing import Dict, List, Optional, Set, Tuple, TypeVar
 
 from src.structures import Graph
 
@@ -25,3 +25,23 @@ def dijkstra_search(graph: Graph[V, float], start: V, end: V) -> Optional[float]
                 if v not in visited:
                     heapq.heappush(heap, (cost + c, v))
     return None
+
+
+def dijkstra_shortest_distances(graph: Graph[V, float], start: V) -> Dict[V, float]:
+    distances = {start: 0.0}
+    visited: Set[V] = set()
+    path = {start: start}
+    INF = float("inf")
+    while len(visited) != len(graph) - 1:
+        mini = INF
+        for i in distances:
+            if i not in visited and distances[i] < mini:
+                mini = distances[i]
+                u = i
+        visited.add(u)
+        for v in graph[u]:
+            if v not in visited:
+                if distances[u] + graph[u][v] < distances.get(v, INF):
+                    distances[v] = distances[u] + graph[u][v]
+                    path[v] = u
+    return distances

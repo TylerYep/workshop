@@ -6,7 +6,7 @@ T = TypeVar("T")
 
 @dataclass
 class Queue(Generic[T]):
-    """ You should probably use the Python built-in List instead. """
+    """ You should probably use the Python built-in List or Deque instead. """
 
     _queue: List[T] = field(default_factory=list)
 

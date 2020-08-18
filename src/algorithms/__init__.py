@@ -1,7 +1,8 @@
 from .binary_search import binary_search, left_right_binary_search
-from .search.bfs import breadth_first_search
-from .search.dfs import depth_first_search, depth_first_search_recursive
-from .search.dijkstras import dijkstra_search
+from .graph.bfs import breadth_first_search
+from .graph.connected import connected_components
+from .graph.dfs import depth_first_search, depth_first_search_recursive, dfs_traversal
+from .graph.dijkstras import dijkstra_search
 from .sort.bubble_sort import bubble_sort
 from .sort.bucket_sort import bucket_sort
 from .sort.insertion_sort import insertion_sort

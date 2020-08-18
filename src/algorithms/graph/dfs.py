@@ -40,3 +40,18 @@ def depth_first_search_recursive(graph: Graph[V, Any], start: V, end: V) -> Opti
         return None
 
     return _dfs(start, set(), [start])
+
+
+def dfs_traversal(graph: Graph[V, Any], start: V, visited: Optional[Set[V]]) -> Set[V]:
+    """
+    Explores graph starting with start using a depth-first-search traversal.
+    Modifies a visited set in place, and returns a set of connected vertices.
+    """
+    if visited is None:
+        visited = set()
+    visited.add(start)
+    connected_nodes = {start}
+    for neighbor in graph[start]:
+        if neighbor not in visited:
+            connected_nodes |= dfs_traversal(graph, neighbor, visited)
+    return connected_nodes

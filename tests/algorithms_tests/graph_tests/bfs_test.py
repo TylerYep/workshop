@@ -20,3 +20,17 @@ def test_bfs() -> None:
     )
 
     assert breadth_first_search(graph_2, 0, 4) == [0, 1, 4]
+
+    graph = Graph.from_iterable(
+        {
+            "A": ["B", "C", "E"],
+            "B": ["A", "D", "E"],
+            "C": ["A", "F", "G"],
+            "D": ["B"],
+            "E": ["A", "B", "D"],
+            "F": ["C"],
+            "G": ["C"],
+        }
+    )
+
+    assert breadth_first_search(graph, "G", "D") == ["G", "C", "A", "B", "D"]
