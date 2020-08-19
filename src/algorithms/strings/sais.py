@@ -16,8 +16,25 @@ class LMSBlock:
     block_num: int = -1
 
 
-def sais(orig_text: str) -> List[int]:
-    """ SAIS algorithm to form a Suffix Array. """
+def build_suffix_array_naive(source: str) -> List[int]:
+    """
+    A naive, slow suffix-array construction algorithm.
+    Construct a list of suffixes of the source string, then calculate the start
+    offset of each suffix, storing them in sorted order into the suffix array.
+
+    Runtime: O(n log n)
+    """
+    n = len(source)
+    suffixes = sorted([source[offset:] for offset in range(n + 1)])
+    return [n - len(suffix) for suffix in suffixes]
+
+
+def build_suffix_array_sais(orig_text: str) -> List[int]:
+    """
+    SAIS algorithm to form a Suffix Array.
+
+    Runtime: O(n)
+    """
 
     def _sais(text: List[int]) -> List[int]:
         """ Helper function required to handle the recursive call. """

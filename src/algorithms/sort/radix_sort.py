@@ -2,6 +2,12 @@ from typing import List
 
 
 def radix_sort(array: List[int]) -> List[int]:
+    """
+    Radix sort algorithm implementation.
+
+    Let k be the number of digits:
+    Runtime: O(nk)
+    """
     if not array:
         return array
     max_element = max(array)

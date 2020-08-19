@@ -6,7 +6,11 @@ C = TypeVar("C", bound=Comparable)
 
 
 def selection_sort(array: List[C]) -> List[C]:
-    """ Selection sort algorithm implementation. """
+    """
+    Selection sort algorithm implementation.
+
+    Runtime: O(n^2)
+    """
     for i in range(len(array) - 1):
         least = i
         for k in range(i + 1, len(array)):

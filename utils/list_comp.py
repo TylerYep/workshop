@@ -40,9 +40,5 @@ def numpy_array(n):
     _ = np.zeros(n)
 
 
-print(
-    [
-        timed(f)
-        for f in [append_loop, add_loop, list_comprehension, integer_multiplication, numpy_array]
-    ]
-)
+fns = [append_loop, add_loop, list_comprehension, integer_multiplication, numpy_array]
+print([timed(f) for f in fns])

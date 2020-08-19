@@ -12,6 +12,8 @@ def dijkstra_search(graph: Graph[V, float], start: V, end: V) -> Optional[float]
 
     Returns the cost of the shortest path between vertices start and end.
     Cost is first in the tuple because heaps are sorted by the first element.
+
+    Runtime: O(V + E)
     """
     heap: List[Tuple[float, V]] = [(0, start)]
     visited: Set[V] = set()

@@ -8,6 +8,8 @@ V = TypeVar("V")
 def connected_components(graph: Graph[V, Any]) -> List[Set[V]]:
     """
     This function returns the list of connected components of the given Graph.
+
+    Runtime: O(V + E)
     """
     from src.algorithms import dfs_traversal
 

@@ -8,11 +8,12 @@ def bucket_sort(array: List[int]) -> List[int]:
     Time Complexity of Solution:
     Worst Case: occurs when all the elements are placed in a single bucket.
     The overall performance would then be dominated by the algorithm used to sort each
-    bucket. In this case, O(n log n), because of TimSort
+    bucket. In this case, O(n log n), because of TimSort.
 
-    Average Case: O(n + (n^2)/k + k), where k is the number of buckets
-
+    Average Case: O(n + (n^2)/k + k), where k is the number of buckets.
     If k = O(n), time complexity is O(n).
+
+    Runtime: O(n)
     """
     if not array:
         return array

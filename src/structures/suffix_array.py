@@ -3,10 +3,10 @@ from typing import List, Optional
 
 class SuffixArray:
     def __init__(self, text: str) -> None:
-        from src.algorithms import sais
+        from src.algorithms import build_suffix_array_sais
 
         self.text = text + "$"
-        self.suffix_arr = sais(text)
+        self.suffix_arr = build_suffix_array_sais(text)
 
     def __getitem__(self, key: int) -> int:
         return self.suffix_arr[key]

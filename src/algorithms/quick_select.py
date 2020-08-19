@@ -11,6 +11,10 @@ def quick_select(items: Sequence[C], index: int) -> C:
     A Python implementation of the quick select algorithm, which is efficient for
     calculating the value that would appear in the index of a list if it would be
     sorted, even if it is not already sorted.
+
+    Average runtime: O(n)
+    Runtime: O(n^2)
+    This algorithm is often much better than sorting, which is O(n log n).
     """
 
     def _partition(data: Sequence[C], pivot: C) -> Tuple[List[C], List[C], List[C]]:

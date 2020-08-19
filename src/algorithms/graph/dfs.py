@@ -26,7 +26,11 @@ def depth_first_search(graph: Graph[V, Any], start: V, end: V) -> Optional[List[
 
 
 def depth_first_search_recursive(graph: Graph[V, Any], start: V, end: V) -> Optional[List[V]]:
-    """ Recursive version of DFS. """
+    """
+    Recursive version of DFS.
+
+    Runtime: O(V + E)
+    """
 
     def _dfs(curr: V, visited: Set[V], path: List[V]) -> Optional[List[V]]:
         if curr == end:
@@ -46,6 +50,8 @@ def dfs_traversal(graph: Graph[V, Any], start: V, visited: Optional[Set[V]]) -> 
     """
     Explores graph starting with start using a depth-first-search traversal.
     Modifies a visited set in place, and returns a set of connected vertices.
+
+    Runtime: O(V + E)
     """
     if visited is None:
         visited = set()

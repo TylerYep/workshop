@@ -6,7 +6,11 @@ C = TypeVar("C", bound=Comparable)
 
 
 def quick_sort(array: List[C]) -> List[C]:
-    """ Quick sort algorithm implementation. """
+    """
+    Quick sort algorithm implementation.
+
+    Runtime: O(n log n)
+    """
     if len(array) <= 1:
         return array
 

@@ -11,6 +11,8 @@ def topological_sort(graph: Graph[V, Any]) -> List[V]:
     Node never seen = not in visited
     Node being processed = in visited but not in stack
     Node done = in stack
+
+    Runtime: O(V + E)
     """
 
     def depth_first_search(v: V, visited: Set[V], stack: List[V]) -> None:
