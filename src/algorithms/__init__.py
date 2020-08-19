@@ -4,6 +4,7 @@ from .graph.connected import connected_components
 from .graph.dfs import depth_first_search, depth_first_search_recursive, dfs_traversal
 from .graph.dijkstras import dijkstra_search
 from .graph.toposort import topological_sort
+from .quick_select import quick_select
 from .sort.bubble_sort import bubble_sort
 from .sort.bucket_sort import bucket_sort
 from .sort.insertion_sort import insertion_sort
