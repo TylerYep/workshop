@@ -16,6 +16,7 @@ from .rmq.hybrid_rmq import HybridRMQ
 from .rmq.precomputed_rmq import PrecomputedRMQ
 from .rmq.rmq import RMQ
 from .rmq.sparse_table_rmq import SparseTableRMQ
+from .skip_list import SkipList
 from .stack import Stack
 from .suffix_array import SuffixArray
 from .trie import Trie

@@ -82,6 +82,6 @@ def run_tests(
 def test_rmq() -> None:
     random.seed(0)
     run_tests(0, 1, 10, 100)
-    run_tests(20, 25, 10, 100)
+    run_tests(22, 25, 10, 100)
     # run_tests(10, 25, 15, 100, 1000)
     # run_tests(0, 10000, 5000, 100, 10000)

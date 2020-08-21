@@ -43,6 +43,26 @@ class LinkedList(Generic[T]):
             curr = curr.next
         return False
 
+    def __getitem__(self, index: int) -> T:
+        current = self.head
+        if current is None:
+            raise IndexError("List is empty")
+        for _ in range(index):
+            if current.next is None:
+                raise IndexError("Index out of range.")
+            current = current.next
+        return current.data
+
+    def __setitem__(self, index: int, data: T) -> None:
+        current = self.head
+        if current is None:
+            raise IndexError("List is empty")
+        for _ in range(index):
+            if current.next is None:
+                raise IndexError("Index out of range.")
+            current = current.next
+        current.data = data
+
     @classmethod
     def from_list(cls, lst: List[T]) -> LinkedList[T]:
         linked_lst = cls()
@@ -52,19 +72,21 @@ class LinkedList(Generic[T]):
 
     def insert(self, data: T, index: int = 0) -> None:
         """ Inserts data to the front of the list, or at the specified index. """
-        assert index >= 0
+        if index < 0 or index > self.size:
+            raise IndexError
+        self.size += 1
         if index == 0:
             self.head = LinkedListNode(data, self.head)
-        elif index < self.size:
-            curr = self.head
-            prev = None
-            for _ in range(index):
-                prev = curr
-                assert curr is not None
-                curr = curr.next
-            if prev is not None:
-                prev.next = LinkedListNode(data, curr)
-        self.size += 1
+            return
+
+        curr = self.head
+        prev = None
+        for _ in range(index):
+            prev = curr
+            assert curr is not None
+            curr = curr.next
+        if prev is not None:
+            prev.next = LinkedListNode(data, curr)
 
     def remove_node(self, data: T) -> None:
         if self.head is None:
