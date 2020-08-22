@@ -1,7 +1,19 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, Generic, Iterable, Iterator, KeysView, List, Optional, TypeVar, cast
+from typing import (
+    Any,
+    Dict,
+    Generic,
+    Iterable,
+    Iterator,
+    KeysView,
+    List,
+    Optional,
+    Sequence,
+    TypeVar,
+    cast,
+)
 
 from src.util import formatter
 
@@ -9,7 +21,7 @@ V = TypeVar("V")
 E = TypeVar("E")
 
 
-@dataclass(repr=False)
+@dataclass
 class Graph(Generic[V, E]):
     """
     Use a Dict of Dicts to avoid storing nodes with no edges, as well as provide instant
@@ -61,6 +73,18 @@ class Graph(Generic[V, E]):
             {node: {neighbor: default_val for neighbor in iterable[node]} for node in iterable},
             is_directed=is_directed,
         )
+
+    @classmethod
+    def from_matrix(cls, matrix: Sequence[Sequence[float]]) -> Graph[int, float]:
+        is_directed = False
+        graph: Dict[int, Dict[int, float]] = {i: {} for i in range(len(matrix))}
+        for i in range(len(matrix)):  # pylint: disable=consider-using-enumerate
+            for j in range(len(matrix)):  # pylint: disable=consider-using-enumerate
+                if i < j and matrix[i][j] != matrix[j][i]:
+                    is_directed = True
+                if matrix[i][j] != 0:
+                    graph[i][j] = matrix[i][j]
+        return Graph(graph, is_directed=is_directed)
 
     def exists_node(self, *v_ids: V) -> None:
         """ Checks existence of provided nodes. """

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Callable, Dict, Generic, List, Optional, TypeVar
 
 from src.algorithms.sort.comparable import Comparable
@@ -7,6 +8,7 @@ from src.algorithms.sort.comparable import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
+@dataclass
 class BinaryHeap(Generic[T]):
     """
     A generic Heap class, can be used as min or max by passing the key function

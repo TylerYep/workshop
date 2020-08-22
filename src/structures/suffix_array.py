@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from typing import List, Optional
 
 
+@dataclass
 class SuffixArray:
     def __init__(self, text: str) -> None:
         from src.algorithms import build_suffix_array_sais

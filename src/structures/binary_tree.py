@@ -8,7 +8,7 @@ from src.algorithms.sort.comparable import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-@dataclass(repr=False)
+@dataclass
 class TreeNode(Generic[T]):
     data: T
     left: Optional[TreeNode[T]] = None
@@ -20,6 +20,7 @@ class TreeNode(Generic[T]):
         return f"({self.data})\n-> {self.left}\n-> {self.right}"
 
 
+@dataclass
 class BinarySearchTree(Generic[T]):
     def __init__(self) -> None:
         self.root: Optional[TreeNode[T]] = None

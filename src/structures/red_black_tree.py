@@ -20,7 +20,7 @@ T = TypeVar("T", bound=Comparable)
 #     RED = 1
 
 
-@dataclass(repr=False)
+@dataclass
 class RedBlackTree(Generic[T]):
     """
     A Red-Black tree, which is a self-balancing BST (binary search

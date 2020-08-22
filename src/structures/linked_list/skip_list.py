@@ -37,6 +37,7 @@ class SkipListNode(Generic[KT, VT]):
         return len(self.next)
 
 
+@dataclass
 class SkipList(Generic[KT, VT]):
     def __init__(self, p: float = 0.5, max_level: int = 16) -> None:
         # TODO This self.head is a big problem for the type-checker.
@@ -183,7 +184,6 @@ class SkipList(Generic[KT, VT]):
             return
 
         level = self.random_level()
-
         if level > self.level:
             # After level increase we have to add additional nodes to head.
             for i in range(self.level - 1, level):
@@ -191,12 +191,10 @@ class SkipList(Generic[KT, VT]):
             self.level = level
 
         new_node = SkipListNode(key, value)
-
         for i, update_node in enumerate(update_vector[:level]):
             # Change references to pass through new node.
             if update_node.level > i:
                 new_node.next.append(update_node.next[i])
-
             if update_node.level < i + 1:
                 update_node.next.append(new_node)
             else:

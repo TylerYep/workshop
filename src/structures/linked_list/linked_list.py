@@ -15,6 +15,7 @@ class LinkedListNode(Generic[T]):
         return f"({self.data}) -> {self.next}"
 
 
+@dataclass
 class LinkedList(Generic[T]):
     def __init__(self) -> None:
         self.head: Optional[LinkedListNode[T]] = None
