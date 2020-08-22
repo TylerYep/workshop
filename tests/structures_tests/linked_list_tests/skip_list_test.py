@@ -12,11 +12,11 @@ def test_insert() -> None:
     skip_list.insert("Key3", 41)
     skip_list.insert("Key4", -19)
 
-    node = skip_list.head
+    node = skip_list
     all_values: Dict[str, int] = {}
-    while node.level != 0:
+    while len(node.next) != 0:
         node = node.next[0]
-        if node.value is not None:
+        if node.key is not None and node.value is not None:
             all_values[node.key] = node.value
 
     assert len(all_values) == 4
@@ -39,11 +39,11 @@ def test_insert_overrides_existing_value() -> None:
     skip_list.insert("Key5", 5)
     skip_list.insert("Key10", 10)
 
-    node = skip_list.head
+    node = skip_list
     all_values: Dict[str, int] = {}
-    while node.level != 0:
+    while len(node.next) != 0:
         node = node.next[0]
-        if node.value is not None:
+        if node.key is not None and node.value is not None:
             all_values[node.key] = node.value
 
     assert len(all_values) == 4
@@ -74,7 +74,7 @@ def test_deleting_item_from_empty_list_do_nothing() -> None:
     skip_list = SkipList[str, int]()
     skip_list.delete("Some key")
 
-    assert len(skip_list.head.next) == 0
+    assert len(skip_list.next) == 0
 
     skip_list.insert("Key1", 12)
     skip_list.insert("V", 13)
