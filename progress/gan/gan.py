@@ -5,12 +5,11 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from gan_loss import ls_discriminator_loss as discriminator_loss
+from gan_loss import ls_generator_loss as generator_loss
 from torch.nn import init
 from torch.utils.data import DataLoader, sampler
 from torchvision import datasets, transforms
-
-from gan_loss import ls_discriminator_loss as discriminator_loss
-from gan_loss import ls_generator_loss as generator_loss
 
 NUM_TRAIN = 50000
 NUM_VAL = 5000

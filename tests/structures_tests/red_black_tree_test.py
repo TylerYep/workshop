@@ -1,12 +1,6 @@
 from src.structures import RedBlackTree
 
 
-"""
-Code for testing the various
-functions of the red-black tree.
-"""
-
-
 def test_rotations() -> None:
     """Test that the rotate_left and rotate_right functions work."""
     # Make a tree to test on

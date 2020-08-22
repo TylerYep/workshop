@@ -4,7 +4,6 @@ import PIL
 import torch
 import torchvision
 import torchvision.transforms as T
-
 from cs231n.image_utils import SQUEEZENET_MEAN, SQUEEZENET_STD
 
 dtype = torch.FloatTensor

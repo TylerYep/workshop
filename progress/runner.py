@@ -3,7 +3,6 @@ import math
 
 import matplotlib.pyplot as plt
 import numpy as np
-
 from classifiers import KNearestNeighbor, LinearSVM, Softmax, TwoLayerNet
 from dataset import load_data, preprocess
 

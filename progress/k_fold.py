@@ -1,7 +1,6 @@
 # pylint: disable-all
 import matplotlib.pyplot as plt
 import numpy as np
-
 from classifiers import KNearestNeighbor
 
 
