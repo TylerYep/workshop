@@ -122,3 +122,22 @@ def test_bipartite() -> None:
         {0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: []}
     )
     assert graph.is_bipartite()
+
+
+def test_to_matrix() -> None:
+    INF = float("inf")
+    matrix = [
+        [INF, 1, 5, INF],
+        [1, INF, 8, INF],
+        [5, 8, INF, 8],
+        [INF, INF, 8, 1],
+    ]
+    assert Graph.from_matrix(matrix).to_matrix() == matrix
+
+    matrix = [
+        [INF, 1, 5, INF],
+        [INF, INF, 2, INF],
+        [INF, INF, INF, 8],
+        [INF, INF, INF, 1],
+    ]
+    assert Graph.from_matrix(matrix).to_matrix() == matrix

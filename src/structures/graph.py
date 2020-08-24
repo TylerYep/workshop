@@ -19,6 +19,7 @@ from src.util import formatter
 
 V = TypeVar("V")
 E = TypeVar("E")
+INF = float("inf")
 
 
 @dataclass
@@ -67,8 +68,7 @@ class Graph(Generic[V, E]):
     ) -> Graph[V, E]:
         if default_val is None:
             default_val = 1
-        else:
-            cast(E, default_val)
+        cast(E, default_val)
         return Graph(
             {node: {neighbor: default_val for neighbor in iterable[node]} for node in iterable},
             is_directed=is_directed,
@@ -77,14 +77,27 @@ class Graph(Generic[V, E]):
     @classmethod
     def from_matrix(cls, matrix: Sequence[Sequence[float]]) -> Graph[int, float]:
         is_directed = False
-        graph: Dict[int, Dict[int, float]] = {i: {} for i in range(len(matrix))}
-        for i in range(len(matrix)):  # pylint: disable=consider-using-enumerate
-            for j in range(len(matrix)):  # pylint: disable=consider-using-enumerate
-                if i < j and matrix[i][j] != matrix[j][i]:
+        n = len(matrix)
+        graph: Dict[int, Dict[int, float]] = {i: {} for i in range(n)}
+        for i in range(n):
+            for j in range(n):
+                edge_data = matrix[i][j]
+                # If matrix is not symmetric, graph is directed
+                if i < j and edge_data != matrix[j][i]:
                     is_directed = True
-                if matrix[i][j] != 0:
-                    graph[i][j] = matrix[i][j]
+                # Only add edges with nonzero edges.
+                if edge_data != float("inf"):
+                    graph[i][j] = edge_data
         return Graph(graph, is_directed=is_directed)
+
+    def to_matrix(self) -> List[List[float]]:
+        nodes = sorted(self.nodes)
+        graph = [[INF for _ in nodes] for _ in nodes]
+        for i, u in enumerate(nodes):
+            for j, v in enumerate(nodes):
+                if v in self._graph[u]:
+                    graph[i][j] = cast(float, self._graph[u][v])
+        return graph
 
     def exists_node(self, *v_ids: V) -> None:
         """ Checks existence of provided nodes. """

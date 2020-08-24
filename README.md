@@ -22,6 +22,97 @@ Separated into two sections:
 Three packages are exposed to the user - algorithms, ml, and structures.
 Imports are done quickly and painlessly. We avoid circular imports by importing algorithms needed to create data structures inline.
 
+## TODO List
+
+### Types and Data Structures
+Double Ended Queues
+Associative Arrays
+Disjoint-set Data Structure (Union-Find)
+Unrolled Linked List
+Bloom Filter
+Cuckoo Filter
+Merkle Tree
+Treaps
+Fenwick Tree
+AVL Tree
+Scapegoat Tree
+Splay Tree
+Binomial Heap
+Fibonacci Heap
+Pairing Heap
+Spanning Trees
+Social Networks
+Kruskal's Algorithm
+Strings
+Regular Expressions
+
+# Algorithms
+Backpack Problem
+Egg Dropping
+Fast Fibonacci Transform
+Karatsuba Algorithm
+A* Search
+Bellman-Ford Algorithm
+Floyd-Warshall Algorithm
+Johnson's Algorithm
+Matching (Graph Theory)
+Matching Algorithms (Graph Theory)
+Flow Network
+Max-flow Min-cut Algorithm
+Ford-Fulkerson Algorithm
+Edmonds-Karp Algorithm
+Shunting Yard Algorithm
+Rabin-Karp Algorithm
+Knuth-Morris-Pratt Algorithm
+Basic Shapes, Polygons, Trigonometry
+Convex Hull
+Grids
+Finite State Machines
+Turing Machines
+Halting Problem
+Kolmogorov Complexity
+Traveling Salesperson Problem
+Pushdown Automata
+Regular Languages
+Context Free Grammars
+Context Free Languages
+Signals and Systems
+Linear Time Invariant Systems
+Predicting System Behavior
+
+# Cryptography and Simulations
+Caesar Cipher
+Vigenère Cipher
+RSA Encryption
+Enigma Machine
+Diffie-Hellman
+Knapsack Cryptosystem
+Secure Hash Algorithms
+Entropy (Information Theory)
+Huffman Code
+Error correcting codes
+Symmetric Ciphers
+Inverse Transform Sampling
+Monte-Carlo Simulation
+Annealing
+Genetic Algorithms
+Programming Blackjack
+
+# Machine Learning
+Supervised Learning
+Unsupervised Learning
+Feature Vector
+Naive Bayes Classifier
+Perceptron
+Support Vector Machines
+Principal Component Analysis
+Ridge Regression
+k-Means Clustering
+Markov Chains
+Hidden Markov Models
+Gaussian Mixture Model
+Collaborative Filtering
+Artificial Neural Network
 
 # Dynamic Shape-Checking / Type-Checking (Typorch)
 I'm interested in shape-checking for tensors. It doesnt need to be static type checking,
