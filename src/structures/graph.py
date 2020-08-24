@@ -64,15 +64,11 @@ class Graph(Generic[V, E]):
 
     @classmethod
     def from_iterable(
-        cls, iterable: Dict[V, Iterable[V]], is_directed: bool = False, default_val: Any = None
+        cls, iterable: Dict[V, Iterable[V]], is_directed: bool = False, default_val: Any = 1
     ) -> Graph[V, E]:
-        if default_val is None:
-            default_val = 1
-        cast(E, default_val)
-        return Graph(
-            {node: {neighbor: default_val for neighbor in iterable[node]} for node in iterable},
-            is_directed=is_directed,
-        )
+        val = cast(E, default_val)
+        graph = {node: {neighbor: val for neighbor in iterable[node]} for node in iterable}
+        return Graph(graph, is_directed=is_directed)
 
     @classmethod
     def from_matrix(cls, matrix: Sequence[Sequence[float]]) -> Graph[int, float]:
