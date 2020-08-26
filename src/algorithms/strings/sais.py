@@ -138,7 +138,7 @@ def reorder_lms_substrings(lms_suffixes: List[int], reduced_str: List[int]) -> L
 
 
 def induced_sort(
-    text: List[int], suffix_marks: List[SuffixType], lms_suffixes: List[int],
+    text: List[int], suffix_marks: List[SuffixType], lms_suffixes: List[int]
 ) -> List[int]:
     """
     Runs induced sort on the text and returns a suffix array.

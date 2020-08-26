@@ -58,7 +58,7 @@ def convert_si_prefix(known_amount: float, from_prefix: SI_Unit, to_prefix: SI_U
 
 
 def convert_binary_prefix(
-    known_amount: float, from_prefix: Binary_Unit, to_prefix: Binary_Unit,
+    known_amount: float, from_prefix: Binary_Unit, to_prefix: Binary_Unit
 ) -> float:
     """
     >>> convert_binary_prefix(1, Binary_Unit.giga, Binary_Unit.mega)

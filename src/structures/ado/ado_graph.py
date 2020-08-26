@@ -73,9 +73,7 @@ class ApproxDistanceOracle:
         self.a_i_v_distances: List[List[float]] = [
             [None] * self.n for _ in range(k + 1)  # type: ignore
         ]
-        self.p: List[List[Vertex]] = [
-            [None] * self.n for _ in range(k + 1)  # type: ignore
-        ]
+        self.p: List[List[Vertex]] = [[None] * self.n for _ in range(k + 1)]  # type: ignore
 
         # Initialize a_i_v_distances of A_k to INF
         self.a_i_v_distances[k] = [INF] * self.n

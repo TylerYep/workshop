@@ -7,7 +7,8 @@ from .sparse_table_rmq import SparseTableRMQ
 
 
 def calc_cart_num(arr: List[int]) -> int:
-    """ Calculate cartesian number
+    """
+    Calculate cartesian number
     >>> arr = [93, 84, 33, 64, 62, 83, 63, 58]
     >>> calc_cart_num(arr) == int('1010110110100100'[::-1], 2)
     True
