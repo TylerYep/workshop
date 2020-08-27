@@ -31,7 +31,7 @@ class UIntPQueue:
     def enqueue(self, value: Vertex, priority: float) -> None:
         if self.entries[value] is None:
             self.entries[value] = self.fheap.enqueue(value, priority)
-        elif priority < self.entries[value].m_priority:  # type: ignore
+        elif priority < self.entries[value].m_priority:  # type: ignore[attr-defined]
             self.fheap.decrease_key(self.entries[value], priority)
 
     def dequeue_min(self) -> Any:
@@ -71,13 +71,15 @@ class ApproxDistanceOracle:
             self.A[i] = {x for x in self.A[i - 1] if weighted_coin_flip(prob)}
 
         self.a_i_v_distances: List[List[float]] = [
-            [None] * self.n for _ in range(k + 1)  # type: ignore
+            [None] * self.n for _ in range(k + 1)  # type: ignore[list-item]
         ]
-        self.p: List[List[Vertex]] = [[None] * self.n for _ in range(k + 1)]  # type: ignore
+        self.p: List[List[Vertex]] = [
+            [None] * self.n for _ in range(k + 1)  # type: ignore[list-item]
+        ]
 
         # Initialize a_i_v_distances of A_k to INF
         self.a_i_v_distances[k] = [INF] * self.n
-        self.p[k] = [None] * self.n  # type: ignore
+        self.p[k] = [None] * self.n  # type: ignore[list-item]
 
         # Initialize empty bunches
         self.B: List[Set[Vertex]] = [set([v]) for v in V]

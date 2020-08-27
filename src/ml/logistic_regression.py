@@ -5,11 +5,11 @@ import torch.nn.functional as F
 from torch.optim import Adam
 
 
-class LogisticRegression(nn.Module):
+class LogisticRegression(nn.Module):  # pylint: disable=abstract-method
     """ Think of this as Sigmoidal Classification! """
 
     def __init__(self) -> None:
-        super().__init__()  # type: ignore
+        super().__init__()  # type: ignore[no-untyped-call]
         # define parameters to be part of the model
         # "weight" of linear model
         self.theta1 = nn.Parameter(torch.zeros(1))
@@ -64,7 +64,7 @@ def optimize(
 
         # This step computes all gradients with "autograd"
         # i.e. automatic differentiation
-        loss.backward()  # type: ignore
+        loss.backward()  # type: ignore[no-untyped-call]
 
         # This function actually change the parameters
         optimizer.step()
@@ -73,7 +73,7 @@ def optimize(
         curr_loss = loss.item()
         counter += 1
         if curr_loss < min_loss:
-            best_params = (model.theta1.item(), model.theta0.item())  # type: ignore
+            best_params = (model.theta1.item(), model.theta0.item())  # type: ignore[operator]
             min_loss = curr_loss
 
         if verbose:
@@ -87,4 +87,4 @@ def make_tensor(data: np.array, is_input: bool) -> torch.Tensor:
     to make it a n x 1 "tensor".
     """
     dim = 0 if is_input else 1
-    return torch.tensor(data[:, dim]).unsqueeze(1).float()
+    return torch.tensor(data[:, dim]).unsqueeze(1).float()  # pylint: disable=not-callable

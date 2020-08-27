@@ -73,7 +73,8 @@ class SkipList(Generic[KT, VT]):
     def __iter__(self) -> Iterator[KT]:
         node = self
         while len(node.next) != 0:
-            yield node.next[0].key  # type: ignore
+            assert node.next[0].key is not None
+            yield node.next[0].key
             node = node.next[0]
 
     def random_level(self) -> int:
@@ -102,7 +103,7 @@ class SkipList(Generic[KT, VT]):
             # node.next[i].key < key - Jumping to node with key value higher
             #                             or equal to searched key would result
             #                             in skipping searched key.
-            while i < len(node.next) and node.next[i].key < key:  # type: ignore
+            while i < len(node.next) and node.next[i].key < key:  # type: ignore[operator]
                 node = node.next[i]
             # Each leftmost node (relative to searched node) will potentially have to
             # be updated.

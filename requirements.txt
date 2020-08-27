@@ -5,4 +5,4 @@ prettyprinter==0.18.0
 torch==1.6.0
 torchvision==0.7.0
 tqdm==4.48.2
-typing-extensions==3.7.4.2
+typing-extensions==3.7.4.3

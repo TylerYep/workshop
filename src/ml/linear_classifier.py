@@ -13,9 +13,6 @@ class LinearClassifier(ABC):
         y: np.ndarray,
         learning_rate: float = 1e-3,
         reg: float = 1e-5,
-        num_iters: int = 100,
-        batch_size: int = 200,
-        verbose: bool = False,
     ) -> None:
         """
         Train this linear classifier using stochastic gradient descent.
@@ -34,6 +31,8 @@ class LinearClassifier(ABC):
         Outputs:
         A list containing the value of the loss function at each training iteration.
         """
+        num_iters = 100
+        batch_size = 200
         num_train, dim = X.shape
         num_classes = np.max(y) + 1  # assume y takes values 0...K-1 where K is number of classes
         self.W = 0.001 * np.random.randn(dim, num_classes)
@@ -54,7 +53,7 @@ class LinearClassifier(ABC):
             loss, grad = self.regularize(*self.loss(X_batch, y_batch), num_train)
             self.W -= learning_rate * grad
 
-            if verbose and it % 100 == 0:
+            if it % 100 == 0:
                 print("iteration %d / %d: loss %f" % (it, num_iters, loss))
 
     def predict(self, X: np.ndarray) -> np.ndarray:

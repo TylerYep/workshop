@@ -40,8 +40,8 @@ def test_left_right_binary_search() -> None:
     )
 
 
-@pytest.mark.skip(reason="Takes ~2 seconds to run")
+@pytest.mark.skip(reason="Takes ~2 seconds to run")  # type: ignore[misc]
 def test_binary_search_runtime() -> None:
-    timed_linear = timeit.timeit(lambda: linear_search(range(21), target=20))
-    timed_binary = timeit.timeit(lambda: binary_search(range(21), target=20))
+    timed_linear = timeit.timeit(lambda: linear_search(range(11), target=10))
+    timed_binary = timeit.timeit(lambda: binary_search(range(11), target=10))
     assert timed_linear > timed_binary

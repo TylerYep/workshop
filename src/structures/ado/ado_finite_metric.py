@@ -38,12 +38,12 @@ class ApproxFiniteMetricOracle:
         self.k = k
 
         V = set(range(n))
-        A: List[Set[int]] = [None for _ in range(k + 1)]  # type: ignore
-        A[0] = V
-        A[k] = set()
+        A = [V]
         for i in range(1, k):
             prob = n ** (-1 / k)
-            A[i] = {v for v in A[i - 1] if weighted_coin_flip(prob)}
+            A_i = {v for v in A[i - 1] if weighted_coin_flip(prob)}
+            A.append(A_i)
+        A.append(set())
 
         """ Find minimum distances from each vertex to each other set. """
         a_i_v_distances: List[Dict[int, float]] = [dict() for _ in range(k + 1)]
