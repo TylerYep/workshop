@@ -1,10 +1,36 @@
-# pylint: disable=redefined-outer-name, pointless-statement
 import pytest
 
 from src.structures import BinarySearchTree
 
 
 class TestBinarySearchTree:
+    @staticmethod
+    @pytest.fixture
+    def t() -> BinarySearchTree[int]:
+        r"""
+        8
+        / \
+        3   10
+        / \    \
+        1   6    14
+            / \   /
+            4   7 13
+            \
+            5
+        """
+        tree = BinarySearchTree[int]()
+        tree.insert(8)
+        tree.insert(3)
+        tree.insert(6)
+        tree.insert(1)
+        tree.insert(10)
+        tree.insert(14)
+        tree.insert(13)
+        tree.insert(4)
+        tree.insert(7)
+        tree.insert(5)
+        return tree
+
     @staticmethod
     def test_insert() -> None:
         t = BinarySearchTree[int]()
@@ -248,30 +274,3 @@ class TestBinarySearchTree:
     @staticmethod
     def test_preorder_traversal(t: BinarySearchTree[int]) -> None:
         assert [i.data for i in t.traversal("preorder")] == [8, 3, 1, 6, 4, 5, 7, 10, 14, 13]
-
-
-@pytest.fixture
-def t() -> BinarySearchTree[int]:
-    r"""
-              8
-             / \
-            3   10
-           / \    \
-          1   6    14
-             / \   /
-            4   7 13
-             \
-              5
-        """
-    tree = BinarySearchTree[int]()
-    tree.insert(8)
-    tree.insert(3)
-    tree.insert(6)
-    tree.insert(1)
-    tree.insert(10)
-    tree.insert(14)
-    tree.insert(13)
-    tree.insert(4)
-    tree.insert(7)
-    tree.insert(5)
-    return tree

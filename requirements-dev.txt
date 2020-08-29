@@ -11,6 +11,6 @@ pylint-pytest==0.3.0
 pyre-check==0.0.52
 pytest==6.0.1
 pytest-cov==2.10.1
-pytest-timeout==1.4.1
+pytest-timeout==1.4.2
 sort-requirements==1.3.0
 vermin==0.10.2

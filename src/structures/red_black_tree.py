@@ -1,23 +1,20 @@
 # type: ignore
 # pylint: disable=protected-access
-"""
-python/black : true
-flake8 : passed
-"""
 from __future__ import annotations
 
-# from enum import IntEnum, unique
 from dataclasses import dataclass
+from enum import Enum, unique
 from typing import Generic, Iterator, Optional, TypeVar
 
 from src.algorithms.sort.comparable import Comparable
 
 T = TypeVar("T", bound=Comparable)
 
-# @unique
-# class Color(IntEnum):
-#     BLACK = 0
-#     RED = 1
+
+@unique
+class Color(Enum):
+    BLACK = "black"
+    RED = "red"
 
 
 @dataclass
@@ -36,7 +33,7 @@ class RedBlackTree(Generic[T]):
     """
 
     data: Optional[T] = None
-    color: int = 0
+    color: Color = Color.BLACK
     parent: Optional[RedBlackTree[T]] = None
     left: Optional[RedBlackTree[T]] = None
     right: Optional[RedBlackTree[T]] = None
@@ -99,13 +96,13 @@ class RedBlackTree(Generic[T]):
             if self.left:
                 self.left.insert(data)
             else:
-                self.left = RedBlackTree[T](data, 1, self)
+                self.left = RedBlackTree[T](data, Color.RED, self)
                 self.left._insert_repair()
         else:
             if self.right:
                 self.right.insert(data)
             else:
-                self.right = RedBlackTree[T](data, 1, self)
+                self.right = RedBlackTree[T](data, Color.RED, self)
                 self.right._insert_repair()
         return self.parent or self
 
@@ -113,13 +110,13 @@ class RedBlackTree(Generic[T]):
         """Repair the coloring from inserting into a tree."""
         if self.parent is None:
             # This node is the root, so it just needs to be black
-            self.color = 0
-        elif color(self.parent) == 0:
+            self.color = Color.BLACK
+        elif color(self.parent) == Color.BLACK:
             # If the parent is black, then it just needs to be red
-            self.color = 1
+            self.color = Color.RED
         else:
             uncle = self.parent.sibling
-            if color(uncle) == 0:
+            if color(uncle) == Color.BLACK:
                 if self.is_left() and self.parent.is_right():
                     self.parent.rotate_right()
                     self.right._insert_repair()
@@ -128,19 +125,19 @@ class RedBlackTree(Generic[T]):
                     self.left._insert_repair()
                 elif self.is_left():
                     self.grandparent.rotate_right()
-                    self.parent.color = 0
-                    self.parent.right.color = 1
+                    self.parent.color = Color.BLACK
+                    self.parent.right.color = Color.RED
                 else:
                     self.grandparent.rotate_left()
-                    self.parent.color = 0
-                    self.parent.left.color = 1
+                    self.parent.color = Color.BLACK
+                    self.parent.left.color = Color.RED
             else:
-                self.parent.color = 0
-                uncle.color = 0
-                self.grandparent.color = 1
+                self.parent.color = Color.BLACK
+                uncle.color = Color.BLACK
+                self.grandparent.color = Color.RED
                 self.grandparent._insert_repair()
 
-    def remove(self, data) -> Optional[RedBlackTree[T]]:  # pylint: disable=(too-many-branches
+    def remove(self, data) -> Optional[RedBlackTree[T]]:  # pylint: disable=too-many-branches
         """Remove data from this tree."""
         if self.data == data:
             if self.left and self.right:
@@ -154,7 +151,7 @@ class RedBlackTree(Generic[T]):
                 # This node has at most one non-None child, so we don't
                 # need to replace
                 child = self.left or self.right
-                if self.color == 1:
+                if self.color == Color.RED:
                     # This node is red, and its child is black
                     # The only way this happens to a node with one child
                     # is if both children are None leaves.
@@ -197,59 +194,67 @@ class RedBlackTree(Generic[T]):
 
     def _remove_repair(self) -> None:
         """Repair the coloring of the tree that may have been messed up."""
-        if color(self.sibling) == 1:
-            self.sibling.color = 0
-            self.parent.color = 1
+        if color(self.sibling) == Color.RED:
+            self.sibling.color = Color.BLACK
+            self.parent.color = Color.RED
             if self.is_left():
                 self.parent.rotate_left()
             else:
                 self.parent.rotate_right()
         if (
-            color(self.parent) == 0
-            and color(self.sibling) == 0
-            and color(self.sibling.left) == 0
-            and color(self.sibling.right) == 0
+            color(self.parent) == Color.BLACK
+            and color(self.sibling) == Color.BLACK
+            and color(self.sibling.left) == Color.BLACK
+            and color(self.sibling.right) == Color.BLACK
         ):
-            self.sibling.color = 1
+            self.sibling.color = Color.RED
             self.parent._remove_repair()
             return
         if (
-            color(self.parent) == 1
-            and color(self.sibling) == 0
-            and color(self.sibling.left) == 0
-            and color(self.sibling.right) == 0
+            color(self.parent) == Color.RED
+            and color(self.sibling) == Color.BLACK
+            and color(self.sibling.left) == Color.BLACK
+            and color(self.sibling.right) == Color.BLACK
         ):
-            self.sibling.color = 1
-            self.parent.color = 0
+            self.sibling.color = Color.RED
+            self.parent.color = Color.BLACK
             return
         if (
             self.is_left()
-            and color(self.sibling) == 0
-            and color(self.sibling.right) == 0
-            and color(self.sibling.left) == 1
+            and color(self.sibling) == Color.BLACK
+            and color(self.sibling.right) == Color.BLACK
+            and color(self.sibling.left) == Color.RED
         ):
             self.sibling.rotate_right()
-            self.sibling.color = 0
-            self.sibling.right.color = 1
+            self.sibling.color = Color.BLACK
+            self.sibling.right.color = Color.RED
         if (
             self.is_right()
-            and color(self.sibling) == 0
-            and color(self.sibling.right) == 1
-            and color(self.sibling.left) == 0
+            and color(self.sibling) == Color.BLACK
+            and color(self.sibling.right) == Color.RED
+            and color(self.sibling.left) == Color.BLACK
         ):
             self.sibling.rotate_left()
-            self.sibling.color = 0
-            self.sibling.left.color = 1
-        if self.is_left() and color(self.sibling) == 0 and color(self.sibling.right) == 1:
+            self.sibling.color = Color.BLACK
+            self.sibling.left.color = Color.RED
+        if (
+            self.is_left()
+            and color(self.sibling) == Color.BLACK
+            and color(self.sibling.right) == Color.RED
+        ):
             self.parent.rotate_left()
             self.grandparent.color = self.parent.color
-            self.parent.color = 0
-            self.parent.sibling.color = 0
-        if self.is_right() and color(self.sibling) == 0 and color(self.sibling.left) == 1:
+            self.parent.color = Color.BLACK
+            self.parent.sibling.color = Color.BLACK
+        if (
+            self.is_right()
+            and color(self.sibling) == Color.BLACK
+            and color(self.sibling.left) == Color.RED
+        ):
             self.parent.rotate_right()
             self.grandparent.color = self.parent.color
-            self.parent.color = 0
-            self.parent.sibling.color = 0
+            self.parent.color = Color.BLACK
+            self.parent.sibling.color = Color.BLACK
 
     def check_color_properties(self) -> bool:
         """Check the coloring of the tree, and return True iff the tree
@@ -268,7 +273,7 @@ class RedBlackTree(Generic[T]):
         # make the color be anything other than 0 or 1.
 
         # Property 2
-        if self.color:
+        if self.color == Color.RED:
             # The root was red
             print("Property 2")
             return False
@@ -292,8 +297,8 @@ class RedBlackTree(Generic[T]):
         """A helper function to recursively check Property 4 of a
         Red-Black Tree. See check_color_properties for more info.
         """
-        if self.color == 1:
-            if color(self.left) == 1 or color(self.right) == 1:
+        if self.color == Color.RED:
+            if color(self.left) == Color.RED or color(self.right) == Color.RED:
                 return False
         if self.left and not self.left.check_coloring():
             return False
@@ -317,9 +322,8 @@ class RedBlackTree(Generic[T]):
         if left != right:
             # The two children have unequal depths
             return None
-        # Return the black depth of children, plus one if this node is
-        # black
-        return left + (1 - self.color)
+        # Return the black depth of children, plus one if this node is black
+        return left + (1 if self.color == Color.BLACK else 0)
 
     # Here are functions which are general to all binary search trees
 
@@ -472,8 +476,8 @@ class RedBlackTree(Generic[T]):
         return False
 
 
-def color(node: Optional[RedBlackTree[T]]) -> int:
+def color(node: Optional[RedBlackTree[T]]) -> Color:
     """Returns the color of a node, allowing for None leaves."""
     if node is None:
-        return 0
+        return Color.BLACK
     return node.color

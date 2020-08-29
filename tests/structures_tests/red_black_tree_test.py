@@ -38,20 +38,20 @@ def test_insert() -> None:
     """Test the insert() method of the tree correctly balances, colors,
     and inserts.
     """
-    tree = RedBlackTree[int](0)
+    tree = RedBlackTree[int](0)  # Color.BLACK
     tree.insert(8)
     tree.insert(-8)
     tree.insert(4)
     tree.insert(12)
     tree.insert(10)
     tree.insert(11)
-    ans = RedBlackTree[int](0, 0)
-    ans.left = RedBlackTree[int](-8, 0, ans)
-    ans.right = RedBlackTree[int](8, 1, ans)
-    ans.right.left = RedBlackTree[int](4, 0, ans.right)
-    ans.right.right = RedBlackTree[int](11, 0, ans.right)
-    ans.right.right.left = RedBlackTree[int](10, 1, ans.right.right)
-    ans.right.right.right = RedBlackTree[int](12, 1, ans.right.right)
+    ans = RedBlackTree[int](0, 0)  # Color.BLACK
+    ans.left = RedBlackTree[int](-8, 0, ans)  # Color.BLACK
+    ans.right = RedBlackTree[int](8, 1, ans)  # Color.RED
+    ans.right.left = RedBlackTree[int](4, 0, ans.right)  # Color.BLACK
+    ans.right.right = RedBlackTree[int](11, 0, ans.right)  # Color.BLACK
+    ans.right.right.left = RedBlackTree[int](10, 1, ans.right.right)  # Color.RED
+    ans.right.right.right = RedBlackTree[int](12, 1, ans.right.right)  # Color.RED
     assert tree == ans
 
 
