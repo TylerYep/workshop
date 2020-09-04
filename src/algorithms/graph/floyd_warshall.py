@@ -1,5 +1,7 @@
 from typing import List
 
+from src.structures import Graph
+
 
 def floyd_warshall(graph: List[List[float]]) -> List[List[float]]:
     """
@@ -14,7 +16,7 @@ def floyd_warshall(graph: List[List[float]]) -> List[List[float]]:
         updated to the next vertex[i][k].
     """
     n = len(graph)
-    dist = [[float("inf") for _ in range(n)] for i in range(n)]
+    dist = [[Graph.INFINITY for _ in range(n)] for i in range(n)]
 
     for i in range(n):
         for j in range(n):

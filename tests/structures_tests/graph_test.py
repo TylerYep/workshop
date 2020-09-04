@@ -4,15 +4,15 @@ from src.structures import Edge, Graph, Node
 
 
 def test_custom_node_edge_graph() -> None:
-    graph = Graph[Node[int], Edge[int]]()
+    graph = Graph[Node[int]]()
     nodes = [Node(i) for i in range(5)]
     for i in range(5):
         graph.add_node(nodes[i])
 
-    graph.add_edge(nodes[0], nodes[1], Edge(0, 1, weight=15))
+    graph.add_edge(nodes[0], nodes[1], 15)
     for i in range(3, 5):
         for j in range(1, 4):
-            graph.add_edge(nodes[i], nodes[j], Edge(i, j, weight=i + j))
+            graph.add_edge(nodes[i], nodes[j], i + j)
 
     assert len(graph) == 5
     assert list(graph.nodes) == nodes
@@ -37,7 +37,7 @@ def test_custom_node_edge_graph() -> None:
 
 
 def test_int_directed_graph() -> None:
-    graph = Graph[int, None]()
+    graph = Graph[int]()
     for i in range(5):
         graph.add_node(i)
 
@@ -68,7 +68,7 @@ def test_int_directed_graph() -> None:
 
 
 def test_int_undirected_graph() -> None:
-    graph = Graph[int, None](is_directed=False)
+    graph = Graph[int](is_directed=False)
     for i in range(5):
         graph.add_node(i)
 
@@ -97,7 +97,7 @@ def test_int_undirected_graph() -> None:
 
 def test_str_adj_graph() -> None:
     vertices = ["hi", "hello", "what up", "bye"]
-    graph = Graph[str, float]()
+    graph = Graph[str]()
     for item in vertices:
         graph.add_node(item)
 
@@ -109,7 +109,12 @@ def test_str_adj_graph() -> None:
     assert len(graph) == 4
     assert len(graph.nodes) == 4
     assert len(graph.edges) == 4
-    assert graph.edges == [3, 2, 4, 0]
+    assert graph.edges == [
+        Edge("hi", "hello", 3),
+        Edge("bye", "hello", 2),
+        Edge("bye", "what up", 4),
+        Edge("bye", "bye", 0),
+    ]
     assert list(graph.adj("bye")) == ["hello", "what up", "bye"]
     assert graph.degree("bye") == 3
 
@@ -118,14 +123,12 @@ def test_str_adj_graph() -> None:
 
 
 def test_bipartite() -> None:
-    graph: Graph[int, None] = Graph.from_iterable(
-        {0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: []}
-    )
+    graph: Graph[int] = Graph.from_iterable({0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: []})
     assert graph.is_bipartite()
 
 
 def test_to_matrix() -> None:
-    INF = float("inf")
+    INF = Graph.INFINITY
     matrix = [
         [INF, 1, 5, INF],
         [1, INF, 8, INF],

@@ -1,11 +1,11 @@
-from typing import Any, List, Optional, Set, Tuple, TypeVar
+from typing import List, Optional, Set, Tuple, TypeVar
 
 from src.structures import Graph
 
 V = TypeVar("V")
 
 
-def depth_first_search(graph: Graph[V, Any], start: V, end: V) -> Optional[List[V]]:
+def depth_first_search(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:
     """
     Iterative version of DFS.
 
@@ -25,7 +25,7 @@ def depth_first_search(graph: Graph[V, Any], start: V, end: V) -> Optional[List[
     return None
 
 
-def depth_first_search_recursive(graph: Graph[V, Any], start: V, end: V) -> Optional[List[V]]:
+def depth_first_search_recursive(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:
     """
     Recursive version of DFS.
 
@@ -46,7 +46,7 @@ def depth_first_search_recursive(graph: Graph[V, Any], start: V, end: V) -> Opti
     return _dfs(start, set(), [start])
 
 
-def dfs_traversal(graph: Graph[V, Any], start: V, visited: Optional[Set[V]]) -> Set[V]:
+def dfs_traversal(graph: Graph[V], start: V, visited: Optional[Set[V]]) -> Set[V]:
     """
     Explores graph starting with start using a depth-first-search traversal.
     Modifies a visited set in place, and returns a set of connected vertices.

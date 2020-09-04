@@ -13,7 +13,7 @@ def test_topological_sort() -> None:
      / \
     d   e
     """
-    graph: Graph[str, None] = Graph.from_iterable(
+    graph: Graph[str] = Graph.from_iterable(
         {"a": ["c", "b"], "b": ["d", "e"], "c": [], "d": [], "e": []}
     )
     assert topological_sort(graph) == ["c", "d", "e", "b", "a"]
@@ -21,7 +21,7 @@ def test_topological_sort() -> None:
     graph = Graph.from_iterable({"a": ["c"], "b": ["d"], "c": ["d"], "d": []})
     assert topological_sort(graph) == ["d", "c", "a", "b"]
 
-    graph2: Graph[int, None] = Graph.from_iterable(
+    graph2: Graph[int] = Graph.from_iterable(
         {1: [2, 3], 2: [4, 5, 6], 3: [4, 6], 4: [5, 6], 5: [6], 6: []}
     )
     assert topological_sort(graph2) == [6, 5, 4, 2, 3, 1]
@@ -31,7 +31,7 @@ def test_topological_sort() -> None:
 
 
 def test_topological_sort_cycle_detection() -> None:
-    graph: Graph[str, None] = Graph.from_iterable({"a": ["a"]})
+    graph: Graph[str] = Graph.from_iterable({"a": ["a"]})
     with pytest.raises(ValueError):
         _ = topological_sort(graph)
 

@@ -1,11 +1,11 @@
-from typing import Any, List, Set, TypeVar
+from typing import List, Set, TypeVar
 
 from src.structures import Graph
 
 V = TypeVar("V")
 
 
-def connected_components(graph: Graph[V, Any]) -> List[Set[V]]:
+def connected_components(graph: Graph[V]) -> List[Set[V]]:
     """
     This function returns the list of connected components of the given Graph.
 

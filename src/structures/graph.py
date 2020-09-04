@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import (
     Any,
     Dict,
@@ -18,12 +18,10 @@ from typing import (
 from src.util import formatter
 
 V = TypeVar("V")
-E = TypeVar("E")
-INF = float("inf")
 
 
-@dataclass
-class Graph(Generic[V, E]):
+@dataclass(init=False, repr=False)
+class Graph(Generic[V]):
     """
     Use a Dict of Dicts to avoid storing nodes with no edges, as well as provide instant
     lookup for nodes and their neighbors.
@@ -32,8 +30,25 @@ class Graph(Generic[V, E]):
     and include it in the type checking system.
     """
 
-    _graph: Dict[V, Dict[V, E]] = field(default_factory=dict)
-    is_directed: bool = True
+    INFINITY = float("inf")
+
+    def __init__(
+        self, graph: Optional[Dict[V, Dict[V, Any]]] = None, is_directed: bool = True
+    ) -> None:
+        self._graph = {} if graph is None else graph
+        if graph is not None:
+            for u in graph:
+                for v in graph[u]:
+                    if isinstance(graph[u][v], Edge):
+                        continue
+                    if isinstance(graph[u][v], dict):
+                        graph[u][v] = Edge(u, v, **graph[u][v])
+                    elif isinstance(graph[u][v], (int, float)):
+                        graph[u][v] = Edge(u, v, weight=graph[u][v])
+                    else:
+                        raise TypeError(f"{graph[u][v]} is not a supported Edge type.")
+        cast(Dict[V, Dict[V, Edge[V]]], self._graph)
+        self.is_directed = is_directed
 
     def __len__(self) -> int:
         return len(self._graph)
@@ -44,8 +59,8 @@ class Graph(Generic[V, E]):
     def __contains__(self, v_id: V) -> bool:
         return v_id in self._graph
 
-    def __getitem__(self, v_id: V) -> Dict[V, E]:
-        self.exists_node(v_id)
+    def __getitem__(self, v_id: V) -> Dict[V, Edge[V]]:
+        self.verify_nodes_exist(v_id)
         return self._graph[v_id]
 
     def __iter__(self) -> Iterator[V]:
@@ -59,19 +74,25 @@ class Graph(Generic[V, E]):
         return self._graph.keys()
 
     @property
-    def edges(self) -> List[E]:
+    def edges(self) -> List[Edge[V]]:
         return [self._graph[v_id1][v_id2] for v_id1 in self._graph for v_id2 in self._graph[v_id1]]
 
     @classmethod
     def from_iterable(
-        cls, iterable: Dict[V, Iterable[V]], is_directed: bool = False, default_val: Any = 1
-    ) -> Graph[V, E]:
-        val = cast(E, default_val)
-        graph = {node: {neighbor: val for neighbor in iterable[node]} for node in iterable}
+        cls,
+        iterable: Dict[V, Iterable[V]],
+        is_directed: bool = False,
+        weight: float = 1,
+        **kwargs: Any,
+    ) -> Graph[V]:
+        graph = {
+            node: {neighbor: Edge(node, neighbor, weight, **kwargs) for neighbor in iterable[node]}
+            for node in iterable
+        }
         return Graph(graph, is_directed=is_directed)
 
     @classmethod
-    def from_matrix(cls, matrix: Sequence[Sequence[float]]) -> Graph[int, float]:
+    def from_matrix(cls, matrix: Sequence[Sequence[float]]) -> Graph[int]:
         is_directed = False
         n = len(matrix)
         graph: Dict[int, Dict[int, float]] = {i: {} for i in range(n)}
@@ -79,30 +100,30 @@ class Graph(Generic[V, E]):
             for j in range(n):
                 edge_data = matrix[i][j]
                 # If matrix is not symmetric, graph is directed
-                if i < j and edge_data != matrix[j][i]:
+                if not is_directed and i < j and edge_data != matrix[j][i]:
                     is_directed = True
                 # Only add edges with nonzero edges.
-                if edge_data != float("inf"):
+                if edge_data != Graph.INFINITY:
                     graph[i][j] = edge_data
         return Graph(graph, is_directed=is_directed)
 
     def to_matrix(self) -> List[List[float]]:
         nodes = sorted(self.nodes)
-        graph = [[INF for _ in nodes] for _ in nodes]
+        graph = [[Graph.INFINITY for _ in nodes] for _ in nodes]
         for i, u in enumerate(nodes):
             for j, v in enumerate(nodes):
                 if v in self._graph[u]:
-                    graph[i][j] = cast(float, self._graph[u][v])
+                    graph[i][j] = self._graph[u][v].weight
         return graph
 
-    def exists_node(self, *v_ids: V) -> None:
+    def verify_nodes_exist(self, *v_ids: V) -> None:
         """ Checks existence of provided nodes. """
         for v_id in v_ids:
             if v_id not in self._graph:
                 raise KeyError(f"Node not found: {v_id}")
 
     def adj(self, v_id: V) -> KeysView[V]:
-        self.exists_node(v_id)
+        self.verify_nodes_exist(v_id)
         return self._graph[v_id].keys()
 
     def degree(self, v_id: V) -> int:
@@ -110,7 +131,7 @@ class Graph(Generic[V, E]):
         Returns the total number of edges going in or out of a node.
         For undirected graphs, counts each edge only once.
         """
-        self.exists_node(v_id)
+        self.verify_nodes_exist(v_id)
         if self.is_directed:
             return self.out_degree(v_id) + self.in_degree(v_id)
         return len(self._graph[v_id])
@@ -118,7 +139,7 @@ class Graph(Generic[V, E]):
     def out_degree(self, v_id: V) -> int:
         if not self.is_directed:
             raise NotImplementedError("Graph is undirected; use degree() instead.")
-        self.exists_node(v_id)
+        self.verify_nodes_exist(v_id)
         return len(self._graph[v_id])
 
     def in_degree(self, v_id: V) -> int:
@@ -127,7 +148,7 @@ class Graph(Generic[V, E]):
         """
         if not self.is_directed:
             raise NotImplementedError("Graph is undirected; use degree() instead.")
-        self.exists_node(v_id)
+        self.verify_nodes_exist(v_id)
         return sum(v_id in self._graph[node] and v_id != node for node in self._graph)
 
     def add_node(self, v_id: V) -> None:
@@ -136,15 +157,14 @@ class Graph(Generic[V, E]):
             raise KeyError(f"Node already exists: {v_id}")
         self._graph[v_id] = {}
 
-    def add_edge(self, v_id1: V, v_id2: V, edge: Any = None) -> None:
+    def add_edge(self, v_id1: V, v_id2: V, weight: float = 1, **kwargs: Any) -> None:
         """
         For directed graphs, connects the edge v_id1 -> v_id2.
         For undirected graphs, also connects the edge v_id2 -> v_id1.
         Replaces the edge if it already exists.
         """
-        if edge is not None:
-            cast(E, edge)
-        self.exists_node(v_id1, v_id2)
+        self.verify_nodes_exist(v_id1, v_id2)
+        edge = Edge(v_id1, v_id2, weight, **kwargs)
         self._graph[v_id1][v_id2] = edge
         if not self.is_directed:
             self._graph[v_id2][v_id1] = edge
@@ -153,7 +173,7 @@ class Graph(Generic[V, E]):
         """
         Removes all of the edges associated with the v_id node too.
         """
-        self.exists_node(v_id)
+        self.verify_nodes_exist(v_id)
         if self.is_directed:
             for node in self._graph:
                 # Make a list copy to avoid removing-while-iterating errors.
@@ -168,7 +188,7 @@ class Graph(Generic[V, E]):
                     del self._graph[neighbor][v_id]
 
     def remove_edge(self, v_id1: V, v_id2: V) -> None:
-        self.exists_node(v_id1, v_id2)
+        self.verify_nodes_exist(v_id1, v_id2)
         if v_id2 in self._graph[v_id1]:
             del self._graph[v_id1][v_id2]
 
@@ -198,6 +218,29 @@ class Graph(Generic[V, E]):
         return True
 
 
+@dataclass(init=False, repr=False)
+class Edge(Generic[V]):
+    """ An example edge class that stores edge data. """
+
+    start: V
+    end: V
+    weight: float
+
+    def __init__(self, start: V, end: V, weight: float = 1, **kwargs: Any):
+        self.start = start
+        self.end = end
+        self.weight = weight
+        self.kwargs = kwargs
+        self.__dict__.update(kwargs)  # TODO: causes "no-member bugs."
+
+    def __repr__(self) -> str:
+        """ Does not show weight if weight is None. """
+        result = str(formatter.pformat(self))[:-1]
+        for key, kwarg in self.kwargs.items():
+            result += f", {key}={kwarg}"
+        return result + ")"
+
+
 @dataclass
 class Node(Generic[V]):
     """ An example node class that stores node data. """
@@ -206,16 +249,3 @@ class Node(Generic[V]):
 
     def __hash__(self) -> int:
         return hash(self.data)
-
-
-@dataclass(repr=False)
-class Edge(Generic[V]):
-    """ An example edge class that stores edge data. """
-
-    start: V
-    end: V
-    weight: Optional[float] = None
-
-    def __repr__(self) -> str:
-        """ Does not show weight if weight is None. """
-        return str(formatter.pformat(self))

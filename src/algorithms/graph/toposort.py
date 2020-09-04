@@ -1,11 +1,11 @@
-from typing import Any, List, Set, TypeVar
+from typing import List, Set, TypeVar
 
 from src.structures import Graph
 
 V = TypeVar("V")
 
 
-def topological_sort(graph: Graph[V, Any]) -> List[V]:
+def topological_sort(graph: Graph[V]) -> List[V]:
     """
     Perform topological sort on a directed acyclic graph.
     Node never seen = not in visited

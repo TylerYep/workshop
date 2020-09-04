@@ -1,12 +1,12 @@
 from collections import deque
-from typing import Any, Deque, List, Optional, Set, Tuple, TypeVar
+from typing import Deque, List, Optional, Set, Tuple, TypeVar
 
 from src.structures import Graph
 
 V = TypeVar("V")
 
 
-def breadth_first_search(graph: Graph[V, Any], start: V, end: V) -> Optional[List[V]]:
+def breadth_first_search(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:
     """
     Identical to DFS except with a queue and pop(0).
     Does not benefit from an additional visited check because it uses a queue.

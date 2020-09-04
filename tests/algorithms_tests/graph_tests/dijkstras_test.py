@@ -3,7 +3,7 @@ from src.structures import Graph
 
 
 def test_dijkstra() -> None:
-    G = Graph[str, float](
+    G = Graph[str](
         {
             "A": {"B": 2, "C": 5},
             "B": {"A": 2, "D": 3, "E": 1, "F": 1},
@@ -14,9 +14,9 @@ def test_dijkstra() -> None:
         }
     )
 
-    G2 = Graph[int, float]({2: {3: 1}, 3: {4: 1}, 4: {6: 1}, 5: {2: 1, 6: 3}, 6: {}})
+    G2 = Graph[int]({2: {3: 1}, 3: {4: 1}, 4: {6: 1}, 5: {2: 1, 6: 3}, 6: {}})
 
-    G3 = Graph[str, float](
+    G3 = Graph[str](
         {
             "B": {"C": 1},
             "C": {"D": 1},

@@ -22,14 +22,30 @@ def count_project_lines(project: str) -> None:
         for filename in files:
             if filename.endswith(".py"):
                 full_src_path = os.path.join(root, filename)
-                with open(full_src_path) as f:
-                    for line in f:
-                        length = len(line) - 1
-                        if length > 0:
-                            counts[length] += 1
+                try:
+                    with open(full_src_path) as f:
+                        for line in f:
+                            length = len(line) - 1
+                            if length > 0:
+                                counts[length] += 1
+                except UnicodeDecodeError:
+                    print(full_src_path)
+
     pprint(dict(counts))
 
-    plt.bar(list(counts.keys()), counts.values(), color="g")
+    lengths = min(len(counts), 130)
+    plt.bar(range(lengths), [counts[i] for i in range(lengths)], color="g")
+
+    total_lines = sum(counts.values())
+    cumulative = 0
+    marker = 0
+    for i in range(lengths):
+        if cumulative > total_lines * 0.98:
+            break
+        cumulative += counts[i]
+        marker += 1
+
+    # plt.axvline(x=marker, color="b", linestyle="-")
     plt.show()
 
 

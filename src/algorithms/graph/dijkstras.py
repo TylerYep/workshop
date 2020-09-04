@@ -6,7 +6,7 @@ from src.structures import Graph
 V = TypeVar("V")
 
 
-def dijkstra_search(graph: Graph[V, float], start: V, end: V) -> Optional[float]:
+def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
     """
     Identical to BFS and DFS, except uses a priority queue and gets weights from the graph.
 
@@ -23,19 +23,18 @@ def dijkstra_search(graph: Graph[V, float], start: V, end: V) -> Optional[float]
             return cost
         if u not in visited:
             visited.add(u)
-            for v, c in graph[u].items():
+            for v, e in graph[u].items():
                 if v not in visited:
-                    heapq.heappush(heap, (cost + c, v))
+                    heapq.heappush(heap, (cost + e.weight, v))
     return None
 
 
-def dijkstra_shortest_distances(graph: Graph[V, float], start: V) -> Dict[V, float]:
+def dijkstra_shortest_distances(graph: Graph[V], start: V) -> Dict[V, float]:
     distances = {start: 0.0}
     visited: Set[V] = set()
     path = {start: start}
-    INF = float("inf")
     while len(visited) != len(graph) - 1:
-        mini = INF
+        mini = Graph.INFINITY
         for i in distances:
             if i not in visited and distances[i] < mini:
                 mini = distances[i]
@@ -43,7 +42,8 @@ def dijkstra_shortest_distances(graph: Graph[V, float], start: V) -> Dict[V, flo
         visited.add(u)
         for v in graph[u]:
             if v not in visited:
-                if distances[u] + graph[u][v] < distances.get(v, INF):
-                    distances[v] = distances[u] + graph[u][v]
+                cost = graph[u][v].weight
+                if distances[u] + cost < distances.get(v, Graph.INFINITY):
+                    distances[v] = distances[u] + cost
                     path[v] = u
     return distances
