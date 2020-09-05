@@ -1,4 +1,5 @@
 from .binary_search import binary_search, left_right_binary_search, linear_search
+from .compression.huffman import huffman_compress, huffman_decompress
 from .graph.bfs import breadth_first_search
 from .graph.connected import connected_components
 from .graph.dfs import depth_first_search, depth_first_search_recursive, dfs_traversal
