@@ -9,16 +9,18 @@ def test_custom_node_edge_graph() -> None:
     for i in range(5):
         graph.add_node(nodes[i])
 
-    graph.add_edge(nodes[0], nodes[1], 15)
+    graph.add_edge(nodes[0], nodes[1], 15, custom_attr="hello")
     for i in range(3, 5):
         for j in range(1, 4):
-            graph.add_edge(nodes[i], nodes[j], i + j)
+            graph.add_edge(nodes[i], nodes[j], i + j, custom_attr=str(j - i))
 
     assert len(graph) == 5
     assert list(graph.nodes) == nodes
     assert len(graph.edges) == 7
     for i, node in enumerate(graph):
         assert node == Node(i)
+        for neighbor in graph[node]:
+            assert graph[node][neighbor]["custom_attr"] is not None
 
     node_3 = nodes[3]
     assert list(graph.adj(node_3)) == nodes[1:4]

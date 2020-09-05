@@ -44,7 +44,6 @@ Spanning Trees
 Social Networks
 Kruskal's Algorithm
 Strings
-Regular Expressions
 
 # Algorithms
 Backpack Problem
@@ -99,12 +98,9 @@ Genetic Algorithms
 Programming Blackjack
 
 # Machine Learning
-Supervised Learning
-Unsupervised Learning
 Feature Vector
 Naive Bayes Classifier
 Perceptron
-Support Vector Machines
 Principal Component Analysis
 Ridge Regression
 k-Means Clustering

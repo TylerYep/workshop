@@ -8,7 +8,7 @@ from src.algorithms.sort.comparable import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-@dataclass
+@dataclass(order=True)
 class TreeNode(Generic[T]):
     data: T
     left: Optional[TreeNode[T]] = None

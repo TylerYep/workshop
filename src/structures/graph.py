@@ -231,7 +231,12 @@ class Edge(Generic[V]):
         self.end = end
         self.weight = weight
         self.kwargs = kwargs
-        self.__dict__.update(kwargs)  # TODO: causes "no-member bugs."
+
+    def __getitem__(self, attr: str) -> Any:
+        return self.kwargs[attr]
+
+    def __setitem__(self, attr: str, value: Any) -> None:
+        self.kwargs[attr] = value
 
     def __repr__(self) -> str:
         """ Does not show weight if weight is None. """
