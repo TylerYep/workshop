@@ -29,6 +29,10 @@ class Cuckoo(HashTable):
         self.hash_1 = hash_function(self.curr_hash_fn_num)
         self.hash_2 = hash_function(self.curr_hash_fn_num + 1)
 
+    @staticmethod
+    def rehashing_limit(num_buckets: int) -> int:
+        return int(6 * math.log(num_buckets * 2))
+
     def insert(self, data: int) -> bool:
         assert data >= 0
 
@@ -38,7 +42,7 @@ class Cuckoo(HashTable):
         use_table_1 = True
         depth = 0
 
-        while depth < 6 * math.log(self.num_buckets * 2):
+        while depth < self.rehashing_limit(self.num_buckets):
             if use_table_1:
                 bucket = self.hash_1(data) % self.num_buckets
                 if self.table_1[bucket] == -1:

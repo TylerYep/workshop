@@ -7,7 +7,6 @@ def test_stack() -> None:
     for key in keys:
         stack.push(key)
 
-    # Search for different keys
     assert stack.pop() == "their"
     assert stack.pop() == "by"
     assert stack.peek() == "any"

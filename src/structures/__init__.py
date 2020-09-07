@@ -6,7 +6,7 @@ from .graph import Edge, Graph, Node
 from .hash_table.cuckoo import Cuckoo
 from .hash_table.hash_table import HashTable
 from .hash_table.linear_probing import LinearProbing
-from .hash_table.robin_hood import RobinHood
+from .hash_table.robinhood import RobinHood
 from .linked_list.doubly_linked_list import DoublyLinkedList
 from .linked_list.linked_list import LinkedList
 from .linked_list.skip_list import SkipList

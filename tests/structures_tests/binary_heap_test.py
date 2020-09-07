@@ -6,10 +6,10 @@ def test_max_heap() -> None:
     h.insert(34)
     h.insert(31)
     h.insert(37)
-    assert h.get_top() == 37
-    assert h.extract_top() == 37
-    assert h.extract_top() == 34
-    assert h.extract_top() == 31
+    assert h.peek() == 37
+    assert h.pop() == 37
+    assert h.pop() == 34
+    assert h.pop() == 31
 
 
 def test_min_heap() -> None:
@@ -17,15 +17,15 @@ def test_min_heap() -> None:
     h.insert(34)
     h.insert(31)
     h.insert(37)
-    assert h.get_top() == 31
-    assert h.extract_top() == 31
-    assert h.extract_top() == 34
-    assert h.extract_top() == 37
+    assert h.peek() == 31
+    assert h.pop() == 31
+    assert h.pop() == 34
+    assert h.pop() == 37
     h.insert(45)
     h.insert(40)
     h.insert(50)
-    assert h.get_top() == 40
+    assert h.peek() == 40
     h.update(50, 10)
-    assert h.get_top() == 10
+    assert h.peek() == 10
     h.delete(10)
-    assert h.get_top() == 40
+    assert h.peek() == 40
