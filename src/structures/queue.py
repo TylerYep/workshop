@@ -1,9 +1,12 @@
 from dataclasses import dataclass, field
 from typing import Generic, List, TypeVar
 
+from dataslots import with_slots
+
 T = TypeVar("T")
 
 
+@with_slots
 @dataclass
 class Queue(Generic[T]):
     """ You should probably use the Python built-in List or Deque instead. """

@@ -3,9 +3,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Generic, Iterator, List, Optional, TypeVar
 
+from dataslots import with_slots
+
 T = TypeVar("T")
 
 
+@with_slots
 @dataclass
 class LinkedListNode(Generic[T]):
     data: T

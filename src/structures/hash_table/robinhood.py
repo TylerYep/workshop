@@ -1,9 +1,12 @@
 from dataclasses import dataclass
 from typing import Callable, List, Set
 
+from dataslots import with_slots
+
 from .hash_table import HashTable
 
 
+@with_slots
 @dataclass
 class Pair:
     val: int = -1

@@ -1,20 +1,11 @@
 import random
 from collections import defaultdict
-from dataclasses import dataclass
 from typing import Any, List, Set
 
 from fibonacci_heap_mod import Fibonacci_heap
 
 Vertex = int
 INF = 1000
-
-
-@dataclass
-class Edge:
-    __slots__ = ("weight", "start", "end")
-    weight: float
-    start: int
-    end: int
 
 
 class UIntPQueue:
@@ -129,8 +120,7 @@ class ApproxDistanceOracle:
     def compute_vertex_distances(self, i: int) -> None:
         """
         A modified version of Dijkstra's algorithm that only updates delta(c, v)
-        if the new estimate of delta(c, v) is strictly smaller than
-        delta(A_(i+1), v).
+        if the new estimate of delta(c, v) is strictly smaller than delta(A_(i+1), v).
         """
         q = UIntPQueue(self.n - 1)
 

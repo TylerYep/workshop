@@ -15,12 +15,14 @@ from typing import (
     cast,
 )
 
+from dataslots import with_slots
+
 from src.util import formatter
 
 V = TypeVar("V")
 
 
-@dataclass(init=False, repr=False)
+@dataclass(init=False)
 class Graph(Generic[V]):
     """
     Use a Dict of Dicts to avoid storing nodes with no edges, as well as provide instant
@@ -218,7 +220,7 @@ class Graph(Generic[V]):
         return True
 
 
-@dataclass(init=False, repr=False)
+@dataclass(init=False)
 class Edge(Generic[V]):
     """ An example edge class that stores edge data. """
 
@@ -246,6 +248,7 @@ class Edge(Generic[V]):
         return result + ")"
 
 
+@with_slots
 @dataclass
 class Node(Generic[V]):
     """ An example node class that stores node data. """

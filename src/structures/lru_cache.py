@@ -1,16 +1,13 @@
 from __future__ import annotations
 
 from collections import OrderedDict
-from dataclasses import dataclass
-from typing import Any, Callable, Dict, Generic, Optional, TypeVar, no_type_check
+from typing import Any, Callable, Dict, Generic, NamedTuple, Optional, TypeVar, no_type_check
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
 
 
-@dataclass
-class CacheInfo:
-    __slots__ = ("hits", "misses", "capacity", "current_size")
+class CacheInfo(NamedTuple):
     hits: int
     misses: int
     capacity: int

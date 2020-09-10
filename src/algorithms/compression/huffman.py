@@ -4,7 +4,10 @@ import heapq
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
+from dataslots import with_slots
 
+
+@with_slots
 @dataclass(order=True)
 class HuffmanTreeNode:
     freq: int
