@@ -36,7 +36,10 @@ def parse_file(file_path: str) -> List[HuffmanTreeNode]:
 
 
 def build_tree(letters: List[HuffmanTreeNode]) -> HuffmanTreeNode:
-    """ Run through the list of Letters and build the min heap for the Huffman Tree. """
+    """
+    Run through the list of Letters and build the
+    min heap for the Huffman Tree.
+    """
     while len(letters) > 1:
         left = heapq.heappop(letters)
         right = heapq.heappop(letters)
@@ -56,7 +59,9 @@ def encode(root: HuffmanTreeNode, bitstring: str) -> List[HuffmanTreeNode]:
     return encode(root.left, bitstring + "0") + encode(root.right, bitstring + "1")
 
 
-def huffman_compress(file_path: str, output_file_path: Optional[str] = None) -> HuffmanTreeNode:
+def huffman_compress(
+    file_path: str, output_file_path: Optional[str] = None
+) -> HuffmanTreeNode:
     """
     Parse the file, build the tree, then run through the file
     again, using the list of Letters to find and print out the
@@ -89,7 +94,9 @@ def decode(root: HuffmanTreeNode, file_path: str) -> str:
     with open(file_path) as f:
         while bit := f.read(1):
             if bit not in ("0", "1"):
-                raise ValueError(f"Input bitstring contained character other than 0 or 1: {bit}")
+                raise ValueError(
+                    f"Input bitstring contained character other than 0 or 1: {bit}"
+                )
             if curr.letter:
                 output += curr.letter
                 curr = root
@@ -105,7 +112,8 @@ def decode(root: HuffmanTreeNode, file_path: str) -> str:
 
 def huffman_decompress(file_path: str, root: HuffmanTreeNode) -> str:
     """
-    Parse the file, then use the input to find and print out the letter for each bitstring.
+    Parse the file, then use the input to find and print
+    out the letter for each bitstring.
     """
     output = decode(root, file_path)
     # print(f"Huffman Decoding of {file_path}: {output}")

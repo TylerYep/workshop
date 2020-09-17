@@ -40,7 +40,9 @@ class Binary_Unit(IntEnum):
     kilo = 1
 
 
-def convert_si_prefix(known_amount: float, from_prefix: SI_Unit, to_prefix: SI_Unit) -> float:
+def convert_si_prefix(
+    known_amount: float, from_prefix: SI_Unit, to_prefix: SI_Unit
+) -> float:
     """
     >>> convert_si_prefix(1, SI_Unit.giga, SI_Unit.mega)
     1000

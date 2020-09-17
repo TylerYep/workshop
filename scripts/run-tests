@@ -12,7 +12,7 @@ mypy .
 
 # Auto-code formatters
 isort .
-black . -l 100
+black .
 git add .
 
 # Style Checking

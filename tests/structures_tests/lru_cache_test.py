@@ -31,4 +31,7 @@ def test_lru_cache() -> None:
     for i in range(1, 100):
         _ = fib(i)
 
-    assert str(fib.cache_info()) == "CacheInfo(hits=194, misses=99, capacity=100, current_size=99)"
+    assert (
+        str(fib.cache_info())
+        == "CacheInfo(hits=194, misses=99, capacity=100, current_size=99)"
+    )

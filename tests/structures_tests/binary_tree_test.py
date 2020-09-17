@@ -269,8 +269,10 @@ class TestBinarySearchTree:
 
     @staticmethod
     def test_inorder_traversal(t: BinarySearchTree[int]) -> None:
-        assert [i.data for i in t.traversal("inorder")] == [1, 3, 4, 5, 6, 7, 8, 10, 13, 14]
+        expected = [1, 3, 4, 5, 6, 7, 8, 10, 13, 14]
+        assert [i.data for i in t.traversal("inorder")] == expected
 
     @staticmethod
     def test_preorder_traversal(t: BinarySearchTree[int]) -> None:
-        assert [i.data for i in t.traversal("preorder")] == [8, 3, 1, 6, 4, 5, 7, 10, 14, 13]
+        expected = [8, 3, 1, 6, 4, 5, 7, 10, 14, 13]
+        assert [i.data for i in t.traversal("preorder")] == expected

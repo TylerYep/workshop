@@ -75,7 +75,9 @@ def build_suffix_array_sais(orig_text: str) -> List[int]:
 def create_lms_blocks(
     suffix_arr: List[int], lms_suffixes: List[int]
 ) -> Tuple[List[LMSBlock], Dict[int, int]]:
-    """ This function fetches all LMS blocks, which span from one LMS suffix to another. """
+    """
+    This function fetches all LMS blocks, which span from one LMS suffix to another.
+    """
     # Stores the index in the original lms_suffix list.
     is_lms_suffix = [-1] * len(suffix_arr)
     for index, suffix in enumerate(lms_suffixes):
@@ -86,7 +88,9 @@ def create_lms_blocks(
     block_mapping = {}
     for i, curr_suffix in enumerate(sorted_lms_suffixes):
         search = is_lms_suffix[curr_suffix] + 1
-        next_suffix = curr_suffix if search == len(lms_suffixes) else lms_suffixes[search]
+        next_suffix = (
+            curr_suffix if search == len(lms_suffixes) else lms_suffixes[search]
+        )
         lms_blocks.append(LMSBlock(curr_suffix, next_suffix))
         block_mapping[curr_suffix] = i
     return lms_blocks, block_mapping
@@ -104,7 +108,10 @@ def assign_block_numbers(text: List[int], lms_blocks: List[LMSBlock]) -> bool:
     for i in range(1, len(lms_blocks)):
         block = lms_blocks[i]
         prev_block = lms_blocks[i - 1]
-        if text[block.start : block.end + 1] == text[prev_block.start : prev_block.end + 1]:
+        if (
+            text[block.start : block.end + 1]
+            == text[prev_block.start : prev_block.end + 1]
+        ):
             block.block_num = prev_block.block_num
             should_recurse = True
         else:
@@ -132,7 +139,9 @@ def get_reduced_string(
     return reduced_str, should_recurse
 
 
-def reorder_lms_substrings(lms_suffixes: List[int], reduced_str: List[int]) -> List[int]:
+def reorder_lms_substrings(
+    lms_suffixes: List[int], reduced_str: List[int]
+) -> List[int]:
     """
     >>> reorder_lms_substrings([2, 6, 8, 11, 13, 16, 20], [6, 5, 3, 1, 0, 4, 2])
     [20, 16, 11, 6, 2, 13, 8]
@@ -166,7 +175,8 @@ def induced_sort(
         suffix_arr[bucket] = lms_suffix
         bucket_ends[text[lms_suffix]] -= 1
 
-    # Make forward pass and insert all L-type suffixes into the proper places at the bucket starts.
+    # Make forward pass and insert all L-type suffixes
+    # into the proper places at the bucket starts.
     for i, key in enumerate(suffix_arr):
         if key > 0:
             ind = key - 1
@@ -203,7 +213,11 @@ def get_suffix_annotations(text: List[int]) -> Tuple[List[SuffixType], List[int]
     lms_suffixes: List[int] = []
     suffix_marks = [SuffixType.S] * len(text)
     for k in range(len(text) - 1, 0, -1):
-        if text[k - 1] > text[k] or text[k - 1] == text[k] and suffix_marks[k] == SuffixType.L:
+        if (
+            text[k - 1] > text[k]
+            or text[k - 1] == text[k]
+            and suffix_marks[k] == SuffixType.L
+        ):
             suffix_marks[k - 1] = SuffixType.L
             if suffix_marks[k] == SuffixType.S:
                 lms_suffixes.append(k)

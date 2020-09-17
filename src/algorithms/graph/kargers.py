@@ -56,5 +56,8 @@ def kargers(graph: Graph[str]) -> Set[Tuple[str, str]]:
     # Find cutset.
     groups = [contracted_nodes[node] for node in graph_copy]
     return {
-        (node, neighbor) for node in groups[0] for neighbor in graph[node] if neighbor in groups[1]
+        (node, neighbor)
+        for node in groups[0]
+        for neighbor in graph[node]
+        if neighbor in groups[1]
     }

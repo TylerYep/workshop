@@ -115,6 +115,10 @@ class Cuckoo(HashTable):
             for i in range(self.num_buckets)
         ]
         indices = "  |  ".join([f"{i:{width}}" for i, width in enumerate(widths)])
-        table1 = "  |  ".join([f"{self.table_1[i]:{width}}" for i, width in enumerate(widths)])
-        table2 = "  |  ".join([f"{self.table_2[i]:{width}}" for i, width in enumerate(widths)])
+        table1 = "  |  ".join(
+            [f"{self.table_1[i]:{width}}" for i, width in enumerate(widths)]
+        )
+        table2 = "  |  ".join(
+            [f"{self.table_2[i]:{width}}" for i, width in enumerate(widths)]
+        )
         return f"\n{indices}\n{'---' * sum(widths)}\n{table1}\n{table2}\n"

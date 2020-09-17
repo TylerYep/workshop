@@ -28,12 +28,17 @@ def test_left_right_binary_search() -> None:
     assert left_right_binary_search([0], target=0) == 0
     assert left_right_binary_search(arr, target=3) == 3
     assert left_right_binary_search([5] * 20, target=5) == 0
-    assert left_right_binary_search(range(10), target=8) == bisect.bisect_left(range(10), 8)
+    assert left_right_binary_search(range(10), target=8) == bisect.bisect_left(
+        range(10), 8
+    )
 
     assert left_right_binary_search([0], target=0, is_left=False) == 0
     assert left_right_binary_search([5] * 20, target=5, is_left=False) == 19
     assert left_right_binary_search(arr, target=3, is_left=False) == 5
-    assert left_right_binary_search(arr, target=3, is_left=False) == bisect.bisect_right(arr, 3) - 1
+    assert (
+        left_right_binary_search(arr, target=3, is_left=False)
+        == bisect.bisect_right(arr, 3) - 1
+    )
     assert (
         left_right_binary_search(range(10), target=8, is_left=False)
         == bisect.bisect_right(range(10), 8) - 1

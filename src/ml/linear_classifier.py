@@ -34,7 +34,8 @@ class LinearClassifier(ABC):
         num_iters = 100
         batch_size = 200
         num_train, dim = X.shape
-        num_classes = np.max(y) + 1  # assume y takes values 0...K-1 where K is number of classes
+        # assume y takes values 0...K-1 where K is number of classes
+        num_classes = np.max(y) + 1
         self.W = 0.001 * np.random.randn(dim, num_classes)
         self.reg = reg
 
@@ -66,8 +67,9 @@ class LinearClassifier(ABC):
             training samples each of dimension D.
 
         Returns:
-        - y_pred: Predicted labels for the data in X. y_pred is a 1-dimensional
-            array of length N, and each element is an integer giving the predicted class.
+        - y_pred: Predicted labels for the data in X. y_pred is a
+            1-dimensional array of length N, and each element is
+            an integer giving the predicted class.
         """
         y_pred = np.argmax(np.dot(X, self.W), axis=1)
         return y_pred
@@ -91,7 +93,9 @@ class LinearClassifier(ABC):
         del X, y
         return 0.0, np.zeros_like(self.W)
 
-    def regularize(self, loss: float, dW: np.ndarray, num_train: int) -> Tuple[float, np.ndarray]:
+    def regularize(
+        self, loss: float, dW: np.ndarray, num_train: int
+    ) -> Tuple[float, np.ndarray]:
         """
         Right now, the loss is a sum over all training examples, but we want it
         to be an average instead so we divide by num_train.

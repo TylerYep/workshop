@@ -9,8 +9,8 @@ from src.util import formatter
 @dataclass
 class Trie:
     """
-    Does not use a TrieNode struct because the root node can contain several children nodes,
-    thus making the internal logic more complex.
+    Does not use a TrieNode struct because the root node can contain
+    several children nodes, thus making the internal logic more complex.
     Instead, sets char to the empty string for the head of the Trie.
     """
 
@@ -64,7 +64,8 @@ class Trie:
 
         def _delete(curr: Trie, word: str) -> bool:
             # If word is empty, attempt to set the word to not a leaf.
-            # If the word has no other children, return False so that we can delete above keys.
+            # If the word has no other children,
+            # return False so that we can delete above keys.
             curr.size -= 1
             if not word:
                 if not curr.is_leaf:

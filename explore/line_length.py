@@ -31,7 +31,7 @@ def count_project_lines(project: str) -> None:
                                 counts[length] += 1
                             if length > 88:
                                 lines_above_88 += 1
-                                # print(line)
+                                print(line)
                 except UnicodeDecodeError:
                     print(full_src_path)
 

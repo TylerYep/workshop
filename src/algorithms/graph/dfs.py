@@ -25,7 +25,9 @@ def depth_first_search(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:
     return None
 
 
-def depth_first_search_recursive(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:
+def depth_first_search_recursive(
+    graph: Graph[V], start: V, end: V
+) -> Optional[List[V]]:
     """
     Recursive version of DFS.
 

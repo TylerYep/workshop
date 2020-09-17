@@ -8,7 +8,7 @@ V = TypeVar("V")
 
 def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
     """
-    Identical to BFS and DFS, except uses a priority queue and gets weights from the graph.
+    Identical to BFS and DFS, except uses a priority queue and weights from the graph.
 
     Returns the cost of the shortest path between vertices start and end.
     Cost is first in the tuple because heaps are sorted by the first element.

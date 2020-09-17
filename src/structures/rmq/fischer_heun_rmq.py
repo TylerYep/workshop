@@ -55,7 +55,8 @@ class FischerHeunRMQ(RMQ):
         self.summary_rmq = SparseTableRMQ(block_min_vals)
 
         self.block_index_to_cart = []
-        self.cart_to_rmq: Dict[int, RMQ] = {}  # Can also use:  [None] * (4 ** self.block_size)
+        # Can also use:  [None] * (4 ** self.block_size)
+        self.cart_to_rmq: Dict[int, RMQ] = {}
         for i in range(math.ceil(len(elems) / self.block_size)):
             start = i * self.block_size
             current_range = self.elems[start : min(len(elems), start + self.block_size)]
@@ -83,7 +84,9 @@ class FischerHeunRMQ(RMQ):
         if low < start_block * self.block_size:
             block_rmq = self.cart_to_rmq[self.block_index_to_cart[start_block - 1]]
             adjust_factor = (start_block - 1) * self.block_size
-            new_index = block_rmq.rmq(low - adjust_factor, len(block_rmq.elems)) + adjust_factor
+            new_index = (
+                block_rmq.rmq(low - adjust_factor, len(block_rmq.elems)) + adjust_factor
+            )
             min_index = self.return_smaller_index(new_index, min_index)
 
         if end_block * self.block_size < high:

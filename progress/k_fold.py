@@ -42,8 +42,12 @@ def k_fold_validation(X_train, y_train, num_folds=5):
         plt.scatter([k] * len(accuracies), accuracies)
 
     # plot the trend line with error bars that correspond to standard deviation
-    accuracies_mean = np.array([np.mean(v) for k, v in sorted(params_to_accuracies.items())])
-    accuracies_std = np.array([np.std(v) for k, v in sorted(params_to_accuracies.items())])
+    accuracies_mean = np.array(
+        [np.mean(v) for k, v in sorted(params_to_accuracies.items())]
+    )
+    accuracies_std = np.array(
+        [np.std(v) for k, v in sorted(params_to_accuracies.items())]
+    )
     plt.errorbar(k_choices, accuracies_mean, yerr=accuracies_std)
     plt.title("Cross-validation on k")
     plt.xlabel("k")

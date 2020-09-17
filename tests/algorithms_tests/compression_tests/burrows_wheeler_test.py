@@ -1,4 +1,8 @@
-from src.algorithms.compression.burrows_wheeler import all_rotations, bwt_transform, reverse_bwt
+from src.algorithms.compression.burrows_wheeler import (
+    all_rotations,
+    bwt_transform,
+    reverse_bwt,
+)
 
 
 def test_all_rotations() -> None:

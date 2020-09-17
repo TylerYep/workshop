@@ -35,7 +35,9 @@ class SoftmaxClassifier(LinearClassifier):
 
         return loss, dW
 
-    def softmax_loss_naive(self, X: np.ndarray, y: np.ndarray) -> Tuple[float, np.ndarray]:
+    def softmax_loss_naive(
+        self, X: np.ndarray, y: np.ndarray
+    ) -> Tuple[float, np.ndarray]:
         """
         Softmax loss function, naive implementation (with loops)
         Inputs have dimension D, there are C classes, and we operate on minibatches

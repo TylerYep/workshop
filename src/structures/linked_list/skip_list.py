@@ -87,7 +87,9 @@ class SkipList(Generic[KT, VT]):
             level += 1
         return level
 
-    def _locate_node(self, key: KT) -> Tuple[Optional[SkipList[KT, VT]], List[SkipList[KT, VT]]]:
+    def _locate_node(
+        self, key: KT
+    ) -> Tuple[Optional[SkipList[KT, VT]], List[SkipList[KT, VT]]]:
         """
         :param key: Searched key,
         :return: Tuple with searched node (or None if given key is not present)
@@ -103,7 +105,9 @@ class SkipList(Generic[KT, VT]):
             # node.next[i].key < key - Jumping to node with key value higher
             #                             or equal to searched key would result
             #                             in skipping searched key.
-            while i < len(node.next) and node.next[i].key < key:  # type: ignore[operator]
+            while (
+                i < len(node.next) and node.next[i].key < key  # type: ignore[operator]
+            ):
                 node = node.next[i]
             # Each leftmost node (relative to searched node) will potentially have to
             # be updated.
@@ -186,7 +190,8 @@ class SkipList(Generic[KT, VT]):
     def __contains__(self, key: KT) -> bool:
         """
         :param key: Search key.
-        :return: Value associated with given key or None if given key is not present.
+        :return: Value associated with given key
+            or None if given key is not present.
 
         >>> skip_list = SkipList()
         >>> 2 in skip_list

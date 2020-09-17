@@ -27,7 +27,8 @@ class ApproxFiniteMetricOracle:
             B_i contains all vertices in A[i] that are strictly closer to v
             than all vertices in A[i-1]
                 The partial unions of B_{i}s are balls in increasing diameter,
-                that contain vertices with distances up to the first vertex of the next level.
+                that contain vertices with distances up to the first
+                vertex of the next level.
         Notes:
            for fixed v, the distance is weakly increasing with i
            for all v, a_i_v_distances[0][v] = 0 and p[0][v] = v
@@ -60,7 +61,9 @@ class ApproxFiniteMetricOracle:
             self.B[v] = set()
             for i in range(k):
                 self.B[v] |= {
-                    w for w in A[i] - A[i + 1] if self.distance_fn(w, v) < a_i_v_distances[i + 1][v]
+                    w
+                    for w in A[i] - A[i + 1]
+                    if self.distance_fn(w, v) < a_i_v_distances[i + 1][v]
                 }
 
         self.hash_table = {}

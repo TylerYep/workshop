@@ -140,7 +140,9 @@ class RedBlackTree(Generic[T]):
                 self.grandparent.color = Color.RED
                 self.grandparent._insert_repair()
 
-    def remove(self, data) -> Optional[RedBlackTree[T]]:  # pylint: disable=too-many-branches
+    def remove(  # pylint: disable=too-many-branches
+        self, data
+    ) -> Optional[RedBlackTree[T]]:
         """Remove data from this tree."""
         if self.data == data:
             if self.left and self.right:
@@ -468,7 +470,10 @@ class RedBlackTree(Generic[T]):
         if self.left is None and self.right is None:
             return "'{} {}'".format(self.data, (self.color and "red") or "blk")
         return pformat(
-            {"%s %s" % (self.data, (self.color and "red") or "blk"): (self.left, self.right)},
+            {
+                "%s %s"
+                % (self.data, (self.color and "red") or "blk"): (self.left, self.right)
+            },
             indent=1,
         )
 

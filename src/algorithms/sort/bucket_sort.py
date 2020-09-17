@@ -24,4 +24,6 @@ def bucket_sort(array: List[int]) -> List[int]:
     for item in array:
         buckets[int((item - min_value) // BUCKET_SIZE)].append(item)
 
-    return sorted(buckets[i][j] for i in range(len(buckets)) for j in range(len(buckets[i])))
+    return sorted(
+        buckets[i][j] for i in range(len(buckets)) for j in range(len(buckets[i]))
+    )

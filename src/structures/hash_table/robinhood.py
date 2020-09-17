@@ -55,7 +55,10 @@ class RobinHood(HashTable):
     def backward_shift(self, index: int) -> None:
         next_index = (index + 1) % self.num_buckets
         while self.table[next_index].val != -1 and self.table[next_index].dist > 0:
-            self.table[index], self.table[next_index] = self.table[next_index], self.table[index]
+            self.table[index], self.table[next_index] = (
+                self.table[next_index],
+                self.table[index],
+            )
             self.table[index].dist -= 1
             index = next_index
             next_index = (index + 1) % self.num_buckets

@@ -68,13 +68,17 @@ def run_tests(
                     f"Query: Low: {low}, High: {high}\n"
                     f"{print_arr_with_index(data[low: high], low)}\n"
                     f"Solution Index: {ours}, Your Index: {theirs}\n\n"
-                    f"Val at index {ours}: {data[ours]}, Val at index {theirs}: {data[theirs]}"
+                    f"Val at index {ours}: {data[ours]}, "
+                    f"Val at index {theirs}: {data[theirs]}"
                 )
         if verbose:
-            print(f"Mean Reference Build Time: {total_build_time_ref / num_builds}")
-            print(f"Mean Reference Query Time: {total_run_time_ref / (num_builds * num_queries)}")
-            print(f"Mean Test Build Time: {total_build_time_test / num_builds}")
-            print(f"Mean Test Query Time: {total_run_time_test / (num_builds * num_queries)}")
+            build_queries = num_builds * num_queries
+            print(
+                f"Mean Reference Build Time: {total_build_time_ref / num_builds}\n"
+                f"Mean Reference Query Time: {total_run_time_ref / build_queries}\n"
+                f"Mean Test Build Time: {total_build_time_test / num_builds}\n"
+                f"Mean Test Query Time: {total_run_time_test / build_queries}"
+            )
     if verbose:
         print("Tests completed!")
 

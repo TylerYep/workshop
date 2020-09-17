@@ -125,7 +125,9 @@ def test_str_adj_graph() -> None:
 
 
 def test_bipartite() -> None:
-    graph: Graph[int] = Graph.from_iterable({0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: []})
+    graph: Graph[int] = Graph.from_iterable(
+        {0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2], 4: []}
+    )
     assert graph.is_bipartite()
 
 

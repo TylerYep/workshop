@@ -22,14 +22,15 @@ class DoublyLinkedListNode(Generic[T]):
 @dataclass
 class DoublyLinkedList(Generic[T]):
     """
-    - A linked list is similar to an array, it holds values. However, links in a linked
-        list do not have indexes.
+    - A linked list is similar to an array, it holds values. However, links
+        in a linked list do not have indexes.
     - This is an example of a double ended, doubly linked list (or a deque).
     - Each link references the next link and the prev one.
-    - A Doubly Linked List (DLL) contains an extra pointer, typically called prev
-        pointer, together with next pointer and data which are there in singly linked list.
-    - Advantages over SLL - It can be traversed in both forward and backward direction.
-        Delete operation is more efficient.
+    - A Doubly Linked List (DLL) contains an extra pointer, typically called
+        prev pointer, together with next pointer and data which are
+        there in singly linked list.
+    - Advantages over SLL - It can be traversed in both forward and
+        backward direction. Delete operation is more efficient.
     """
 
     def __init__(self) -> None:

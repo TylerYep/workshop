@@ -1,7 +1,16 @@
 from __future__ import annotations
 
 from collections import OrderedDict
-from typing import Any, Callable, Dict, Generic, NamedTuple, Optional, TypeVar, no_type_check
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    NamedTuple,
+    Optional,
+    TypeVar,
+    no_type_check,
+)
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
@@ -21,7 +30,9 @@ class LRUCache(Generic[KT, VT]):
     decorator_instance_map: Dict[Callable[..., Any], LRUCache[KT, VT]] = {}
 
     def __init__(self, max_capacity: int) -> None:
-        self.cache: OrderedDict[KT, VT] = OrderedDict()  # pylint: disable=unsubscriptable-object
+        self.cache: OrderedDict[  # pylint: disable=unsubscriptable-object
+            KT, VT
+        ] = OrderedDict()
         self.max_capacity = max_capacity
         self.hits = 0
         self.misses = 0
@@ -52,7 +63,9 @@ class LRUCache(Generic[KT, VT]):
         return key in self.cache
 
     def __repr__(self) -> str:
-        return str(CacheInfo(self.hits, self.misses, self.max_capacity, len(self.cache)))
+        return str(
+            CacheInfo(self.hits, self.misses, self.max_capacity, len(self.cache))
+        )
 
 
 @no_type_check

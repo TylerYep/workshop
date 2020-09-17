@@ -17,7 +17,9 @@ NOISE_DIM = 96
 
 
 def show_images(images):
-    images = np.reshape(images, [images.shape[0], -1])  # images reshape to (batch_size, D)
+    images = np.reshape(
+        images, [images.shape[0], -1]
+    )  # images reshape to (batch_size, D)
     sqrtn = int(np.ceil(np.sqrt(images.shape[0])))
     sqrtimg = int(np.ceil(np.sqrt(images.shape[1])))
 
@@ -192,7 +194,9 @@ def run_a_gan(
             G_solver.step()
 
             if iter_count % show_every == 0:
-                print(f"Iter: {iter_count}, D: {d_total_error.item():.4}, G: {g_error.item():.4}")
+                print(
+                    f"Iter: {iter_count}, D: {d_total_error.item():.4}, G: {g_error.item():.4}"
+                )
                 imgs_numpy = fake_images.data.cpu().numpy()
                 show_images(imgs_numpy[:16])
                 plt.savefig(f"gan_output_{iter_count}.png")
@@ -246,7 +250,9 @@ def main():
     norm = transforms.Compose([transforms.ToTensor()])
     mnist_train = datasets.MNIST("data", train=True, download=False, transform=norm)
     mnist_val = datasets.MNIST("data", train=False, transform=norm)
-    loader_train = DataLoader(mnist_train, batch_size=128, sampler=ChunkSampler(NUM_TRAIN, 0))
+    loader_train = DataLoader(
+        mnist_train, batch_size=128, sampler=ChunkSampler(NUM_TRAIN, 0)
+    )
     # loader_val = DataLoader(mnist_val, batch_size=128, sampler=ChunkSampler(NUM_VAL, NUM_TRAIN))
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

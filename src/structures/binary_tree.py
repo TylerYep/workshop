@@ -100,7 +100,9 @@ class BinarySearchTree(Generic[T]):
     def remove(self, data: T) -> None:
         """ Removes a node in the tree. """
 
-        def _reassign_nodes(node: TreeNode[T], new_children: Optional[TreeNode[T]]) -> None:
+        def _reassign_nodes(
+            node: TreeNode[T], new_children: Optional[TreeNode[T]]
+        ) -> None:
             if new_children is not None:
                 new_children.parent = node.parent
             if node.parent is not None:
@@ -160,7 +162,9 @@ class BinarySearchTree(Generic[T]):
     def traversal(self, method: str = "inorder") -> Iterator[TreeNode[T]]:
         """ Return the pre-order, in-order, or post-order traversal of the tree. """
         if method not in ("preorder", "inorder", "postorder"):
-            raise ValueError("Method must be one of: 'preorder', 'inorder', or 'postorder'")
+            raise ValueError(
+                "Method must be one of: 'preorder', 'inorder', or 'postorder'"
+            )
 
         def _traversal(node: Optional[TreeNode[T]]) -> Iterator[TreeNode[T]]:
             if node is not None:

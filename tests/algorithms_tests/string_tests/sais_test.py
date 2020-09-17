@@ -26,7 +26,9 @@ def test_nonsense() -> None:
 
 
 def test_mississippi() -> None:
-    run_sais("mmiissiissiippii", [16, 15, 14, 10, 6, 2, 11, 7, 3, 1, 0, 13, 12, 9, 5, 8, 4])
+    run_sais(
+        "mmiissiissiippii", [16, 15, 14, 10, 6, 2, 11, 7, 3, 1, 0, 13, 12, 9, 5, 8, 4]
+    )
 
 
 def test_lecture_example() -> None:

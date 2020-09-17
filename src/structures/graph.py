@@ -81,7 +81,11 @@ class Graph(Generic[V]):
 
     @property
     def edges(self) -> List[Edge[V]]:
-        return [self._graph[v_id1][v_id2] for v_id1 in self._graph for v_id2 in self._graph[v_id1]]
+        return [
+            self._graph[v_id1][v_id2]
+            for v_id1 in self._graph
+            for v_id2 in self._graph[v_id1]
+        ]
 
     @classmethod
     def from_graph(cls, graph: Graph[V]) -> Graph[V]:
@@ -104,7 +108,10 @@ class Graph(Generic[V]):
         **kwargs: Any,
     ) -> Graph[V]:
         graph = {
-            node: {neighbor: Edge(node, neighbor, weight, **kwargs) for neighbor in iterable[node]}
+            node: {
+                neighbor: Edge(node, neighbor, weight, **kwargs)
+                for neighbor in iterable[node]
+            }
             for node in iterable
         }
         return Graph(graph, is_directed=is_directed)

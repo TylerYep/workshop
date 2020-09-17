@@ -69,15 +69,22 @@ def optimize(
         # This function actually change the parameters
         optimizer.step()
 
-        # if the current loss is better than any ones we've seen, save the parameters.
+        # if current loss is better than any ones we've seen, save the parameters.
         curr_loss = loss.item()
         counter += 1
         if curr_loss < min_loss:
-            best_params = (model.theta1.item(), model.theta0.item())  # type: ignore[operator]
+            best_params = (
+                model.theta1.item(),  # type: ignore[operator]
+                model.theta0.item(),  # type: ignore[operator]
+            )
             min_loss = curr_loss
 
         if verbose:
-            print(f"loss = {curr_loss:.4f}, c1 = {best_params[0]:.4f}, c2 = {best_params[1]:.4f}")
+            print(
+                f"loss = {curr_loss:.4f}, "
+                f"c1 = {best_params[0]:.4f}, "
+                f"c2 = {best_params[1]:.4f}"
+            )
 
 
 def make_tensor(data: np.array, is_input: bool) -> torch.Tensor:
@@ -87,4 +94,6 @@ def make_tensor(data: np.array, is_input: bool) -> torch.Tensor:
     to make it a n x 1 "tensor".
     """
     dim = 0 if is_input else 1
-    return torch.tensor(data[:, dim]).unsqueeze(1).float()  # pylint: disable=not-callable
+    return (  # pylint: disable=not-callable
+        torch.tensor(data[:, dim]).unsqueeze(1).float()
+    )

@@ -9,7 +9,8 @@
 #     Prim's MST Algorithm
 #         Args :  G - Dictionary of edges
 #                 s - Starting Node
-#         Vars :  distances - Dictionary storing shortest distance from s to nearest node
+#         Vars :  distances - Dictionary storing shortest distance
+#                         from s to nearest node
 #                 visited - Set of visited nodes
 #                 path - Preceding node in path
 #     """
