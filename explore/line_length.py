@@ -18,6 +18,7 @@ def init_pipeline() -> argparse.Namespace:
 
 def count_project_lines(project: str) -> None:
     counts: Dict[int, int] = defaultdict(int)
+    lines_above_88 = 0
     for root, _, files in os.walk(project):
         for filename in files:
             if filename.endswith(".py"):
@@ -28,10 +29,14 @@ def count_project_lines(project: str) -> None:
                             length = len(line) - 1
                             if length > 0:
                                 counts[length] += 1
+                            if length > 88:
+                                lines_above_88 += 1
+                                # print(line)
                 except UnicodeDecodeError:
                     print(full_src_path)
 
     pprint(dict(counts))
+    print(lines_above_88)
 
     lengths = min(len(counts), 130)
     plt.bar(range(lengths), [counts[i] for i in range(lengths)], color="g")

@@ -1,8 +1,15 @@
+import random
 from typing import Tuple
 
 import numpy as np
 import pytest
 from torchvision import datasets
+
+
+@pytest.fixture(autouse=True)
+def set_random_seed(seed: int = 0) -> None:
+    random.seed(seed)
+    np.random.seed(seed)
 
 
 @pytest.fixture(scope="session")

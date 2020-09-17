@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Dict, Generic, List, Optional, TypeVar
+from typing import Callable, Dict, Generic, Iterator, List, Optional, TypeVar
 
 from src.algorithms.sort.comparable import Comparable
 
@@ -31,11 +31,11 @@ class BinaryHeap(Generic[T]):
     def __bool__(self) -> bool:
         return bool(self.heap)
 
-    # def __contains__(self, v_id: V) -> bool:
-    #     return v_id in self.heap
+    def __contains__(self, item: T) -> bool:
+        return item in self.pos_map
 
-    # def __iter__(self) -> Iterator[V]:
-    #     yield from self._graph
+    def __iter__(self) -> Iterator[T]:
+        yield from self.heap
 
     def __repr__(self) -> str:
         return str(self.heap)

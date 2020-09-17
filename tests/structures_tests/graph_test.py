@@ -146,3 +146,27 @@ def test_to_matrix() -> None:
         [INF, INF, INF, 1],
     ]
     assert Graph.from_matrix(matrix).to_matrix() == matrix
+
+
+def test_from_graph() -> None:
+    graph = Graph[Node[int]]()
+    nodes = [Node(i) for i in range(5)]
+    for node in nodes:
+        graph.add_node(node)
+    graph.add_edge(nodes[0], nodes[1], 15)
+    for i in range(3, 5):
+        for j in range(1, 4):
+            graph.add_edge(nodes[i], nodes[j], i + j)
+
+    new_graph = Graph.from_graph(graph)
+    assert graph == new_graph
+
+    for i in range(3):
+        graph.remove_node(nodes[i])
+    assert len(graph) == 2
+    assert len(graph.edges) == 2
+
+    # Verify that we have not modified the original graph
+    assert len(graph) != len(new_graph)
+    assert len(graph.edges) != len(new_graph)
+    assert graph != new_graph

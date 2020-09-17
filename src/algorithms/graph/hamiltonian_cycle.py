@@ -8,7 +8,7 @@ Wikipedia: https://en.wikipedia.org/wiki/Hamiltonian_path
 from typing import List
 
 
-def hamilton_cycle(graph: List[List[int]], start_index: int) -> List[int]:
+def hamiltonian_cycle(graph: List[List[int]], start_index: int) -> List[int]:
     """
     Either return array of vertices indicating the hamiltonian cycle
     or an empty list indicating that hamiltonian cycle was not found.

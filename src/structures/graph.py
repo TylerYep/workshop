@@ -12,7 +12,6 @@ from typing import (
     Optional,
     Sequence,
     TypeVar,
-    cast,
 )
 
 from dataslots import with_slots
@@ -25,18 +24,21 @@ V = TypeVar("V")
 @dataclass(init=False)
 class Graph(Generic[V]):
     """
-    Use a Dict of Dicts to avoid storing nodes with no edges, as well as provide instant
-    lookup for nodes and their neighbors.
+    Use a Dict of Dicts to avoid storing nodes with no edges, as well as
+    provide instant lookup for nodes and their neighbors.
 
-    Designed for extensibility - a user can easily add/extend a custom Node or Edge class
-    and include it in the type checking system.
+    Designed for extensibility - a user can easily add/extend a
+    custom Node or Edge class and include it in the type checking system.
     """
 
     INFINITY = float("inf")
+    _graph: Dict[V, Dict[V, Edge[V]]]
+    is_directed: bool
 
     def __init__(
         self, graph: Optional[Dict[V, Dict[V, Any]]] = None, is_directed: bool = True
     ) -> None:
+        self.is_directed = is_directed
         self._graph = {} if graph is None else graph
         if graph is not None:
             for u in graph:
@@ -49,8 +51,6 @@ class Graph(Generic[V]):
                         graph[u][v] = Edge(u, v, weight=graph[u][v])
                     else:
                         raise TypeError(f"{graph[u][v]} is not a supported Edge type.")
-        cast(Dict[V, Dict[V, Edge[V]]], self._graph)
-        self.is_directed = is_directed
 
     def __len__(self) -> int:
         return len(self._graph)
@@ -68,7 +68,11 @@ class Graph(Generic[V]):
     def __iter__(self) -> Iterator[V]:
         yield from self._graph
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
+        """
+        Prettify output when used as a string, and use the
+        dataclass default repr in all other cases, e.g. error messages.
+        """
         return str(formatter.pformat(self._graph))
 
     @property
@@ -78,6 +82,18 @@ class Graph(Generic[V]):
     @property
     def edges(self) -> List[Edge[V]]:
         return [self._graph[v_id1][v_id2] for v_id1 in self._graph for v_id2 in self._graph[v_id1]]
+
+    @classmethod
+    def from_graph(cls, graph: Graph[V]) -> Graph[V]:
+        """
+        Manually copy in order to avoid sharing
+        the same references to neighbor dicts.
+        """
+        new_graph = {}
+        if graph is not None:
+            for u in graph:
+                new_graph[u] = {v: graph[u][v] for v in graph[u]}
+        return Graph(new_graph, is_directed=graph.is_directed)
 
     @classmethod
     def from_iterable(
@@ -197,8 +213,8 @@ class Graph(Generic[V]):
     def is_bipartite(self) -> bool:
         """
         Check whether Graph is bipartite using DFS.
-        Should not be a property because the calculation changes and this should not
-        be thought of as an easily accessible attribute.
+        Should not be a property because the calculation changes and
+        this should not be thought of as an easily accessible attribute.
         """
         visited = set()
         color: Dict[V, bool] = {}
@@ -222,7 +238,7 @@ class Graph(Generic[V]):
 
 @dataclass(init=False)
 class Edge(Generic[V]):
-    """ An example edge class that stores edge data. """
+    """ The edge class that stores edge data. """
 
     start: V
     end: V
