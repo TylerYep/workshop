@@ -22,33 +22,6 @@ Separated into two sections:
 Three packages are exposed to the user - algorithms, ml, and structures.
 Imports are done quickly and painlessly. We avoid circular imports by importing algorithms needed to create data structures inline.
 
-## TODO List
-- Re-add repr=False to correct dataclasses. Although, it is usally better to utilize it!!!
-
-
-- Name BFS, DFS after their functionality rather than the algorithm name.
-- The title belongs in the import?
-- Kargers, Kruskals, etc
-
-from src.algorithms import kargers
-kargers.partition_graph()
-
-from src.algorithms.kargers import partition_graph
-partition_graph()
-
-from src.algorithms import kargers
-kargers()
-
------
-
-from src.algorithms import breadth_first_search
-breadth_first_search()
-
-from src.algorithms import bfs
-bfs.find_path()
-
-from src.algorithms.bfs import find_path
-find_path()
 
 ### Types and Data Structures
 Double Ended Queues

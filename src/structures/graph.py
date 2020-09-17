@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import (
     Any,
+    Callable,
     Dict,
     Generic,
     Iterable,
@@ -88,16 +89,27 @@ class Graph(Generic[V]):
         ]
 
     @classmethod
-    def from_graph(cls, graph: Graph[V]) -> Graph[V]:
+    def from_graph(
+        cls,
+        graph: Graph[V],
+        node_fn: Callable[[V], Any] = lambda x: x,
+        edge_fn: Callable[[Edge[V]], Edge[V]] = lambda x: x,
+    ) -> Graph[Any]:
         """
-        Manually copy in order to avoid sharing
-        the same references to neighbor dicts.
+        This function is used to make a copy of a graph, or to apply transformations
+        and return a new version of the graph.
+        We manually copy the contents of the graph in order to avoid sharing the
+        same references to neighbor dicts.
         """
-        new_graph = {}
-        if graph is not None:
-            for u in graph:
-                new_graph[u] = {v: graph[u][v] for v in graph[u]}
-        return Graph(new_graph, is_directed=graph.is_directed)
+        new_graph: Graph[Any] = Graph({}, is_directed=graph.is_directed)
+        for u in graph:
+            new_graph.add_node(node_fn(u))
+        for u in graph:
+            for v in graph[u]:
+                new_u, new_v = node_fn(u), node_fn(v)
+                edge = edge_fn(graph[u][v])
+                new_graph.add_edge(new_u, new_v, weight=edge.weight, **edge.kwargs)
+        return new_graph
 
     @classmethod
     def from_iterable(
@@ -269,6 +281,9 @@ class Edge(Generic[V]):
         for key, kwarg in self.kwargs.items():
             result += f", {key}={kwarg}"
         return result + ")"
+
+    def __hash__(self) -> int:
+        return hash((self.start, self.end))
 
 
 @with_slots

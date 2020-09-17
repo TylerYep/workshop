@@ -1,5 +1,5 @@
 from src.algorithms import kargers
-from src.structures import Graph
+from src.structures import Edge, Graph
 
 
 def test_kargers() -> None:
@@ -22,4 +22,9 @@ def test_kargers() -> None:
 
     partitions = kargers(graph)
 
-    assert partitions == {("8", "6"), ("8", "7"), ("8", "10"), ("8", "9")}
+    assert partitions == {
+        Edge("2", "5", weight=1),
+        Edge("2", "4", weight=1),
+        Edge("2", "1", weight=1),
+        Edge("2", "3", weight=1),
+    }

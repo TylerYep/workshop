@@ -1,16 +1,16 @@
 import random
-from typing import Set, Tuple
+from typing import Set, Tuple, TypeVar
 
-from src.structures import Graph
+from src.structures import Edge, Graph, Node
+
+V = TypeVar("V")
 
 
-def kargers(graph: Graph[str]) -> Set[Tuple[str, str]]:
+def kargers(orig_graph: Graph[V]) -> Set[Edge[V]]:
     """
-    Partitions a graph using Karger's Algorithm. Implemented from
-    pseudocode found here:
-    https://en.wikipedia.org/wiki/Karger%27s_algorithm.
-    This function involves random choices, meaning it will not give
-    consistent outputs.
+    Partitions a graph using Karger's Algorithm.
+    Works on directed and undirected graphs.
+    This function involves random choices, so it does not give consistent outputs.
     Args:
         graph: A dictionary containing adacency lists for the graph.
             Nodes must be strings.
@@ -20,44 +20,36 @@ def kargers(graph: Graph[str]) -> Set[Tuple[str, str]]:
     >>> partition_graph(graph)
     {('0', '1')}
     """
-    # Dict that maps contracted nodes to a set of all the nodes it "contains."
-    contracted_nodes = {node: {node} for node in graph}
+    graph: Graph[Node[Tuple[V, ...]]] = Graph.from_graph(
+        orig_graph, node_fn=lambda x: Node((x,))
+    )
 
-    graph_copy = {node: list(graph[node]) for node in graph}
-
-    while len(graph_copy) > 2:
-
-        # Choose a random edge.
-        u = random.choice(list(graph_copy.keys()))
-        v = random.choice(graph_copy[u])
+    while len(graph) > 2:
+        edge = random.choice(graph.edges)
 
         # Contract edge (u, v) to new node uv
-        uv = u + v
+        uv = Node(edge.start.data + edge.end.data)
 
-        # Use sorted here to make this deterministic TODO change this
-        uv_neighbors = sorted(set(graph_copy[u] + graph_copy[v]))
-        uv_neighbors.remove(u)
-        uv_neighbors.remove(v)
-        graph_copy[uv] = uv_neighbors
+        # TODO Python 3.9 - graph[edge.start] | graph[edge.end]
+        uv_neighbors = {**graph[edge.start], **graph[edge.end]}
+        del uv_neighbors[edge.start]
+        del uv_neighbors[edge.end]
+
+        graph.add_node(uv)
         for neighbor in uv_neighbors:
-            graph_copy[neighbor].append(uv)
-
-        contracted_nodes[uv] = set(contracted_nodes[u].union(contracted_nodes[v]))
+            graph.add_edge(uv, neighbor)
+            graph.add_edge(neighbor, uv)
 
         # Remove nodes u and v.
-        del graph_copy[u]
-        del graph_copy[v]
-        for neighbor in uv_neighbors:
-            if u in graph_copy[neighbor]:
-                graph_copy[neighbor].remove(u)
-            if v in graph_copy[neighbor]:
-                graph_copy[neighbor].remove(v)
+        graph.remove_node(edge.start)
+        graph.remove_node(edge.end)
 
     # Find cutset.
-    groups = [contracted_nodes[node] for node in graph_copy]
-    return {
-        (node, neighbor)
-        for node in groups[0]
-        for neighbor in graph[node]
-        if neighbor in groups[1]
-    }
+    group1, group2 = graph.nodes
+    result_set = set()
+    for subnode in group1.data:
+        for subneighbor in group2.data:
+            if subneighbor in orig_graph[subnode] or subnode in orig_graph[subneighbor]:
+                result_set.add(orig_graph[subnode][subneighbor])
+
+    return result_set

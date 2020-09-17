@@ -22,7 +22,7 @@ def kruskals(graph: Graph[V]) -> List[Edge[V]]:
             if edge.end in set_j:
                 if i == j:
                     break
-                set_j.update(disjoint_sets[i])
+                set_j |= disjoint_sets[i]
                 disjoint_sets.pop(i)
                 mst.append(edge)
                 break
