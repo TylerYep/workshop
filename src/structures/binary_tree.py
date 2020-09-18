@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Generic, Iterator, Optional, TypeVar
 
 from dataslots import with_slots
 
 from src.algorithms.sort.comparable import Comparable
+from src.util import formatter
 
 T = TypeVar("T", bound=Comparable)
 
@@ -16,15 +17,16 @@ class TreeNode(Generic[T]):
     data: T
     left: Optional[TreeNode[T]] = None
     right: Optional[TreeNode[T]] = None
-    parent: Optional[TreeNode[T]] = None
-    # TODO add depth field?
+    parent: Optional[TreeNode[T]] = field(default=None, repr=False)
 
     def __repr__(self) -> str:
-        return f"({self.data})\n-> {self.left}\n-> {self.right}"
+        return str(formatter.pformat(self))
 
 
-@dataclass
+@dataclass(init=False)
 class BinarySearchTree(Generic[T]):
+    root: Optional[TreeNode[T]]
+
     def __init__(self) -> None:
         self.root: Optional[TreeNode[T]] = None
         self.size = 0
@@ -47,9 +49,6 @@ class BinarySearchTree(Generic[T]):
 
     def __bool__(self) -> bool:
         return self.root is not None
-
-    def __repr__(self) -> str:
-        return str(self.root)
 
     def __contains__(self, data: T) -> bool:
         return self.search(data) is not None

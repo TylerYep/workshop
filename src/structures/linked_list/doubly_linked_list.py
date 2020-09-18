@@ -33,6 +33,8 @@ class DoublyLinkedList(Generic[T]):
         backward direction. Delete operation is more efficient.
     """
 
+    head: Optional[DoublyLinkedListNode[T]]
+
     def __init__(self) -> None:
         self.head: Optional[DoublyLinkedListNode[T]] = None
         self.tail: Optional[DoublyLinkedListNode[T]] = None
@@ -49,9 +51,6 @@ class DoublyLinkedList(Generic[T]):
 
     def __bool__(self) -> bool:
         return self.head is not None
-
-    def __repr__(self) -> str:
-        return str(self.head)
 
     def __contains__(self, item: T) -> bool:
         curr = self.head

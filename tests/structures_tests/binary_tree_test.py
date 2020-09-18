@@ -276,3 +276,20 @@ class TestBinarySearchTree:
     def test_preorder_traversal(t: BinarySearchTree[int]) -> None:
         expected = [8, 3, 1, 6, 4, 5, 7, 10, 14, 13]
         assert [i.data for i in t.traversal("preorder")] == expected
+
+    @staticmethod
+    def test_print_tree() -> None:
+        tree = BinarySearchTree[int]()
+        tree.insert(8)
+        tree.insert(6)
+        tree.insert(1)
+        tree.insert(73)
+        tree.insert(11)
+
+        assert str(tree) == (
+            "BinarySearchTree(root=TreeNode(\n"
+            "    data=8,\n"
+            "    left=TreeNode(data=6, left=TreeNode(data=1)),\n"
+            "    right=TreeNode(data=73, left=TreeNode(data=11))\n"
+            "))"
+        )

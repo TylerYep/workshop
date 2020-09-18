@@ -17,3 +17,13 @@ def test_suffix_array() -> None:
     s = SuffixArray("h")
     result = s.search("h")
     assert result == [0], result
+
+
+def test_print_suffix_array() -> None:
+    s = SuffixArray("angrykangaroo")
+
+    assert str(s) == (
+        "['$', 'angaroo$', 'angrykangaroo$', 'aroo$', 'garoo$', "
+        "'grykangaroo$', 'kangaroo$', 'ngaroo$', 'ngrykangaroo$', "
+        "'o$', 'oo$', 'roo$', 'rykangaroo$', 'ykangaroo$']"
+    )

@@ -49,26 +49,30 @@ class SkipList(Generic[KT, VT]):
         if len(items) == 0:
             return f"SkipList(level={self.level})"
 
+        key_size = max((len(str(item)) for item in items))
         label_size = max(max((len(str(item)) for item in items), default=4), 4) + 4
         node = self
         forwards = node.next.copy()
         lines = [
             f"[{'root' if node.key is None else node.key}]".ljust(label_size, "-")
-            + "* " * len(forwards),
-            " " * label_size + "| " * len(forwards),
+            + f"*{' ' * key_size}" * len(forwards),
+            " " * label_size + f"|{' ' * key_size}" * len(forwards),
         ]
 
         while len(node.next) != 0:
             node = node.next[0]
             lines += [
                 f"[{node.key}]".ljust(label_size, "-")
-                + " ".join(str(n.key) if n.key == node.key else "|" for n in forwards),
-                " " * label_size + "| " * len(forwards),
+                + " ".join(
+                    (str(n.key) if n.key == node.key else "|").ljust(key_size, " ")
+                    for n in forwards
+                ),
+                " " * label_size + f"|{' ' * key_size}" * len(forwards),
             ]
             forwards[: len(node.next)] = node.next
 
-        lines.append("None".ljust(label_size) + "* " * len(forwards))
-        return f"SkipList(level={self.level})\n" + "\n".join(lines)
+        lines.append("None".ljust(label_size) + f"*{' ' * key_size}" * len(forwards))
+        return f"______SkipList(level={self.level})______\n" + "\n".join(lines)
 
     def __iter__(self) -> Iterator[KT]:
         node = self

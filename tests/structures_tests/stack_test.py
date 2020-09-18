@@ -3,7 +3,7 @@ from src.structures import Stack
 
 def test_stack() -> None:
     keys = ["the", "a", "there", "anaswe", "any", "by", "their"]
-    stack: Stack[str] = Stack()
+    stack = Stack[str]()
     for key in keys:
         stack.push(key)
 
@@ -11,3 +11,12 @@ def test_stack() -> None:
     assert stack.pop() == "by"
     assert stack.peek() == "any"
     assert stack.pop() == "any"
+
+
+def test_print_queue() -> None:
+    stack = Stack[int]()
+    stack.push(34)
+    stack.push(1)
+    stack.push(7)
+
+    assert str(stack) == "Stack(_stack=[34, 1, 7])"

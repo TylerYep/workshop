@@ -147,3 +147,27 @@ def test_iter_always_yields_sorted_values() -> None:
     skip_list.insert(-12, -12)
     skip_list.insert(77, 77)
     assert is_sorted(list(skip_list))
+
+
+def test_print_skip_list() -> None:
+    skip_list = SkipList[str, int]()
+
+    skip_list.insert("A", 12)
+    skip_list.insert("B", 13)
+    skip_list.insert("C", 142)
+    skip_list.insert("Hello", 142)
+
+    assert str(skip_list) == (
+        "______SkipList(level=3)______\n"
+        "[root]---*     *     *     \n"
+        "         |     |     |     \n"
+        "[A]------A     |     |    \n"
+        "         |     |     |     \n"
+        "[B]------B     |     |    \n"
+        "         |     |     |     \n"
+        "[C]------C     C     C    \n"
+        "         |     |     |     \n"
+        "[Hello]--Hello Hello |    \n"
+        "         |     |     |     \n"
+        "None     *     *     *     "
+    )

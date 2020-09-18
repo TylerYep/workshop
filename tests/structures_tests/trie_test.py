@@ -35,3 +35,24 @@ def test_trie_deletes() -> None:
     root.delete("banana")
     assert "banana" not in root
     assert "bananas" in root
+
+
+def test_print_trie() -> None:
+    words = "t to".split()
+    trie = Trie()
+    for word in words:
+        trie.insert(word)
+
+    assert str(trie) == (
+        "Trie(\n"
+        "    size=2,\n"
+        "    children={\n"
+        "        't': Trie(\n"
+        "            char='t',\n"
+        "            is_leaf=True,\n"
+        "            size=1,\n"
+        "            children={'o': Trie(char='o', is_leaf=True)}\n"
+        "        )\n"
+        "    }\n"
+        ")"
+    )

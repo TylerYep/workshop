@@ -20,8 +20,10 @@ class LinkedListNode(Generic[T]):
 
 @dataclass
 class LinkedList(Generic[T]):
+    head: Optional[LinkedListNode[T]]
+
     def __init__(self) -> None:
-        self.head: Optional[LinkedListNode[T]] = None
+        self.head = None
         self.size = 0
 
     def __len__(self) -> int:
@@ -35,9 +37,6 @@ class LinkedList(Generic[T]):
 
     def __bool__(self) -> bool:
         return self.head is not None
-
-    def __repr__(self) -> str:
-        return str(self.head)
 
     def __contains__(self, item: T) -> bool:
         curr = self.head

@@ -29,3 +29,12 @@ def test_min_heap() -> None:
     assert h.peek() == 10
     h.delete(10)
     assert h.peek() == 40
+
+
+def test_print_heap() -> None:
+    h = BinaryHeap[int]()
+    h.insert(34)
+    h.insert(1)
+    h.insert(7)
+
+    assert str(h) == "BinaryHeap(_heap=[34, 1, 7])"

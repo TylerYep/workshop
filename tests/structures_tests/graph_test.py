@@ -172,3 +172,31 @@ def test_from_graph() -> None:
     assert len(graph) != len(new_graph)
     assert len(graph.edges) != len(new_graph)
     assert graph != new_graph
+
+
+def test_print_graph() -> None:
+    graph = Graph[int]()
+    for i in range(4):
+        graph.add_node(i)
+
+    graph.add_edge(0, 1)
+    for i in range(2):
+        for j in range(1, 4):
+            graph.add_edge(i, j)
+
+    assert str(graph) == (
+        "{\n"
+        "    0: {\n"
+        "        1: Edge(start=0, end=1, weight=1),\n"
+        "        2: Edge(start=0, end=2, weight=1),\n"
+        "        3: Edge(start=0, end=3, weight=1)\n"
+        "    },\n"
+        "    1: {\n"
+        "        1: Edge(start=1, end=1, weight=1),\n"
+        "        2: Edge(start=1, end=2, weight=1),\n"
+        "        3: Edge(start=1, end=3, weight=1)\n"
+        "    },\n"
+        "    2: {},\n"
+        "    3: {}\n"
+        "}"
+    )

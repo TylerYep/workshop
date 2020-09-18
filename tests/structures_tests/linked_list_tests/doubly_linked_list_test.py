@@ -1,7 +1,7 @@
 from src.structures import DoublyLinkedList
 
 
-def test_insert() -> None:
+def test_doubly_linked_list_insert() -> None:
     linked_list = DoublyLinkedList[str]()
     linked_list.insert_at_head("b")
     linked_list.insert_at_tail("c")
@@ -16,3 +16,12 @@ def test_insert() -> None:
     linked_list.delete("b")
     assert linked_list.pop_head() == "d"
     assert len(linked_list) == 0
+
+
+def test_print_doubly_linked_list() -> None:
+    linked_list = DoublyLinkedList[str]()
+    linked_list.insert_at_head("b")
+    linked_list.insert_at_tail("c")
+    linked_list.insert_at_tail("d")
+
+    assert str(linked_list) == "DoublyLinkedList(head=(b) -> (c) -> (d) -> None)"

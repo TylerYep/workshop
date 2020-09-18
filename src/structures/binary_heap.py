@@ -15,8 +15,10 @@ class BinaryHeap(Generic[T]):
     Can be used as min or max by passing the key function accordingly.
     """
 
+    _heap: List[T]
+
     def __init__(self, key: Callable[[T], T] = lambda x: x) -> None:
-        self.heap: List[T] = []
+        self._heap = []
         # Stores indexes of each item for supporting updates and deletion.
         self.pos_map: Dict[T, int] = {}
         # Stores current size of heap.
@@ -29,20 +31,17 @@ class BinaryHeap(Generic[T]):
         return self.size
 
     def __bool__(self) -> bool:
-        return bool(self.heap)
+        return bool(self._heap)
 
     def __contains__(self, item: T) -> bool:
         return item in self.pos_map
 
     def __iter__(self) -> Iterator[T]:
-        yield from self.heap
-
-    def __repr__(self) -> str:
-        return str(self.heap)
+        yield from self._heap
 
     def __getitem__(self, index: int) -> T:
         assert 0 <= index < self.size
-        return self.heap[index]
+        return self._heap[index]
 
     def _parent(self, i: int) -> Optional[int]:
         """ Returns parent index of given index if exists else None """
@@ -61,16 +60,16 @@ class BinaryHeap(Generic[T]):
     def _swap(self, i: int, j: int) -> None:
         """ Performs changes required for swapping two elements in the heap """
         # First update the indexes of the items in index map.
-        self.pos_map[self.heap[i]], self.pos_map[self.heap[j]] = (
-            self.pos_map[self.heap[j]],
-            self.pos_map[self.heap[i]],
+        self.pos_map[self._heap[i]], self.pos_map[self._heap[j]] = (
+            self.pos_map[self._heap[j]],
+            self.pos_map[self._heap[i]],
         )
         # Then swap the items in the list.
-        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
+        self._heap[i], self._heap[j] = self._heap[j], self._heap[i]
 
     def _cmp(self, i: int, j: int) -> bool:
         """ Compares the two items using default comparison """
-        return self.key(self.heap[i]) < self.key(self.heap[j])
+        return self.key(self._heap[i]) < self.key(self._heap[j])
 
     def _get_valid_parent(self, i: int) -> int:
         """
@@ -107,7 +106,7 @@ class BinaryHeap(Generic[T]):
         if item not in self.pos_map:
             raise KeyError("Item not found")
         index = self.pos_map[item]
-        self.heap[index] = new_item
+        self._heap[index] = new_item
         self.pos_map[new_item] = index
 
         # Make sure heap is right in both up and down direction.
@@ -121,8 +120,8 @@ class BinaryHeap(Generic[T]):
             raise KeyError("Item not found")
         index = self.pos_map[item]
         del self.pos_map[item]
-        self.heap[index] = self.heap[self.size - 1]
-        self.pos_map[self.heap[self.size - 1]] = index
+        self._heap[index] = self._heap[self.size - 1]
+        self.pos_map[self._heap[self.size - 1]] = index
         self.size -= 1
         # Make sure heap is right in both up and down direction. Ideally, only one
         # of them will make any change, so no performance loss in calling both.
@@ -133,10 +132,10 @@ class BinaryHeap(Generic[T]):
     def insert(self, item: T) -> None:
         """ Inserts given item with given value in heap """
         new_node = item
-        if len(self.heap) == self.size:
-            self.heap.append(new_node)
+        if len(self._heap) == self.size:
+            self._heap.append(new_node)
         else:
-            self.heap[self.size] = new_node
+            self._heap[self.size] = new_node
         self.pos_map[item] = self.size
         self.size += 1
         self._heapify_up(self.size - 1)
@@ -145,7 +144,7 @@ class BinaryHeap(Generic[T]):
         """ Returns top item tuple (Calculated value, item) from heap if present """
         if self.size == 0:
             raise ValueError("Heap is empty.")
-        return self.heap[0]
+        return self._heap[0]
 
     def pop(self) -> T:
         """
