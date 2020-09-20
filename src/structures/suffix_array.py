@@ -13,11 +13,11 @@ class SuffixArray:
         self.text = text + "$"
         self.suffix_arr = build_suffix_array_sais(text)
 
-    def __getitem__(self, key: int) -> int:
-        return self.suffix_arr[key]
-
     def __str__(self) -> str:
         return str([self.text[suffix_index:] for suffix_index in self.suffix_arr])
+
+    def __getitem__(self, key: int) -> int:
+        return self.suffix_arr[key]
 
     def search(self, pattern: str) -> List[int]:
         """

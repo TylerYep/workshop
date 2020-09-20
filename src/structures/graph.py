@@ -53,6 +53,9 @@ class Graph(Generic[V]):
                     else:
                         raise TypeError(f"{graph[u][v]} is not a supported Edge type.")
 
+    def __str__(self) -> str:
+        return str(formatter.pformat(self._graph))
+
     def __len__(self) -> int:
         return len(self._graph)
 
@@ -68,13 +71,6 @@ class Graph(Generic[V]):
 
     def __iter__(self) -> Iterator[V]:
         yield from self._graph
-
-    def __str__(self) -> str:
-        """
-        Prettify output when used as a string, and use the
-        dataclass default repr in all other cases, e.g. error messages.
-        """
-        return str(formatter.pformat(self._graph))
 
     @property
     def nodes(self) -> KeysView[V]:

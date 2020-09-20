@@ -33,15 +33,15 @@ class Bits:
         assert self.is_solo
         return self.length - int(math.log2(self.val)) - 1
 
+    @classmethod
+    def from_num(cls, val: int, length: int) -> Bits:
+        return cls(f"{val:b}", length)
+
     @staticmethod
     def binary_str(val: int, length: int) -> str:
         # return bin(val & (2 ** length - 1))
         coerced_positive_val = val & (2 ** length - 1)
         return f"{coerced_positive_val:0{length}b}"
-
-    @classmethod
-    def from_num(cls, val: int, length: int) -> Bits:
-        return cls(f"{val:b}", length)
 
     def is_one(self, index: int) -> bool:
         """ Returns True if the bit at given index is 1. """

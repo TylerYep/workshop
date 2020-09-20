@@ -27,7 +27,7 @@ Dataclasses are one of the trickiest things to work with in Python. I tentativel
 Benefits:
 - `__init__`, in constructors that simply set all parameters.
 - `__eq__`, which ensures that a tuple of object fields are compared.
-- `__repr__`, which is perfect for error messages.
+- `__repr__`, which is perfect for error messages. We want to prettify output when used as a string, but use the dataclass default repr in all other cases, e.g. error messages.
 - `@dataclass(order=True)` when nodes or structs should be comparable. If a dataclass is not ideal, using `@functools.total_ordering` is a viable alternative.
 
 My choices:
@@ -38,10 +38,7 @@ My choices:
 
 # Style Guide
 - Use `scripts/install-hooks` to enforce all styles.
-- Order functions within a class in the following order:
-
-
-
+- Order functions within a class using flake8-function-order.
 
 
 ### Types and Data Structures
