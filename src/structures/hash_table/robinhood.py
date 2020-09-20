@@ -22,6 +22,24 @@ class RobinHood(HashTable):
         self.table: List[Pair] = [Pair() for _ in range(num_buckets)]
         self.hash: Callable[[int], int] = lambda x: x % num_buckets
 
+    def __contains__(self, data: int) -> bool:
+        assert data >= 0
+        bucket = self.hash(data) % self.num_buckets
+        for i in range(self.num_buckets):
+            index = (bucket + i) % self.num_buckets
+            if self.table[index].val == data:
+                return True
+
+            if self.table[index].val == -1 or self.table[index].dist < i:
+                break
+        return False
+
+    def __repr__(self) -> str:
+        widths = [len(str(self.table[i])) for i in range(self.num_buckets)]
+        indices = "  |  ".join([f"{i:{widths[i]}}" for i in range(self.num_buckets)])
+        table = "  |  ".join([str(self.table[i]) for i in range(self.num_buckets)])
+        return f"\n{indices}\n{'--' * sum(widths)}\n{table}\n"
+
     def insert(self, data: int) -> bool:
         assert data >= 0
         if self.num_elems == self.capacity:
@@ -39,18 +57,6 @@ class RobinHood(HashTable):
 
         self.num_elems += 1
         return True
-
-    def __contains__(self, data: int) -> bool:
-        assert data >= 0
-        bucket = self.hash(data) % self.num_buckets
-        for i in range(self.num_buckets):
-            index = (bucket + i) % self.num_buckets
-            if self.table[index].val == data:
-                return True
-
-            if self.table[index].val == -1 or self.table[index].dist < i:
-                break
-        return False
 
     def backward_shift(self, index: int) -> None:
         next_index = (index + 1) % self.num_buckets
@@ -76,12 +82,6 @@ class RobinHood(HashTable):
             if self.table[index].val == -1:
                 break
         return False
-
-    def __repr__(self) -> str:
-        widths = [len(str(self.table[i])) for i in range(self.num_buckets)]
-        indices = "  |  ".join([f"{i:{widths[i]}}" for i in range(self.num_buckets)])
-        table = "  |  ".join([str(self.table[i]) for i in range(self.num_buckets)])
-        return f"\n{indices}\n{'--' * sum(widths)}\n{table}\n"
 
     def get_elems(self) -> Set[int]:
         return {x.val for x in self.table}

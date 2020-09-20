@@ -1,4 +1,5 @@
 # type: ignore
+# flake8: noqa
 # pylint: disable=protected-access
 from __future__ import annotations
 

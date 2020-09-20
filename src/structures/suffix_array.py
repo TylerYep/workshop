@@ -1,11 +1,11 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Optional
 
 
-@dataclass
+@dataclass(init=False)
 class SuffixArray:
     text: str
-    suffix_arr: List[int]
+    suffix_arr: List[int] = field(init=False, repr=False, default_factory=list)
 
     def __init__(self, text: str) -> None:
         from src.algorithms import build_suffix_array_sais
@@ -16,7 +16,7 @@ class SuffixArray:
     def __getitem__(self, key: int) -> int:
         return self.suffix_arr[key]
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return str([self.text[suffix_index:] for suffix_index in self.suffix_arr])
 
     def search(self, pattern: str) -> List[int]:
@@ -51,4 +51,4 @@ class SuffixArray:
         high = left_right_binary_search(pattern, False)
         if low is None or high is None:
             return []
-        return sorted([self.suffix_arr[x] for x in range(low, high + 1)])
+        return sorted(self.suffix_arr[x] for x in range(low, high + 1))

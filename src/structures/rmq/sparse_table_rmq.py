@@ -22,6 +22,9 @@ class SparseTableRMQ(RMQ):
                 index2 = self.rmq_table[i - 1][j + 2 ** (i - 1)]
                 self.rmq_table[i][j] = self.return_smaller_index(index1, index2)
 
+    def __repr__(self) -> str:
+        return pformat(np.transpose(np.array(self.rmq_table)))
+
     def rmq(self, low: int, high: int) -> int:
         assert low < high
 
@@ -32,6 +35,3 @@ class SparseTableRMQ(RMQ):
         index1 = self.rmq_table[k][low]
         index2 = self.rmq_table[k][high - 2 ** k]
         return self.return_smaller_index(index1, index2)
-
-    def __repr__(self) -> str:
-        return pformat(np.transpose(np.array(self.rmq_table)))

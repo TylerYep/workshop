@@ -13,7 +13,7 @@ from src.structures import SuffixArray
 def test_build_suffix_array() -> None:
     text = "AAAAACACAG"
     s = SuffixArray(text)
-    assert str(s) == str(sorted([s.text[suffix:] for suffix in s.suffix_arr]))
+    assert str(s) == str(sorted(s.text[suffix:] for suffix in s.suffix_arr))
 
 
 def run_sais(text: str, expected_suffix_arr: List[int]) -> None:

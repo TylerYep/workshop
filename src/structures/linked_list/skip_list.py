@@ -81,6 +81,35 @@ class SkipList(Generic[KT, VT]):
             yield node.next[0].key
             node = node.next[0]
 
+    def __getitem__(self, key: KT) -> VT:
+        node, _ = self._locate_node(key)
+        if node is None or node.value is None:
+            raise KeyError
+        return node.value
+
+    def __contains__(self, key: KT) -> bool:
+        """
+        :param key: Search key.
+        :return: Value associated with given key
+            or None if given key is not present.
+
+        >>> skip_list = SkipList()
+        >>> 2 in skip_list
+        False
+        >>> skip_list.insert(2, "Two")
+        >>> 2 in skip_list
+        True
+        >>> skip_list[2]
+        'Two'
+        >>> skip_list.insert(2, "Three")
+        >>> skip_list[2]
+        'Three'
+        """
+        node, _ = self._locate_node(key)
+        if node is None:
+            return False
+        return True
+
     def random_level(self) -> int:
         """
         :return: Random level from [1, self.max_level] interval.
@@ -90,42 +119,6 @@ class SkipList(Generic[KT, VT]):
         while random.random() < self.p and level < self.max_level:
             level += 1
         return level
-
-    def _locate_node(
-        self, key: KT
-    ) -> Tuple[Optional[SkipList[KT, VT]], List[SkipList[KT, VT]]]:
-        """
-        :param key: Searched key,
-        :return: Tuple with searched node (or None if given key is not present)
-                 and list of nodes that refer (if key is present) of should refer to
-                 given node.
-        """
-        # SkipListNodes with refer or should refer to output node
-        update_vector = []
-        node = self
-
-        for i in reversed(range(self.level)):
-            # i < node.level - When node level is lesser than `i` decrement `i`.
-            # node.next[i].key < key - Jumping to node with key value higher
-            #                             or equal to searched key would result
-            #                             in skipping searched key.
-            while (
-                i < len(node.next) and node.next[i].key < key  # type: ignore[operator]
-            ):
-                node = node.next[i]
-            # Each leftmost node (relative to searched node) will potentially have to
-            # be updated.
-            update_vector.append(node)
-
-        update_vector.reverse()  # Note that we were inserting values in reverse order.
-
-        # len(node.next) != 0 - If current node doesn't contain any further
-        #                          references then searched key is not present.
-        # node.next[0].key == key - Next node key should be equal to search key
-        #                              if key is present.
-        if len(node.next) != 0 and node.next[0].key == key:
-            return node.next[0], update_vector
-        return None, update_vector
 
     def delete(self, key: KT) -> None:
         """
@@ -171,7 +164,7 @@ class SkipList(Generic[KT, VT]):
         level = self.random_level()
         if level > self.level:
             # After level increase we have to add additional nodes to head.
-            for i in range(self.level - 1, level):
+            for _ in range(self.level - 1, level):
                 update_vector.append(self)
             self.level = level
 
@@ -185,31 +178,38 @@ class SkipList(Generic[KT, VT]):
             else:
                 update_node.next[i] = new_node
 
-    def __getitem__(self, key: KT) -> VT:
-        node, _ = self._locate_node(key)
-        if node is None or node.value is None:
-            raise KeyError
-        return node.value
-
-    def __contains__(self, key: KT) -> bool:
+    def _locate_node(
+        self, key: KT
+    ) -> Tuple[Optional[SkipList[KT, VT]], List[SkipList[KT, VT]]]:
         """
-        :param key: Search key.
-        :return: Value associated with given key
-            or None if given key is not present.
-
-        >>> skip_list = SkipList()
-        >>> 2 in skip_list
-        False
-        >>> skip_list.insert(2, "Two")
-        >>> 2 in skip_list
-        True
-        >>> skip_list[2]
-        'Two'
-        >>> skip_list.insert(2, "Three")
-        >>> skip_list[2]
-        'Three'
+        :param key: Searched key,
+        :return: Tuple with searched node (or None if given key is not present)
+                 and list of nodes that refer (if key is present) of should refer to
+                 given node.
         """
-        node, _ = self._locate_node(key)
-        if node is None:
-            return False
-        return True
+        # SkipListNodes with refer or should refer to output node
+        update_vector = []
+        node = self
+
+        for i in reversed(range(self.level)):
+            # i < node.level - When node level is lesser than `i` decrement `i`.
+            # node.next[i].key < key - Jumping to node with key value higher
+            #                             or equal to searched key would result
+            #                             in skipping searched key.
+            while (
+                i < len(node.next) and node.next[i].key < key  # type: ignore[operator]
+            ):
+                node = node.next[i]
+            # Each leftmost node (relative to searched node) will potentially have to
+            # be updated.
+            update_vector.append(node)
+
+        update_vector.reverse()  # Note that we were inserting values in reverse order.
+
+        # len(node.next) != 0 - If current node doesn't contain any further
+        #                          references then searched key is not present.
+        # node.next[0].key == key - Next node key should be equal to search key
+        #                              if key is present.
+        if len(node.next) != 0 and node.next[0].key == key:
+            return node.next[0], update_vector
+        return None, update_vector

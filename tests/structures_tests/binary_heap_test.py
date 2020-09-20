@@ -37,4 +37,4 @@ def test_print_heap() -> None:
     h.insert(1)
     h.insert(7)
 
-    assert str(h) == "BinaryHeap(_heap=[34, 1, 7])"
+    assert repr(h) == str(h) == "BinaryHeap(_heap=[34, 1, 7])"

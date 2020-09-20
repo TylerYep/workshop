@@ -29,6 +29,35 @@ class Cuckoo(HashTable):
         self.hash_1 = hash_function(self.curr_hash_fn_num)
         self.hash_2 = hash_function(self.curr_hash_fn_num + 1)
 
+    def __contains__(self, data: int) -> bool:
+        assert data >= 0
+        bucket = self.hash_1(data) % self.num_buckets
+        if self.table_1[bucket] == data:
+            return True
+
+        bucket = self.hash_2(data) % self.num_buckets
+        if self.table_2[bucket] == data:
+            return True
+
+        return False
+
+    def __repr__(self) -> str:
+        widths = [
+            max(
+                len(str(self.table_1[i])) + int(self.table_1[i] < 0) - 1,
+                len(str(self.table_2[i])) + int(self.table_2[i] < 0) - 1,
+            )
+            for i in range(self.num_buckets)
+        ]
+        indices = "  |  ".join([f"{i:{width}}" for i, width in enumerate(widths)])
+        table1 = "  |  ".join(
+            [f"{self.table_1[i]:{width}}" for i, width in enumerate(widths)]
+        )
+        table2 = "  |  ".join(
+            [f"{self.table_2[i]:{width}}" for i, width in enumerate(widths)]
+        )
+        return f"\n{indices}\n{'---' * sum(widths)}\n{table1}\n{table2}\n"
+
     @staticmethod
     def rehashing_limit(num_buckets: int) -> int:
         return int(6 * math.log(num_buckets * 2))
@@ -79,18 +108,6 @@ class Cuckoo(HashTable):
 
         return True
 
-    def __contains__(self, data: int) -> bool:
-        assert data >= 0
-        bucket = self.hash_1(data) % self.num_buckets
-        if self.table_1[bucket] == data:
-            return True
-
-        bucket = self.hash_2(data) % self.num_buckets
-        if self.table_2[bucket] == data:
-            return True
-
-        return False
-
     def remove(self, data: int) -> bool:
         assert data >= 0
 
@@ -105,20 +122,3 @@ class Cuckoo(HashTable):
             return True
 
         return False
-
-    def __repr__(self) -> str:
-        widths = [
-            max(
-                len(str(self.table_1[i])) + int(self.table_1[i] < 0) - 1,
-                len(str(self.table_2[i])) + int(self.table_2[i] < 0) - 1,
-            )
-            for i in range(self.num_buckets)
-        ]
-        indices = "  |  ".join([f"{i:{width}}" for i, width in enumerate(widths)])
-        table1 = "  |  ".join(
-            [f"{self.table_1[i]:{width}}" for i, width in enumerate(widths)]
-        )
-        table2 = "  |  ".join(
-            [f"{self.table_2[i]:{width}}" for i, width in enumerate(widths)]
-        )
-        return f"\n{indices}\n{'---' * sum(widths)}\n{table1}\n{table2}\n"

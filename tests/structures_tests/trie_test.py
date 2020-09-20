@@ -43,6 +43,11 @@ def test_print_trie() -> None:
     for word in words:
         trie.insert(word)
 
+    assert repr(trie) == (
+        "Trie(char='', is_leaf=False, size=2, children={'t': "
+        "Trie(char='t', is_leaf=True, size=1, children={'o': "
+        "Trie(char='o', is_leaf=True, size=0, children={})})})"
+    )
     assert str(trie) == (
         "Trie(\n"
         "    size=2,\n"

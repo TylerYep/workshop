@@ -11,7 +11,7 @@ folder = "large_runs"
 for filename in sorted(os.listdir(folder)):
     with open(os.path.join(folder, filename)) as f:
         reg = re.compile(r"primitive calls\) in ([^ seconds]*)")
-        for line in f:
+        for _ in f:
             time = float(reg.findall(f.read())[0])
             times.append(time)
 

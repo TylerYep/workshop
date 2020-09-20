@@ -3,13 +3,15 @@ codecov==2.1.9
 f2format==0.8.6
 filprofiler==0.10.0
 flake8==3.8.3
+flake8-bugbear==20.1.4
+flake8-comprehensions==3.2.3
 isort==5.5.2
 mypy==0.782
 pip==20.2.3
 pur==5.3.0
 pylint==2.6.0
 pylint-pytest==0.3.0
-pyre-check==0.0.54
+pyre-check==0.0.55
 pytest==6.0.2
 pytest-cov==2.10.1
 pytest-timeout==1.4.2

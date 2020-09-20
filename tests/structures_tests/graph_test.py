@@ -184,7 +184,8 @@ def test_print_graph() -> None:
         for j in range(1, 4):
             graph.add_edge(i, j)
 
-    assert str(graph) == (
+    graph_str = str(graph)
+    assert graph_str == (
         "{\n"
         "    0: {\n"
         "        1: Edge(start=0, end=1, weight=1),\n"
@@ -200,3 +201,10 @@ def test_print_graph() -> None:
         "    3: {}\n"
         "}"
     )
+    graph_str = (
+        graph_str.replace("\n", "")
+        .replace(" " * 4, "")
+        .replace("},", "}, ")
+        .replace("),", "), ")
+    )
+    assert repr(graph) == (f"Graph(_graph={graph_str}, is_directed=True)")

@@ -38,7 +38,7 @@ class Trie:
             trie = trie.children[ch]
         return trie.is_leaf
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return str(formatter.pformat(self))
 
     def insert(self, text: str) -> None:

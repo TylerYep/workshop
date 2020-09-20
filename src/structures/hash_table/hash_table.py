@@ -8,13 +8,7 @@ class HashTable:
         self.capacity = num_buckets
         self.num_elems = 0
 
-    def insert(self, data: int) -> bool:
-        raise NotImplementedError
-
     def __contains__(self, data: int) -> bool:
-        raise NotImplementedError
-
-    def remove(self, data: int) -> bool:
         raise NotImplementedError
 
     def __repr__(self) -> str:
@@ -25,3 +19,9 @@ class HashTable:
         indices = "  |  ".join([f"{i:{widths[i]}}" for i in range(self.num_buckets)])
         table = "  |  ".join([str(self.table[i]) for i in range(self.num_buckets)])
         return f"\n{indices}\n{'---' * sum(widths)}\n{table}\n"
+
+    def insert(self, data: int) -> bool:
+        raise NotImplementedError
+
+    def remove(self, data: int) -> bool:
+        raise NotImplementedError

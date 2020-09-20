@@ -8,6 +8,10 @@ class LinearProbing(HashTable):
         super().__init__(num_buckets)
         self.table = [-1 for _ in range(num_buckets)]
 
+    def __contains__(self, data: int) -> bool:
+        assert data >= 0
+        return self._find_data(data) >= 0
+
     def insert(self, data: int) -> bool:
         assert data >= 0
         if self.num_elems == self.capacity or data in self:
@@ -23,21 +27,6 @@ class LinearProbing(HashTable):
         self.num_elems += 1
         return True
 
-    def _find_data(self, data: int) -> int:
-        assert data >= 0
-        bucket = hash(data) % self.num_buckets
-        for i in range(self.num_buckets):
-            index = (bucket + i) % self.num_buckets
-            if self.table[index] == data:
-                return index
-            if self.table[index] == -1:
-                break
-        return -1
-
-    def __contains__(self, data: int) -> bool:
-        assert data >= 0
-        return self._find_data(data) >= 0
-
     def remove(self, data: int) -> bool:
         assert data >= 0
         index = self._find_data(data)
@@ -50,3 +39,14 @@ class LinearProbing(HashTable):
 
     def get_elems(self) -> Set[int]:
         return set(self.table)
+
+    def _find_data(self, data: int) -> int:
+        assert data >= 0
+        bucket = hash(data) % self.num_buckets
+        for i in range(self.num_buckets):
+            index = (bucket + i) % self.num_buckets
+            if self.table[index] == data:
+                return index
+            if self.table[index] == -1:
+                break
+        return -1

@@ -19,6 +19,9 @@ class UIntPQueue:
         self.fheap = Fibonacci_heap()
         self.entries = [None] * (max_num + 1)
 
+    def __len__(self) -> int:
+        return len(self.fheap)
+
     def enqueue(self, value: Vertex, priority: float) -> None:
         if self.entries[value] is None:
             self.entries[value] = self.fheap.enqueue(value, priority)
@@ -29,9 +32,6 @@ class UIntPQueue:
         value = self.fheap.dequeue_min().m_elem
         self.entries[value] = None
         return value
-
-    def __len__(self) -> int:
-        return len(self.fheap)
 
 
 class ApproxDistanceOracle:
@@ -73,7 +73,7 @@ class ApproxDistanceOracle:
         self.p[k] = [None] * self.n  # type: ignore[list-item]
 
         # Initialize empty bunches
-        self.B: List[Set[Vertex]] = [set([v]) for v in V]
+        self.B: List[Set[Vertex]] = [{v} for v in V]
 
         # Initialize table of calculated distances
         self.distances = defaultdict(lambda: INF)

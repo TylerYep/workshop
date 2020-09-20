@@ -19,4 +19,4 @@ def test_print_queue() -> None:
     stack.push(1)
     stack.push(7)
 
-    assert str(stack) == "Stack(_stack=[34, 1, 7])"
+    assert repr(stack) == str(stack) == "Stack(_stack=[34, 1, 7])"

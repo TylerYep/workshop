@@ -286,10 +286,14 @@ class TestBinarySearchTree:
         tree.insert(73)
         tree.insert(11)
 
-        assert str(tree) == (
-            "BinarySearchTree(root=TreeNode(\n"
-            "    data=8,\n"
-            "    left=TreeNode(data=6, left=TreeNode(data=1)),\n"
-            "    right=TreeNode(data=73, left=TreeNode(data=11))\n"
-            "))"
+        assert (
+            repr(tree)
+            == str(tree)
+            == (
+                "BinarySearchTree(root=TreeNode(\n"
+                "    data=8,\n"
+                "    left=TreeNode(data=6, left=TreeNode(data=1)),\n"
+                "    right=TreeNode(data=73, left=TreeNode(data=11))\n"
+                "))"
+            )
         )

@@ -8,7 +8,7 @@ from src.algorithms.sort.comparable import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-@dataclass
+@dataclass(init=False)
 class BinaryHeap(Generic[T]):
     """
     A generic Heap class, represented by an array.
@@ -19,12 +19,8 @@ class BinaryHeap(Generic[T]):
 
     def __init__(self, key: Callable[[T], T] = lambda x: x) -> None:
         self._heap = []
-        # Stores indexes of each item for supporting updates and deletion.
-        self.pos_map: Dict[T, int] = {}
-        # Stores current size of heap.
+        self.elem_to_index: Dict[T, int] = {}
         self.size = 0
-        # Stores function used to evaluate the score of an item on which basis
-        # ordering will be done.
         self.key = key
 
     def __len__(self) -> int:
@@ -34,7 +30,7 @@ class BinaryHeap(Generic[T]):
         return bool(self._heap)
 
     def __contains__(self, item: T) -> bool:
-        return item in self.pos_map
+        return item in self.elem_to_index
 
     def __iter__(self) -> Iterator[T]:
         yield from self._heap
@@ -42,6 +38,60 @@ class BinaryHeap(Generic[T]):
     def __getitem__(self, index: int) -> T:
         assert 0 <= index < self.size
         return self._heap[index]
+
+    def update(self, item: T, new_item: T) -> None:
+        """ Updates given item value in heap if present """
+        if item not in self.elem_to_index:
+            raise KeyError("Item not found")
+        index = self.elem_to_index[item]
+        self._heap[index] = new_item
+        self.elem_to_index[new_item] = index
+
+        # Make sure heap is right in both up and down direction.
+        # Ideally only one of them will make any change.
+        self._heapify_up(index)
+        self._heapify_down(index)
+
+    def delete(self, item: T) -> None:
+        """ Deletes given item from heap if present """
+        if item not in self.elem_to_index:
+            raise KeyError("Item not found")
+        index = self.elem_to_index[item]
+        del self.elem_to_index[item]
+        self._heap[index] = self._heap[self.size - 1]
+        self.elem_to_index[self._heap[self.size - 1]] = index
+        self.size -= 1
+        # Make sure heap is right in both up and down direction. Ideally, only one
+        # of them will make any change, so no performance loss in calling both.
+        if self.size > index:
+            self._heapify_up(index)
+            self._heapify_down(index)
+
+    def insert(self, item: T) -> None:
+        """ Inserts given item with given value in heap """
+        new_node = item
+        if len(self._heap) == self.size:
+            self._heap.append(new_node)
+        else:
+            self._heap[self.size] = new_node
+        self.elem_to_index[item] = self.size
+        self.size += 1
+        self._heapify_up(self.size - 1)
+
+    def peek(self) -> T:
+        """ Returns top item tuple (Calculated value, item) from heap if present """
+        if self.size == 0:
+            raise ValueError("Heap is empty.")
+        return self._heap[0]
+
+    def pop(self) -> T:
+        """
+        Return top item tuple (Calculated value, item) from heap and removes it as well
+        if present
+        """
+        top_item = self.peek()
+        self.delete(top_item)
+        return top_item
 
     def _parent(self, i: int) -> Optional[int]:
         """ Returns parent index of given index if exists else None """
@@ -60,9 +110,9 @@ class BinaryHeap(Generic[T]):
     def _swap(self, i: int, j: int) -> None:
         """ Performs changes required for swapping two elements in the heap """
         # First update the indexes of the items in index map.
-        self.pos_map[self._heap[i]], self.pos_map[self._heap[j]] = (
-            self.pos_map[self._heap[j]],
-            self.pos_map[self._heap[i]],
+        self.elem_to_index[self._heap[i]], self.elem_to_index[self._heap[j]] = (
+            self.elem_to_index[self._heap[j]],
+            self.elem_to_index[self._heap[i]],
         )
         # Then swap the items in the list.
         self._heap[i], self._heap[j] = self._heap[j], self._heap[i]
@@ -100,57 +150,3 @@ class BinaryHeap(Generic[T]):
         while valid_parent != index:
             self._swap(index, valid_parent)
             index, valid_parent = valid_parent, self._get_valid_parent(valid_parent)
-
-    def update(self, item: T, new_item: T) -> None:
-        """ Updates given item value in heap if present """
-        if item not in self.pos_map:
-            raise KeyError("Item not found")
-        index = self.pos_map[item]
-        self._heap[index] = new_item
-        self.pos_map[new_item] = index
-
-        # Make sure heap is right in both up and down direction.
-        # Ideally only one of them will make any change.
-        self._heapify_up(index)
-        self._heapify_down(index)
-
-    def delete(self, item: T) -> None:
-        """ Deletes given item from heap if present """
-        if item not in self.pos_map:
-            raise KeyError("Item not found")
-        index = self.pos_map[item]
-        del self.pos_map[item]
-        self._heap[index] = self._heap[self.size - 1]
-        self.pos_map[self._heap[self.size - 1]] = index
-        self.size -= 1
-        # Make sure heap is right in both up and down direction. Ideally, only one
-        # of them will make any change, so no performance loss in calling both.
-        if self.size > index:
-            self._heapify_up(index)
-            self._heapify_down(index)
-
-    def insert(self, item: T) -> None:
-        """ Inserts given item with given value in heap """
-        new_node = item
-        if len(self._heap) == self.size:
-            self._heap.append(new_node)
-        else:
-            self._heap[self.size] = new_node
-        self.pos_map[item] = self.size
-        self.size += 1
-        self._heapify_up(self.size - 1)
-
-    def peek(self) -> T:
-        """ Returns top item tuple (Calculated value, item) from heap if present """
-        if self.size == 0:
-            raise ValueError("Heap is empty.")
-        return self._heap[0]
-
-    def pop(self) -> T:
-        """
-        Return top item tuple (Calculated value, item) from heap and removes it as well
-        if present
-        """
-        top_item = self.peek()
-        self.delete(top_item)
-        return top_item

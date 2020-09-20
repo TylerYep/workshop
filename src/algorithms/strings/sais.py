@@ -28,7 +28,7 @@ def build_suffix_array_naive(source: str) -> List[int]:
     Runtime: O(n log n)
     """
     n = len(source)
-    suffixes = sorted([source[offset:] for offset in range(n + 1)])
+    suffixes = sorted(source[offset:] for offset in range(n + 1))
     return [n - len(suffix) for suffix in suffixes]
 
 
@@ -170,14 +170,14 @@ def induced_sort(
 
     # Make backward pass and insert all LMS suffixes into their
     # proper places at the bucket ends.
-    for i, lms_suffix in enumerate(reversed(lms_suffixes)):
+    for lms_suffix in reversed(lms_suffixes):
         bucket = bucket_ends[text[lms_suffix]]
         suffix_arr[bucket] = lms_suffix
         bucket_ends[text[lms_suffix]] -= 1
 
     # Make forward pass and insert all L-type suffixes
     # into the proper places at the bucket starts.
-    for i, key in enumerate(suffix_arr):
+    for key in suffix_arr:
         if key > 0:
             ind = key - 1
             if suffix_marks[ind] == SuffixType.L:
@@ -234,7 +234,7 @@ def to_rank_array(text: str) -> List[int]:
     >>> to_rank_array("ACGTGCCTAGCCTACCGTGCC")
     [1, 2, 3, 4, 3, 2, 2, 4, 1, 3, 2, 2, 4, 1, 2, 2, 3, 4, 3, 2, 2, 0]
     """
-    chars = sorted(list(set(text)))
+    chars = sorted(set(text))
     char_map: Dict[str, int] = {}
     for ch in chars:
         char_map[ch] = len(char_map) + 1
