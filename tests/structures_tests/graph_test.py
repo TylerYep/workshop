@@ -111,12 +111,12 @@ def test_str_adj_graph() -> None:
     assert len(graph) == 4
     assert len(graph.nodes) == 4
     assert len(graph.edges) == 4
-    assert graph.edges == [
+    assert graph.edges == {
         Edge("hi", "hello", 3),
         Edge("bye", "hello", 2),
         Edge("bye", "what up", 4),
         Edge("bye", "bye", 0),
-    ]
+    }
     assert list(graph.adj("bye")) == ["hello", "what up", "bye"]
     assert graph.degree("bye") == 3
 

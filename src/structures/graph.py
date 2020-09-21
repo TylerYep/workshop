@@ -12,6 +12,7 @@ from typing import (
     List,
     Optional,
     Sequence,
+    Set,
     TypeVar,
 )
 
@@ -77,12 +78,12 @@ class Graph(Generic[V]):
         return self._graph.keys()
 
     @property
-    def edges(self) -> List[Edge[V]]:
-        return [
+    def edges(self) -> Set[Edge[V]]:
+        return {
             self._graph[v_id1][v_id2]
             for v_id1 in self._graph
             for v_id2 in self._graph[v_id1]
-        ]
+        }
 
     @classmethod
     def from_graph(
@@ -197,10 +198,9 @@ class Graph(Generic[V]):
         Replaces the edge if it already exists.
         """
         self.verify_nodes_exist(v_id1, v_id2)
-        edge = Edge(v_id1, v_id2, weight, **kwargs)
-        self._graph[v_id1][v_id2] = edge
+        self._graph[v_id1][v_id2] = Edge(v_id1, v_id2, weight, **kwargs)
         if not self.is_directed:
-            self._graph[v_id2][v_id1] = edge
+            self._graph[v_id2][v_id1] = Edge(v_id2, v_id1, weight, **kwargs)
 
     def remove_node(self, v_id: V) -> None:
         """
@@ -224,6 +224,8 @@ class Graph(Generic[V]):
         self.verify_nodes_exist(v_id1, v_id2)
         if v_id2 in self._graph[v_id1]:
             del self._graph[v_id1][v_id2]
+            if not self.is_directed:
+                del self._graph[v_id2][v_id1]
 
     def is_bipartite(self) -> bool:
         """
@@ -251,7 +253,7 @@ class Graph(Generic[V]):
         return True
 
 
-@dataclass(init=False)
+@dataclass(init=False, repr=False)
 class Edge(Generic[V]):
     """ The edge class that stores edge data. """
 
@@ -272,7 +274,6 @@ class Edge(Generic[V]):
         self.kwargs[attr] = value
 
     def __repr__(self) -> str:
-        """ Does not show weight if weight is None. """
         result = str(formatter.pformat(self))[:-1]
         for key, kwarg in self.kwargs.items():
             result += f", {key}={kwarg}"

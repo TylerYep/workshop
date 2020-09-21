@@ -1,29 +1,28 @@
-from typing import List, TypeVar
+from typing import Set, TypeVar
 
-from src.structures import Edge, Graph
+from src.structures import DisjointSet, Edge, Graph
 
 V = TypeVar("V")
 
 
-def kruskals(graph: Graph[V]) -> List[Edge[V]]:
+def kruskals(graph: Graph[V]) -> Set[Edge[V]]:
     """
-    Kruskal's MST Algorithm
+    Kruskal's MST Algorithm.
+    Not 100% deterministic because edges with the same weight
+    are arbitrarily ordered.
     """
     edge_queue = sorted(graph.edges, reverse=True, key=lambda e: e.weight)
-    disjoint_sets = [{node} for node in graph]
-    mst = []
-    while len(disjoint_sets) != 1:
+    disjoint_sets = DisjointSet[V]()
+    for node in graph:
+        disjoint_sets.make_set(node)
+
+    mst = set()
+    num_sets = len(disjoint_sets)
+    while num_sets != 1:
         edge = edge_queue.pop()
-        i = 0
-        for set_i in disjoint_sets:
-            if edge.start in set_i:
-                i += 1
-        for j, set_j in enumerate(disjoint_sets):
-            if edge.end in set_j:
-                if i == j:
-                    break
-                set_j |= disjoint_sets[i]
-                disjoint_sets.pop(i)
-                mst.append(edge)
-                break
+        orig_num_sets = num_sets
+        disjoint_sets.union(edge.start, edge.end)
+        num_sets = len(disjoint_sets)
+        if num_sets < orig_num_sets:
+            mst.add(edge)
     return mst

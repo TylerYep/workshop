@@ -1,4 +1,4 @@
-""" statements.py """
+""" bits.py """
 from __future__ import annotations
 
 import math
@@ -7,7 +7,7 @@ from typing import Optional
 
 class Bits:
     def __init__(self, val: str = "", length: Optional[int] = None) -> None:
-        # assert all(ch in ("0", "1") for ch in val)
+        assert all(ch in ("0", "1") for ch in val)
         self.val = int(val, 2) if val else -1  # -1 == 111111
         self.length = len(val) if length is None else length
 

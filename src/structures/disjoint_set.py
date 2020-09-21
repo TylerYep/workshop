@@ -37,10 +37,11 @@ class DisjointSet(Generic[T]):
         self.node_data: List[DisjointSetNode[T]] = []
         self.data_to_index: Dict[T, int] = {}
         self.mode = mode
+        self.num_roots = 0
         # self.root_nodes: List[int] = []
 
     def __len__(self) -> int:
-        return len(self.node_data)
+        return self.num_roots
 
     def __contains__(self, item: T) -> bool:
         return item in self.data_to_index
@@ -71,6 +72,7 @@ class DisjointSet(Generic[T]):
             node = DisjointSetNode(elem, new_node_index)
             self.node_data.append(node)
             self.data_to_index[elem] = new_node_index
+            self.num_roots += 1
 
     def find_set(self, elem: T) -> T:
         """
@@ -89,6 +91,7 @@ class DisjointSet(Generic[T]):
         """
         Union two sets. Make the set with bigger rank the parent, so that the
         disjoint set tree will be more flat.
+        Returns True if two sets were merges, False otherwise.
         """
         a, b = self.find_set(a), self.find_set(b)
         if a == b:
@@ -113,6 +116,8 @@ class DisjointSet(Generic[T]):
                 x.parent = y.parent
             else:
                 y.parent = x.parent
+
+        self.num_roots -= 1
 
     def is_connected(self, x: T, y: T) -> bool:
         """

@@ -1,10 +1,10 @@
-from src.algorithms import kargers
-from src.structures import Edge, Graph
+from src.algorithms import connected_components, kargers
+from src.structures import Graph
 
 
 def test_kargers() -> None:
     # Adjacency list representation of this graph:
-    # https://en.wikipedia.org/wiki/File:Single_run_of_Karger%E2%80%99s_Mincut_algorithm.svg
+    # en.wikipedia.org/wiki/File:Single_run_of_Karger%E2%80%99s_Mincut_algorithm.svg
     graph = Graph.from_iterable(
         {
             "1": ["2", "3", "4", "5"],
@@ -19,12 +19,10 @@ def test_kargers() -> None:
             "10": ["6", "7", "8", "9", "3"],
         }
     )
+    assert len(connected_components(graph)) == 1
 
     partitions = kargers(graph)
 
-    assert partitions == {
-        Edge("2", "5", weight=1),
-        Edge("2", "4", weight=1),
-        Edge("2", "1", weight=1),
-        Edge("2", "3", weight=1),
-    }
+    for edge in partitions:
+        graph.remove_edge(edge.start, edge.end)
+    assert len(connected_components(graph)) == 2

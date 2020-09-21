@@ -25,7 +25,8 @@ def kargers(orig_graph: Graph[V]) -> Set[Edge[V]]:
     )
 
     while len(graph) > 2:
-        edge = random.choice(graph.edges)
+        edge = random.choice(tuple(graph.edges))
+        print(edge)
 
         # Contract edge (u, v) to new node uv
         uv = Node(edge.start.data + edge.end.data)
@@ -38,7 +39,8 @@ def kargers(orig_graph: Graph[V]) -> Set[Edge[V]]:
         graph.add_node(uv)
         for neighbor in uv_neighbors:
             graph.add_edge(uv, neighbor)
-            graph.add_edge(neighbor, uv)
+            if graph.is_directed:
+                graph.add_edge(neighbor, uv)
 
         # Remove nodes u and v.
         graph.remove_node(edge.start)
