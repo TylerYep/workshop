@@ -26,8 +26,6 @@ def bwt_transform(s: str) -> Tuple[str, int]:
     :param s: The string that will be used at bwt algorithm
     :return: the string composed of the last char of each row of the ordered
     rotations and the index of the original string at ordered rotations list
-    :raises TypeError: If the s parameter type is not str
-    :raises ValueError: If the s parameter is empty
     """
     rotations = sorted(all_rotations(s))
     return "".join([word[-1] for word in rotations]), rotations.index(s)

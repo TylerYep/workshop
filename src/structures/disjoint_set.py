@@ -23,7 +23,7 @@ class DisjointSetNode(Generic[T]):
 
 
 @unique
-class DisjointSetMode(Enum):
+class UnionMode(Enum):
     SIZE = auto()
     RANK = auto()
     INDEX = auto()
@@ -31,14 +31,13 @@ class DisjointSetMode(Enum):
 
 @dataclass(init=False, repr=False)
 class DisjointSet(Generic[T]):
-    mode: DisjointSetMode
+    mode: UnionMode
 
-    def __init__(self, mode: DisjointSetMode = DisjointSetMode.INDEX) -> None:
+    def __init__(self, mode: UnionMode = UnionMode.INDEX) -> None:
         self.node_data: List[DisjointSetNode[T]] = []
         self.data_to_index: Dict[T, int] = {}
         self.mode = mode
         self.num_roots = 0
-        # self.root_nodes: List[int] = []
 
     def __len__(self) -> int:
         return self.num_roots
@@ -98,20 +97,20 @@ class DisjointSet(Generic[T]):
             return
         x, y = self[a], self[b]
 
-        if self.mode is DisjointSetMode.SIZE:
+        if self.mode is UnionMode.SIZE:
             if x.size < y.size:
                 x, y = y, x
             y.parent = x
             x.size += y.size
 
-        elif self.mode is DisjointSetMode.RANK:
+        elif self.mode is UnionMode.RANK:
             if x.rank < y.rank:
                 x, y = y, x
             y.parent = x
             if x.rank == y.rank:
                 x.rank += 1
 
-        elif self.mode is DisjointSetMode.INDEX:
+        elif self.mode is UnionMode.INDEX:
             if self.data_to_index[a] < self.data_to_index[b]:
                 x.parent = y.parent
             else:
@@ -127,13 +126,6 @@ class DisjointSet(Generic[T]):
             (i.e. they have the same root), False otherwise.
         """
         return self.find_set(x) == self.find_set(y)
-
-    # def __repr__(self) -> str:
-    #     value_dict: DefaultDict[T, List[T]] = defaultdict(list)
-    #     for key, value in sorted(self._data.items()):
-    #         value_dict[value].append(key)
-    #     values = ", ".join([f"{key} <- {value}" for key, value in value_dict.items()])
-    #     return f"{self.__class__.__name__}({values})"
 
     def itersets(self) -> List[Set[T]]:
         """

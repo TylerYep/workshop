@@ -4,7 +4,7 @@
 # V = TypeVar("V")
 
 
-# def prim(G: Graph[Any, float], start: V) -> Dict[V, float]:
+# def prim(graph: Graph[V], start: V) -> Dict[V, float]:
 #     """
 #     Prim's MST Algorithm
 #         Args :  G - Dictionary of edges
@@ -17,16 +17,16 @@
 #     distances = {start: 0}
 #     visited = set()
 #     path = {start: 0}
-#     while len(visited) != len(G) - 1:
+#     while len(visited) != len(graph) - 1:
 #         mini = 100000
 #         for v in distances:
 #             if v not in visited and distances[v] < mini:
 #                 mini = distances[v]
 #                 u = v
 #         visited.add(u)
-#         for v in G[u]:
-#             if v[0] not in visited:
-#                 if v[1] < distances.get(v[0], 100000):
-#                     distances[v[0]] = v[1]
-#                     path[v[0]] = u
+#         for edge in graph[u].values():
+#             if edge.start not in visited:
+#                 if edge.end < distances.get(edge.start, 100000):
+#                     distances[edge.start] = edge.end
+#                     path[edge.start] = start
 #     return distances
