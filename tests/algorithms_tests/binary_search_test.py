@@ -1,8 +1,6 @@
 import bisect
-import timeit
 
-import pytest
-
+from conftest import assert_a_faster_than_b
 from src.algorithms import binary_search, left_right_binary_search, linear_search
 
 
@@ -45,8 +43,6 @@ def test_left_right_binary_search() -> None:
     )
 
 
-@pytest.mark.skip(reason="Takes ~2 seconds to run")  # type: ignore[misc]
 def test_binary_search_runtime() -> None:
-    timed_linear = timeit.timeit(lambda: linear_search(range(11), target=10))
-    timed_binary = timeit.timeit(lambda: binary_search(range(11), target=10))
-    assert timed_linear > timed_binary
+    lst = range(1001)
+    assert_a_faster_than_b(binary_search, linear_search, lst, target=1000)

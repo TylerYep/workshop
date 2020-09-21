@@ -6,7 +6,7 @@ import pytest
 from src.ml.knn import KNearestNeighbors
 
 
-@pytest.mark.skip(reason="Takes ~0.3 seconds to run")  # type: ignore[misc]
+@pytest.mark.skip(reason="Takes too long to run")  # type: ignore[misc]
 def test_knn_compute_distance(fashion_mnist: Tuple[np.ndarray, ...]) -> None:
     X_train, y_train, X_test, _ = fashion_mnist
 
