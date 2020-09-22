@@ -44,5 +44,5 @@ def test_left_right_binary_search() -> None:
 
 
 def test_binary_search_runtime() -> None:
-    lst = range(1001)
-    assert_a_faster_than_b(binary_search, linear_search, lst, target=1000)
+    lst = range(1501)
+    assert_a_faster_than_b(binary_search, linear_search, lst, target=1500)

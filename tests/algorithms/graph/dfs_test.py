@@ -1,4 +1,5 @@
-from src.algorithms import depth_first_search, depth_first_search_recursive
+from src.algorithms import depth_first_search
+from src.algorithms.graph.dfs import depth_first_search_recursive
 from src.structures import Graph
 
 

@@ -8,10 +8,10 @@ class SuffixArray:
     suffix_arr: List[int] = field(init=False, repr=False, default_factory=list)
 
     def __init__(self, text: str) -> None:
-        from src.algorithms import build_suffix_array_sais
+        from src.algorithms import build_suffix_array
 
         self.text = text + "$"
-        self.suffix_arr = build_suffix_array_sais(text)
+        self.suffix_arr = build_suffix_array(text)
 
     def __str__(self) -> str:
         return str([self.text[suffix_index:] for suffix_index in self.suffix_arr])

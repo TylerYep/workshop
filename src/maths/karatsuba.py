@@ -1,7 +1,6 @@
 def karatsuba(a: int, b: int) -> int:
     """
-    >>> assert karatsuba(15463, 23489) == 15463 * 23489
-    >>> assert karatsuba(3, 9) == 3 * 9
+    This is similar to the actual Python implempentation of multiplication.
     """
     len_a, len_b = len(str(a)), len(str(b))
     if len_a == 1 or len_b == 1:

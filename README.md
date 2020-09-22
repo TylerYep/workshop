@@ -19,8 +19,10 @@ Separated into two sections:
     - Sacrifice efficiency and concision for readability
 
 # Design Decisions
-Three packages are exposed to the user - algorithms, ml, and structures.
-Imports are done quickly and painlessly. We avoid circular imports by importing algorithms needed to create data structures inline.
+- Four packages are exposed to the user - algorithms, maths, ml, and structures.
+- Imports are done quickly and painlessly. We avoid circular imports by importing algorithms needed to create data structures inline.
+- The `__init__.py` file for the package contains all reasonable user-facing APIs. Tests use the imports from this file where possible, and in all other cases directly imports the function to test.
+
 
 ## Dataclasses
 Dataclasses are one of the trickiest things to work with in Python. I tentatively have decided to make any class that would benefit from one of the below points into a dataclass.

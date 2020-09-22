@@ -1,6 +1,6 @@
 from typing import List
 
-from src.algorithms.strings.sais import (
+from src.algorithms.string.sais import (
     build_suffix_array_naive,
     build_suffix_array_sais,
     get_suffix_annotations,
