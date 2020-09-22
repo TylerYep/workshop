@@ -1,9 +1,11 @@
 import math
 from dataclasses import dataclass
 
+from src.maths.probability.rv import RandomVariable
+
 
 @dataclass
-class Normal:
+class Normal(RandomVariable):
     """
     The normal distribution is a type of continuous probability distribution
     for a real-valued random variable.
@@ -26,3 +28,6 @@ class Normal:
             / math.sqrt(2 * math.pi * self.sigma_sq)
             * math.exp(-((x - self.mu) ** 2) / (2 * self.sigma_sq))
         )
+
+    def cdf(self, x: float) -> float:
+        return 0

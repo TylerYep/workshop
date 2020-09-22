@@ -1,4 +1,4 @@
-from src.maths.probability.normal import Normal
+from src.maths.probability.continuous.normal import Normal
 
 
 def test_gaussian() -> None:

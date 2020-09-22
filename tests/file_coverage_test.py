@@ -1,14 +1,14 @@
 import os
 import pprint
 
-IGNORED_FOLDERS = ("rmq", "sort", "hash_table", "conversions", "probability")
-IGNORED_FILES = ("util.py", "svm.py", "linear_classifier.py", "softmax.py")
+IGNORED_FOLDERS = {"rmq", "sort", "hash_table", "conversions", "probability"}
+IGNORED_FILES = {"util.py", "svm.py", "linear_classifier.py", "softmax.py"}
 
 
 def test_file_coverage() -> None:
     untested_files = []
     for root, _, files in os.walk("src"):
-        if os.path.basename(root) in IGNORED_FOLDERS:
+        if set(os.path.normpath(root).split(os.sep)) & IGNORED_FOLDERS:
             continue
         new_root = root.replace("src", "tests")
         for filename in files:
