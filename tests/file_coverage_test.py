@@ -1,8 +1,8 @@
 import os
 import pprint
 
-IGNORED_FOLDERS = ("rmq", "sort", "hash_table", "conversions", "ml")
-IGNORED_FILES = "util.py"
+IGNORED_FOLDERS = ("rmq", "sort", "hash_table", "conversions", "probability")
+IGNORED_FILES = ("util.py", "svm.py", "linear_classifier.py", "softmax.py")
 
 
 def test_file_coverage() -> None:
