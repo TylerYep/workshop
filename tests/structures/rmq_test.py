@@ -6,8 +6,8 @@ from tqdm import tqdm
 
 from src.structures import FischerHeunRMQ, SparseTableRMQ
 
-ProposedRMQ = FischerHeunRMQ
 RMQ = SparseTableRMQ
+ProposedRMQ = FischerHeunRMQ
 
 
 def print_arr_with_index(data: List[int], low: int) -> str:
@@ -87,5 +87,5 @@ def test_rmq() -> None:
     random.seed(0)
     run_tests(0, 1, 10, 50)
     run_tests(22, 25, 10, 100)
-    # run_tests(10, 25, 15, 100, 1000)
-    # run_tests(0, 10000, 5000, 100, 10000)
+    # run_tests(10, 25, 15, 100, True)
+    # run_tests(0, 10000, 5000, 100, True)

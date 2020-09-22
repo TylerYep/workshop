@@ -36,7 +36,8 @@ class BinaryHeap(Generic[T]):
         yield from self._heap
 
     def __getitem__(self, index: int) -> T:
-        assert 0 <= index < self.size
+        if not 0 <= index < self.size:
+            raise KeyError(f"Invalid index: {index}")
         return self._heap[index]
 
     def update(self, item: T, new_item: T) -> None:

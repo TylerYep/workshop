@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass, field
-from typing import Generic, Iterator, List, Optional, Tuple, TypeVar
+from typing import Generic, Iterator, List, Optional, Tuple, TypeVar, cast
 
 from src.algorithms.sort.comparable import Comparable
 
@@ -77,8 +77,7 @@ class SkipList(Generic[KT, VT]):
     def __iter__(self) -> Iterator[KT]:
         node = self
         while len(node.next) != 0:
-            assert node.next[0].key is not None
-            yield node.next[0].key
+            yield cast(KT, node.next[0].key)
             node = node.next[0]
 
     def __getitem__(self, key: KT) -> VT:

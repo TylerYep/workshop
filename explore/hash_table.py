@@ -33,8 +33,6 @@ def main() -> None:
                 curr_elements.remove(data)
         print(hash_table)
 
-        # assert curr_elements | set([-1]) == hash_table.get_elems() | set([-1])
-
 
 def get_num_buckets() -> int:
     size = -1

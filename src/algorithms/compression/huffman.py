@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import heapq
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, cast
 
 from dataslots import with_slots
 
@@ -101,11 +101,9 @@ def decode(root: HuffmanTreeNode, file_path: str) -> str:
                 output += curr.letter
                 curr = root
             if bit == "0":
-                assert curr.left is not None
-                curr = curr.left
+                curr = cast(HuffmanTreeNode, curr.left)
             elif bit == "1":
-                assert curr.right is not None
-                curr = curr.right
+                curr = cast(HuffmanTreeNode, curr.right)
     output += curr.letter
     return output
 

@@ -26,7 +26,8 @@ class SparseTableRMQ(RMQ):
         return pformat(np.transpose(np.array(self.rmq_table)))
 
     def rmq(self, low: int, high: int) -> int:
-        assert low < high
+        if low >= high:
+            raise RuntimeError("In the range, low must be lower than high.")
 
         def get_k(n: int) -> int:
             return 67 - len(bin(-n)) & ~n >> 64

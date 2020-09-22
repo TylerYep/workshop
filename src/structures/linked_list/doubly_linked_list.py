@@ -154,7 +154,7 @@ class DoublyLinkedList(Generic[T]):
             _ = self.pop_tail()
         else:
             self.size -= 1
-            assert current.prev is not None
-            assert current.next is not None
+            if current.prev is None or current.next is None:
+                raise ValueError
             current.prev.next = current.next
             current.next.prev = current.prev

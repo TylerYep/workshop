@@ -7,7 +7,8 @@ from typing import Optional
 
 class Bits:
     def __init__(self, val: str = "", length: Optional[int] = None) -> None:
-        assert all(ch in ("0", "1") for ch in val)
+        if not all(ch in ("0", "1") for ch in val):
+            raise RuntimeError(f"{val} is not a valid Bits initial value.")
         self.val = int(val, 2) if val else -1  # -1 == 111111
         self.length = len(val) if length is None else length
 
@@ -20,7 +21,8 @@ class Bits:
 
     def __and__(self, other: object) -> Bits:
         """ Intersection of two role sets. """
-        assert isinstance(other, Bits)
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be intersected with Bits.")
         return Bits.from_num(self.val & other.val, self.length)
 
     @property
@@ -30,7 +32,8 @@ class Bits:
     @property
     def solo(self) -> int:
         """ Assumes is_solo is True. """
-        assert self.is_solo
+        if not self.is_solo:
+            raise RuntimeError("Does not contain a solo bit.")
         return self.length - int(math.log2(self.val)) - 1
 
     @classmethod
@@ -49,7 +52,8 @@ class Bits:
 
     def set_bit(self, index: int, new_val: bool) -> None:
         """ Mark an index as the given value of its current state. """
-        assert self.length > index
+        if not 0 < index < self.length:
+            raise RuntimeError("Invalid bit; cannot be set.")
         reversed_index = self.length - index - 1
         if new_val:
             self.val |= 1 << reversed_index

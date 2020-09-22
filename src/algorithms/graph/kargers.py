@@ -26,7 +26,6 @@ def kargers(orig_graph: Graph[V]) -> Set[Edge[V]]:
 
     while len(graph) > 2:
         edge = random.choice(tuple(graph.edges))
-        print(edge)
 
         # Contract edge (u, v) to new node uv
         uv = Node(edge.start.data + edge.end.data)

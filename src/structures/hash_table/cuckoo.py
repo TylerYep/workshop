@@ -1,6 +1,6 @@
 import math
 import random
-from typing import Callable, Dict
+from typing import Callable, Dict, cast
 
 from .hash_table import HashTable
 
@@ -14,8 +14,7 @@ def hash_function(n: int) -> Callable[[int], int]:
         mask = _memomask[n] = random.getrandbits(32)
 
     def myhash(x: int) -> int:
-        assert isinstance(mask, int)
-        return hash(x) ^ mask
+        return hash(x) ^ cast(int, mask)
 
     return myhash
 

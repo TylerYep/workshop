@@ -86,7 +86,8 @@ class LinkedList(Generic[T]):
         prev = None
         for _ in range(index):
             prev = curr
-            assert curr is not None
+            if curr is None:
+                raise ValueError
             curr = curr.next
         if prev is not None:
             prev.next = LinkedListNode(data, curr)

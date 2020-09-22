@@ -18,5 +18,7 @@ class PrecomputedRMQ(RMQ):
                 self.rmq_table[i][j] = self.return_smaller_index(index1, index2)
 
     def rmq(self, low: int, high: int) -> int:
-        assert low < high
+        if low >= high:
+            raise RuntimeError("In the range, low must be lower than high.")
+
         return self.rmq_table[high - 1][low]

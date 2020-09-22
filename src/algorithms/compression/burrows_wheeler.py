@@ -38,8 +38,8 @@ def reverse_bwt(bwt_string: str, idx_original_string: int) -> str:
     generate bwt_string at ordered rotations list
     :return: The string used to generate bwt_string when bwt was executed
     """
-    assert bwt_string
-    assert 0 <= idx_original_string < len(bwt_string)
+    if not bwt_string or not 0 <= idx_original_string < len(bwt_string):
+        raise RuntimeError("Invalid input to reverse_bwt")
 
     ordered_rotations = [""] * len(bwt_string)
     for _ in range(len(bwt_string)):

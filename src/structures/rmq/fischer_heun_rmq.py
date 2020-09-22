@@ -66,7 +66,8 @@ class FischerHeunRMQ(RMQ):
                 self.cart_to_rmq[cartesian_num] = PrecomputedRMQ(current_range)
 
     def rmq(self, low: int, high: int) -> int:
-        assert low < high
+        if low >= high:
+            raise RuntimeError("In the range, low must be lower than high.")
 
         min_index = -1
         if high - low < self.block_size:
