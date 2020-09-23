@@ -3,14 +3,18 @@ import pprint
 
 IGNORED_FOLDERS = {"rmq", "sort", "hash_table", "conversions", "probability"}
 IGNORED_FILES = {"util.py", "svm.py", "linear_classifier.py", "softmax.py"}
+SRC_FOLDER = "src"
+TEST_FOLDER = "tests"
 
 
 def test_file_coverage() -> None:
     untested_files = []
-    for root, _, files in os.walk("src"):
+    if not os.path.isdir(SRC_FOLDER) or not os.path.isdir(SRC_FOLDER):
+        raise RuntimeError(f"{SRC_FOLDER} and/or {TEST_FOLDER} does not exist.")
+    for root, _, files in os.walk(SRC_FOLDER):
         if set(os.path.normpath(root).split(os.sep)) & IGNORED_FOLDERS:
             continue
-        new_root = root.replace("src", "tests")
+        new_root = root.replace(SRC_FOLDER, TEST_FOLDER)
         for filename in files:
             if filename in IGNORED_FILES:
                 continue

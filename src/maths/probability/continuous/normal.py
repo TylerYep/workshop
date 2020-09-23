@@ -22,6 +22,34 @@ class Normal(RandomVariable):
     def __str__(self) -> str:
         return f"Normal(μ={self.mu}, σ²={self.sigma_sq})"
 
+    def __add__(self, other: object) -> RandomVariable:
+        if isinstance(other, RandomVariable):
+            other_var = other
+            return Normal(
+                self.expectation() + other_var.expectation(),
+                self.variance() + other_var.variance(),
+            )
+        if isinstance(other, (int, float)):
+            return Normal(self.mu + other)
+        raise TypeError
+
+    def __sub__(self, other: object) -> RandomVariable:
+        if isinstance(other, RandomVariable):
+            other_var = other
+            return Normal(
+                self.expectation() - other_var.expectation(),
+                self.variance() - other_var.variance(),
+            )
+        if isinstance(other, (int, float)):
+            return self + (-other)
+        raise TypeError
+
+    def expectation(self) -> float:
+        return self.mu
+
+    def variance(self) -> float:
+        return self.sigma_sq
+
     def pdf(self, x: float) -> float:
         return (
             1
