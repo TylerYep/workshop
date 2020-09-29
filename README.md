@@ -44,9 +44,7 @@ My choices:
 
 
 ### Types and Data Structures
-Double Ended Queues
 Associative Arrays
-Disjoint-set Data Structure (Union-Find)
 Unrolled Linked List
 Bloom Filter
 Cuckoo Filter
@@ -61,17 +59,14 @@ Fibonacci Heap
 Pairing Heap
 Spanning Trees
 Social Networks
-Kruskal's Algorithm
 Strings
 
 # Algorithms
 Backpack Problem
 Egg Dropping
 Fast Fibonacci Transform
-Karatsuba Algorithm
 A* Search
 Bellman-Ford Algorithm
-Floyd-Warshall Algorithm
 Johnson's Algorithm
 Matching (Graph Theory)
 Matching Algorithms (Graph Theory)
@@ -107,14 +102,12 @@ Diffie-Hellman
 Knapsack Cryptosystem
 Secure Hash Algorithms
 Entropy (Information Theory)
-Huffman Code
 Error correcting codes
 Symmetric Ciphers
 Inverse Transform Sampling
 Monte-Carlo Simulation
 Annealing
 Genetic Algorithms
-Programming Blackjack
 
 # Machine Learning
 Feature Vector
@@ -128,6 +121,33 @@ Hidden Markov Models
 Gaussian Mixture Model
 Collaborative Filtering
 Artificial Neural Network
+
+
+- Name BFS, DFS after their functionality rather than the algorithm name.
+- The title belongs in the import?
+- Kargers, Kruskals, etc
+
+from src.algorithms import kargers
+kargers.partition_graph()
+
+from src.algorithms.kargers import partition_graph
+partition_graph()
+
+from src.algorithms import kargers
+kargers()
+
+-----
+
+from src.algorithms import breadth_first_search
+breadth_first_search()
+
+from src.algorithms import bfs
+bfs.find_path()
+
+from src.algorithms.bfs import find_path
+find_path()
+
+
 
 # Dynamic Shape-Checking / Type-Checking (Typorch)
 I'm interested in shape-checking for tensors. It doesnt need to be static type checking,

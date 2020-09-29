@@ -1,7 +1,7 @@
 import os
 import pprint
 
-IGNORED_FOLDERS = {"rmq", "sort", "hash_table", "conversions", "probability"}
+IGNORED_FOLDERS = {"rmq", "sort", "hash_table", "conversions"}
 IGNORED_FILES = {"util.py", "svm.py", "linear_classifier.py", "softmax.py"}
 SRC_FOLDER = "src"
 TEST_FOLDER = "tests"
