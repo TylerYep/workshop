@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from enum import Enum, unique
 from typing import Generic, Iterator, Optional, TypeVar
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 from src.algorithms.sort.comparable import Comparable
 
@@ -20,7 +20,7 @@ class Color(Enum):
     RED = "red"
 
 
-@with_slots
+@dataslots
 @dataclass
 class RedBlackTree(Generic[T]):
     """

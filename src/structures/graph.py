@@ -16,7 +16,7 @@ from typing import (
     TypeVar,
 )
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 from src.util import formatter
 
@@ -283,7 +283,7 @@ class Edge(Generic[V]):
         return hash((self.start, self.end))
 
 
-@with_slots
+@dataslots
 @dataclass
 class Node(Generic[V]):
     """ An example node class that stores node data. """

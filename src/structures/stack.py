@@ -1,12 +1,12 @@
 from dataclasses import dataclass, field
 from typing import Generic, List, TypeVar
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 T = TypeVar("T")
 
 
-@with_slots
+@dataslots
 @dataclass
 class Stack(Generic[T]):
     """ You should probably use the Python built-in List instead. """

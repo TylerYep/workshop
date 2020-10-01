@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from enum import Enum, unique
 from typing import Dict, List, Tuple
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 
 @unique
@@ -11,7 +11,7 @@ class SuffixType(Enum):
     S, L = "S", "L"
 
 
-@with_slots
+@dataslots
 @dataclass
 class LMSBlock:
     start: int

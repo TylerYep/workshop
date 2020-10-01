@@ -1,13 +1,13 @@
 import timeit
 from dataclasses import dataclass
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 
 def test(a):
     if a == "a":
 
-        @with_slots
+        @dataslots
         @dataclass(repr=False)
         class A:
             x: int = 4
@@ -19,7 +19,7 @@ def test(a):
         return A()
     if a == "b":
 
-        @with_slots
+        @dataslots
         @dataclass
         class B:
             x: int = 4
@@ -31,7 +31,7 @@ def test(a):
         return B()
     if a == "c":
 
-        @with_slots
+        @dataslots
         @dataclass(repr=False)
         class C:
             x: int = 4
@@ -40,7 +40,7 @@ def test(a):
         return C()
     if a == "d":
 
-        @with_slots
+        @dataslots
         @dataclass(repr=False)
         class D:
             x: int = 4
@@ -49,7 +49,7 @@ def test(a):
         return D()
     if a == "e":
 
-        @with_slots
+        @dataslots
         @dataclass(repr=False, eq=False, order=False)
         class E:
             x: int = 4

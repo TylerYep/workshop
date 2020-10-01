@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Generic, Iterator, Optional, TypeVar
 
-from dataslots import with_slots
+from dataslots import dataslots
 
 from src.algorithms.sort.comparable import Comparable
 from src.util import formatter
@@ -11,7 +11,7 @@ from src.util import formatter
 T = TypeVar("T", bound=Comparable)
 
 
-@with_slots
+@dataslots
 @dataclass(order=True)
 class TreeNode(Generic[T]):
     data: T
