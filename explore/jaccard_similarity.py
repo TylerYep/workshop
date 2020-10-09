@@ -11,7 +11,7 @@
 # """
 
 
-# def jaccard_similariy(setA, setB, alternativeUnion=False):
+# def jaccard_similarity(setA, setB, alternativeUnion=False):
 #     """
 #     Finds the jaccard similarity between two sets.
 #     Essentially, its intersection over union.

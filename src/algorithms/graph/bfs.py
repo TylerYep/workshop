@@ -1,9 +1,7 @@
 from collections import deque
-from typing import Deque, List, Optional, Set, Tuple, TypeVar
+from typing import Deque, List, Optional, Set, Tuple
 
-from src.structures import Graph
-
-V = TypeVar("V")
+from src.structures import Graph, V
 
 
 def breadth_first_search(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:

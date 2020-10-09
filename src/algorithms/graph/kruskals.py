@@ -1,8 +1,6 @@
-from typing import Set, TypeVar
+from typing import Set
 
-from src.structures import DisjointSet, Edge, Graph
-
-V = TypeVar("V")
+from src.structures import DisjointSet, Edge, Graph, V
 
 
 def kruskals(graph: Graph[V]) -> Set[Edge[V]]:

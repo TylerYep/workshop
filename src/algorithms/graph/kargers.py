@@ -1,9 +1,7 @@
 import random
-from typing import Set, Tuple, TypeVar
+from typing import Set, Tuple
 
-from src.structures import Edge, Graph, Node
-
-V = TypeVar("V")
+from src.structures import Edge, Graph, Node, V
 
 
 def kargers(orig_graph: Graph[V]) -> Set[Edge[V]]:
@@ -30,7 +28,8 @@ def kargers(orig_graph: Graph[V]) -> Set[Edge[V]]:
         # Contract edge (u, v) to new node uv
         uv = Node(edge.start.data + edge.end.data)
 
-        # TODO Python 3.9 - graph[edge.start] | graph[edge.end]
+        # TODO Python 3.9
+        # uv_neighbors = graph[edge.start] | graph[edge.end]
         uv_neighbors = {**graph[edge.start], **graph[edge.end]}
         del uv_neighbors[edge.start]
         del uv_neighbors[edge.end]

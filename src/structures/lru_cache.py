@@ -1,19 +1,11 @@
 from __future__ import annotations
 
 from collections import OrderedDict
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    Generic,
-    NamedTuple,
-    Optional,
-    TypeVar,
-    no_type_check,
-)
+from typing import Any, Callable, Dict, Generic, NamedTuple, Optional, TypeVar
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
+F = TypeVar("F", bound=Callable[..., Any])
 
 
 class CacheInfo(NamedTuple):
@@ -68,23 +60,22 @@ class LRUCache(Generic[KT, VT]):
         )
 
 
-@no_type_check
-def lru_cache(size: int = 128) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-    def cache_decorator_inner(func: Callable[..., Any]) -> Callable[..., Any]:
+def lru_cache(size: int = 128) -> Callable[[F], Callable[..., Any]]:
+    def cache_decorator_inner(func: F) -> Callable[..., Any]:
         def cache_decorator_wrapper(*args: Any, **kwargs: Any) -> Any:
-            if func not in LRUCache.decorator_instance_map:
-                LRUCache.decorator_instance_map[func] = LRUCache(size)
+            if func not in LRUCache.decorator_instance_map:  # type: ignore
+                LRUCache.decorator_instance_map[func] = LRUCache(size)  # type: ignore
 
-            result = LRUCache.decorator_instance_map[func][args]
+            result = LRUCache.decorator_instance_map[func][args]  # type: ignore
             if result is None:
                 result = func(*args, **kwargs)
-                LRUCache.decorator_instance_map[func][args] = result
+                LRUCache.decorator_instance_map[func][args] = result  # type: ignore
             return result
 
         def cache_info() -> LRUCache[KT, VT]:
-            return LRUCache.decorator_instance_map[func]
+            return LRUCache.decorator_instance_map[func]  # type: ignore
 
-        cache_decorator_wrapper.cache_info = cache_info
+        cache_decorator_wrapper.cache_info = cache_info  # type: ignore
         return cache_decorator_wrapper
 
     return cache_decorator_inner

@@ -1,8 +1,6 @@
-from typing import List, Set, TypeVar
+from typing import List, Set
 
-from src.structures import Graph
-
-V = TypeVar("V")
+from src.structures import Graph, V
 
 
 def connected_components(graph: Graph[V]) -> List[Set[V]]:

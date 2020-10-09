@@ -6,5 +6,5 @@ prettyprinter==0.18.0
 scipy==1.5.2
 torch==1.6.0
 torchvision==0.7.0
-tqdm==4.50.0
+tqdm==4.50.2
 typing-extensions==3.7.4.3

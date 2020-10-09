@@ -1,3 +1,4 @@
+# pylint: disable=abstract-method, not-callable
 import numpy as np
 import torch
 import torch.nn as nn
@@ -5,16 +6,16 @@ import torch.nn.functional as F
 from torch.optim import Adam
 
 
-class LogisticRegression(nn.Module):  # pylint: disable=abstract-method
+class LogisticRegression(nn.Module):
     """ Think of this as Sigmoidal Classification! """
 
     def __init__(self) -> None:
-        super().__init__()  # type: ignore[no-untyped-call]
+        super().__init__()  # type: ignore
         # define parameters to be part of the model
         # "weight" of linear model
-        self.theta1 = nn.Parameter(torch.zeros(1))
+        self.theta1 = nn.Parameter(torch.zeros(1))  # type: ignore
         # "bias" of linear model
-        self.theta0 = nn.Parameter(torch.zeros(1))
+        self.theta0 = nn.Parameter(torch.zeros(1))  # type: ignore
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -23,7 +24,7 @@ class LogisticRegression(nn.Module):  # pylint: disable=abstract-method
 
         y = sigmoid(theta1 * x + theta0)
         """
-        return torch.sigmoid(self.theta1 * x + self.theta0)
+        return torch.sigmoid(self.theta1 * x + self.theta0)  # type: ignore
 
 
 def optimize(
@@ -64,7 +65,7 @@ def optimize(
 
         # This step computes all gradients with "autograd"
         # i.e. automatic differentiation
-        loss.backward()  # type: ignore[no-untyped-call]
+        loss.backward()  # type: ignore
 
         # This function actually change the parameters
         optimizer.step()
@@ -73,10 +74,7 @@ def optimize(
         curr_loss = loss.item()
         counter += 1
         if curr_loss < min_loss:
-            best_params = (
-                model.theta1.item(),  # type: ignore[operator]
-                model.theta0.item(),  # type: ignore[operator]
-            )
+            best_params = (model.theta1.item(), model.theta0.item())  # type: ignore
             min_loss = curr_loss
 
         if verbose:
@@ -94,6 +92,4 @@ def make_tensor(data: np.array, is_input: bool) -> torch.Tensor:
     to make it a n x 1 "tensor".
     """
     dim = 0 if is_input else 1
-    return (  # pylint: disable=not-callable
-        torch.tensor(data[:, dim]).unsqueeze(1).float()
-    )
+    return torch.tensor(data[:, dim]).unsqueeze(1).float()  # type: ignore

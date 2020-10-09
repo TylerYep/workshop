@@ -1,9 +1,7 @@
 import heapq
-from typing import Dict, List, Optional, Set, Tuple, TypeVar
+from typing import Dict, List, Optional, Set, Tuple
 
-from src.structures import Graph
-
-V = TypeVar("V")
+from src.structures import Graph, V
 
 
 def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:

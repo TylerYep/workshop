@@ -1,8 +1,6 @@
-from typing import List, Set, TypeVar
+from typing import List, Set
 
-from src.structures import Graph
-
-V = TypeVar("V")
+from src.structures import Graph, V
 
 
 def topological_sort(graph: Graph[V]) -> List[V]:

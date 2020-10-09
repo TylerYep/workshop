@@ -18,9 +18,10 @@ from typing import (
 
 from dataslots import dataslots
 
+from src.algorithms.sort.comparable import Comparable
 from src.util import formatter
 
-V = TypeVar("V")
+V = TypeVar("V", bound=Comparable)
 
 
 @dataclass(init=False)
@@ -142,7 +143,7 @@ class Graph(Generic[V]):
         return Graph(graph, is_directed=is_directed)
 
     def to_matrix(self) -> List[List[float]]:
-        nodes = sorted(self.nodes)
+        nodes = sorted(self._graph)
         graph = [[Graph.INFINITY for _ in nodes] for _ in nodes]
         for i, u in enumerate(nodes):
             for j, v in enumerate(nodes):
@@ -253,9 +254,12 @@ class Graph(Generic[V]):
         return True
 
 
-@dataclass(init=False, repr=False)
+@dataclass(init=False, repr=False, order=True)
 class Edge(Generic[V]):
-    """ The edge class that stores edge data. """
+    """
+    The edge class that stores edge data.
+    Edges are given sort order using start, end, and weight.
+    """
 
     start: V
     end: V
@@ -284,7 +288,7 @@ class Edge(Generic[V]):
 
 
 @dataslots
-@dataclass
+@dataclass(order=True)
 class Node(Generic[V]):
     """ An example node class that stores node data. """
 

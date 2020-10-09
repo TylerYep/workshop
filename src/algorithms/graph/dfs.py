@@ -1,8 +1,6 @@
-from typing import List, Optional, Set, Tuple, TypeVar
+from typing import List, Optional, Set, Tuple
 
-from src.structures import Graph
-
-V = TypeVar("V")
+from src.structures import Graph, V
 
 
 def depth_first_search(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:
