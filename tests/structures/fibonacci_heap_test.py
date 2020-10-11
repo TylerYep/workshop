@@ -1,5 +1,7 @@
 import random
 
+import pytest
+
 from src.structures import FibonacciHeap
 
 
@@ -100,6 +102,9 @@ def test_dequeue_min() -> None:
             entry = fib_heap.dequeue_min()
             actual_priorities_list.append(entry.priority)
 
+        with pytest.raises(IndexError):
+            _ = fib_heap.dequeue_min()
+
         # We can't just compare lists, because this is basically a heapsort,
         # which isn't stable.  So instead we compare all the priorities
         assert expected_priorities_list == actual_priorities_list
@@ -139,10 +144,10 @@ def test_decrease_key() -> None:
     """ Test decrease_key method. """
     fib_heap = FibonacciHeap[int]()
     fib_heap.enqueue(1, 1)
-    entry3 = fib_heap.enqueue(3, 3)
+    fib_heap.enqueue(3, 3)
     fib_heap.enqueue(5, 5)
 
-    fib_heap.decrease_key(entry3, -1)
+    fib_heap.decrease_key(3, -1)
 
     actual_list = []
     while fib_heap:
@@ -181,16 +186,15 @@ def test_merge() -> None:
 def severe_decrease_key_test() -> None:
     """ More severe decrease_key test, based on SSCCE code from Marian Aioanei. """
     min_prio_queue = FibonacciHeap[int]()
-    map_entries = {}
     expected_count = 17
     for index in range(expected_count):
-        map_entries[index] = min_prio_queue.enqueue(index, 2.0)
+        min_prio_queue.enqueue(index, 2.0)
 
     _ = min_prio_queue.dequeue_min()
     expected_count -= 1
 
     for index in range(10, 7, -1):
-        min_prio_queue.decrease_key(map_entries[index], 1.0)
+        min_prio_queue.decrease_key(index, 1.0)
 
     actual_count = 0
     while min_prio_queue:
@@ -219,22 +223,19 @@ def test_duplicates_with_decreases() -> None:
     """ Add lots of duplicates and see what happens. """
     min_prio_queue = FibonacciHeap[int]()
     priority = 0.0
-    entries = {}
     for index in range(10):
-        for index2 in range(10):
+        for _ in range(10):
             priority += 1.0
-            entries[(index, index2)] = min_prio_queue.enqueue(index, -priority)
+            min_prio_queue.enqueue(index, -priority)
 
     for index in range(10):
-        min_prio_queue.decrease_key(entries[(index, 0)], -100.0 - index)
+        min_prio_queue.decrease_key(index, -100.0 - index)
 
     actual_list = []
-    actual_count = 0
-    while bool(min_prio_queue):
+    while min_prio_queue:
         actual_list.append(min_prio_queue.dequeue_min().value)
-        actual_count += 1
 
-    assert actual_count == 100
+    assert len(actual_list) == 100
 
     expected_list = list(range(9, -1, -1))
     for number in range(9, -1, -1):

@@ -4,7 +4,7 @@ from __future__ import annotations
 import collections
 import math
 from dataclasses import dataclass
-from typing import Deque, Generic, Optional, TypeVar
+from typing import Deque, Dict, Generic, Optional, TypeVar
 
 from src.algorithms.sort.comparable import Comparable
 
@@ -16,9 +16,9 @@ class Entry(Generic[T]):
     """
     Hold an entry in the heap.
     In order for all of the Fibonacci heap operations to complete in O(1),
-    clients need to have O(1) access to any element in the heap.  We make
+    clients need to have O(1) access to any element in the heap. We make
     this work by having each insertion operation produce a handle to the
-    node in the tree.  In actuality, this handle is the node itself.
+    node in the tree. In actuality, this handle is the node itself.
     """
 
     value: T
@@ -33,17 +33,6 @@ class Entry(Generic[T]):
         self.child: Optional[Entry[T]] = None
         self.next = self.prev = self
 
-    def _entry(self, elem: T, priority: float) -> None:
-        """
-        Construct a new Entry that holds the given element with the indicated priority.
-
-        @param elem The element stored in this node.
-        @param priority The priority of this element.
-        """
-        self.next = self.prev = self
-        self.value = elem
-        self.priority = priority
-
 
 @dataclass(init=False)
 class FibonacciHeap(Generic[T]):
@@ -53,51 +42,53 @@ class FibonacciHeap(Generic[T]):
     Optimized by Tyler Yep.
 
     An implementation of a priority queue backed by a Fibonacci heap, as described
-    by Fredman and Tarjan.  Fibonacci heaps are interesting theoretically because
-    they have asymptotically good runtime guarantees for many operations.  In
+    by Fredman and Tarjan. Fibonacci heaps are interesting theoretically because
+    they have asymptotically good runtime guarantees for many operations. In
     particular, insert, peek, and decrease-key all run in amortized O(1) time.
-    dequeue_min and delete each run in amortized O(lg n) time.  This allows
+    dequeue_min and delete each run in amortized O(log n) time. This allows
     algorithms that rely heavily on decrease-key to gain significant performance
-    boosts.  For example, Dijkstra's algorithm for single-source shortest paths can
-    be shown to run in O(m + n lg n) using a Fibonacci heap, compared to O(m lg n)
+    boosts. For example, Dijkstra's algorithm for single-source shortest paths can
+    be shown to run in O(m + n log n) using a Fibonacci heap, compared to O(m log n)
     using a standard binary or binomial heap.
 
     Internally, a Fibonacci heap is represented as a circular, doubly-linked list
-    of trees obeying the min-heap property.  Each node stores pointers to its
-    parent (if any) and some arbitrary child.  Additionally, every node stores its
+    of trees obeying the min-heap property. Each node stores pointers to its
+    parent (if any) and some arbitrary child. Additionally, every node stores its
     degree (the number of children it has) and whether it is a "marked" node.
     Finally, each Fibonacci heap stores a pointer to the tree with the minimum
     value.
 
     To insert a node into a Fibonacci heap, a singleton tree is created and merged
-    into the rest of the trees.  The merge operation works by simply splicing
+    into the rest of the trees. The merge operation works by simply splicing
     together the doubly-linked lists of the two trees, then updating the min
-    pointer to be the smaller of the minima of the two heaps.  Peeking at the
+    pointer to be the smaller of the minima of the two heaps. Peeking at the
     smallest element can therefore be accomplished by just looking at the min
-    element.  All of these operations complete in O(1) time.
+    element. All of these operations complete in O(1) time.
 
-    The tricky operations are dequeue_min and decrease_key.  dequeue_min works by
+    The tricky operations are dequeue_min and decrease_key. dequeue_min works by
     removing the root of the tree containing the smallest element, then merging its
-    children with the topmost roots.  Then, the roots are scanned and merged so
-    that there is only one tree of each degree in the root list.  This works by
+    children with the topmost roots. Then, the roots are scanned and merged so
+    that there is only one tree of each degree in the root list. This works by
     maintaining a dynamic array of trees, each initially null, pointing to the
-    roots of trees of each dimension.  The list is then scanned and this array is
-    populated.  Whenever a conflict is discovered, the appropriate trees are merged
-    together until no more conflicts exist.  The resulting trees are then put into
-    the root list.  A clever analysis using the potential method can be used to
-    show that the amortized cost of this operation is O(lg n), see "Introduction to
+    roots of trees of each dimension. The list is then scanned and this array is
+    populated. Whenever a conflict is discovered, the appropriate trees are merged
+    together until no more conflicts exist. The resulting trees are then put into
+    the root list. A clever analysis using the potential method can be used to
+    show that the amortized cost of this operation is O(log n), see "Introduction to
     Algorithms, Second Edition" by Cormen, Rivest, Leiserson, and Stein for more
     details.
 
-    The other hard operation is decrease_key, which works as follows.  First, we
-    update the key of the node to be the new value.  If this leaves the node
-    smaller than its parent, we're done.  Otherwise, we cut the node from its
-    parent, add it as a root, and then mark its parent.  If the parent was already
+    The other hard operation is decrease_key, which works as follows. First, we
+    update the key of the node to be the new value. If this leaves the node
+    smaller than its parent, we're done. Otherwise, we cut the node from its
+    parent, add it as a root, and then mark its parent. If the parent was already
     marked, we cut that node as well, recursively mark its parent, and continue
-    this process.  This can be shown to run in O(1) amortized time using yet
-    another clever potential function.  Finally, given this function, we can
+    this process. This can be shown to run in O(1) amortized time using yet
+    another clever potential function. Finally, given this function, we can
     implement delete by decreasing a key to -infinity, then calling dequeue_min to
     extract it.
+
+    Note that this implementation does not permit duplicate keys.
     """
 
     top: Optional[Entry[T]]
@@ -106,6 +97,10 @@ class FibonacciHeap(Generic[T]):
         """Initialize the fibonacci heap."""
         # Pointer to the minimum element in the heap.
         self.top: Optional[Entry[T]] = None
+
+        # Mapping from element to corresponding entry.
+        # Should not introduce any additional memory overhead.
+        self.elem_to_entry: Dict[T, Entry[T]] = {}
 
         # Cached size of the heap, so we don't have to recompute this explicitly.
         self.size = 0
@@ -126,6 +121,9 @@ class FibonacciHeap(Generic[T]):
         """
         return self.size
 
+    def __contains__(self, item: T) -> bool:
+        return item in self.elem_to_entry
+
     @staticmethod
     def merge_lists(
         one: Optional[Entry[T]], two: Optional[Entry[T]]
@@ -135,12 +133,12 @@ class FibonacciHeap(Generic[T]):
 
         Utility function which, given two pointers into disjoint circularly-
         linked lists, merges the two lists together into one circularly-linked
-        list in O(1) time.  Because the lists may be empty, the return value
+        list in O(1) time. Because the lists may be empty, the return value
         is the only pointer that's guaranteed to be to an element of the
         resulting list.
 
         This function assumes that one and two are the minimum elements of the
-        lists they are in, and returns a pointer to whichever is smaller.  If
+        lists they are in, and returns a pointer to whichever is smaller. If
         this condition does not hold, the return value is some arbitrary pointer
         into the doubly-linked list.
 
@@ -166,7 +164,7 @@ class FibonacciHeap(Generic[T]):
         if one is None or two is None:
             raise RuntimeError
 
-        # This is actually not as easy as it seems.  The idea is that we'll
+        # This is actually not as easy as it seems. The idea is that we'll
         # have two lists that look like this:
         #
         # +----+     +----+     +----+
@@ -217,7 +215,7 @@ class FibonacciHeap(Generic[T]):
         if math.isnan(priority) or math.isinf(priority):
             raise ValueError(f"Priority {priority} is invalid.")
 
-    def enqueue(self, value: T, priority: float) -> Entry[T]:
+    def enqueue(self, value: T, priority: float) -> None:
         """
         Insert an element into the Fibonacci heap with the specified priority.
 
@@ -234,12 +232,8 @@ class FibonacciHeap(Generic[T]):
 
         # Merge this singleton list with the tree list.
         self.top = self.merge_lists(self.top, result)
-
-        # Increase the size of the heap; we just added something.
         self.size += 1
-
-        # Return the reference to the new element.
-        return result
+        self.elem_to_entry[value] = result
 
     def min(self) -> Entry[T]:
         """
@@ -254,6 +248,7 @@ class FibonacciHeap(Generic[T]):
             raise IndexError("Heap is empty.")
         return self.top
 
+    # TODO remove from elem_to_entry
     def dequeue_min(self) -> Entry[T]:
         """
         Dequeue and return the minimum element of the Fibonacci heap.
@@ -274,8 +269,8 @@ class FibonacciHeap(Generic[T]):
         # Grab the minimum element so we know what to return.
         min_elem = self.top
 
-        # Now, we need to get rid of this element from the list of roots.  There
-        # are two cases to consider.  First, if this is the only element in the
+        # Now, we need to get rid of this element from the list of roots. There
+        # are two cases to consider. First, if this is the only element in the
         # list of roots, we set the list of roots to be None by clearing top.
         # Otherwise, if it's not None, then we write the elements next to the
         # min element around the min element to remove it, then arbitrarily
@@ -291,7 +286,7 @@ class FibonacciHeap(Generic[T]):
             self.top = self.top.next
 
         # Next, clear the parent fields of all of the min element's children,
-        # since they're about to become roots.  Because the elements are
+        # since they're about to become roots. Because the elements are
         # stored in a circular list, the traversal is a bit complex.
         if min_elem.child is not None:
             # Keep track of the first visited node.
@@ -315,21 +310,21 @@ class FibonacciHeap(Generic[T]):
             return min_elem
 
         # Next, we need to coalesce all of the roots so that there is only one
-        # tree of each degree.  To track trees of each size, we allocate an
+        # tree of each degree. To track trees of each size, we allocate an
         # ArrayList where the entry at position i is either None or the
         # unique tree of degree i.
         tree_table: Deque[Optional[Entry[T]]] = collections.deque()
 
         # We need to traverse the entire list, but since we're going to be
         # messing around with it we have to be careful not to break our
-        # traversal order mid-stream.  One major challenge is how to detect
-        # whether we're visiting the same node twice.  To do this, we'll
+        # traversal order mid-stream. One major challenge is how to detect
+        # whether we're visiting the same node twice. To do this, we'll
         # spent a bit of overhead adding all of the nodes to a list, and
         # then will visit each element of this list in order.
         to_visit: Deque[Entry[T]] = collections.deque()
 
         # To add everything, we'll iterate across the elements until we
-        # find the first element twice.  We check this by looping while the
+        # find the first element twice. We check this by looping while the
         # list is empty or while the current element isn't the first element
         # of that list.
 
@@ -386,8 +381,8 @@ class FibonacciHeap(Generic[T]):
                 # Continue merging this tree.
                 curr = minimum
 
-            # Update the global min based on this node.  Note that we compare
-            # for <= instead of < here.  That's because if we just did a
+            # Update the global min based on this node. Note that we compare
+            # for <= instead of < here. That's because if we just did a
             # reparent operation that merged two different trees of equal
             # priority, we need to make sure that the min pointer points to
             # the root-level one.
@@ -395,15 +390,15 @@ class FibonacciHeap(Generic[T]):
                 self.top = curr
         return min_elem
 
-    def decrease_key(self, entry: Entry[T], new_priority: float) -> None:
+    def decrease_key(self, value: T, new_priority: float) -> None:
         """
         Decrease the key of the specified element to the new priority.
 
         If the new priority is greater than the old priority, this function raises an
-        ValueError.  The new priority must be a finite double, so you cannot set the
-        priority to be NaN, or +/- infinity.  Doing so also raises an ValueError.
+        ValueError. The new priority must be a finite double, so you cannot set the
+        priority to be NaN, or +/- infinity. Doing so also raises an ValueError.
 
-        It is assumed that the entry belongs in this heap.  For efficiency reasons,
+        It is assumed that the entry belongs in this heap. For efficiency reasons,
         this is not checked at runtime.
 
         @param entry The element whose priority should be decreased.
@@ -411,30 +406,65 @@ class FibonacciHeap(Generic[T]):
         @raises ValueError If the new priority exceeds the old
                 priority, or if the argument is not a finite double.
         """
+        entry = self.elem_to_entry[value]
+
         self._check_priority(new_priority)
         if new_priority > entry.priority:
             raise ValueError("New priority exceeds old.")
 
         # Forward this to a helper function.
-        self.decrease_key_unchecked(entry, new_priority)
+        self._decrease_key_unchecked(entry, new_priority)
 
-    def delete(self, entry: Entry[T]) -> None:
+    def delete(self, value: T) -> None:
         """
         Delete this Entry from the Fibonacci heap that contains it.
 
-        It is assumed that the entry belongs in this heap.  For efficiency
+        It is assumed that the entry belongs in this heap. For efficiency
         reasons, this is not checked at runtime.
 
         @param entry The entry to delete.
         """
-        # Use decreaseKey to drop the entry's key to -infinity.  This will
+        entry = self.elem_to_entry[value]
+
+        # Use decreaseKey to drop the entry's key to -infinity. This will
         # guarantee that the node is cut and set to the global minimum.
-        self.decrease_key_unchecked(entry, float("-inf"))
+        self._decrease_key_unchecked(entry, float("-inf"))
 
         # Call dequeue_min to remove it.
         self.dequeue_min()
 
-    def decrease_key_unchecked(self, entry: Entry[T], priority: float) -> None:
+    def merge(self, two: FibonacciHeap[T]) -> FibonacciHeap[T]:
+        """
+        Merge 2 Fibonacci heaps.
+
+        Given two Fibonacci heaps, returns a new Fibonacci heap that contains
+        all of the elements of the two heaps. Each of the input heaps is
+        destructively modified by having all its elements removed. You can
+        continue to use those heaps, but be aware that they will be empty
+        after this call completes.
+
+        @param one The first Fibonacci heap to merge.
+        @param two The second Fibonacci heap to merge.
+        @return A new FibonacciHeap containing all of the elements of both heaps.
+        """
+        # Create a new FibonacciHeap to hold the result.
+        result = FibonacciHeap[T]()
+
+        # Merge the two Fibonacci heap root lists together. This helper function
+        # also computes the min of the two lists, so we can store the result in
+        # the top field of the new heap.
+        result.top = self.merge_lists(self.top, two.top)
+
+        # The size of the new heap is the sum of the sizes of the input heaps.
+        result.size = self.size + two.size
+
+        # Clear the old heaps.
+        self.size = two.size = 0
+        self.top = two.top = None
+
+        return result
+
+    def _decrease_key_unchecked(self, entry: Entry[T], priority: float) -> None:
         """
         Decrease the key of a node in the tree without doing any checking to ensure
         that the new priority is valid.
@@ -450,15 +480,15 @@ class FibonacciHeap(Generic[T]):
         # that decreases the key to -infinity, it's guaranteed to cut the node
         # from its parent.
         if entry.parent is not None and entry.priority <= entry.parent.priority:
-            self.cut_node(entry)
+            self._cut_node(entry)
 
-        # If our new value is the new min, mark it as such.  Note that if we
+        # If our new value is the new min, mark it as such. Note that if we
         # ended up decreasing the key in a way that ties the current minimum
         # priority, this will change the min accordingly.
         if self.top is not None and entry.priority <= self.top.priority:
             self.top = entry
 
-    def cut_node(self, entry: Entry[T]) -> None:
+    def _cut_node(self, entry: Entry[T]) -> None:
         """
         Cut a node from its parent.
 
@@ -500,40 +530,9 @@ class FibonacciHeap(Generic[T]):
         # Mark the parent and recursively cut it if it's already been
         # marked.
         if entry.parent.is_marked:
-            self.cut_node(entry.parent)
+            self._cut_node(entry.parent)
         else:
             entry.parent.is_marked = True
 
         # Clear the relocated node's parent; it's now a root.
         entry.parent = None
-
-    def merge(self, two: FibonacciHeap[T]) -> FibonacciHeap[T]:
-        """
-        Merge 2 Fibonacci heaps.
-
-        Given two Fibonacci heaps, returns a new Fibonacci heap that contains
-        all of the elements of the two heaps.  Each of the input heaps is
-        destructively modified by having all its elements removed.  You can
-        continue to use those heaps, but be aware that they will be empty
-        after this call completes.
-
-        @param one The first Fibonacci heap to merge.
-        @param two The second Fibonacci heap to merge.
-        @return A new FibonacciHeap containing all of the elements of both heaps.
-        """
-        # Create a new FibonacciHeap to hold the result.
-        result = FibonacciHeap[T]()
-
-        # Merge the two Fibonacci heap root lists together.  This helper function
-        # also computes the min of the two lists, so we can store the result in
-        # the top field of the new heap.
-        result.top = self.merge_lists(self.top, two.top)
-
-        # The size of the new heap is the sum of the sizes of the input heaps.
-        result.size = self.size + two.size
-
-        # Clear the old heaps.
-        self.size = two.size = 0
-        self.top = two.top = None
-
-        return result

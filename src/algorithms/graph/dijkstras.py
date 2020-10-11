@@ -22,7 +22,6 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
         if u not in visited:
             visited.add(u)
             for v, e in graph[u].items():
-                # if v in visited and
                 if v not in visited:
                     heapq.heappush(heap, (cost + e.weight, v))
     return None
