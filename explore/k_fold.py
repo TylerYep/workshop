@@ -1,7 +1,8 @@
 # pylint: disable-all
 import matplotlib.pyplot as plt
 import numpy as np
-from classifiers import KNearestNeighbor
+
+from src.ml import KNearestNeighbor
 
 
 def k_fold_validation(X_train, y_train, num_folds=5):

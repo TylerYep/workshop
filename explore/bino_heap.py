@@ -32,7 +32,7 @@ class ItemRef:
 
     def __str__(self):
         if self.in_tree:
-            return "<BinomialHeap Reference to '%s'>" % str(self.ref.val)
+            return f"<BinomialHeap Reference to '{str(self.ref.val)}'>"
         else:
             return "<stale BinomialHeap Reference>"
 
@@ -91,7 +91,7 @@ class BinomialHeap:
             self.val = val
 
         def __str__(self):
-            return "(%s, c:%s, n:%s)" % (str(self), str(self.child), str(self.next))
+            return f"({str(self)}, c:{str(self.child)}, n:{str(self.next)})"
 
         def link(self, other):
             "Makes other a subtree of self."
@@ -292,17 +292,17 @@ class BinomialHeap:
     def __min(self):
         if not self.head:
             return None
-        min = self.head
+        min_ = self.head
         min_prev = None
-        prev = min
-        cur = min.next
+        prev = min_
+        cur = min_.next
         while cur:
-            if cur.key < min.key:
-                min = cur
+            if cur.key < min_.key:
+                min_ = cur
                 min_prev = prev
             prev = cur
             cur = cur.next
-        return (min, min_prev)
+        return (min_, min_prev)
 
     def __union(self, h2):
         if not h2:
@@ -315,27 +315,29 @@ class BinomialHeap:
         h1 = BinomialHeap.Node.roots_merge(h1, h2)
         prev = None
         x = h1
-        next = x.next
-        while next:
-            if x.degree != next.degree or (next.next and next.next.degree == x.degree):
+        next_ = x.next
+        while next_:
+            if x.degree != next_.degree or (
+                next_.next and next_.next.degree == x.degree
+            ):
                 prev = x
-                x = next
-            elif x.key <= next.key:
+                x = next_
+            elif x.key <= next_.key:
                 # x becomes the root of next
-                x.next = next.next
-                x.link(next)
+                x.next = next_.next
+                x.link(next_)
             else:
-                # next becomes the root of x
+                # next_ becomes the root of x
                 if not prev:
                     # update the "master" head
-                    h1 = next
+                    h1 = next_
                 else:
                     # just update previous link
-                    prev.next = next
-                next.link(x)
+                    prev.next = next_
+                next_.link(x)
                 # x is not toplevel anymore, update ref by advancing
-                x = next
-            next = x.next
+                x = next_
+            next_ = x.next
         self.head = h1
 
 

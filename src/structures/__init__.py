@@ -5,6 +5,7 @@ from .binary_tree import BinarySearchTree
 
 # from .binomial_heap import BinomialHeap  # type: ignore
 from .disjoint_set import DisjointSet
+from .fibonacci_heap import FibonacciHeap
 from .graph import Edge, Graph, Node, V
 from .hash_table.cuckoo import Cuckoo
 from .hash_table.hash_table import HashTable
@@ -31,6 +32,7 @@ __all__ = (
     "BinaryHeap",
     "BinarySearchTree",
     "DisjointSet",
+    "FibonacciHeap",
     "Edge",
     "Graph",
     "Node",

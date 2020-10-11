@@ -22,26 +22,24 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
         if u not in visited:
             visited.add(u)
             for v, e in graph[u].items():
+                # if v in visited and
                 if v not in visited:
                     heapq.heappush(heap, (cost + e.weight, v))
     return None
 
 
 def dijkstra_shortest_distances(graph: Graph[V], start: V) -> Dict[V, float]:
-    distances = {start: 0.0}
+    heap: List[Tuple[float, V]] = [(0.0, start)]
     visited: Set[V] = set()
-    path = {start: start}
-    while len(visited) != len(graph) - 1:
-        mini = Graph.INFINITY
-        for i in distances:
-            if i not in visited and distances[i] < mini:
-                mini = distances[i]
-                u = i
-        visited.add(u)
-        for v in graph[u]:
-            if v not in visited:
-                cost = graph[u][v].weight
-                if distances[u] + cost < distances.get(v, Graph.INFINITY):
-                    distances[v] = distances[u] + cost
-                    path[v] = u
+    distances = {node: Graph.INFINITY for node in graph}
+    distances[start] = 0.0
+    while heap:
+        cost, u = heapq.heappop(heap)
+        if u not in visited:
+            visited.add(u)
+            for v, e in graph[u].items():
+                if distances[u] + cost < distances[v]:
+                    distances[v] = distances[u] + e.weight
+                    if v not in visited:
+                        heapq.heappush(heap, (cost + e.weight, v))
     return distances

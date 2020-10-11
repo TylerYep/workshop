@@ -69,7 +69,7 @@ def decrypt(message: str) -> str:
             if i == 2:
                 decipher += " "
             else:
-                decipher += list(MORSE_CODE_DICT.keys())[
+                decipher += list(MORSE_CODE_DICT)[
                     list(MORSE_CODE_DICT.values()).index(citext)
                 ]
                 citext = ""

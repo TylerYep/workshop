@@ -13,7 +13,7 @@ def get_statement(indent: int, prev_fn: Optional[Callable[[int], str]]) -> str:
         get_if_else: 1 - 0.6 * indent if good else 0,
         get_if_elif_else: 1 - 0.99 * indent if good else 0,
     }
-    options, probs = list(dist.keys()), list(dist.values())
+    options, probs = list(dist), list(dist.values())
     return random.choices(options, probs, k=1)[0](indent)
 
 
