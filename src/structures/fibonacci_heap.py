@@ -8,6 +8,7 @@ from typing import Deque, Dict, Generic, Optional, Tuple, TypeVar, Union
 from uuid import UUID, uuid4
 
 from src.algorithms.sort.comparable import Comparable
+from src.util import formatter
 
 T = TypeVar("T", bound=Comparable)
 
@@ -33,6 +34,9 @@ class Entry(Generic[T]):
         self.parent: Optional[Entry[T]] = None
         self.child: Optional[Entry[T]] = None
         self.next = self.prev = self
+
+    def __repr__(self) -> str:
+        return str(formatter.pformat(self))
 
 
 @dataclass(init=False)

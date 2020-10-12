@@ -293,3 +293,16 @@ class TestFibonacciHeap:
             expected_list.extend([number] * 9)
 
         assert actual_list == expected_list
+
+    @staticmethod
+    def test_print_heap() -> None:
+        heap = FibonacciHeap[int]()
+        heap.enqueue(1, 1)
+        heap.enqueue(3, 3)
+        heap.enqueue(5, 2)
+        heap.enqueue(2, 2)
+        heap.enqueue(4, 4)
+        heap.enqueue(6, 8)
+        heap.dequeue_min()
+
+        assert str(heap) == "FibonacciHeap(top=Entry(value=5, priority=2))"

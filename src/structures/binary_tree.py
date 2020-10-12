@@ -12,7 +12,7 @@ T = TypeVar("T", bound=Comparable)
 
 
 @dataslots
-@dataclass(order=True)
+@dataclass(order=True, repr=False)
 class TreeNode(Generic[T]):
     data: T
     left: Optional[TreeNode[T]] = None

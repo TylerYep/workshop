@@ -9,7 +9,7 @@ T = TypeVar("T")
 
 
 @dataslots
-@dataclass
+@dataclass(repr=False)
 class LinkedListNode(Generic[T]):
     data: T
     next: Optional[LinkedListNode[T]] = None
