@@ -156,7 +156,7 @@ class TestFibonacciHeap:
         entry3 = fib_heap.enqueue(3, 3)
         fib_heap.enqueue(5, 5)
 
-        fib_heap.decrease_key(entry3, -1)
+        fib_heap.decrease_key(entry3 if allow_duplicates else 3, -1)
 
         actual_list = []
         while fib_heap:
@@ -165,10 +165,9 @@ class TestFibonacciHeap:
         assert actual_list == [(-1, 3), (1, 1), (5, 5)]
 
     @staticmethod
-    @pytest.mark.parametrize("allow_duplicates", (True,))
-    def test_merge(allow_duplicates: bool) -> None:
+    def test_merge_duplicates() -> None:
         """ Test merging two heaps. """
-        heap1 = FibonacciHeap[int](allow_duplicates=allow_duplicates)
+        heap1 = FibonacciHeap[int](allow_duplicates=True)
         heap2 = FibonacciHeap[int]()
         heap1.enqueue(1, 1)
         heap1.enqueue(3, 3)
@@ -188,6 +187,46 @@ class TestFibonacciHeap:
             actual_list.append(merged_heap.dequeue_min())
 
         assert actual_list == [(1, 1), (2, 2), (3, 3), (3, 3), (4, 4), (5, 5), (6, 6)]
+
+    @staticmethod
+    def test_merge() -> None:
+        """ Test merging two heaps. """
+        heap1 = FibonacciHeap[int](allow_duplicates=False)
+        heap2 = FibonacciHeap[int]()
+        heap1.enqueue(1, 1)
+        heap1.enqueue(3, 3)
+        heap1.enqueue(5, 5)
+
+        heap2.enqueue(2, 2)
+        heap2.enqueue(4, 4)
+        heap2.enqueue(6, 6)
+
+        merged_heap = heap1.merge(heap2)
+
+        assert len(merged_heap) == 6
+
+        actual_list = []
+        while merged_heap:
+            actual_list.append(merged_heap.dequeue_min())
+
+        assert actual_list == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]
+
+    @staticmethod
+    def test_merge_exception() -> None:
+        """ Test merging two heaps. """
+        heap1 = FibonacciHeap[int](allow_duplicates=False)
+        heap2 = FibonacciHeap[int]()
+        heap1.enqueue(1, 1)
+        heap1.enqueue(3, 3)
+        heap1.enqueue(5, 5)
+
+        heap2.enqueue(2, 2)
+        heap2.enqueue(3, 3)
+        heap2.enqueue(4, 4)
+        heap2.enqueue(6, 6)
+
+        with pytest.raises(RuntimeError):
+            _ = heap1.merge(heap2)
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))

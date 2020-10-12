@@ -20,4 +20,4 @@ flake8 .
 find . -iname "*.py" | xargs pylint
 
 # Testing
-pytest --durations=0
+pytest --cov=src --cov-report=html --durations=0

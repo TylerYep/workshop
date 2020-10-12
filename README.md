@@ -3,6 +3,7 @@
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![Build Status](https://travis-ci.com/TylerYep/workshop.svg?branch=master)](https://travis-ci.com/TylerYep/workshop)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/workshop)](https://github.com/TylerYep/workshop/blob/master/LICENSE)
+[![codecov](https://codecov.io/gh/TylerYep/workshop/branch/master/graph/badge.svg)](https://codecov.io/gh/TylerYep/workshop)
 
 My design studio of AI/ML/CS concepts.
 
