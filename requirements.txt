@@ -1,9 +1,7 @@
 dataslots==1.0.2
-fibonacci_heap_mod==1.1.0
 matplotlib==3.3.2
 numpy==1.19.2
 prettyprinter==0.18.0
-scipy==1.5.2
 torch==1.6.0
 torchvision==0.7.0
 tqdm==4.50.2

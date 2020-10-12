@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-# echo "Running pre-push hook"
-
-# rm coverage.xml
-# codecov --token="1adf9960-16eb-49c9-9c73-dbd3f609639f"
