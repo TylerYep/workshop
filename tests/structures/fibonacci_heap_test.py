@@ -107,7 +107,7 @@ class TestFibonacciHeap:
 
         actual_priorities_list = []
         for _ in range(intended_length):
-            priority, _ = fib_heap.dequeue_min()
+            _, priority = fib_heap.dequeue_min()
             actual_priorities_list.append(priority)
 
         with pytest.raises(IndexError):
@@ -162,7 +162,7 @@ class TestFibonacciHeap:
         while fib_heap:
             actual_list.append(fib_heap.dequeue_min())
 
-        assert actual_list == [(-1, 3), (1, 1), (5, 5)]
+        assert actual_list == [(3, -1), (1, 1), (5, 5)]
 
     @staticmethod
     def test_merge_duplicates() -> None:
@@ -283,7 +283,7 @@ class TestFibonacciHeap:
 
         actual_list = []
         while heap:
-            _, value = heap.dequeue_min()
+            value, _ = heap.dequeue_min()
             actual_list.append(value)
 
         assert len(actual_list) == 100

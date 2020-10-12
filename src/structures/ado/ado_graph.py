@@ -1,11 +1,9 @@
 import random
 from collections import defaultdict
-from typing import Any, List, Set
-
-from fibonacci_heap_mod import Fibonacci_heap
+from typing import Any, Dict, List, Set
 
 Vertex = int
-INF = 1000
+INFINITY = 10000
 
 
 class UIntPQueue:
@@ -15,22 +13,24 @@ class UIntPQueue:
     nonnegative integers up to a max value.
     """
 
-    def __init__(self, max_num: int) -> None:
-        self.fheap = Fibonacci_heap()
-        self.entries = [None] * (max_num + 1)
+    def __init__(self) -> None:
+        from src.structures import FibonacciHeap
+
+        self.fheap = FibonacciHeap[Vertex]()
+        self.entries: Dict[Vertex, int] = {}
 
     def __len__(self) -> int:
         return len(self.fheap)
 
     def enqueue(self, value: Vertex, priority: float) -> None:
-        if self.entries[value] is None:
-            self.entries[value] = self.fheap.enqueue(value, priority)
-        elif priority < self.entries[value].m_priority:  # type: ignore[attr-defined]
-            self.fheap.decrease_key(self.entries[value], priority)
+        if value not in self.entries:
+            self.fheap.enqueue(value, priority)
+        elif priority < self.entries[value]:
+            self.fheap.decrease_key(value, priority)
 
     def dequeue_min(self) -> Any:
-        value = self.fheap.dequeue_min().m_elem
-        self.entries[value] = None
+        value, _ = self.fheap.dequeue_min()
+        # del self.entries[value]
         return value
 
 
@@ -49,7 +49,7 @@ class ApproxDistanceOracle:
         self.neighbors: List[List[Vertex]] = [[] for _ in V]
         for u in V:
             for v in range(u):
-                if E[u][v] != INF:
+                if E[u][v] != INFINITY:
                     self.neighbors[u].append(v)
                     self.neighbors[v].append(u)
 
@@ -68,15 +68,15 @@ class ApproxDistanceOracle:
             [None] * self.n for _ in range(k + 1)  # type: ignore[list-item]
         ]
 
-        # Initialize a_i_v_distances of A_k to INF
-        self.a_i_v_distances[k] = [INF] * self.n
+        # Initialize a_i_v_distances of A_k to INFINITY
+        self.a_i_v_distances[k] = [INFINITY] * self.n
         self.p[k] = [None] * self.n  # type: ignore[list-item]
 
         # Initialize empty bunches
         self.B: List[Set[Vertex]] = [{v} for v in V]
 
         # Initialize table of calculated distances
-        self.distances = defaultdict(lambda: INF)
+        self.distances = defaultdict(lambda: INFINITY)
         for v in V:
             self.distances[(v, v)] = 0
 
@@ -98,9 +98,9 @@ class ApproxDistanceOracle:
 
     def compute_delta_a_i_v(self, i: int) -> None:
         """ Variant on Dijkstra's that tracks witnesses. """
-        q = UIntPQueue(self.n - 1)
-        self.a_i_v_distances[i] = [INF] * self.n
-        self.p[i] = [INF] * self.n
+        q = UIntPQueue()
+        self.a_i_v_distances[i] = [INFINITY] * self.n
+        self.p[i] = [INFINITY] * self.n
         for w in self.A[i]:
             self.a_i_v_distances[i][w] = 0
             self.p[i][w] = w
@@ -122,7 +122,7 @@ class ApproxDistanceOracle:
         A modified version of Dijkstra's algorithm that only updates delta(c, v)
         if the new estimate of delta(c, v) is strictly smaller than delta(A_(i+1), v).
         """
-        q = UIntPQueue(self.n - 1)
+        q = UIntPQueue()
 
         # Run Dijkstra's algorithm from each i-center
         for c in self.A[i]:

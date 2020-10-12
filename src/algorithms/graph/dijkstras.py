@@ -19,7 +19,7 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
     distances[start] = 0.0
     visited: Set[V] = set()
     while heap:
-        cost, u = heap.dequeue_min()
+        u, cost = heap.dequeue_min()
         if u == end:
             return cost
         if u not in visited:
@@ -44,7 +44,7 @@ def dijkstra_shortest_distances(graph: Graph[V], start: V) -> Dict[V, float]:
     distances[start] = 0.0
     visited: Set[V] = set()
     while heap:
-        cost, u = heap.dequeue_min()
+        u, cost = heap.dequeue_min()
         if u not in visited:
             visited.add(u)
             for v, e in graph[u].items():

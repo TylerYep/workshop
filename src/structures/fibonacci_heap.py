@@ -195,7 +195,7 @@ class FibonacciHeap(Generic[T]):
             raise IndexError("Heap is empty.")
         return self.top
 
-    def dequeue_min(self) -> Tuple[float, T]:
+    def dequeue_min(self) -> Tuple[T, float]:
         """
         Dequeue and return the minimum element of the Fibonacci heap.
 
@@ -214,7 +214,7 @@ class FibonacciHeap(Generic[T]):
 
         # Grab the minimum element so we know what to return.
         min_elem = self.top
-        return_val = (min_elem.priority, min_elem.value)
+        return_val = (min_elem.value, min_elem.priority)
 
         # Now, we need to get rid of this element from the list of roots. There
         # are two cases to consider. First, if this is the only element in the

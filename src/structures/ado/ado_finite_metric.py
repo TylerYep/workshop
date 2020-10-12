@@ -101,12 +101,3 @@ class ApproxFiniteMetricOracle:
 def weighted_coin_flip(prob: float) -> bool:
     """ Returns True with probability prob. """
     return random.choices([True, False], [prob, 1 - prob])[0]
-
-
-if __name__ == "__main__":
-    dist_matrix = [[0, 1, 0, 5], [1, 0, 0, 0], [0, 0, 0, 0], [5, 0, 0, 0]]
-
-    distances = [[float(i) for i in row] for row in dist_matrix]
-    ado = ApproxFiniteMetricOracle(distances)
-    x = ado.query(0, 2)
-    print(x)
