@@ -6,6 +6,7 @@ repos:
         entry: mypy
         language: python
         types: [python]
+        require_serial: true
 
     -   id: isort
         name: isort
