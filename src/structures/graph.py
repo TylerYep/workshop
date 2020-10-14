@@ -10,6 +10,7 @@ from typing import (
     Iterator,
     KeysView,
     List,
+    Mapping,
     Optional,
     Sequence,
     Set,
@@ -64,12 +65,12 @@ class Graph(Generic[V]):
     def __bool__(self) -> bool:
         return bool(self._graph)
 
-    def __contains__(self, v_id: V) -> bool:
-        return v_id in self._graph
+    def __contains__(self, v: V) -> bool:
+        return v in self._graph
 
-    def __getitem__(self, v_id: V) -> Dict[V, Edge[V]]:
-        self.verify_nodes_exist(v_id)
-        return self._graph[v_id]
+    def __getitem__(self, v: V) -> Dict[V, Edge[V]]:
+        self.verify_nodes_exist(v)
+        return self._graph[v]
 
     def __iter__(self) -> Iterator[V]:
         yield from self._graph
@@ -80,11 +81,7 @@ class Graph(Generic[V]):
 
     @property
     def edges(self) -> Set[Edge[V]]:
-        return {
-            self._graph[v_id1][v_id2]
-            for v_id1 in self._graph
-            for v_id2 in self._graph[v_id1]
-        }
+        return {self._graph[u][v] for u in self._graph for v in self._graph[u]}
 
     @classmethod
     def from_graph(
@@ -127,6 +124,21 @@ class Graph(Generic[V]):
         return Graph(graph, is_directed=is_directed)
 
     @classmethod
+    def from_edgelist(
+        cls,
+        edge_list: Iterable[Edge[V]],
+        is_directed: bool = False,
+    ) -> Graph[V]:
+        graph = Graph[V](is_directed=is_directed)
+        for edge in edge_list:
+            if edge.start not in graph:
+                graph.add_node(edge.start)
+            if edge.end not in graph:
+                graph.add_node(edge.end)
+            graph.add_edge(**edge)
+        return graph
+
+    @classmethod
     def from_matrix(cls, matrix: Sequence[Sequence[float]]) -> Graph[int]:
         is_directed = False
         n = len(matrix)
@@ -153,80 +165,83 @@ class Graph(Generic[V]):
 
     def verify_nodes_exist(self, *v_ids: V) -> None:
         """ Checks existence of provided nodes. """
-        for v_id in v_ids:
-            if v_id not in self._graph:
-                raise KeyError(f"Node not found: {v_id}")
+        for v in v_ids:
+            if v not in self._graph:
+                raise KeyError(f"Node not found: {v}")
 
-    def adj(self, v_id: V) -> KeysView[V]:
-        self.verify_nodes_exist(v_id)
-        return self._graph[v_id].keys()
+    def adj(self, v: V) -> KeysView[V]:
+        self.verify_nodes_exist(v)
+        return self._graph[v].keys()
 
-    def degree(self, v_id: V) -> int:
+    def degree(self, v: V) -> int:
         """
         Returns the total number of edges going in or out of a node.
         For undirected graphs, counts each edge only once.
         """
-        self.verify_nodes_exist(v_id)
+        self.verify_nodes_exist(v)
         if self.is_directed:
-            return self.out_degree(v_id) + self.in_degree(v_id)
-        return len(self._graph[v_id])
+            return self.out_degree(v) + self.in_degree(v)
+        return len(self._graph[v])
 
-    def out_degree(self, v_id: V) -> int:
+    def out_degree(self, v: V) -> int:
         if not self.is_directed:
             raise NotImplementedError("Graph is undirected; use degree() instead.")
-        self.verify_nodes_exist(v_id)
-        return len(self._graph[v_id])
+        self.verify_nodes_exist(v)
+        return len(self._graph[v])
 
-    def in_degree(self, v_id: V) -> int:
+    def in_degree(self, v: V) -> int:
         """
         Iterate all neighbors to see whether any of them reference the current node.
         """
         if not self.is_directed:
             raise NotImplementedError("Graph is undirected; use degree() instead.")
-        self.verify_nodes_exist(v_id)
-        return sum(v_id in self._graph[node] and v_id != node for node in self._graph)
+        self.verify_nodes_exist(v)
+        return sum(v in self._graph[node] and v != node for node in self._graph)
 
-    def add_node(self, v_id: V) -> None:
+    def add_node(self, v: V) -> None:
         """ You cannot add the same node twice. """
-        if v_id in self._graph:
-            raise KeyError(f"Node already exists: {v_id}")
-        self._graph[v_id] = {}
+        if v in self._graph:
+            raise KeyError(f"Node already exists: {v}")
+        self._graph[v] = {}
 
-    def add_edge(self, v_id1: V, v_id2: V, weight: float = 1, **kwargs: Any) -> None:
+    def add_edge(self, start: V, end: V, weight: float = 1, **kwargs: Any) -> None:
         """
-        For directed graphs, connects the edge v_id1 -> v_id2.
-        For undirected graphs, also connects the edge v_id2 -> v_id1.
+        For directed graphs, connects the edge start -> end.
+        For undirected graphs, also connects the edge end -> start.
         Replaces the edge if it already exists.
-        """
-        self.verify_nodes_exist(v_id1, v_id2)
-        self._graph[v_id1][v_id2] = Edge(v_id1, v_id2, weight, **kwargs)
-        if not self.is_directed:
-            self._graph[v_id2][v_id1] = Edge(v_id2, v_id1, weight, **kwargs)
 
-    def remove_node(self, v_id: V) -> None:
+        Note that the function variable names must match the Edge class constructor.
         """
-        Removes all of the edges associated with the v_id node too.
+        self.verify_nodes_exist(start, end)
+        self._graph[start][end] = Edge(start, end, weight, **kwargs)
+        if not self.is_directed:
+            # pylint: disable=arguments-out-of-order
+            self._graph[end][start] = Edge(end, start, weight, **kwargs)
+
+    def remove_node(self, v: V) -> None:
         """
-        self.verify_nodes_exist(v_id)
+        Removes all of the edges associated with the node v too.
+        """
+        self.verify_nodes_exist(v)
         if self.is_directed:
             for node in self._graph:
                 # Make a list copy to avoid removing-while-iterating errors.
                 for neighbor in list(self._graph[node]):
-                    if v_id in (node, neighbor):
+                    if v in (node, neighbor):
                         del self._graph[node][neighbor]
-            del self._graph[v_id]
+            del self._graph[v]
         else:
-            removed_node_dict = self._graph.pop(v_id)
+            removed_node_dict = self._graph.pop(v)
             for neighbor in removed_node_dict:
-                if v_id in self._graph[neighbor]:
-                    del self._graph[neighbor][v_id]
+                if v in self._graph[neighbor]:
+                    del self._graph[neighbor][v]
 
-    def remove_edge(self, v_id1: V, v_id2: V) -> None:
-        self.verify_nodes_exist(v_id1, v_id2)
-        if v_id2 in self._graph[v_id1]:
-            del self._graph[v_id1][v_id2]
+    def remove_edge(self, start: V, end: V) -> None:
+        self.verify_nodes_exist(start, end)
+        if end in self._graph[start]:
+            del self._graph[start][end]
             if not self.is_directed:
-                del self._graph[v_id2][v_id1]
+                del self._graph[end][start]
 
     def is_bipartite(self) -> bool:
         """
@@ -255,7 +270,7 @@ class Graph(Generic[V]):
 
 
 @dataclass(init=False, repr=False, order=True)
-class Edge(Generic[V]):
+class Edge(Generic[V], Mapping[str, Any]):
     """
     The edge class that stores edge data.
     Edges are given sort order using start, end, and weight.
@@ -265,16 +280,37 @@ class Edge(Generic[V]):
     end: V
     weight: float
 
-    def __init__(self, start: V, end: V, weight: float = 1, **kwargs: Any):
+    def __init__(self, start: V, end: V, weight: float = 1, **kwargs: Dict[str, Any]):
         self.start = start
         self.end = end
         self.weight = weight
         self.kwargs = kwargs
 
+    def __len__(self) -> int:
+        return 3 + len(self.kwargs)
+
+    def __iter__(self) -> Any:
+        for item in ("start", "end", "weight"):
+            yield item
+        for kwarg in self.kwargs:
+            yield kwarg
+
     def __getitem__(self, attr: str) -> Any:
+        if attr == "start":
+            return self.start
+        if attr == "end":
+            return self.end
+        if attr == "weight":
+            return self.weight
         return self.kwargs[attr]
 
     def __setitem__(self, attr: str, value: Any) -> None:
+        if attr == "start":
+            self.start = value
+        if attr == "end":
+            self.end = value
+        if attr == "weight":
+            self.weight = value
         self.kwargs[attr] = value
 
     def __repr__(self) -> str:
