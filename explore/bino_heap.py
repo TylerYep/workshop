@@ -86,9 +86,7 @@ class BinomialHeap:
             self.child = None
             self.key = key
             self.ref = ItemRef(self, get_heap)
-            if val is None:
-                val = key
-            self.val = val
+            self.val = key if val is None else val
 
         def __str__(self):
             return f"({str(self)}, c:{str(self.child)}, n:{str(self.next)})"
@@ -142,10 +140,7 @@ class BinomialHeap:
                     p.next = h2
                     h2 = h2.next
                 p = p.next
-            if h2:
-                p.next = h2
-            else:
-                p.next = h1
+            p.next = h2 if h2 else h1
             return h
 
         @staticmethod
@@ -233,18 +228,18 @@ class BinomialHeap:
         pos = self.__min()
         if not pos:
             return None
+
+        x, prev = pos
+        # remove from list
+        if prev:
+            prev.next = x.next
         else:
-            (x, prev) = pos
-            # remove from list
-            if prev:
-                prev.next = x.next
-            else:
-                self.head = x.next
-            kids = BinomialHeap.Node.roots_reverse(x.child)
-            self.__union(kids)
-            x.ref.in_tree = False
-            self.size -= 1
-            return x.val
+            self.head = x.next
+        kids = BinomialHeap.Node.roots_reverse(x.child)
+        self.__union(kids)
+        x.ref.in_tree = False
+        self.size -= 1
+        return x.val
 
     def __nonzero__(self):
         """True if the heap is not empty; False otherwise."""
@@ -279,15 +274,13 @@ class BinomialHeap:
         """
         if self.head:
             return self.extract_min()
-        else:
-            raise StopIteration
+        raise StopIteration
 
     def __contains__(self, ref):
         """Test whether a given reference 'ref' (of ItemRef) is in this heap."""
         if type(ref) != ItemRef:
             raise TypeError("Expected an ItemRef")
-        else:
-            return ref.in_heap(self)
+        return ref.in_heap(self)
 
     def __min(self):
         if not self.head:

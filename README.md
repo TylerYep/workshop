@@ -70,7 +70,6 @@ AVL Tree
 Scapegoat Tree
 Splay Tree
 Binomial Heap
-Fibonacci Heap
 Pairing Heap
 Spanning Trees
 Social Networks

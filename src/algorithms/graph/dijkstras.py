@@ -15,45 +15,46 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
     """
     heap = FibonacciHeap[V]()
     heap.enqueue(start, 0)
-    distances = {node: Graph.INFINITY for node in graph}
-    distances[start] = 0.0
-    visited: Set[V] = set()
+    for node in graph:
+        if node != start:
+            heap.enqueue(node, Graph.INFINITY)
+    distances = {}
     while heap:
+        # The algorithm guarantees that we now have the shortest distance to u.
         u, cost = heap.dequeue_min()
         if u == end:
             return cost
-        if u not in visited:
-            visited.add(u)
-            for v, e in graph[u].items():
-                if distances[u] + cost < distances[v]:
-                    distances[v] = distances[u] + e.weight
-                    if v in visited:
-                        heap.decrease_key(v, cost + e.weight)
-                    else:
-                        heap.enqueue(v, cost + e.weight)
+        distances[u] = cost
+        for v, e in graph[u].items():
+            if v not in distances:
+                path_cost = cost + e.weight
+                if path_cost < heap[v].priority:
+                    heap.decrease_key(v, path_cost)
     return None
 
 
 def dijkstra_shortest_distances(graph: Graph[V], start: V) -> Dict[V, float]:
     """
+    Given a directed, weighted graph G and a source node s, produces the
+    distances from s to each other node in the graph.  If any nodes in
+    the graph are unreachable from s, they will be reported at distance +infinity.
     Runtime: O(|E| + |V| log |V|)
     """
     heap = FibonacciHeap[V]()
     heap.enqueue(start, 0)
-    distances = {node: Graph.INFINITY for node in graph}
-    distances[start] = 0.0
-    visited: Set[V] = set()
+    for node in graph:
+        if node != start:
+            heap.enqueue(node, Graph.INFINITY)
+    distances = {}
     while heap:
+        # The algorithm guarantees that we now have the shortest distance to u.
         u, cost = heap.dequeue_min()
-        if u not in visited:
-            visited.add(u)
-            for v, e in graph[u].items():
-                if distances[u] + cost < distances[v]:
-                    distances[v] = distances[u] + e.weight
-                    if v in visited:
-                        heap.decrease_key(v, cost + e.weight)
-                    else:
-                        heap.enqueue(v, cost + e.weight)
+        distances[u] = cost
+        for v, e in graph[u].items():
+            if v not in distances:
+                path_cost = cost + e.weight
+                if path_cost < heap[v].priority:
+                    heap.decrease_key(v, path_cost)
     return distances
 
 

@@ -296,3 +296,13 @@ class Node(Generic[V]):
 
     def __hash__(self) -> int:
         return hash(self.data)
+
+
+class DirectedGraph(Generic[V], Graph[V]):
+    def __init__(self, graph: Optional[Dict[V, Dict[V, Any]]] = None) -> None:
+        super().__init__(graph, is_directed=True)
+
+
+class UndirectedGraph(Generic[V], Graph[V]):
+    def __init__(self, graph: Optional[Dict[V, Dict[V, Any]]] = None) -> None:
+        super().__init__(graph, is_directed=False)

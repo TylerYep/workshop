@@ -74,6 +74,22 @@ class FibonacciHeap(Generic[T]):
             raise NotImplementedError
         return item in self.elem_to_entry
 
+    def __getitem__(self, value: Union[T, UUID]) -> Entry[T]:
+        """ Gets the correct Entry object from the given value or UUID. """
+        if self.allow_duplicates and not isinstance(value, UUID):
+            raise RuntimeError(
+                "You must pass in a valid UUID or set allow_duplicates = False."
+            )
+        if not self.allow_duplicates and isinstance(value, UUID):
+            raise RuntimeError("You must pass in a value of type T, not a UUID.")
+
+        if value not in self.elem_to_entry:
+            raise KeyError(
+                f"Invalid {'UUID' if self.allow_duplicates else 'key'}: {value}"
+            )
+
+        return self.elem_to_entry[value]
+
     @staticmethod
     def merge_lists(
         one: Optional[Entry[T]], two: Optional[Entry[T]]
@@ -151,7 +167,7 @@ class FibonacciHeap(Generic[T]):
         @param priority The user's specified priority.
         @raises ValueError if it is not valid.
         """
-        if math.isnan(priority) or math.isinf(priority):
+        if math.isnan(priority):
             raise ValueError(f"Priority {priority} is invalid.")
 
     def enqueue(self, value: T, priority: float) -> Union[T, UUID]:
@@ -354,8 +370,7 @@ class FibonacciHeap(Generic[T]):
         @raises ValueError If the new priority exceeds the old
                 priority, or if the argument is not a finite double.
         """
-        entry = self._retrieve_entry(value)
-
+        entry = self[value]
         self._check_priority(new_priority)
         if new_priority > entry.priority:
             raise ValueError("New priority exceeds old.")
@@ -369,11 +384,9 @@ class FibonacciHeap(Generic[T]):
 
         @param entry The entry to delete.
         """
-        entry = self._retrieve_entry(value)
-
         # Use decreaseKey to drop the entry's key to -infinity. This will
         # guarantee that the node is cut and set to the global minimum.
-        self._decrease_key_unchecked(entry, float("-inf"))
+        self._decrease_key_unchecked(self[value], float("-inf"))
 
         # Call dequeue_min to remove it.
         self.dequeue_min()
@@ -417,22 +430,6 @@ class FibonacciHeap(Generic[T]):
         self.size = other.size = 0
         self.top = other.top = None
         return result
-
-    def _retrieve_entry(self, value: Union[T, UUID]) -> Entry[T]:
-        """ Gets the correct Entry object from the given value or UUID. """
-        if self.allow_duplicates and not isinstance(value, UUID):
-            raise RuntimeError(
-                "You must pass in a valid UUID or set allow_duplicates = False."
-            )
-        if not self.allow_duplicates and isinstance(value, UUID):
-            raise RuntimeError("You must pass in a value of type T, not a UUID.")
-
-        if value not in self.elem_to_entry:
-            raise KeyError(
-                f"Invalid {'UUID' if self.allow_duplicates else 'key'}: {value}"
-            )
-
-        return self.elem_to_entry[value]
 
     def _decrease_key_unchecked(self, entry: Entry[T], priority: float) -> None:
         """
