@@ -56,6 +56,8 @@ and runs on only a couple files if many files are changed. Not what we want, I t
 
 - Order functions within a class using flake8-function-order.
 
+- Iterables cannot be indexed and must get length by casting to tuple or set.
+- Sequences can be indexed.
 
 ### Types and Data Structures
 

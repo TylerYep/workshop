@@ -1,3 +1,5 @@
+from typing import Union
+
 import pytest
 
 from src.structures import Edge, Graph, Node
@@ -149,6 +151,23 @@ def test_to_matrix() -> None:
     ]
     assert Graph.from_matrix(matrix).to_matrix() == matrix
 
+    graph = Graph[int]()
+    graph.add_node(3)
+    graph.add_node(2)
+    graph.add_node(1)
+    graph.add_node(5)
+    graph.add_edge(1, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(3, 5)
+    new_matrix = graph.to_matrix()
+
+    assert new_matrix == [
+        [INF, 1, 1, INF],
+        [INF, INF, INF, INF],
+        [INF, INF, INF, 1],
+        [INF, INF, INF, INF],
+    ]
+
 
 def test_from_graph() -> None:
     graph = Graph[Node[int]]()
@@ -172,6 +191,27 @@ def test_from_graph() -> None:
     assert len(graph) != len(new_graph)
     assert len(graph.edges) != len(new_graph)
     assert graph != new_graph
+
+
+def test_comparable_types() -> None:
+    graph = Graph[int]()
+    for i in range(5):
+        graph.add_node(i)
+
+    graph.add_edge(2, 2)
+    graph.add_edge(1, 3)
+    assert sorted(graph.nodes) == list(range(5))
+    assert sorted(graph.edges) == [Edge(1, 3), Edge(2, 2)]
+
+
+def test_noncomparable_types() -> None:
+    graph = Graph[Union[str, int]]()
+    for i in range(5):
+        graph.add_node(i)
+        graph.add_node(str(i))
+
+    with pytest.raises(TypeError):
+        _ = sorted(graph)
 
 
 def test_print_graph() -> None:

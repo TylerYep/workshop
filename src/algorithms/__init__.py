@@ -8,8 +8,7 @@ from .graph.floyd_warshall import floyd_warshall
 from .graph.hamiltonian_cycle import hamiltonian_cycle
 from .graph.kargers import kargers
 from .graph.kruskals import kruskals
-
-# from .graph.prims import prims
+from .graph.prims import prims
 from .graph.toposort import topological_sort
 from .quick_select import quick_select
 from .sort.bubble_sort import bubble_sort
@@ -19,6 +18,7 @@ from .sort.merge_sort import merge_sort
 from .sort.quick_sort import quick_sort
 from .sort.radix_sort import radix_sort
 from .sort.selection_sort import selection_sort
+from .string.knuth_morris_pratt import kmp_string_match
 from .string.lcs import longest_common_subsequence
 from .string.sais import build_suffix_array_sais as build_suffix_array
 
@@ -38,7 +38,7 @@ __all__ = (
     "hamiltonian_cycle",
     "kargers",
     "kruskals",
-    # "prims",
+    "prims",
     "topological_sort",
     "quick_select",
     "bubble_sort",
@@ -48,6 +48,7 @@ __all__ = (
     "quick_sort",
     "radix_sort",
     "selection_sort",
+    "kmp_string_match",
     "longest_common_subsequence",
     "build_suffix_array",
 )

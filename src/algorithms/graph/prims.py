@@ -5,8 +5,20 @@ from src.structures import FibonacciHeap, Graph, V
 
 def prims(graph: Graph[V], start_node: Optional[V] = None) -> Graph[V]:
     """
-    Given a connected undirected graph with real-valued edge costs,
+    Given a connected, undirected graph with real-valued edge costs,
     returns an MST of that graph.
+
+    The key difference between Dijkstra's algorithm and Prim's algorithm is that
+    Dijkstra's algorithm creates a shortest-path tree from the source node, while
+    Prim's algorithm builds an MST from the source node.
+
+    First, we do O(|V|) insertions into the heap. We then do O(|V|) dequeues (since we
+    only want a total of |V| - 1 edges). These dequeues take a total of O(|V| log |V)
+    time, though any one dequeue might take much more than that. Finally, on each
+    dequeue, we scan all outgoing edges from the dequeued node. Since we never consider
+    a node twice, the total number of edges visited must be twice the number of edges
+    in the graph, since each edge will be visited once from each endpoint, which
+    is O(|E|) addiional time.
 
     Runtime: O(|E| + |V| log |V|)
     """
@@ -33,10 +45,7 @@ def _add_outgoing_edges(
     graph: Graph[V], u: V, mst: Graph[V], heap: FibonacciHeap[V]
 ) -> None:
     """
-    Given a node in the graph, updates the priorities of adjacent nodes to
-    take these edges into account. Due to some optimizations we make, this
-    step takes in several parameters beyond what might seem initially
-    required.
+    Given a node, updates the priorities of adjacent nodes by following its edges.
     """
     for v, e in graph[u].items():
         if u in mst:
@@ -60,38 +69,5 @@ def _min_cost_endpoint(node: V, graph: Graph[V], mst: Graph[V]) -> Tuple[V, floa
             end = neighbor
             least_cost = edge.weight
     if end is None:
-        raise AssertionError("Since we dequeued this node, it must have a neighbor.")
+        raise AssertionError("Since we dequeued this node, it has at least 1 neighbor.")
     return end, least_cost
-
-
-# from typing import Any, Dict, Set
-# from src.structures import Graph, V
-# import random
-
-# def prims(graph: Graph[V]) -> Dict[V, float]:
-#     """
-#     Prim's MST Algorithm
-#         Args :  G - Dictionary of edges
-#                 s - Starting Node
-#         Vars :  distances - Dictionary storing shortest distance
-#                         from s to nearest node
-#                 visited - Set of visited nodes
-#                 path - Preceding node in path
-#     """
-#     start = next(iter(graph))
-#     distances = {start: 0}
-#     visited: Set[V] = set()
-#     path = {start: 0}
-#     while len(visited) != len(graph) - 1:
-#         mini = Graph.INFINITY
-#         for v in distances:
-#             if v not in visited and distances[v] < mini:
-#                 mini = distances[v]
-#                 u = v
-#         visited.add(u)
-#         for edge in graph[u].values():
-#             if edge.start not in visited:
-#                 if edge.end < distances.get(edge.start, Graph.INFINITY):
-#                     distances[edge.start] = edge.end
-#                     path[edge.start] = start
-#     return distances
