@@ -1,5 +1,6 @@
 import os
 import pprint
+from types import ModuleType
 
 IGNORED_FOLDERS = {"rmq", "sort", "hash_table", "conversions"}
 IGNORED_FILES = {"util.py", "svm.py", "linear_classifier.py", "softmax.py"}
@@ -24,3 +25,25 @@ def test_file_coverage() -> None:
                 if not os.path.isfile(partner):
                     untested_files.append((os.path.join(root, filename), partner))
     assert not untested_files, pprint.pformat(untested_files)
+
+
+def test_all_exported() -> None:
+    """ Test that __all__ contains only names that are actually exported. """
+    import src.algorithms as algorithms
+    import src.maths as maths
+    import src.ml as ml
+    import src.structures as structures
+
+    for module in (algorithms, ml, maths, structures):
+        if hasattr(module, "__all__"):
+            module_all = module.__all__  # type: ignore[attr-defined]
+            missing_export = [name for name in module_all if not hasattr(module, name)]
+            extra_exports = [
+                name
+                for name in dir(module)
+                if "__" not in name
+                and not isinstance(getattr(module, name), ModuleType)
+                and name not in module_all
+            ]
+
+            assert not missing_export and not extra_exports
