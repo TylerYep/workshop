@@ -1,0 +1,155 @@
+""" bits.py """
+from __future__ import annotations
+
+import math
+from typing import Iterator, Optional
+
+
+class Bits:
+    def __init__(self, val: str = "", *, length: Optional[int] = None) -> None:
+        is_negative = len(val) > 0 and val[0] == "-"
+        val_check = val[1:] if is_negative else val
+        if not all(ch in ("0", "1") for ch in val_check):
+            raise RuntimeError(f"{val} is not a valid Bits initial value.")
+
+        self.val = int(val, 2) if val else -1  # -1 == 111111
+        self.length = len(val) if length is None else length
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be intersected with Bits.")
+        return str(self) == str(other)
+
+    def __len__(self) -> int:
+        return self.length
+
+    # def __repr__(self) -> str:
+    #     return f"Bits({self.val}, {self.length})"
+
+    def __lshift__(self, other: object) -> None:
+        pass
+
+    def __rshift__(self, other: object) -> None:
+        pass
+
+    def __repr__(self) -> str:
+        return self.binary_str(self.val, self.length)
+
+    def __invert__(self) -> Bits:
+        """ Inverts all bits. """
+        return Bits.from_num(~self.val, self.length)
+
+    def __and__(self, other: object) -> Bits:
+        """ Intersection of two role sets. """
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be intersected with Bits.")
+        return Bits.from_num(self.val & other.val, self.length)
+
+    def __or__(self, other: object) -> Bits:
+        """ Intersection of two role sets. """
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be intersected with Bits.")
+        return Bits.from_num(self.val | other.val, self.length)
+
+    def __xor__(self, other: object) -> Bits:
+        """ Intersection of two role sets. """
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be intersected with Bits.")
+        return Bits.from_num(self.val ^ other.val, self.length)
+
+    def __getitem__(self, index: int) -> int:
+        return int(str(self)[index])
+
+    def __setitem__(self, index: int, bit: int) -> None:
+        if bit not in (0, 1):
+            raise ValueError(f"Bit value must be 0 or 1: {bit}")
+        new_val = str(self)
+        new_val = new_val[:index] + str(bit) + new_val[index + 1 :]
+        self.val = int(new_val, 2) if new_val else -1
+
+    def __iter__(self) -> Iterator[int]:
+        for bit in str(self):
+            yield int(bit)
+
+    def __add__(self, other: object) -> Bits:
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be added with Bits.")
+        length = max(len(self), len(other))
+        lhs = [0] * (length - len(self)) + [int(digit) for digit in self]
+        rhs = [0] * (length - len(other)) + [int(digit) for digit in other]
+        carry = 0
+        result = []
+        for i in range(1, len(lhs) + 1):
+            column = lhs[-i] + rhs[-i] + carry
+            result.append(column % 2)
+            carry = column // 2
+        if carry != 0:
+            result.append(carry)
+        result.reverse()
+        return Bits("".join([str(s) for s in result]))
+
+    def __sub__(self, other: object) -> Bits:
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be added with Bits.")
+        length = max(len(self), len(other))
+        lhs = [0] * (length - len(self)) + [int(digit) for digit in self]
+        rhs = [0] * (length - len(other)) + [int(digit) for digit in other]
+        result = []
+        for i in range(1, len(lhs) + 1):
+            difference = lhs[-i] - rhs[-i]
+            if difference >= 0:
+                result.append(difference)
+                continue
+            for j in range(i + 1, length + 1):
+                lhs[-j] = (lhs[-j] + 1) % 2
+                if lhs[-j] != 1:
+                    break
+            result.append(difference + 2)
+        result.reverse()
+        return Bits("".join([str(s) for s in result]))
+
+    @property
+    def is_solo(self) -> bool:
+        return self.val != 0 and (self.val & (self.val - 1)) == 0
+
+    @property
+    def solo(self) -> int:
+        """ Assumes is_solo is True. """
+        if not self.is_solo:
+            raise RuntimeError("Does not contain a solo bit.")
+        return self.length - int(math.log2(self.val)) - 1
+
+    @classmethod
+    def from_num(cls, val: int, length: int) -> Bits:
+        return cls(cls.binary_str(val, length), length=length)
+
+    @staticmethod
+    def binary_str(val: int, length: int) -> str:
+        # return bin(val & (2 ** length - 1))
+        coerced_positive_val = val & (2 ** length - 1)
+        return f"{coerced_positive_val:0{length}b}"
+
+    def is_one(self, index: int) -> bool:
+        """ Returns True if the bit at given index is 1. """
+        return (self.val & (1 << index)) == 0
+
+    def set_bit(self, index: int, new_val: bool) -> None:
+        """ Mark an index as the given value of its current state. """
+        if not 0 <= index < self.length:
+            raise RuntimeError("Invalid bit; cannot be set.")
+        reversed_index = self.length - index - 1
+        if new_val:
+            self.val |= 1 << reversed_index
+        else:
+            self.val &= ~(1 << reversed_index)
+
+    def flip_index(self, index: int) -> Bits:
+        """ Mark an index as opposite of its current state. """
+        # TODO USE XOR
+        # return Bits(self.val ^ 1 << index, self.length)
+        reversed_index = self.length - index - 1
+        new_val = self.val
+        new_val &= ~(1 << reversed_index)
+        if new_val == self.val:
+            new_val |= 1 << reversed_index
+        return Bits.from_num(new_val, self.length)

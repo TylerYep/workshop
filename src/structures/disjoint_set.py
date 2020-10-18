@@ -45,7 +45,7 @@ class DisjointSet(Generic[T]):
 
     mode: UnionMode
 
-    def __init__(self, mode: UnionMode = UnionMode.INDEX) -> None:
+    def __init__(self, *, mode: UnionMode = UnionMode.INDEX) -> None:
         self.node_data: List[DisjointSetNode[T]] = []
         self.data_to_index: Dict[T, int] = {}
         self.mode = mode

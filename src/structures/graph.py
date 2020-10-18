@@ -40,7 +40,7 @@ class Graph(Generic[V]):
     is_directed: bool
 
     def __init__(
-        self, graph: Optional[Dict[V, Dict[V, Any]]] = None, is_directed: bool = True
+        self, graph: Optional[Dict[V, Dict[V, Any]]] = None, *, is_directed: bool = True
     ) -> None:
         self.is_directed = is_directed
         self._graph = {} if graph is None else graph

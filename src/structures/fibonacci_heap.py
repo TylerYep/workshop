@@ -48,7 +48,7 @@ class FibonacciHeap(Generic[T]):
 
     top: Optional[Entry[T]]
 
-    def __init__(self, allow_duplicates: bool = False) -> None:
+    def __init__(self, *, allow_duplicates: bool = False) -> None:
         # Pointer to the minimum element in the heap.
         self.top: Optional[Entry[T]] = None
 

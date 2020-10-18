@@ -17,7 +17,7 @@ class BinaryHeap(Generic[T]):
 
     _heap: List[T]
 
-    def __init__(self, key: Callable[[T], T] = lambda x: x) -> None:
+    def __init__(self, *, key: Callable[[T], T] = lambda x: x) -> None:
         self._heap = []
         self.elem_to_index: Dict[T, int] = {}
         self.size = 0
