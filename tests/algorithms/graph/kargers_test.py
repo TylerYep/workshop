@@ -5,7 +5,7 @@ from src.structures import Graph
 def test_kargers_directed_graph() -> None:
     # Adjacency list representation of this graph:
     # en.wikipedia.org/wiki/File:Single_run_of_Karger%E2%80%99s_Mincut_algorithm.svg
-    graph = Graph.from_iterable(
+    graph = Graph(
         {
             "1": ["2", "3", "4", "5"],
             "2": ["1", "3", "4", "5"],
@@ -33,7 +33,7 @@ def test_kargers_directed_graph() -> None:
 def test_kargers_undirected_graph() -> None:
     # Adjacency list representation of this graph:
     # en.wikipedia.org/wiki/File:Single_run_of_Karger%E2%80%99s_Mincut_algorithm.svg
-    graph = Graph.from_iterable(
+    graph = Graph(
         {
             "1": ["2", "3", "4", "5"],
             "2": ["3", "4", "5"],

@@ -40,22 +40,35 @@ class Graph(Generic[V]):
     is_directed: bool
 
     def __init__(
-        self, graph: Optional[Dict[V, Dict[V, Any]]] = None, *, is_directed: bool = True
+        self,
+        graph: Optional[Dict[V, Any]] = None,
+        *,
+        is_directed: bool = True,
+        weight: float = 1,
+        **kwargs: Any,
     ) -> None:
         self.is_directed = is_directed
-        self._graph = {} if graph is None else graph
+        self._graph = {}
         if graph is not None:
-            # Coerce graph's "Any" edge type into an Edge class.
+            for u in graph:
+                self.add_node(u)
             for u in graph:
                 for v in graph[u]:
-                    if isinstance(graph[u][v], Edge):
-                        continue
-                    if isinstance(graph[u][v], dict):
-                        graph[u][v] = Edge(u, v, **graph[u][v])
-                    elif isinstance(graph[u][v], (int, float)):
-                        graph[u][v] = Edge(u, v, weight=graph[u][v])
+                    if isinstance(graph[u], dict):
+                        edge = graph[u][v]
+                        if isinstance(edge, Edge):
+                            self.add_edge(**edge)
+                        elif isinstance(edge, dict):
+                            self.add_edge(u, v, **edge)
+                        elif isinstance(edge, (int, float)):
+                            self.add_edge(u, v, weight=edge, **kwargs)
+                        else:
+                            raise TypeError(f"{edge} is not a supported Edge type.")
                     else:
-                        raise TypeError(f"{graph[u][v]} is not a supported Edge type.")
+                        # TODO: only make these collections
+                        # Dict values are some collection; only contains node names.
+                        # Use default weight parameter.
+                        self.add_edge(u, v, weight)
 
     def __str__(self) -> str:
         return str(formatter.pformat(self._graph))
@@ -89,6 +102,7 @@ class Graph(Generic[V]):
         cls,
         graph: Graph[V],
         *,
+        is_directed: bool = True,
         node_fn: Callable[[V], Any] = lambda x: x,
         edge_fn: Callable[[Edge[V]], Edge[V]] = lambda x: x,
     ) -> Graph[Any]:
@@ -98,7 +112,7 @@ class Graph(Generic[V]):
         We manually copy the contents of the graph in order to avoid sharing the
         same references to neighbor dicts.
         """
-        new_graph: Graph[Any] = Graph({}, is_directed=graph.is_directed)
+        new_graph = Graph[Any](is_directed=is_directed)
         for u in graph:
             new_graph.add_node(node_fn(u))
         for u in graph:
@@ -107,23 +121,6 @@ class Graph(Generic[V]):
                 edge = edge_fn(graph[u][v])
                 new_graph.add_edge(new_u, new_v, edge.weight, **edge.kwargs)
         return new_graph
-
-    @classmethod
-    def from_iterable(
-        cls,
-        iterable: Dict[V, Iterable[V]],
-        *,
-        is_directed: bool = True,
-        weight: float = 1,
-        **kwargs: Any,
-    ) -> Graph[V]:
-        graph = Graph[V](is_directed=is_directed)
-        for u in iterable:
-            graph.add_node(u)
-        for u in iterable:
-            for v in iterable[u]:
-                graph.add_edge(u, v, weight, **kwargs)
-        return graph
 
     @classmethod
     def from_edgelist(
@@ -345,10 +342,10 @@ class Node(Generic[V]):
 
 
 class DirectedGraph(Generic[V], Graph[V]):
-    def __init__(self, graph: Optional[Dict[V, Dict[V, Any]]] = None) -> None:
-        super().__init__(graph, is_directed=True)
+    def __init__(self, graph: Optional[Dict[V, Any]] = None) -> None:
+        super().__init__(graph)
 
 
 class UndirectedGraph(Generic[V], Graph[V]):
-    def __init__(self, graph: Optional[Dict[V, Dict[V, Any]]] = None) -> None:
+    def __init__(self, graph: Optional[Dict[V, Any]] = None) -> None:
         super().__init__(graph, is_directed=False)
