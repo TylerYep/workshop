@@ -3,7 +3,7 @@ from typing import Optional, Tuple
 from src.structures import FibonacciHeap, Graph, V
 
 
-def prims(graph: Graph[V], start_node: Optional[V] = None) -> Graph[V]:
+def prims_mst(graph: Graph[V], start_node: Optional[V] = None) -> Graph[V]:
     """
     Given a connected, undirected graph with real-valued edge costs,
     returns an MST of that graph.
@@ -35,7 +35,7 @@ def prims(graph: Graph[V], start_node: Optional[V] = None) -> Graph[V]:
         # The algorithm guarantees that we now have the shortest distance to u.
         u, _ = heap.dequeue_min()
         v, weight = _min_cost_endpoint(u, graph, mst)
-        mst.add_node(v)
+        mst.add_node(u)
         mst.add_edge(u, v, weight)
         _add_outgoing_edges(graph, u, mst, heap)
     return mst
@@ -48,12 +48,12 @@ def _add_outgoing_edges(
     Given a node, updates the priorities of adjacent nodes by following its edges.
     """
     for v, e in graph[u].items():
-        if u in mst:
+        if v in mst:
             continue
-        if u not in heap:
+        if v not in heap:
             heap.enqueue(v, e.weight)
-        elif heap[u].priority > e.weight:
-            heap.decrease_key(u, e.weight)
+        elif heap[v].priority > e.weight:
+            heap.decrease_key(v, e.weight)
 
 
 def _min_cost_endpoint(node: V, graph: Graph[V], mst: Graph[V]) -> Tuple[V, float]:

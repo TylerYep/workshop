@@ -1,6 +1,6 @@
 import pytest
 
-from src.algorithms import bellman_ford
+from src.algorithms import bellman_ford_shortest_paths
 from src.structures import Edge, Graph
 
 
@@ -15,7 +15,13 @@ def test_bellman_ford_adj_list() -> None:
         }
     )
 
-    assert bellman_ford(graph, "a") == {"a": 0, "b": -1, "c": 2, "d": -2, "e": 1}
+    assert bellman_ford_shortest_paths(graph, "a") == {
+        "a": 0,
+        "b": -1,
+        "c": 2,
+        "d": -2,
+        "e": 1,
+    }
 
     graph = Graph[str](
         {
@@ -28,7 +34,7 @@ def test_bellman_ford_adj_list() -> None:
         }
     )
 
-    assert bellman_ford(graph, "S") == {
+    assert bellman_ford_shortest_paths(graph, "S") == {
         "S": 0,
         "A": 6,
         "B": 9,
@@ -51,7 +57,14 @@ def test_bellman_ford_edge_list() -> None:
     e52 = Edge(5, 2, 3)
     graph = Graph.from_edgelist([e01, e05, e12, e15, e23, e24, e43, e45, e51, e52])
 
-    assert bellman_ford(graph, 0) == {0: 0, 1: -1, 2: 0, 3: -3, 4: 1, 5: -3}
+    assert bellman_ford_shortest_paths(graph, 0) == {
+        0: 0,
+        1: -1,
+        2: 0,
+        3: -3,
+        4: 1,
+        5: -3,
+    }
 
     graph2 = Graph.from_edgelist(
         [e01, e05, e12, e15, e23, e24, e43, e45, e51, e52],
@@ -59,4 +72,4 @@ def test_bellman_ford_edge_list() -> None:
     )
 
     with pytest.raises(AssertionError):
-        _ = bellman_ford(graph2, 0)
+        _ = bellman_ford_shortest_paths(graph2, 0)

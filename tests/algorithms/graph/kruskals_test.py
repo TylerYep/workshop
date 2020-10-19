@@ -1,4 +1,4 @@
-from src.algorithms import kruskals
+from src.algorithms import kruskals_mst
 from src.structures import Edge, Graph
 
 
@@ -12,7 +12,7 @@ def test_kruskals_small() -> None:
     graph.add_edge(1, 3, 15)
     graph.add_edge(2, 3, 4)
 
-    assert kruskals(graph) == Graph.from_edgelist(
+    assert kruskals_mst(graph) == Graph.from_edgelist(
         {
             Edge(2, 3, 4),
             Edge(0, 3, 5),
@@ -42,7 +42,7 @@ def test_kruskals() -> None:
     graph.add_edge(5, 2, 1)
     graph.add_edge(5, 4, 3)
 
-    assert kruskals(graph) == Graph.from_edgelist(
+    assert kruskals_mst(graph) == Graph.from_edgelist(
         {
             Edge(5, 2, 1),
             Edge(3, 2, 3),

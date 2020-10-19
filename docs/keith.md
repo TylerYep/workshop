@@ -38,7 +38,6 @@ Kosaraju's Algorithm
 2-SAT
 Topological Sort
 Graham Scan
-Bipartite Testing
 Johnson's Algorithm
 Strassen Algorithm
 Cartesian Tree Sort

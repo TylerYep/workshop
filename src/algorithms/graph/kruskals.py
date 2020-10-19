@@ -1,7 +1,7 @@
 from src.structures import DisjointSet, Graph, V
 
 
-def kruskals(graph: Graph[V]) -> Graph[V]:
+def kruskals_mst(graph: Graph[V]) -> Graph[V]:
     """
     Kruskal's Algorithm to find an MST.
     Not 100% deterministic because edges with the same weight are arbitrarily ordered.

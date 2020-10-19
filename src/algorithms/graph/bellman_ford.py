@@ -3,12 +3,12 @@ from typing import Dict
 from src.structures import Graph, V
 
 
-def bellman_ford(
+def bellman_ford_shortest_paths(
     graph: Graph[V], start: V, *, check_negative_cycles: bool = True
 ) -> Dict[V, float]:
     """
     The Bellman-Ford algorithm computes the shortest paths from a source node to
-    all other nodes in the graph, like Dijkstr'as algorithm, however with the added
+    all other nodes in the graph, like Dijkstra's algorithm, however with the added
     guarantee that the Bellman-Ford algorithm works correctly in graphs containing
     negative-cost edges, so long as the graph does not contain a negative cycle
     (in which case the cost of a shortest path may not be well-defined).

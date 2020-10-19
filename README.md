@@ -47,12 +47,13 @@ My choices:
 # Style Guide
 
 ## Pre-Commit
+
 - I use local installations of pre-commit configs because most of the time I work on projects on my own. If a project becomes big enough to warrant more collaborators, then we should use the GitHub URL of the hook. We might eventually want to move to the github versions if we add pre-commit to CI, using --all.
 - All type checking and linting should only happen on changed files, assuming a clean run to begin with.
 - We include pytest because it's more annoying to look at CI breaking than to wait a bit and fix it to begin with.
 - Pytest should always run on all files, since we expect those to be only the unit tests, and as a result, very fast.
 - If we limit pytest to changed files, then it runs on all files only when there are no changed files,
-and runs on only a couple files if many files are changed. Not what we want, I think.
+  and runs on only a couple files if many files are changed. Not what we want, I think.
 
 - Order functions within a class using flake8-function-order.
 
@@ -150,7 +151,7 @@ from src.algorithms.kargers import partition_graph
 partition_graph()
 
 from src.algorithms import kargers
-kargers()
+kargers_min_cut()
 
 from src.algorithms import breadth_first_search
 breadth_first_search()

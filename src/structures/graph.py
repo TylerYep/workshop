@@ -257,6 +257,15 @@ class Graph(Generic[V]):
         Check whether Graph is bipartite using DFS.
         Should not be a property because the calculation changes and
         this should not be thought of as an easily accessible attribute.
+
+        The algorithm works by exploring nodes in a DFS fashion and marking the parity
+        of each node. As an optimization, we combine this into the depth-first search
+        code. If we ever explore an arc where both nodes are known to have the same
+        parity, we have detected an odd cycle and return False. Since the DFS considers
+        each arc in the graph twice (once in each direction), we're guaranteed that we
+        will locate such an edge if it exists.
+
+        Runtime: O(|V| + |E|)
         """
         visited = set()
         color: Dict[V, bool] = {}

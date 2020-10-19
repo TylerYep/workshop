@@ -3,7 +3,7 @@ from typing import List
 from src.structures import Graph
 
 
-def floyd_warshall(graph: List[List[float]]) -> List[List[float]]:
+def floyd_warshall_shortest_paths(graph: List[List[float]]) -> List[List[float]]:
     """
     Calculates the shortest distance between all vertex pairs using dynamic programming.
     distance[u][v] will contain the shortest distance from vertex u to v.

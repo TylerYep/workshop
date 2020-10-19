@@ -1,15 +1,15 @@
 from .binary_search import binary_search, left_right_binary_search, linear_search
 from .compression.huffman import huffman_compress, huffman_decompress
-from .graph.bellman_ford import bellman_ford
+from .graph.bellman_ford import bellman_ford_shortest_paths
 from .graph.bfs import breadth_first_search
 from .graph.connected import connected_components
 from .graph.dfs import depth_first_search, dfs_traversal
 from .graph.dijkstras import dijkstra_search, dijkstra_shortest_distances
-from .graph.floyd_warshall import floyd_warshall
+from .graph.floyd_warshall import floyd_warshall_shortest_paths
 from .graph.hamiltonian_cycle import hamiltonian_cycle
-from .graph.kargers import kargers
-from .graph.kruskals import kruskals
-from .graph.prims import prims
+from .graph.kargers import kargers_min_cut
+from .graph.kruskals import kruskals_mst
+from .graph.prims import prims_mst
 from .graph.toposort import topological_sort
 from .quick_select import quick_select
 from .sort.bubble_sort import bubble_sort
@@ -29,18 +29,18 @@ __all__ = (
     "linear_search",
     "huffman_compress",
     "huffman_decompress",
-    "bellman_ford",
+    "bellman_ford_shortest_paths",
     "breadth_first_search",
     "connected_components",
     "depth_first_search",
     "dfs_traversal",
     "dijkstra_search",
     "dijkstra_shortest_distances",
-    "floyd_warshall",
+    "floyd_warshall_shortest_paths",
     "hamiltonian_cycle",
-    "kargers",
-    "kruskals",
-    "prims",
+    "kargers_min_cut",
+    "kruskals_mst",
+    "prims_mst",
     "topological_sort",
     "quick_select",
     "bubble_sort",

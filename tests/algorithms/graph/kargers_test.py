@@ -1,4 +1,4 @@
-from src.algorithms import connected_components, kargers
+from src.algorithms import connected_components, kargers_min_cut
 from src.structures import Graph
 
 
@@ -22,7 +22,7 @@ def test_kargers_directed_graph() -> None:
     assert Graph.is_undirected(graph)
     assert len(connected_components(graph)) == 1
 
-    partitions = kargers(graph)
+    partitions = kargers_min_cut(graph)
 
     for edge in partitions:
         graph.remove_edge(edge.start, edge.end)
@@ -50,7 +50,7 @@ def test_kargers_undirected_graph() -> None:
     )
     assert len(connected_components(graph)) == 1
 
-    partitions = kargers(graph)
+    partitions = kargers_min_cut(graph)
 
     for edge in partitions:
         graph.remove_edge(edge.start, edge.end)
