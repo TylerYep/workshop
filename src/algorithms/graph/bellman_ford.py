@@ -15,7 +15,7 @@ def bellman_ford(
 
     If |E| = O(|V|^2), then running the Floyd-Warshall algorithm makes more sense,
     to get all shortest path pairs rather than just one. However, on sparse graphs
-    where |E| ~ Theta(|V|)) the runtime is O(|V|^2), which is much faster.
+    where |E| = Theta(|V|)) the runtime is O(|V|^2), which is much faster.
 
     Runtime: O(|V||E|), or worst case, O(|V|^3).
     """
@@ -33,6 +33,6 @@ def bellman_ford(
     if check_negative_cycles:
         for edge in graph.edges:
             if distances[edge.end] > distances[edge.start] + edge.weight:
-                raise AssertionError("Negative weight cycle exists in the graph")
+                raise AssertionError("Negative weight cycle exists in the graph.")
 
     return distances

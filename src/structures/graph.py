@@ -156,6 +156,8 @@ class Graph(Generic[V]):
 
     @staticmethod
     def is_undirected(graph: Any) -> bool:
+        if not graph:
+            return False
         for u in graph:
             for v in graph[u]:
                 if u not in graph[v]:

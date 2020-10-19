@@ -83,7 +83,6 @@ Backpack Problem
 Egg Dropping
 Fast Fibonacci Transform
 A\* Search
-Bellman-Ford Algorithm
 Johnson's Algorithm
 Matching (Graph Theory)
 Matching Algorithms (Graph Theory)
@@ -93,7 +92,6 @@ Ford-Fulkerson Algorithm
 Edmonds-Karp Algorithm
 Shunting Yard Algorithm
 Rabin-Karp Algorithm
-Knuth-Morris-Pratt Algorithm
 Basic Shapes, Polygons, Trigonometry
 Convex Hull
 Grids

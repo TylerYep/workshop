@@ -220,7 +220,6 @@ class FibonacciHeap(Generic[T]):
         @return The smallest element of the Fibonacci heap.
         @raises IndexError if the heap is empty.
         """
-        # Check for whether we're empty.
         if self.top is None:
             raise IndexError("Heap is empty.")
 
@@ -239,10 +238,8 @@ class FibonacciHeap(Generic[T]):
         # min element around the min element to remove it, then arbitrarily
         # reassign the min.
         if self.top.next is self.top:
-            # Case one
             self.top = None
         else:
-            # Case two
             self.top.prev.next = self.top.next
             self.top.next.prev = self.top.prev
             # Arbitrary element of the root list.
