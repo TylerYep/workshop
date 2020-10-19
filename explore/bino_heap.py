@@ -19,7 +19,8 @@ This implementation is based on the description in CLRS.
 
 
 class ItemRef:
-    """Reference to an item in the heap. Used for decreasing keys and deletion.
+    """
+    Reference to an item in the heap. Used for decreasing keys and deletion.
     Do not use this class directly; only use instances returned by
     BinomialHeap.insert()!
     You should only use ItemRef.delete() and ItemRef.decrease(new_priority).
@@ -33,8 +34,7 @@ class ItemRef:
     def __str__(self):
         if self.in_tree:
             return f"<BinomialHeap Reference to '{str(self.ref.val)}'>"
-        else:
-            return "<stale BinomialHeap Reference>"
+        return "<stale BinomialHeap Reference>"
 
     def decrease(self, new_key):
         "Update the priority of the referenced item to a lower value."
@@ -151,13 +151,13 @@ class BinomialHeap:
             if not h:
                 return None
             tail = None
-            next = h
+            next_ = h
             h.parent = None
             while h.next:
-                next = h.next
+                next_ = h.next
                 h.next = tail
                 tail = h
-                h = next
+                h = next_
                 h.parent = None
             h.next = tail
             return h
@@ -170,10 +170,9 @@ class BinomialHeap:
         def get_heap_ref(self):
             if not self.ref:
                 return self
-            else:
-                # compact
-                self.ref = self.ref.get_heap_ref()
-                return self.ref
+            # compact
+            self.ref = self.ref.get_heap_ref()
+            return self.ref
 
         def get_heap(self):
             return self.get_heap_ref().heap
@@ -334,13 +333,6 @@ class BinomialHeap:
         self.head = h1
 
 
-def heap(lst=[]):
-    """Create a new heap. lst should be a sequence of (key, value) pairs.
-    Shortcut for BinomialHeap(lst)
-    """
-    return BinomialHeap(lst)
-
-
 if __name__ == "__main__":
     tokens1 = [
         (24, "all"),
@@ -399,9 +391,9 @@ if __name__ == "__main__":
         (100, "\nI'm"),
         (116, "it's"),
     ]
-    h1 = heap(tokens1)
-    h2 = heap(tokens2)
-    h3 = heap()
+    h1 = BinomialHeap(tokens1)
+    h2 = BinomialHeap(tokens2)
+    h3 = BinomialHeap()
     line = "\n==================================="
     h3[90] = line
     h3[-2] = line

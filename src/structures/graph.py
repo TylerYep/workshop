@@ -45,6 +45,7 @@ class Graph(Generic[V]):
         self.is_directed = is_directed
         self._graph = {} if graph is None else graph
         if graph is not None:
+            # Coerce graph's "Any" edge type into an Edge class.
             for u in graph:
                 for v in graph[u]:
                     if isinstance(graph[u][v], Edge):
@@ -87,6 +88,7 @@ class Graph(Generic[V]):
     def from_graph(
         cls,
         graph: Graph[V],
+        *,
         node_fn: Callable[[V], Any] = lambda x: x,
         edge_fn: Callable[[Edge[V]], Edge[V]] = lambda x: x,
     ) -> Graph[Any]:
@@ -103,31 +105,32 @@ class Graph(Generic[V]):
             for v in graph[u]:
                 new_u, new_v = node_fn(u), node_fn(v)
                 edge = edge_fn(graph[u][v])
-                new_graph.add_edge(new_u, new_v, weight=edge.weight, **edge.kwargs)
+                new_graph.add_edge(new_u, new_v, edge.weight, **edge.kwargs)
         return new_graph
 
     @classmethod
     def from_iterable(
         cls,
         iterable: Dict[V, Iterable[V]],
-        is_directed: bool = False,
+        *,
+        is_directed: bool = True,
         weight: float = 1,
         **kwargs: Any,
     ) -> Graph[V]:
-        graph = {
-            node: {
-                neighbor: Edge(node, neighbor, weight, **kwargs)
-                for neighbor in iterable[node]
-            }
-            for node in iterable
-        }
-        return Graph(graph, is_directed=is_directed)
+        graph = Graph[V](is_directed=is_directed)
+        for u in iterable:
+            graph.add_node(u)
+        for u in iterable:
+            for v in iterable[u]:
+                graph.add_edge(u, v, weight, **kwargs)
+        return graph
 
     @classmethod
     def from_edgelist(
         cls,
         edge_list: Iterable[Edge[V]],
-        is_directed: bool = False,
+        *,
+        is_directed: bool = True,
     ) -> Graph[V]:
         graph = Graph[V](is_directed=is_directed)
         for edge in edge_list:
@@ -154,6 +157,14 @@ class Graph(Generic[V]):
                     graph[i][j] = edge_data
         return Graph(graph, is_directed=is_directed)
 
+    @staticmethod
+    def is_undirected(graph: Any) -> bool:
+        for u in graph:
+            for v in graph[u]:
+                if u not in graph[v]:
+                    return False
+        return True
+
     def to_matrix(self) -> List[List[float]]:
         nodes = sorted(self._graph)
         graph = [[Graph.INFINITY for _ in nodes] for _ in nodes]
@@ -170,6 +181,7 @@ class Graph(Generic[V]):
                 raise KeyError(f"Node not found: {v}")
 
     def adj(self, v: V) -> KeysView[V]:
+        """ Used for getting the neighbors of a node in a list-like form. """
         self.verify_nodes_exist(v)
         return self._graph[v].keys()
 
@@ -190,9 +202,7 @@ class Graph(Generic[V]):
         return len(self._graph[v])
 
     def in_degree(self, v: V) -> int:
-        """
-        Iterate all neighbors to see whether any of them reference the current node.
-        """
+        """ Iterate over neighbors to see whether any reference the current node. """
         if not self.is_directed:
             raise NotImplementedError("Graph is undirected; use degree() instead.")
         self.verify_nodes_exist(v)
