@@ -1,18 +1,6 @@
 from src.algorithms import floyd_warshall_shortest_paths
-from src.structures import Graph
-
-# from tests.algorithms.graph.all_pairs_shortest_path_test import TestShortestPaths
+from tests.algorithms.graph.all_pairs_shortest_path_test import TestShortestPaths
 
 
 def test_floyd_warshall() -> None:
-    INF = Graph.INFINITY
-    graph = Graph.from_matrix(
-        [[0, 5, INF, 10], [INF, 0, 3, INF], [INF, INF, 0, 1], [INF, INF, INF, 0]]
-    ).to_matrix()
-
-    assert floyd_warshall_shortest_paths(graph) == [
-        [0, 5, 8, 9],
-        [INF, 0, 3, 4],
-        [INF, INF, 0, 1],
-        [INF, INF, INF, 0],
-    ]
+    TestShortestPaths.all_test_scenarios(floyd_warshall_shortest_paths)

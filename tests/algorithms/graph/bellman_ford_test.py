@@ -4,6 +4,6 @@ from tests.algorithms.graph.all_pairs_shortest_path_test import TestShortestPath
 
 def test_bellman_ford_adj_list() -> None:
     TestShortestPaths.all_test_scenarios(
-        bellman_ford_shortest_paths, single_source=True
+        TestShortestPaths.single_source_to_all_pairs(bellman_ford_shortest_paths)
     )
     TestShortestPaths.negative_cycles(bellman_ford_shortest_paths)

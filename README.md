@@ -5,7 +5,7 @@
 [![GitHub license](https://img.shields.io/github/license/TylerYep/workshop)](https://github.com/TylerYep/workshop/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/TylerYep/workshop/branch/master/graph/badge.svg)](https://codecov.io/gh/TylerYep/workshop)
 
-My design studio of AI/ML/CS concepts.
+My design studio of AI/ML/CS concepts. Code is adapted from many different websites across the Internet.
 
 Separated into two sections:
 

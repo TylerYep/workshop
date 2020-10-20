@@ -9,15 +9,15 @@ def bellman_ford_shortest_paths(
     """
     Bellman-Ford algorithm for the single-source shortest paths problem.
 
-    The Bellman-Ford algorithm computes the shortest paths from a source node to
-    all other nodes in the graph, like Dijkstra's algorithm, however with the added
+    The Bellman-Ford algorithm computes the shortest paths from a source node to all
+    other nodes in the graph, like Dijkstra's algorithm, however with the added
     guarantee that the Bellman-Ford algorithm works correctly in graphs containing
-    negative-cost edges, so long as the graph does not contain a negative cycle
-    (in which case the cost of a shortest path may not be well-defined).
+    negative-cost edges, so long as the graph does not contain a negative cycle (in
+    which case the cost of a shortest path may not be well-defined).
 
-    If |E| = O(|V|^2), then running the Floyd-Warshall algorithm makes more sense,
-    to get all shortest path pairs rather than just one. However, on sparse graphs
-    where |E| = Theta(|V|)) the runtime is O(|V|^2), which is much faster.
+    If |E| = O(|V|^2), then running the Floyd-Warshall algorithm makes more sense, to
+    get all shortest path pairs rather than just one. However, on sparse graphs where
+    |E| = Theta(|V|)) the runtime is O(|V|^2), which is much faster.
 
     Runtime: O(|V||E|), or worst case, O(|V|^3).
     """

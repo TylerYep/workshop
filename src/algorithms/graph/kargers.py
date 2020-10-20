@@ -6,9 +6,8 @@ from src.structures import Edge, Graph, Node, V
 
 def kargers_min_cut(orig_graph: Graph[V]) -> Set[Edge[V]]:
     """
-    Partitions a graph using Karger's Algorithm.
-    Works on directed and undirected graphs.
-    This function involves random choices, so it does not give consistent outputs.
+    Partitions a graph using Karger's Algorithm. Works on directed and undirected
+    graphs, but involves random choices, so it does not give consistent outputs.
     Args:
         graph: A dictionary containing adacency lists for the graph.
             Nodes must be strings.

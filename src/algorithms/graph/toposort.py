@@ -6,6 +6,7 @@ from src.structures import Graph, V
 def topological_sort(graph: Graph[V]) -> List[V]:
     """
     Perform topological sort on a directed acyclic graph.
+
     Node never seen = not in visited
     Node being processed = in visited but not in stack
     Node done = in stack

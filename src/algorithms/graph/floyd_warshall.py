@@ -1,9 +1,9 @@
-from typing import List
+from typing import Dict
 
-from src.structures import Graph
+from src.structures import Graph, V
 
 
-def floyd_warshall_shortest_paths(graph: List[List[float]]) -> List[List[float]]:
+def floyd_warshall_shortest_paths(graph: Graph[V]) -> Dict[V, Dict[V, float]]:
     """
     Calculates the shortest distance between all vertex pairs using dynamic programming.
     distance[u][v] will contain the shortest distance from vertex u to v.
@@ -15,22 +15,25 @@ def floyd_warshall_shortest_paths(graph: List[List[float]]) -> List[List[float]]
     5. Whenever distance[i][j] is given a new minimum value, next vertex[i][j] is
         updated to the next vertex[i][k].
 
-    Unlike Dijkstra's Algorithm, the Floyd-Warshall Algorithm has no problems
-    handling graphs with negative edge costs.
+    Unlike Dijkstra's Algorithm, the Floyd-Warshall Algorithm has no problems handling
+    graphs with negative edge costs.
 
-    Runtime: O(|V|^3)
-    Memory: O(|V|^2)
+    Runtime: O(|V|^3) Memory: O(|V|^2)
     """
-    n = len(graph)
-    dist = [[Graph.INFINITY for _ in range(n)] for i in range(n)]
-
-    for i in range(n):
-        for j in range(n):
-            dist[i][j] = graph[i][j]
+    dist: Dict[V, Dict[V, float]] = {}
+    for u in graph:
+        dist[u] = {}
+        for v in graph:
+            if u == v:
+                dist[u][v] = 0
+            elif graph.has_edge(u, v):
+                dist[u][v] = graph[u][v].weight
+            else:
+                dist[u][v] = Graph.INFINITY
 
     # check vertex k against all other vertices (i, j)
-    for k in range(n):
-        for i in range(n):
-            for j in range(n):
+    for k in graph:
+        for i in graph:
+            for j in graph:
                 dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
     return dist

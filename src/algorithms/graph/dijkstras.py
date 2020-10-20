@@ -37,13 +37,13 @@ def dijkstra_shortest_paths(graph: Graph[V], start: V) -> Dict[V, float]:
     """
     Dijkstra's algorithm for the single-source shortest paths problem.
 
-    Given a directed, weighted graph G and a source node s, produces the
-    distances from s to each other node in the graph. If any nodes in
-    the graph are unreachable from s, they will be reported at distance +infinity.
+    Given a directed, weighted graph G and a source node s, produces the distances from
+    s to each other node in the graph. If any nodes in the graph are unreachable from s,
+    they will be reported at distance +infinity.
 
-    The code makes up to |E| calls to decrease-key on the heap (worst case, every
-    edge from every node yields a shorter path than before) and |V| calls
-    to dequeue-min (each node is removed from the heap at most once).
+    The code makes up to |E| calls to decrease-key on the heap (worst case, every edge
+    from every node yields a shorter path than before) and |V| calls to dequeue-min
+    (each node is removed from the heap at most once).
 
     Runtime: O(|E| + |V| log |V|)
     """

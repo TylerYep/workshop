@@ -9,11 +9,8 @@ import matplotlib.pyplot as plt
 
 def init_pipeline() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Line Length Histogram")
-    # fmt: off
-    parser.add_argument("project", type=str,
-                        help="version of the code to read")
+    parser.add_argument("project", type=str, help="version of the code to read")
     return parser.parse_args()
-    # fmt: on
 
 
 def count_project_lines(project: str) -> None:

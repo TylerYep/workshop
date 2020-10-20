@@ -6,13 +6,12 @@ def kruskals_mst(graph: Graph[V]) -> Graph[V]:
     Kruskal's Algorithm to find an MST.
     Not 100% deterministic because edges with the same weight are arbitrarily ordered.
 
-    Kruskal's algorithm sorts all of the graph's edges in ascending order of size,
-    then adds one at a time back to a new graph. It maintains a union-find data
-    structure to prevent edge additions that would add a cycle to the new graph. Using
-    a union-find structure for this gives a worse runtime worse than the
-    O(|E| + |V| log |V|) guarantee of Prim's algorithm. However, Prim's
-    algorithm comes at the cost of using the practically slower Fibonacci heap,
-    and so Kruskal's algorithm is often faster in practice.
+    Kruskal's algorithm sorts all of the graph's edges in ascending order of size, then
+    adds one at a time back to a new graph. It maintains a union-find data structure to
+    prevent edge additions that would add a cycle to the new graph. Using a union-find
+    structure for this gives a worse runtime worse than the O(|E| + |V| log |V|)
+    guarantee of Prim's algorithm. However, Prim's algorithm relies on the often slower
+    Fibonacci heap, and so Kruskal's algorithm is often faster in practice.
 
     Runtime: O(|E| log |V|)
     """

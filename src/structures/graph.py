@@ -227,6 +227,9 @@ class Graph(Generic[V]):
             # pylint: disable=arguments-out-of-order
             self._graph[end][start] = Edge(end, start, weight, **kwargs)
 
+    def has_edge(self, start: V, end: V) -> bool:
+        return start in self._graph and end in self._graph[start]
+
     def remove_node(self, v: V) -> None:
         """
         Removes all of the edges associated with the node v too.

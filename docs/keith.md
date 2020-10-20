@@ -1,85 +1,81 @@
+# Java
+2-SAT
+Alias Method
+Cuckoo HashMap
+Edmonds's Matching Algorithm
+Extendible Array
+Ford-Fulkerson Algorithm
+Hashed Array Tree
+Interval Heap
+Kosaraju's Algorithm
+LL(1) Parser Generator
+LR(0) Parser Generator
+Longest Range
+Matrix Fill
+Ring Buffer
+Scaling Ford-Fulkerson
+
+--
+
+# C++ / Haskell
+
+2/3 Heap
+Argmax
+AVL Tree
+Binary Cyclic Subsets
+Binary Quicksort
 Binomial Heap
 Bounded Priority Queue
-Matrix
-VList
-Function Wrapper
-String
-nstream
-Snake
-Next Permutation
-Interval Heap
-Linear-Time Selection
-Heapsort
-Radix Sort
-Rational
+BST LCA
+Cartesian Tree Sort
+DC3
+Derivative
 DPLL
-Smoothsort
-Extendible Array
+Egyptian Fractions
+Euclid's Algorithm
+Factoradic Permutations
+Fibonacci Iterator
+Fibonacci Search
+Find Duplicate
+Function Wrapper
+Generalized Kadane's Algorithm
+Graham Scan
+Haar Transform
+Heapsort
 In-Place Merge
-Random Shuffle
-Random Sample
+In-Place Tree Delete
 Interpolation Search
 Introsort
-Hashed Array Tree
-Recurrence Solver
-Majority Element
-Haar Transform
-Argmax
-Derivative
+Kadane's Algorithm
 Levenshtein Distance
-Skiplist
-van Emde Boas Tree
-Cuckoo HashMap
+Lights-Out Solver
+Linear-Time Selection
+Majority Element
+Manber-Myers Algorithm
+Matrix Find
+Maximum Single-Sell Profit
+Min-Queue
+Min-Stack
 Needleman-Wunsch Algorithm
-Treap
+Next Permutation
+nstream
+Permutation Generator
 Power Iteration
-Edmonds's Matching Algorithm
-Kosaraju's Algorithm
-2-SAT
-Topological Sort
-Graham Scan
-Johnson's Algorithm
-Strassen Algorithm
-Cartesian Tree Sort
-Ford-Fulkerson Algorithm
-Scaling Ford-Fulkerson
-Splay Tree
-Ternary Search Tree
-Ring Buffer
-AVL Tree
 Rabin-Karp Algorithm
+Random Access List
+Random Bag
+Random Sample
+Random Shuffle
+Rational
+Recurrence Solver
 RPN Evaluator
 Shunting-Yard Algorithm
 Skew Binomial Heap
-2/3 Heap
+Skiplist
+Smoothsort
+Splay Tree
+Strassen Algorithm
+Ternary Search Tree
+Treap
+van Emde Boas Tree
 Zeckendorf Logarithm
-Factoradic Permutations
-Binary Cyclic Subsets
-Fibonacci Iterator
-Fibonacci Search
-Euclid's Algorithm
-Find Duplicate
-Permutation Generator
-Matrix Find
-Binary GCD
-Kadane's Algorithm
-Min-Stack
-Random Bag
-Min-Queue
-Lights-Out Solver
-Maximum Single-Sell Profit
-Generalized Kadane's Algorithm
-Longest Range
-Egyptian Fractions
-LL(1) Parser Generator
-LR(0) Parser Generator
-Word Ladders
-Alias Method
-Binary Quicksort
-Ternary Sierpinski Triangle
-In-Place Tree Delete
-Random Access List
-BST LCA
-Matrix Fill
-Manber-Myers Algorithm
-DC3

@@ -65,87 +65,91 @@ class TestFibonacciHeap:
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
     def test_nonempty(allow_duplicates: bool) -> None:
-        """ Test creating a fibonacci, adding a value, and checking if it's Truthy. """
+        """ Test creating a fibonacci, adding a value, and checking if it's truthy. """
         fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
         fib_heap.enqueue(1, 1)
         assert bool(fib_heap) is True
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    @pytest.mark.parametrize("intended_length", (0, 1, 3, 100))
-    def test_len(allow_duplicates: bool, intended_length: int) -> None:
+    def test_len(allow_duplicates: bool) -> None:
         """
         Test creating a fibonacci heap, adding "intended_length" values, and checking
         for correct length.
         """
-        fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
-        for i in range(intended_length):
-            random_value = random.randrange(intended_length) if allow_duplicates else i
-            random_priority = random.randrange(intended_length)
-            fib_heap.enqueue(random_value, random_priority)
+        for intended_length in (0, 1, 3, 100):
+            fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
+            for i in range(intended_length):
+                random_value = (
+                    random.randrange(intended_length) if allow_duplicates else i
+                )
+                random_priority = random.randrange(intended_length)
+                fib_heap.enqueue(random_value, random_priority)
 
-        assert len(fib_heap) == intended_length
+            assert len(fib_heap) == intended_length
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    @pytest.mark.parametrize("intended_length", (0, 1, 2, 3, 10, 100))
-    def test_dequeue_min(allow_duplicates: bool, intended_length: int) -> None:
+    def test_dequeue_min(allow_duplicates: bool) -> None:
         """
         Test creating a fibonacci heap, adding "intended_length" values,
         and checking for correct dequeue_min values.
         """
-        fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
-        # random.seed(0) gives too-consistent priorities
-        random.seed(1)
-        expected_priorities_list = []
-        for i in range(intended_length):
-            random_value = random.randrange(intended_length) if allow_duplicates else i
-            random_priority = random.randrange(intended_length)
-            fib_heap.enqueue(random_value, random_priority)
-            expected_priorities_list.append(random_priority)
-        expected_priorities_list.sort()
+        for intended_length in (0, 1, 2, 3, 10, 100):
+            fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
+            # random.seed(0) gives too-consistent priorities
+            random.seed(1)
+            expected_priorities_list = []
+            for i in range(intended_length):
+                random_value = (
+                    random.randrange(intended_length) if allow_duplicates else i
+                )
+                random_priority = random.randrange(intended_length)
+                fib_heap.enqueue(random_value, random_priority)
+                expected_priorities_list.append(random_priority)
+            expected_priorities_list.sort()
 
-        actual_priorities_list = []
-        for _ in range(intended_length):
-            _, priority = fib_heap.dequeue_min()
-            actual_priorities_list.append(priority)
+            actual_priorities_list = []
+            for _ in range(intended_length):
+                _, priority = fib_heap.dequeue_min()
+                actual_priorities_list.append(priority)
 
-        with pytest.raises(IndexError):
-            _ = fib_heap.dequeue_min()
+            with pytest.raises(IndexError):
+                _ = fib_heap.dequeue_min()
 
-        # We can't just compare lists, because this is basically a heapsort,
-        # which isn't stable. So instead we compare all the priorities
-        assert expected_priorities_list == actual_priorities_list
+            # We can't just compare lists, because this is basically a heapsort,
+            # which isn't stable. So instead we compare all the priorities
+            assert expected_priorities_list == actual_priorities_list
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    @pytest.mark.parametrize("intended_length", (0, 1, 2, 3, 10, 100))
-    def test_dequeue_min_sort(allow_duplicates: bool, intended_length: int) -> None:
+    def test_dequeue_min_sort(allow_duplicates: bool) -> None:
         """
         Test creating a fibonacci heap, adding "intended_length" values, and
         checking for correct dequeue_min values.
 
         Does not use duplicate vales or priorities.
         """
-        fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
-        # random.seed(0) gives too-consistent priorities
-        random.seed(1)
-        random_values = range(intended_length)
-        random_priorities = range(intended_length)
-        tuples = list(zip(random_priorities, random_values))
-        random.shuffle(tuples)
+        for intended_length in (0, 1, 2, 3, 10, 100):
+            fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
+            # random.seed(0) gives too-consistent priorities
+            random.seed(1)
+            random_values = range(intended_length)
+            random_priorities = range(intended_length)
+            tuples = list(zip(random_priorities, random_values))
+            random.shuffle(tuples)
 
-        for tuple_ in tuples:
-            fib_heap.enqueue(*tuple_)
-        expected_list = tuples[:]
-        expected_list.sort()
+            for tuple_ in tuples:
+                fib_heap.enqueue(*tuple_)
+            expected_list = tuples[:]
+            expected_list.sort()
 
-        actual_list = [fib_heap.dequeue_min() for _ in range(intended_length)]
+            actual_list = [fib_heap.dequeue_min() for _ in range(intended_length)]
 
-        # We can just compare lists, because although this is basically a heapsort,
-        # which isn't stable, we have no duplicate priorities or duplicate values,
-        # so the instability doesn't matter.
-        assert expected_list == actual_list
+            # We can just compare lists, because although this is basically a heapsort,
+            # which isn't stable, we have no duplicate priorities or duplicate values,
+            # so the instability doesn't matter.
+            assert expected_list == actual_list
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))

@@ -5,20 +5,20 @@ from src.structures import FibonacciHeap, Graph, V
 
 def prims_mst(graph: Graph[V], start_node: Optional[V] = None) -> Graph[V]:
     """
-    Given a connected, undirected graph with real-valued edge costs,
-    returns an MST of that graph.
+    Given a connected, undirected graph with real-valued edge costs, returns an MST of
+    that graph.
 
     The key difference between Dijkstra's algorithm and Prim's algorithm is that
-    Dijkstra's algorithm creates a shortest-path tree from the source node, while
-    Prim's algorithm builds an MST from the source node.
+    Dijkstra's algorithm creates a shortest-path tree from the source node, while Prim's
+    algorithm builds an MST from the source node.
 
     First, we do O(|V|) insertions into the heap. We then do O(|V|) dequeues (since we
     only want a total of |V| - 1 edges). These dequeues take a total of O(|V| log |V)
     time, though any one dequeue might take much more than that. Finally, on each
     dequeue, we scan all outgoing edges from the dequeued node. Since we never consider
-    a node twice, the total number of edges visited must be twice the number of edges
-    in the graph, since each edge will be visited once from each endpoint, which
-    is O(|E|) addiional time.
+    a node twice, the total number of edges visited must be twice the number of edges in
+    the graph, since each edge will be visited once from each endpoint, which is O(|E|)
+    addiional time.
 
     Runtime: O(|E| + |V| log |V|)
     """
