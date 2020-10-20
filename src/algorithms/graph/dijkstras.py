@@ -15,9 +15,9 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
     """
     heap = FibonacciHeap[V]()
     heap.enqueue(start, 0)
-    for node in graph:
-        if node != start:
-            heap.enqueue(node, Graph.INFINITY)
+    for v in graph:
+        if v != start:
+            heap.enqueue(v, Graph.INFINITY)
     distances = {}
     while heap:
         # The algorithm guarantees that we now have the shortest distance to u.
@@ -33,10 +33,12 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
     return None
 
 
-def dijkstra_shortest_distances(graph: Graph[V], start: V) -> Dict[V, float]:
+def dijkstra_shortest_paths(graph: Graph[V], start: V) -> Dict[V, float]:
     """
+    Dijkstra's algorithm for the single-source shortest paths problem.
+
     Given a directed, weighted graph G and a source node s, produces the
-    distances from s to each other node in the graph.  If any nodes in
+    distances from s to each other node in the graph. If any nodes in
     the graph are unreachable from s, they will be reported at distance +infinity.
 
     The code makes up to |E| calls to decrease-key on the heap (worst case, every
@@ -47,9 +49,9 @@ def dijkstra_shortest_distances(graph: Graph[V], start: V) -> Dict[V, float]:
     """
     heap = FibonacciHeap[V]()
     heap.enqueue(start, 0)
-    for node in graph:
-        if node != start:
-            heap.enqueue(node, Graph.INFINITY)
+    for v in graph:
+        if v != start:
+            heap.enqueue(v, Graph.INFINITY)
     distances = {}
     while heap:
         # The algorithm guarantees that we now have the shortest distance to u.
@@ -86,10 +88,10 @@ def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> Optional[float]:
     return None
 
 
-def dijkstra_shortest_distances_heapq(graph: Graph[V], start: V) -> Dict[V, float]:
+def dijkstra_shortest_paths_heapq(graph: Graph[V], start: V) -> Dict[V, float]:
     heap: List[Tuple[float, V]] = [(0.0, start)]
     visited: Set[V] = set()
-    distances = {node: Graph.INFINITY for node in graph}
+    distances = {v: Graph.INFINITY for v in graph}
     distances[start] = 0.0
     while heap:
         cost, u = heapq.heappop(heap)

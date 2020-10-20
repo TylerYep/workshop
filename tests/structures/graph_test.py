@@ -170,8 +170,8 @@ def test_to_matrix() -> None:
 def test_from_graph() -> None:
     graph = Graph[Node[int]]()
     nodes = [Node(i) for i in range(5)]
-    for node in nodes:
-        graph.add_node(node)
+    for v in nodes:
+        graph.add_node(v)
     graph.add_edge(nodes[0], nodes[1], 15)
     for i in range(3, 5):
         for j in range(1, 4):

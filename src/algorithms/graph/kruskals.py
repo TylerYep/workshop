@@ -22,9 +22,9 @@ def kruskals_mst(graph: Graph[V]) -> Graph[V]:
 
     edge_queue = sorted(graph.edges, reverse=True, key=lambda e: e.weight)
     disjoint_sets = DisjointSet[V]()
-    for node in graph:
-        mst.add_node(node)
-        disjoint_sets.make_set(node)
+    for v in graph:
+        mst.add_node(v)
+        disjoint_sets.make_set(v)
 
     num_sets = len(disjoint_sets)
     while num_sets != 1:

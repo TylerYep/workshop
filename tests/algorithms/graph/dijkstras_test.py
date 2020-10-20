@@ -1,5 +1,6 @@
-from src.algorithms import dijkstra_search, dijkstra_shortest_distances
+from src.algorithms import dijkstra_search, dijkstra_shortest_paths
 from src.structures import Graph
+from tests.algorithms.graph.all_pairs_shortest_path_test import TestShortestPaths
 
 
 def test_dijkstra_search() -> None:
@@ -49,51 +50,5 @@ def test_dijkstra_search() -> None:
     """
 
 
-def test_dijkstra_shortest_distances() -> None:
-    G = Graph[str](
-        {
-            "A": {"B": 2, "C": 5},
-            "B": {"A": 2, "D": 3, "E": 1, "F": 1},
-            "C": {"A": 5, "F": 3},
-            "D": {"B": 3},
-            "E": {"B": 4, "F": 3},
-            "F": {"C": 3, "E": 3},
-        }
-    )
-
-    G2 = Graph[int]({2: {3: 1}, 3: {4: 1}, 4: {6: 1}, 5: {2: 1, 6: 3}, 6: {}})
-
-    G3 = Graph[str](
-        {
-            "B": {"C": 1},
-            "C": {"D": 1},
-            "D": {"F": 1},
-            "E": {"B": 1, "G": 2},
-            "F": {},
-            "G": {"F": 1},
-        }
-    )
-
-    assert dijkstra_shortest_distances(G, "E") == {
-        "A": 6.0,
-        "B": 4.0,
-        "C": 6.0,
-        "D": 7.0,
-        "E": 0.0,
-        "F": 3.0,
-    }
-    assert dijkstra_shortest_distances(G2, 5) == {
-        2: 1.0,
-        3: 2.0,
-        4: 3.0,
-        5: 0.0,
-        6: 3.0,
-    }
-    assert dijkstra_shortest_distances(G3, "E") == {
-        "B": 1.0,
-        "C": 2.0,
-        "D": 3.0,
-        "E": 0.0,
-        "F": 3.0,
-        "G": 2.0,
-    }
+def test_dijkstra_shortest_paths() -> None:
+    TestShortestPaths.all_test_scenarios(dijkstra_shortest_paths, single_source=True)

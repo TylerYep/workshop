@@ -7,6 +7,8 @@ def bellman_ford_shortest_paths(
     graph: Graph[V], start: V, *, check_negative_cycles: bool = True
 ) -> Dict[V, float]:
     """
+    Bellman-Ford algorithm for the single-source shortest paths problem.
+
     The Bellman-Ford algorithm computes the shortest paths from a source node to
     all other nodes in the graph, like Dijkstra's algorithm, however with the added
     guarantee that the Bellman-Ford algorithm works correctly in graphs containing

@@ -4,9 +4,10 @@ from .graph.bellman_ford import bellman_ford_shortest_paths
 from .graph.bfs import breadth_first_search
 from .graph.connected import connected_components
 from .graph.dfs import depth_first_search, dfs_traversal
-from .graph.dijkstras import dijkstra_search, dijkstra_shortest_distances
+from .graph.dijkstras import dijkstra_search, dijkstra_shortest_paths
 from .graph.floyd_warshall import floyd_warshall_shortest_paths
 from .graph.hamiltonian_cycle import hamiltonian_cycle
+from .graph.johnsons import johnsons_shortest_paths
 from .graph.kargers import kargers_min_cut
 from .graph.kruskals import kruskals_mst
 from .graph.prims import prims_mst
@@ -35,9 +36,10 @@ __all__ = (
     "depth_first_search",
     "dfs_traversal",
     "dijkstra_search",
-    "dijkstra_shortest_distances",
+    "dijkstra_shortest_paths",
     "floyd_warshall_shortest_paths",
     "hamiltonian_cycle",
+    "johnsons_shortest_paths",
     "kargers_min_cut",
     "kruskals_mst",
     "prims_mst",
