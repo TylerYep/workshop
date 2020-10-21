@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import OrderedDict
-from typing import Any, Callable, Dict, Generic, NamedTuple, Optional, TypeVar
+from typing import Any, Callable, ClassVar, Dict, Generic, NamedTuple, Optional, TypeVar
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
@@ -19,7 +19,7 @@ class LRUCache(Generic[KT, VT]):
     """ Must use an OrderedDict in order to use the move_to_end() command """
 
     # class variable to map the decorator functions to their respective instance
-    decorator_instance_map: Dict[Callable[..., Any], LRUCache[KT, VT]] = {}
+    decorator_instance_map: ClassVar[Dict[Callable[..., Any], LRUCache[KT, VT]]] = {}
 
     def __init__(self, max_capacity: int) -> None:
         self.cache: OrderedDict[  # pylint: disable=unsubscriptable-object
@@ -59,23 +59,27 @@ class LRUCache(Generic[KT, VT]):
             CacheInfo(self.hits, self.misses, self.max_capacity, len(self.cache))
         )
 
+    @classmethod
+    def lru_cache(cls, size: int = 128) -> Callable[[F], Callable[..., Any]]:
+        def cache_decorator_inner(func: F) -> Callable[..., Any]:
+            def cache_decorator_wrapper(*args: Any, **kwargs: Any) -> Any:
+                if func not in cls.decorator_instance_map:
+                    cls.decorator_instance_map[func] = LRUCache(size)
+
+                result = cls.decorator_instance_map[func][args]
+                if result is None:
+                    result = func(*args, **kwargs)
+                    cls.decorator_instance_map[func][args] = result
+                return result
+
+            def cache_info() -> LRUCache[KT, VT]:
+                return cls.decorator_instance_map[func]
+
+            cache_decorator_wrapper.cache_info = cache_info  # type: ignore
+            return cache_decorator_wrapper
+
+        return cache_decorator_inner
+
 
 def lru_cache(size: int = 128) -> Callable[[F], Callable[..., Any]]:
-    def cache_decorator_inner(func: F) -> Callable[..., Any]:
-        def cache_decorator_wrapper(*args: Any, **kwargs: Any) -> Any:
-            if func not in LRUCache.decorator_instance_map:  # type: ignore
-                LRUCache.decorator_instance_map[func] = LRUCache(size)  # type: ignore
-
-            result = LRUCache.decorator_instance_map[func][args]  # type: ignore
-            if result is None:
-                result = func(*args, **kwargs)
-                LRUCache.decorator_instance_map[func][args] = result  # type: ignore
-            return result
-
-        def cache_info() -> LRUCache[KT, VT]:
-            return LRUCache.decorator_instance_map[func]  # type: ignore
-
-        cache_decorator_wrapper.cache_info = cache_info  # type: ignore
-        return cache_decorator_wrapper
-
-    return cache_decorator_inner
+    return LRUCache.lru_cache(size)

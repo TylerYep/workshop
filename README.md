@@ -84,8 +84,6 @@ Backpack Problem
 Egg Dropping
 Fast Fibonacci Transform
 A\* Search
-Johnson's Algorithm
-Matching (Graph Theory)
 Matching Algorithms (Graph Theory)
 Flow Network
 Max-flow Min-cut Algorithm
@@ -143,6 +141,8 @@ Artificial Neural Network
 - Name BFS, DFS after their functionality rather than the algorithm name.
 - The title belongs in the import?
 - Kargers, Kruskals, etc
+- Honestly I think it is bad to name functions the same name.
+- Maybe I should put test cases into classes so I avoid naming conflicts!
 
 from src.algorithms import kargers
 kargers.partition_graph()
