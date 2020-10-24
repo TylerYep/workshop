@@ -383,7 +383,9 @@ class FibonacciHeap(Generic[T]):
         @param self The first Fibonacci heap to merge.
         @param other The second Fibonacci heap to merge.
         """
-        if set(self.elem_to_entry) & set(other.elem_to_entry):
+        if not self.allow_duplicates and set(self.elem_to_entry) & set(
+            other.elem_to_entry
+        ):
             raise RuntimeError(
                 "You must pass in two unoverlapping heaps or set "
                 "allow_duplicates = True on both heaps."

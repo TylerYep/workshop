@@ -2,8 +2,7 @@ from .ado.ado_finite_metric import ApproxFiniteMetricOracle
 from .ado.ado_graph import ApproxDistanceOracle
 from .binary_heap import BinaryHeap
 from .binary_tree import BinarySearchTree
-
-# from .binomial_heap import BinomialHeap  # type: ignore
+from .binomial_heap import BinomialHeap
 from .disjoint_set import DisjointSet
 from .fibonacci_heap import FibonacciHeap
 from .graph import DirectedGraph, Edge, Graph, Node, UndirectedGraph, V
@@ -31,6 +30,7 @@ __all__ = (
     "ApproxDistanceOracle",
     "BinaryHeap",
     "BinarySearchTree",
+    "BinomialHeap",
     "DisjointSet",
     "FibonacciHeap",
     "DirectedGraph",

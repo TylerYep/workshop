@@ -281,7 +281,7 @@ class RedBlackTree(Generic[T]):
         # Property 2
         if self.color == Color.RED:
             # The root was red
-            print("Property 2")
+            # print("Property 2")
             return False
 
         # Property 3 does not need to be checked, because None is assumed
@@ -289,12 +289,12 @@ class RedBlackTree(Generic[T]):
 
         # Property 4
         if not self.check_coloring():
-            print("Property 4")
+            # print("Property 4")
             return False
 
         # Property 5
         if self.black_height() is None:
-            print("Property 5")
+            # print("Property 5")
             return False
         # All properties were met
         return True
