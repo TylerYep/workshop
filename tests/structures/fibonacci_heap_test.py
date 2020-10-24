@@ -90,10 +90,10 @@ class TestFibonacciHeap:
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_dequeue_min(allow_duplicates: bool) -> None:
+    def test_dequeue(allow_duplicates: bool) -> None:
         """
         Test creating a fibonacci heap, adding "intended_length" values,
-        and checking for correct dequeue_min values.
+        and checking for correct dequeue values.
         """
         for intended_length in (0, 1, 2, 3, 10, 100):
             fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
@@ -111,11 +111,11 @@ class TestFibonacciHeap:
 
             actual_priorities_list = []
             for _ in range(intended_length):
-                _, priority = fib_heap.dequeue_min()
+                _, priority = fib_heap.dequeue()
                 actual_priorities_list.append(priority)
 
             with pytest.raises(IndexError):
-                _ = fib_heap.dequeue_min()
+                _ = fib_heap.dequeue()
 
             # We can't just compare lists, because this is basically a heapsort,
             # which isn't stable. So instead we compare all the priorities
@@ -123,10 +123,10 @@ class TestFibonacciHeap:
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_dequeue_min_sort(allow_duplicates: bool) -> None:
+    def test_dequeue_sort(allow_duplicates: bool) -> None:
         """
         Test creating a fibonacci heap, adding "intended_length" values, and
-        checking for correct dequeue_min values.
+        checking for correct dequeue values.
 
         Does not use duplicate vales or priorities.
         """
@@ -144,7 +144,7 @@ class TestFibonacciHeap:
             expected_list = tuples[:]
             expected_list.sort()
 
-            actual_list = [fib_heap.dequeue_min() for _ in range(intended_length)]
+            actual_list = [fib_heap.dequeue() for _ in range(intended_length)]
 
             # We can just compare lists, because although this is basically a heapsort,
             # which isn't stable, we have no duplicate priorities or duplicate values,
@@ -164,7 +164,7 @@ class TestFibonacciHeap:
 
         actual_list = []
         while fib_heap:
-            actual_list.append(fib_heap.dequeue_min())
+            actual_list.append(fib_heap.dequeue())
 
         assert actual_list == [(3, -1), (1, 1), (5, 5)]
 
@@ -182,13 +182,14 @@ class TestFibonacciHeap:
         heap2.enqueue(4, 4)
         heap2.enqueue(6, 6)
 
-        merged_heap = heap1.merge(heap2)
+        heap1.merge(heap2)
 
-        assert len(merged_heap) == 7
+        assert len(heap1) == 7
+        assert len(heap2) == 4
 
         actual_list = []
-        while merged_heap:
-            actual_list.append(merged_heap.dequeue_min())
+        while heap1:
+            actual_list.append(heap1.dequeue())
 
         assert actual_list == [(1, 1), (2, 2), (3, 3), (3, 3), (4, 4), (5, 5), (6, 6)]
 
@@ -205,13 +206,14 @@ class TestFibonacciHeap:
         heap2.enqueue(4, 4)
         heap2.enqueue(6, 6)
 
-        merged_heap = heap1.merge(heap2)
+        heap1.merge(heap2)
 
-        assert len(merged_heap) == 6
+        assert len(heap1) == 6
+        assert len(heap2) == 3
 
         actual_list = []
-        while merged_heap:
-            actual_list.append(merged_heap.dequeue_min())
+        while heap1:
+            actual_list.append(heap1.dequeue())
 
         assert actual_list == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]
 
@@ -230,7 +232,7 @@ class TestFibonacciHeap:
         heap2.enqueue(6, 6)
 
         with pytest.raises(RuntimeError):
-            _ = heap1.merge(heap2)
+            heap1.merge(heap2)
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
@@ -243,7 +245,7 @@ class TestFibonacciHeap:
             entry = heap.enqueue(index, 2.0)
             entries[index] = entry
 
-        _ = heap.dequeue_min()
+        _ = heap.dequeue()
         expected_count -= 1
 
         for index in range(10, 7, -1):
@@ -251,7 +253,7 @@ class TestFibonacciHeap:
 
         actual_count = 0
         while heap:
-            _ = heap.dequeue_min()
+            _ = heap.dequeue()
             actual_count += 1
 
         assert actual_count == expected_count
@@ -266,7 +268,7 @@ class TestFibonacciHeap:
 
         actual_count = 0
         while heap:
-            _ = heap.dequeue_min()
+            _ = heap.dequeue()
             actual_count += 1
 
         assert actual_count == 100
@@ -287,7 +289,7 @@ class TestFibonacciHeap:
 
         actual_list = []
         while heap:
-            value, _ = heap.dequeue_min()
+            value, _ = heap.dequeue()
             actual_list.append(value)
 
         assert len(actual_list) == 100
@@ -307,6 +309,6 @@ class TestFibonacciHeap:
         heap.enqueue(2, 2)
         heap.enqueue(4, 4)
         heap.enqueue(6, 8)
-        heap.dequeue_min()
+        heap.dequeue()
 
-        assert str(heap) == "FibonacciHeap(top=Entry(value=5, priority=2))"
+        assert str(heap) == "FibonacciHeap(top=Entry(priority=2, value=5))"

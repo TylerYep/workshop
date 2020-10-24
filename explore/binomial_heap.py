@@ -1,324 +1,261 @@
-# pylint: disable-all
-# type: ignore
-class Node:
-    """
-    Node in a doubly-linked binomial tree, containing:
-        - value
-        - size of left subtree
-        - link to left, right and parent nodes
-    """
+# # pylint: disable=too-many-branches
+# from __future__ import annotations
 
-    def __init__(self, val):
-        self.val = val
-        # Number of nodes in left subtree
-        self.left_tree_size = 0
-        self.left = None
-        self.right = None
-        self.parent = None
+# import collections
+# import math
+# from dataclasses import dataclass, field
+# from typing import Deque, Dict, Generic, List, Optional, Tuple, TypeVar, Union
+# from uuid import UUID, uuid4
 
-    def merge_trees(self, other):
-        """
-        In-place merge of two binomial trees of equal size.
-        Returns the root of the resulting tree
-        """
-        assert self.left_tree_size == other.left_tree_size, "Unequal Sizes of Blocks"
+# from src.util import formatter
 
-        if self.val < other.val:
-            other.left = self.right
-            other.parent = None
-            if self.right:
-                self.right.parent = other
-            self.right = other
-            self.left_tree_size = self.left_tree_size * 2 + 1
-            return self
-
-        self.left = other.right
-        self.parent = None
-        if other.right:
-            other.right.parent = self
-        other.right = self
-        other.left_tree_size = other.left_tree_size * 2 + 1
-        return other
+# T = TypeVar("T")
 
 
-class BinomialHeap:
-    """
-    Min-oriented priority queue implemented with the Binomial Heap data
-    structure implemented with the BinomialHeap class. It supports:
-        - Insert element in a heap with n elements: Guaranteed O(log n), amortized O(1)
-        - Merge (meld) heaps of size m and n: O(log n + log m)
-        - Delete Min: O(log n)
-        - Peek (return min without deleting it): O(1)
-    """
+# @dataclass(order=True)
+# class Entry(Generic[T]):
+#     """
+#     Hold an entry in the heap.
+#     In order for all of the Binomial heap operations to complete in O(1),
+#     clients need to have O(1) access to any element in the heap. We make
+#     this work by having each insertion operation produce a handle to the
+#     node in the tree. In actuality, this handle is the node itself.
 
-    def __init__(self, bottom_root=None, min_node=None, heap_size=0):
-        self.size = heap_size
-        self.bottom_root = bottom_root
-        self.min_node = min_node
+#     Priority is the first parameter because the dataclass orders Entry as a
+#     tuple (priority, value)
+#     """
 
-    def merge_heaps(self, other):
-        """
-        In-place merge of two binomial heaps.
-        Both of them become the resulting merged heap
-        """
+#     priority: float
+#     value: T = field(compare=False)
 
-        # Empty heaps corner cases
-        if other.size == 0:
-            return
-        if self.size == 0:
-            self.size = other.size
-            self.bottom_root = other.bottom_root
-            self.min_node = other.min_node
-            return
-        # Update size
-        self.size = self.size + other.size
+#     def __post_init__(self) -> None:
+#         """ Initialize an Entry in the heap. """
+#         self.child: Optional[Entry[T]] = None
+#         self.right = None
 
-        # Update min.node
-        if self.min_node.val > other.min_node.val:
-            self.min_node = other.min_node
-        # Merge
+#     def __repr__(self) -> str:
+#         return str(formatter.pformat(self))
 
-        # Order roots by left_subtree_size
-        combined_roots_list = []
-        i, j = self.bottom_root, other.bottom_root
-        while i or j:
-            if i and ((not j) or i.left_tree_size < j.left_tree_size):
-                combined_roots_list.append((i, True))
-                i = i.parent
-            else:
-                combined_roots_list.append((j, False))
-                j = j.parent
-        # Insert links between them
-        for i in range(len(combined_roots_list) - 1):
-            if combined_roots_list[i][1] != combined_roots_list[i + 1][1]:
-                combined_roots_list[i][0].parent = combined_roots_list[i + 1][0]
-                combined_roots_list[i + 1][0].left = combined_roots_list[i][0]
-        # Consecutively merge roots with same left_tree_size
-        i = combined_roots_list[0][0]
-        while i.parent:
-            if (
-                (i.left_tree_size == i.parent.left_tree_size) and (not i.parent.parent)
-            ) or (
-                i.left_tree_size == i.parent.left_tree_size
-                and i.left_tree_size != i.parent.parent.left_tree_size
-            ):
 
-                # Neighbouring Nodes
-                previous_node = i.left
-                next_node = i.parent.parent
+# @dataclass(init=False)
+# class BinomialHeap(Generic[T]):
+#     """
+#     See docs/binomial_heap.md for code credits and implementation details.
+#     Author: Keith Schwarz (htiek@cs.stanford.edu)
+#     """
 
-                # Merging trees
-                i = i.merge_trees(i.parent)
+#     trees: List[Entry[T]]
 
-                # Updating links
-                i.left = previous_node
-                i.parent = next_node
-                if previous_node:
-                    previous_node.parent = i
-                if next_node:
-                    next_node.left = i
-            else:
-                i = i.parent
-        # Updating self.bottom_root
-        while i.left:
-            i = i.left
-        self.bottom_root = i
+#     def __init__(self, *, allow_duplicates: bool = False) -> None:
+#         # List of all the trees, by order. If there is no tree of the given
+#         # order, there will be a None element in the vector.
+#         self.trees: List[Optional[Entry[T]]] = []
 
-        # Update other
-        other.size = self.size
-        other.bottom_root = self.bottom_root
-        other.min_node = self.min_node
+#         # Mapping from element to corresponding entry.
+#         # Should not introduce any additional memory overhead.
+#         self.elem_to_entry: Dict[Union[UUID, T], Entry[T]] = {}
 
-        # Return the merged heap
-        return self
+#         # Cached size of the heap, so we don't have to recompute this explicitly.
+#         self.size = 0
 
-    def insert(self, val):
-        """
-        insert a value in the heap
-        """
-        if self.size == 0:
-            self.bottom_root = Node(val)
-            self.size = 1
-            self.min_node = self.bottom_root
-        else:
-            # Create new node
-            new_node = Node(val)
+#         # Whether to allow duplicate key entries, which means using UUIDs for
+#         # elem_to_entry's keys instead.
+#         self.allow_duplicates = allow_duplicates
 
-            # Update size
-            self.size += 1
+#     def __bool__(self) -> bool:
+#         return bool(self.trees)
 
-            # update min_node
-            if val < self.min_node.val:
-                self.min_node = new_node
-            # Put new_node as a bottom_root in heap
-            self.bottom_root.left = new_node
-            new_node.parent = self.bottom_root
-            self.bottom_root = new_node
+#     def __len__(self) -> int:
+#         return self.size
 
-            # Consecutively merge roots with same left_tree_size
-            while (
-                self.bottom_root.parent
-                and self.bottom_root.left_tree_size
-                == self.bottom_root.parent.left_tree_size
-            ):
+#     def __contains__(self, item: T) -> bool:
+#         if self.allow_duplicates:
+#             # TODO
+#             raise NotImplementedError
+#         return item in self.elem_to_entry
 
-                # Next node
-                next_node = self.bottom_root.parent.parent
+#     def __getitem__(self, value: Union[T, UUID]) -> Entry[T]:
+#         """ Gets the correct Entry object from the given value or UUID. """
+#         if self.allow_duplicates and not isinstance(value, UUID):
+#             raise RuntimeError(
+#                 "You must pass in a valid UUID or set allow_duplicates = False."
+#             )
+#         if not self.allow_duplicates and isinstance(value, UUID):
+#             raise RuntimeError("You must pass in a value of type T, not a UUID.")
 
-                # Merge
-                self.bottom_root = self.bottom_root.merge_trees(self.bottom_root.parent)
+#         if value not in self.elem_to_entry:
+#             raise KeyError(
+#                 f"Invalid {'UUID' if self.allow_duplicates else 'key'}: {value}"
+#             )
 
-                # Update Links
-                self.bottom_root.parent = next_node
-                self.bottom_root.left = None
-                if next_node:
-                    next_node.left = self.bottom_root
+#         return self.elem_to_entry[value]
 
-    def peek(self):
-        """
-        return min element without deleting it
-        """
-        return self.min_node.val
+#     @staticmethod
+#     def merge_lists(
+#         one: List[Optional[Entry[T]]], two: List[Optional[Entry[T]]]
+#     ) -> List[Optional[Entry[T]]]:
+#         """
+#         Merge 2 lists.
 
-    def is_empty(self):
-        return self.size == 0
+#         Utility function which, given two pointers into disjoint circularly-
+#         linked lists, merges the two lists together into one circularly-linked
+#         list in O(1) time. Because the lists may be empty, the return value
+#         is the only pointer that's guaranteed to be to an element of the
+#         resulting list.
 
-    def delete_min(self):
-        """
-        delete min element and return it
-        """
-        # assert not self.is_empty(), "Empty Heap"
+#         This function assumes that one and two are the minimum elements of the
+#         lists they are in, and returns a pointer to whichever is smaller. If
+#         this condition does not hold, the return value is some arbitrary pointer
+#         into the doubly-linked list.
 
-        # Save minimal value
-        min_value = self.min_node.val
+#         @param one A reference to one of the two deques.
+#         @param two A reference to the other of the two deques.
+#         @return A reference to the smallest element of the resulting list.
+#         """
+#         raise NotImplementedError
 
-        # Last element in heap corner case
-        if self.size == 1:
-            # Update size
-            self.size = 0
+#     @staticmethod
+#     def _check_priority(priority: float) -> None:
+#         """
+#         Given a user-specified priority, check whether it's a valid double
+#         and throw a ValueError otherwise.
 
-            # Update bottom root
-            self.bottom_root = None
+#         @param priority The user's specified priority.
+#         @raises ValueError if it is not valid.
+#         """
+#         if math.isnan(priority):
+#             raise ValueError(f"Priority {priority} is invalid.")
 
-            # Update min_node
-            self.min_node = None
+#     def enqueue(self, value: T, priority: float = 0) -> Union[T, UUID]:
+#         """
+#         Insert an element into the Binomial heap with the specified priority.
 
-            return min_value
-        # No right subtree corner case
-        # The structure of the tree implies that this should be the bottom root
-        # and there is at least one other root
-        if self.min_node.right is None:
-            # Update size
-            self.size -= 1
+#         Its priority must be a valid double, so you cannot set the priority to NaN.
 
-            # Update bottom root
-            self.bottom_root = self.bottom_root.parent
-            self.bottom_root.left = None
+#         @param value The value to insert.
+#         @param priority Its priority, which must be valid.
+#         @return An Entry representing that element in the tree.
+#         """
+#         self._check_priority(priority)
+#         if not self.allow_duplicates and value in self.elem_to_entry:
+#             raise KeyError(
+#                 f"Duplicate key detected: {value}. "
+#                 f"Use allow_duplicates = True to allow duplicate entries using UUIDs."
+#             )
 
-            # Update min_node
-            self.min_node = self.bottom_root
-            i = self.bottom_root.parent
-            while i:
-                if i.val < self.min_node.val:
-                    self.min_node = i
-                i = i.parent
-            return min_value
-        # General case
-        # Find the BinomialHeap of the right subtree of min_node
-        bottom_of_new = self.min_node.right
-        bottom_of_new.parent = None
-        min_of_new = bottom_of_new
-        size_of_new = 1
+#         # Create the entry object, which is a circularly-linked list of length one.
+#         result = Entry(priority, value)
 
-        # Size, min_node and bottom_root
-        while bottom_of_new.left:
-            size_of_new = size_of_new * 2 + 1
-            bottom_of_new = bottom_of_new.left
-            if bottom_of_new.val < min_of_new.val:
-                min_of_new = bottom_of_new
-        # Corner case of single root on top left path
-        if (not self.min_node.left) and (not self.min_node.parent):
-            self.size = size_of_new
-            self.bottom_root = bottom_of_new
-            self.min_node = min_of_new
-            # print("Single root, multiple nodes case")
-            return min_value
-        # Remaining cases
-        # Construct heap of right subtree
-        newHeap = BinomialHeap(
-            bottom_root=bottom_of_new, min_node=min_of_new, heap_size=size_of_new
-        )
+#         # Merge this singleton list with the tree list.
+#         self.top = self.merge_lists(self.top, result)
+#         self.size += 1
 
-        # Update size
-        self.size = self.size - 1 - size_of_new
+#         key: Union[T, UUID] = uuid4() if self.allow_duplicates else value
+#         self.elem_to_entry[key] = result
+#         return key
 
-        # Neighbour nodes
-        previous_node = self.min_node.left
-        next_node = self.min_node.parent
+#     def min(self) -> Entry[T]:
+#         """
+#         Return an Entry object corresponding to the minimum element of the heap.
 
-        # Initialize new bottom_root and min_node
-        self.min_node = previous_node or next_node
-        self.bottom_root = next_node
+#         Raise an IndexError if the heap is empty.
 
-        # Update links of previous_node and search below for new min_node and
-        # bottom_root
-        if previous_node:
-            previous_node.parent = next_node
+#         @return The smallest element of the heap.
+#         @raises IndexError If the heap is empty.
+#         """
+#         if self.top is None:
+#             raise IndexError("Heap is empty.")
+#         return self.top
 
-            # Update bottom_root and search for min_node below
-            self.bottom_root = previous_node
-            self.min_node = previous_node
-            while self.bottom_root.left:
-                self.bottom_root = self.bottom_root.left
-                if self.bottom_root.val < self.min_node.val:
-                    self.min_node = self.bottom_root
-        if next_node:
-            next_node.left = previous_node
+#     def dequeue(self) -> Tuple[T, float]:
+#         """
+#         Dequeue and return the minimum element of the Binomial heap.
 
-            # Search for new min_node above min_node
-            i = next_node
-            while i:
-                if i.val < self.min_node.val:
-                    self.min_node = i
-                i = i.parent
-        # Merge heaps
-        self.merge_heaps(newHeap)
+#         If the heap is empty, this throws an IndexError.
 
-        return min_value
+#         @return The smallest element of the Binomial heap.
+#         @raises IndexError if the heap is empty.
+#         """
+#         raise NotImplementedError
 
-    def pre_order(self):
-        """
-        Returns the Pre-order representation of the heap including
-        values of nodes plus their level distance from the root;
-        Empty nodes appear as #
-        """
-        # Find top root
-        top_root = self.bottom_root
-        while top_root.parent:
-            top_root = top_root.parent
-        # preorder
-        heap_pre_order = []
-        self.__traversal(top_root, heap_pre_order)
-        return heap_pre_order
+#     def decrease_key(self, value: Union[T, UUID], new_priority: float) -> None:
+#         """
+#         Decrease the key of the specified element to the new priority.
 
-    def __traversal(self, curr_node, preorder, level=0):
-        """
-        Pre-order traversal of nodes
-        """
-        if curr_node:
-            preorder.append((curr_node.val, level))
-            self.__traversal(curr_node.left, preorder, level + 1)
-            self.__traversal(curr_node.right, preorder, level + 1)
-        else:
-            preorder.append(("#", level))
+#         If the new priority is greater than the old priority, this function raises an
+#         ValueError. The new priority must be a finite double, so you cannot set the
+#         priority to be NaN, or +/- infinity. Doing so also raises an ValueError.
 
-    def __str__(self):
-        """
-        Overwriting str for a pre-order print of nodes in heap;
-        Performance is poor, so use only for small examples
-        """
-        if self.is_empty():
-            return ""
-        preorder_heap = self.pre_order()
+#         @param entry The element whose priority should be decreased.
+#         @param new_priority The new priority to associate with this entry.
+#         @raises ValueError If the new priority exceeds the old
+#                 priority, or if the argument is not a finite double.
+#         """
+#         entry = self[value]
+#         self._check_priority(new_priority)
+#         if new_priority > entry.priority:
+#             raise ValueError("New priority exceeds old.")
 
-        return "\n".join(("-" * level + str(value)) for value, level in preorder_heap)
+#         # Forward this to a helper function.
+#         self._decrease_key_unchecked(entry, new_priority)
+
+#     def delete(self, value: Union[T, UUID]) -> None:
+#         """
+#         Delete this Entry from the Binomial heap that contains it.
+
+#         @param entry The entry to delete.
+#         """
+#         # Use decreaseKey to drop the entry's key to -infinity. This will
+#         # guarantee that the node is cut and set to the global minimum.
+#         self._decrease_key_unchecked(self[value], float("-inf"))
+#         self.dequeue()
+
+#     def merge(self, other: BinomialHeap[T]) -> BinomialHeap[T]:
+#         """
+#         Merge 2 Binomial heaps.
+
+#         Given two Binomial heaps, returns a new Binomial heap that contains
+#         all of the elements of the two heaps. Each of the input heaps is
+#         destructively modified by having all its elements removed. You can
+#         continue to use those heaps, but be aware that they will be empty
+#         after this call completes.
+
+#         @param self The first Binomial heap to merge.
+#         @param other The second Binomial heap to merge.
+#         @return A new BinomialHeap containing all of the elements of both heaps.
+#         """
+#         # Create a new BinomialHeap to hold the result.
+#         result = BinomialHeap[T]()
+
+#         # Merge the two Binomial heap root lists together. This helper function
+#         # also computes the min of the two lists, so we can store the result in
+#         # the top field of the new heap.
+#         result.top = self.merge_lists(self.top, other.top)
+
+#         # The size of the new heap is the sum of the sizes of the input heaps.
+#         result.size = self.size + other.size
+#         result.allow_duplicates = self.allow_duplicates or other.allow_duplicates
+#         if set(self.elem_to_entry) & set(other.elem_to_entry):
+#             raise RuntimeError(
+#                 "You must pass in two unoverlapping heaps or set "
+#                 "allow_duplicates = True on both heaps."
+#             )
+
+#         # TODO: Python 3.9
+#         # result.elem_to_entry = self.elem_to_entry | other.elem_to_entry
+#         result.elem_to_entry = {**self.elem_to_entry, **other.elem_to_entry}
+
+#         # Clear the old heaps.
+#         self.size = other.size = 0
+#         self.top = other.top = None
+#         return result
+
+#     def _decrease_key_unchecked(self, entry: Entry[T], priority: float) -> None:
+#         """
+#         Decrease the key of a node in the tree without doing any checking to ensure
+#         that the new priority is valid.
+
+#         @param entry The node whose key should be decreased.
+#         @param priority The node's new priority.
+#         """
+#         raise NotImplementedError

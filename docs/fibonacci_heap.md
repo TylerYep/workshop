@@ -6,7 +6,7 @@ An implementation of a priority queue backed by a Fibonacci heap, as described
 by Fredman and Tarjan. Fibonacci heaps are interesting theoretically because
 they have asymptotically good runtime guarantees for many operations. In
 particular, insert, peek, and decrease-key all run in amortized O(1) time.
-dequeue_min and delete each run in amortized O(log n) time. This allows
+dequeue and delete each run in amortized O(log n) time. This allows
 algorithms that rely heavily on decrease-key to gain significant performance
 boosts. For example, Dijkstra's algorithm for single-source shortest paths can
 be shown to run in O(m + n log n) using a Fibonacci heap, compared to O(m log n)
@@ -26,7 +26,7 @@ pointer to be the smaller of the minima of the two heaps. Peeking at the
 smallest element can therefore be accomplished by just looking at the min
 element. All of these operations complete in O(1) time.
 
-The tricky operations are dequeue_min and decrease_key. dequeue_min works by
+The tricky operations are dequeue and decrease_key. dequeue works by
 removing the root of the tree containing the smallest element, then merging its
 children with the topmost roots. Then, the roots are scanned and merged so
 that there is only one tree of each degree in the root list. This works by
@@ -46,5 +46,5 @@ parent, add it as a root, and then mark its parent. If the parent was already
 marked, we cut that node as well, recursively mark its parent, and continue
 this process. This can be shown to run in O(1) amortized time using yet
 another clever potential function. Finally, given this function, we can
-implement delete by decreasing a key to -infinity, then calling dequeue_min to
+implement delete by decreasing a key to -infinity, then calling dequeue to
 extract it.

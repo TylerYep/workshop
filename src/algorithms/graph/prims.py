@@ -33,7 +33,7 @@ def prims_mst(graph: Graph[V], start_node: Optional[V] = None) -> Graph[V]:
 
     for _ in range(len(graph) - 1):
         # The algorithm guarantees that we now have the shortest distance to u.
-        u, _ = heap.dequeue_min()
+        u, _ = heap.dequeue()
         v, weight = _min_cost_endpoint(u, graph, mst)
         mst.add_node(u)
         mst.add_edge(u, v, weight)

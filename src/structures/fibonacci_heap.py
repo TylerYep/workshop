@@ -3,14 +3,13 @@ from __future__ import annotations
 
 import collections
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Deque, Dict, Generic, Optional, Tuple, TypeVar, Union
 from uuid import UUID, uuid4
 
-from src.algorithms.sort.comparable import Comparable
 from src.util import formatter
 
-T = TypeVar("T", bound=Comparable)
+T = TypeVar("T")
 
 
 @dataclass(order=True)
@@ -21,10 +20,13 @@ class Entry(Generic[T]):
     clients need to have O(1) access to any element in the heap. We make
     this work by having each insertion operation produce a handle to the
     node in the tree. In actuality, this handle is the node itself.
+
+    Priority is the first parameter because the dataclass orders Entry as a
+    tuple (priority, value)
     """
 
-    value: T
     priority: float
+    value: T = field(compare=False)
 
     def __post_init__(self) -> None:
         """ Initialize an Entry in the heap. """
@@ -90,6 +92,17 @@ class FibonacciHeap(Generic[T]):
 
         return self.elem_to_entry[value]
 
+    def __or__(self, other: object) -> FibonacciHeap[T]:
+        if not isinstance(other, FibonacciHeap):
+            raise NotImplementedError
+        self.merge(other)
+        return self
+
+    def __ior__(self, other: object) -> None:
+        if not isinstance(other, FibonacciHeap):
+            raise NotImplementedError
+        self.merge(other)
+
     @staticmethod
     def merge_lists(
         one: Optional[Entry[T]], two: Optional[Entry[T]]
@@ -119,44 +132,19 @@ class FibonacciHeap(Generic[T]):
             return None if one is None else one
 
         # Both non-None; actually do the splice.
-        # This is actually not as easy as it seems. The idea is that we'll
-        # have two lists that look like this:
-        #
+        # We have two lists that look like this and we want to switch A and B.
         # +----+     +----+     +----+
-        # |    |--N->|one |--N->|    |
+        # |    |--N->|one |--N->|  A |
         # |    |<-P--|    |<-P--|    |
         # +----+     +----+     +----+
         #
-        #
         # +----+     +----+     +----+
-        # |    |--N->|two |--N->|    |
+        # |    |--N->|two |--N->|  B |
         # |    |<-P--|    |<-P--|    |
         # +----+     +----+     +----+
-        #
-        # And we want to relink everything to get
-        #
-        # +----+     +----+     +----+---+
-        # |    |--N->|one |     |    |   |
-        # |    |<-P--|    |     |    |<+ |
-        # +----+     +----+<-\  +----+ | |
-        #                  \  P        | |
-        #                   N  \       N |
-        # +----+     +----+  \->+----+ | |
-        # |    |--N->|two |     |    | | |
-        # |    |<-P--|    |     |    | | P
-        # +----+     +----+     +----+ | |
-        #              ^ |             | |
-        #              | +-------------+ |
-        #              +-----------------+
-
-        # Cache this since we're about to overwrite it.
-        one_next = one.next
-
-        one.next = two.next
-        one.next.prev = one
-        two.next = one_next
-        two.next.prev = two
-        return one if one.priority < two.priority else two
+        one.next, two.next = two.next, one.next
+        one.next.prev, two.next.prev = one, two
+        return one if one < two else two
 
     @staticmethod
     def _check_priority(priority: float) -> None:
@@ -170,7 +158,7 @@ class FibonacciHeap(Generic[T]):
         if math.isnan(priority):
             raise ValueError(f"Priority {priority} is invalid.")
 
-    def enqueue(self, value: T, priority: float) -> Union[T, UUID]:
+    def enqueue(self, value: T, priority: float = 0) -> Union[T, UUID]:
         """
         Insert an element into the Fibonacci heap with the specified priority.
 
@@ -188,7 +176,7 @@ class FibonacciHeap(Generic[T]):
             )
 
         # Create the entry object, which is a circularly-linked list of length one.
-        result = Entry(value, priority)
+        result = Entry(priority, value)
 
         # Merge this singleton list with the tree list.
         self.top = self.merge_lists(self.top, result)
@@ -211,7 +199,7 @@ class FibonacciHeap(Generic[T]):
             raise IndexError("Heap is empty.")
         return self.top
 
-    def dequeue_min(self) -> Tuple[T, float]:
+    def dequeue(self) -> Tuple[T, float]:
         """
         Dequeue and return the minimum element of the Fibonacci heap.
 
@@ -319,11 +307,10 @@ class FibonacciHeap(Generic[T]):
 
                 # Determine which of the two trees has the smaller root, storing
                 # the two trees accordingly.
-                minimum = other if other.priority < curr.priority else curr
-                maximum = curr if other.priority < curr.priority else other
+                minimum = other if other < curr else curr
+                maximum = curr if other < curr else other
 
-                # Break max out of the root list, then merge it into min's child
-                # list.
+                # Break max out of the root list, then merge it into min's child list.
                 maximum.next.prev = maximum.prev
                 maximum.prev.next = maximum.next
 
@@ -348,7 +335,7 @@ class FibonacciHeap(Generic[T]):
             # reparent operation that merged two different trees of equal
             # priority, we need to make sure that the min pointer points to
             # the root-level one.
-            if curr.priority <= self.top.priority:
+            if curr <= self.top:
                 self.top = curr
         if not self.allow_duplicates:
             del self.elem_to_entry[min_elem.value]
@@ -371,8 +358,6 @@ class FibonacciHeap(Generic[T]):
         self._check_priority(new_priority)
         if new_priority > entry.priority:
             raise ValueError("New priority exceeds old.")
-
-        # Forward this to a helper function.
         self._decrease_key_unchecked(entry, new_priority)
 
     def delete(self, value: Union[T, UUID]) -> None:
@@ -384,49 +369,36 @@ class FibonacciHeap(Generic[T]):
         # Use decreaseKey to drop the entry's key to -infinity. This will
         # guarantee that the node is cut and set to the global minimum.
         self._decrease_key_unchecked(self[value], float("-inf"))
+        self.dequeue()
 
-        # Call dequeue_min to remove it.
-        self.dequeue_min()
-
-    def merge(self, other: FibonacciHeap[T]) -> FibonacciHeap[T]:
+    def merge(self, other: FibonacciHeap[T]) -> None:
         """
         Merge 2 Fibonacci heaps.
 
-        Given two Fibonacci heaps, returns a new Fibonacci heap that contains
-        all of the elements of the two heaps. Each of the input heaps is
-        destructively modified by having all its elements removed. You can
-        continue to use those heaps, but be aware that they will be empty
-        after this call completes.
+        Given two Fibonacci heaps, obtain a Fibonacci heap that contains
+        all of the elements of the two heaps in place.
 
         @param self The first Fibonacci heap to merge.
         @param other The second Fibonacci heap to merge.
-        @return A new FibonacciHeap containing all of the elements of both heaps.
         """
-        # Create a new FibonacciHeap to hold the result.
-        result = FibonacciHeap[T]()
-
-        # Merge the two Fibonacci heap root lists together. This helper function
-        # also computes the min of the two lists, so we can store the result in
-        # the top field of the new heap.
-        result.top = self.merge_lists(self.top, other.top)
-
-        # The size of the new heap is the sum of the sizes of the input heaps.
-        result.size = self.size + other.size
-        result.allow_duplicates = self.allow_duplicates or other.allow_duplicates
         if set(self.elem_to_entry) & set(other.elem_to_entry):
             raise RuntimeError(
                 "You must pass in two unoverlapping heaps or set "
                 "allow_duplicates = True on both heaps."
             )
 
-        # TODO: Python 3.9
-        # result.elem_to_entry = self.elem_to_entry | other.elem_to_entry
-        result.elem_to_entry = {**self.elem_to_entry, **other.elem_to_entry}
+        # Merge the two Fibonacci heap root lists together. This helper function
+        # also computes the min of the two lists, so we can store the result in
+        # the top field of the new heap.
+        self.top = self.merge_lists(self.top, other.top)
 
-        # Clear the old heaps.
-        self.size = other.size = 0
-        self.top = other.top = None
-        return result
+        # The size of the new heap is the sum of the sizes of the input heaps.
+        self.size += other.size
+        self.allow_duplicates = self.allow_duplicates or other.allow_duplicates
+
+        # TODO: Python 3.9
+        # self.elem_to_entry |= other.elem_to_entry
+        self.elem_to_entry = {**self.elem_to_entry, **other.elem_to_entry}
 
     def _decrease_key_unchecked(self, entry: Entry[T], priority: float) -> None:
         """
@@ -443,13 +415,13 @@ class FibonacciHeap(Generic[T]):
         # Note that this also means that if we try to run a delete operation
         # that decreases the key to -infinity, it's guaranteed to cut the node
         # from its parent.
-        if entry.parent is not None and entry.priority <= entry.parent.priority:
+        if entry.parent is not None and entry <= entry.parent:
             self._cut_node(entry)
 
         # If our new value is the new min, mark it as such. Note that if we
         # ended up decreasing the key in a way that ties the current minimum
         # priority, this will change the min accordingly.
-        if self.top is not None and entry.priority <= self.top.priority:
+        if self.top is not None and entry <= self.top:
             self.top = entry
 
     def _cut_node(self, entry: Entry[T]) -> None:

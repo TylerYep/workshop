@@ -21,7 +21,7 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
     distances = {}
     while heap:
         # The algorithm guarantees that we now have the shortest distance to u.
-        u, cost = heap.dequeue_min()
+        u, cost = heap.dequeue()
         if u == end:
             return cost
         distances[u] = cost
@@ -55,7 +55,7 @@ def dijkstra_shortest_paths(graph: Graph[V], start: V) -> Dict[V, float]:
     distances = {}
     while heap:
         # The algorithm guarantees that we now have the shortest distance to u.
-        u, cost = heap.dequeue_min()
+        u, cost = heap.dequeue()
         distances[u] = cost
         for v, e in graph[u].items():
             if v not in distances:

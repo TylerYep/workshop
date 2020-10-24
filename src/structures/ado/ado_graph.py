@@ -28,8 +28,8 @@ class UIntPQueue:
         elif priority < self.entries[value]:
             self.fheap.decrease_key(value, priority)
 
-    def dequeue_min(self) -> Any:
-        value, _ = self.fheap.dequeue_min()
+    def dequeue(self) -> Any:
+        value, _ = self.fheap.dequeue()
         # del self.entries[value]
         return value
 
@@ -108,7 +108,7 @@ class ApproxDistanceOracle:
             # enqueue everything in A_i
             q.enqueue(w, 0)
         while len(q) > 0:
-            w = q.dequeue_min()
+            w = q.dequeue()
             for v in self.neighbors[w]:
                 prev = self.a_i_v_distances[i][v]
                 nxt = self.a_i_v_distances[i][w] + self.E[w][v]
@@ -128,7 +128,7 @@ class ApproxDistanceOracle:
         for c in self.A[i]:
             q.enqueue(c, 0)
             while len(q) > 0:
-                w = q.dequeue_min()
+                w = q.dequeue()
                 for v in self.neighbors[w]:
                     nxt = self.distances[(c, w)] + self.E[w][v]
                     # Only store the distance if the i-center c is closer to v

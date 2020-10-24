@@ -1,6 +1,7 @@
 import itertools
 from pprint import pprint
 
+MAX_WEIGHTS_ON_HANDLE = 6
 HANDLE_WEIGHT = 0.6
 CONNECTOR_WEIGHT = 0.8
 # WEIGHTS = [4.4] * 4 + [5.5] * 8
@@ -17,13 +18,12 @@ def calculate_weight_combinations(weights):
                     counts[w] = 0
                 counts[w] += 1
 
-            use = True
             for count in counts.values():
                 if count % 2 != 0:
-                    use = False
-            if use:
+                    break
+            else:
                 result = sum(config) + HANDLE_WEIGHT
-                if len(config) > 6:
+                if len(config) > MAX_WEIGHTS_ON_HANDLE:
                     # We already added one handle weight
                     result += HANDLE_WEIGHT + CONNECTOR_WEIGHT
                 every_other_elem = config[1::2]
