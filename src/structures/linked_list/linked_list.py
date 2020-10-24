@@ -92,7 +92,7 @@ class LinkedList(Generic[T]):
         if prev is not None:
             prev.next = LinkedListNode(data, curr)
 
-    def remove_node(self, data: T) -> None:
+    def remove(self, data: T) -> None:
         if self.head is None:
             raise Exception("List is empty")
 

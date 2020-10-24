@@ -55,14 +55,14 @@ class Trie:
             trie = trie.children[ch]
         trie.is_leaf = True
 
-    def delete(self, word: str) -> None:
+    def remove(self, word: str) -> None:
         """
         Deletes a word in a Trie
         :param word: word to delete
         :return: None
         """
 
-        def _delete(curr: Trie, word: str) -> bool:
+        def _remove(curr: Trie, word: str) -> bool:
             # If word is empty, attempt to set the word to not a leaf.
             # If the word has no other children,
             # return False so that we can delete above keys.
@@ -77,7 +77,7 @@ class Trie:
             if ch not in curr.children:
                 return False
 
-            should_delete_curr = _delete(curr.children[ch], word[1:])
+            should_delete_curr = _remove(curr.children[ch], word[1:])
             if should_delete_curr:
                 del curr.children[ch]
                 return not curr.children
@@ -86,4 +86,4 @@ class Trie:
         if word not in self:
             raise KeyError(f"Trie does not contain key: {word}")
 
-        _ = _delete(self, word)
+        _ = _remove(self, word)

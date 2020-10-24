@@ -25,7 +25,7 @@ class TestFibonacciHeap:
         fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
         fib_heap.enqueue(1, 1)
 
-        assert fib_heap.min().value == 1
+        assert fib_heap.peek().value == 1
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
@@ -40,7 +40,7 @@ class TestFibonacciHeap:
         fib_heap.enqueue(10, 0)
         fib_heap.enqueue(20, 100)
 
-        assert fib_heap.min().value == 10
+        assert fib_heap.peek().value == 10
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))
@@ -54,7 +54,7 @@ class TestFibonacciHeap:
         fib_heap.enqueue(100, 1.0)
         fib_heap.enqueue(20, 1.2)
 
-        assert fib_heap.min().value == 100
+        assert fib_heap.peek().value == 100
 
     @staticmethod
     @pytest.mark.parametrize("allow_duplicates", (True, False))

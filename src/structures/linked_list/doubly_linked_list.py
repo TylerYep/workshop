@@ -137,7 +137,7 @@ class DoublyLinkedList(Generic[T]):
             self.tail = None
         return tail_data
 
-    def delete(self, data: T) -> None:
+    def remove(self, data: T) -> None:
         if self.head is None or self.tail is None:
             raise Exception("List is empty")
 

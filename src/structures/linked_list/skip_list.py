@@ -119,7 +119,7 @@ class SkipList(Generic[KT, VT]):
             level += 1
         return level
 
-    def delete(self, key: KT) -> None:
+    def remove(self, key: KT) -> None:
         """
         :param key: Key to remove from list.
 
@@ -129,7 +129,7 @@ class SkipList(Generic[KT, VT]):
         >>> skip_list.insert(3, "Three")
         >>> list(skip_list)
         [1, 2, 3]
-        >>> skip_list.delete(2)
+        >>> skip_list.remove(2)
         >>> list(skip_list)
         [1, 3]
         """

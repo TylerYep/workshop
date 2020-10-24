@@ -55,7 +55,7 @@ class FibonacciHeap(Generic[T]):
         self.top: Optional[Entry[T]] = None
 
         # Mapping from element to corresponding entry.
-        # Should not introduce any additional memory overhead.
+        # Should not introduce any asymptotic change in memory overhead.
         self.elem_to_entry: Dict[Union[UUID, T], Entry[T]] = {}
 
         # Cached size of the heap, so we don't have to recompute this explicitly.
@@ -95,8 +95,10 @@ class FibonacciHeap(Generic[T]):
     def __or__(self, other: object) -> FibonacciHeap[T]:
         if not isinstance(other, FibonacciHeap):
             raise NotImplementedError
+        result = FibonacciHeap[T]()
         self.merge(other)
-        return self
+        result.merge(self)
+        return result
 
     def __ior__(self, other: object) -> None:
         if not isinstance(other, FibonacciHeap):
@@ -186,7 +188,7 @@ class FibonacciHeap(Generic[T]):
         self.elem_to_entry[key] = result
         return key
 
-    def min(self) -> Entry[T]:
+    def peek(self) -> Entry[T]:
         """
         Return an Entry object corresponding to the minimum element of the heap.
 
@@ -360,9 +362,9 @@ class FibonacciHeap(Generic[T]):
             raise ValueError("New priority exceeds old.")
         self._decrease_key_unchecked(entry, new_priority)
 
-    def delete(self, value: Union[T, UUID]) -> None:
+    def remove(self, value: Union[T, UUID]) -> None:
         """
-        Delete this Entry from the Fibonacci heap that contains it.
+        Remove this Entry from the Fibonacci heap that contains it.
 
         @param entry The entry to delete.
         """
