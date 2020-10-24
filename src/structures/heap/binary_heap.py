@@ -53,7 +53,7 @@ class BinaryHeap(Generic[T]):
         self._heapify_up(index)
         self._heapify_down(index)
 
-    def remove(self, item: T) -> None:
+    def dequeue(self, item: T) -> None:
         """ Deletes given item from heap if present. """
         if item not in self.elem_to_index:
             raise KeyError("Item not found")
@@ -68,7 +68,7 @@ class BinaryHeap(Generic[T]):
             self._heapify_up(index)
             self._heapify_down(index)
 
-    def insert(self, item: T) -> None:
+    def enqueue(self, item: T) -> None:
         """ Inserts given item with given value in heap. """
         new_node = item
         if len(self._heap) == self.size:
@@ -91,7 +91,7 @@ class BinaryHeap(Generic[T]):
         if present.
         """
         top_item = self.peek()
-        self.remove(top_item)
+        self.dequeue(top_item)
         return top_item
 
     def _parent(self, i: int) -> Optional[int]:
@@ -127,8 +127,7 @@ class BinaryHeap(Generic[T]):
         Returns index of valid parent as per desired ordering among given index and
         both its children.
         """
-        left = self._left(i)
-        right = self._right(i)
+        left, right = self._left(i), self._right(i)
         valid_parent = i
 
         if left is not None and not self._cmp(left, valid_parent):

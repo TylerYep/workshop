@@ -2,7 +2,7 @@ import os
 import pprint
 from types import ModuleType
 
-IGNORED_FOLDERS = {"rmq", "sort", "hash_table", "conversions"}
+IGNORED_FOLDERS = {"rmq", "sort", "hash_table", "heap", "conversions"}
 IGNORED_FILES = {"util.py", "svm.py", "linear_classifier.py", "softmax.py"}
 SRC_FOLDER = "src"
 TEST_FOLDER = "tests"

@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Generic, List, Optional, Tuple, TypeVar, Union
 from uuid import UUID, uuid4
 
+from src.structures.heap.heap import Heap
 from src.util import formatter
 
 T = TypeVar("T")
@@ -33,7 +34,7 @@ class Entry(Generic[T]):
 
 
 @dataclass(init=False)
-class BinomialHeap(Generic[T]):
+class BinomialHeap(Heap[T]):
     """
     See docs/binomial_heap.md for code credits and implementation details.
     Author: Keith Schwarz (htiek@cs.stanford.edu)
@@ -257,7 +258,7 @@ class BinomialHeap(Generic[T]):
             del self.elem_to_entry[result.value]
         return result.value, result.priority
 
-    def merge(self, other: BinomialHeap[T]) -> None:
+    def merge(self, other: Heap[T]) -> None:
         """
         Merge 2 Binomial heaps.
 
@@ -267,6 +268,8 @@ class BinomialHeap(Generic[T]):
         @param self The first Binomial heap to merge.
         @param other The second Binomial heap to merge.
         """
+        if not isinstance(other, BinomialHeap):
+            raise TypeError("Heap types must match when merging.")
         if not self.allow_duplicates and set(self.elem_to_entry) & set(
             other.elem_to_entry
         ):

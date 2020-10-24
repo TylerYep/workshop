@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from typing import Deque, Dict, Generic, Optional, Tuple, TypeVar, Union
 from uuid import UUID, uuid4
 
+from src.structures.heap.heap import Heap
 from src.util import formatter
 
 T = TypeVar("T")
@@ -42,7 +43,7 @@ class Entry(Generic[T]):
 
 
 @dataclass(init=False)
-class FibonacciHeap(Generic[T]):
+class FibonacciHeap(Heap[T]):
     """
     See docs/fibonacci_heap.md for code credits and implementation details.
     Author: Keith Schwarz (htiek@cs.stanford.edu)
@@ -373,7 +374,7 @@ class FibonacciHeap(Generic[T]):
         self._decrease_key_unchecked(self[value], float("-inf"))
         self.dequeue()
 
-    def merge(self, other: FibonacciHeap[T]) -> None:
+    def merge(self, other: Heap[T]) -> None:
         """
         Merge 2 Fibonacci heaps.
 
@@ -383,6 +384,9 @@ class FibonacciHeap(Generic[T]):
         @param self The first Fibonacci heap to merge.
         @param other The second Fibonacci heap to merge.
         """
+        if not isinstance(other, FibonacciHeap):
+            raise TypeError("Heap types must match when merging.")
+
         if not self.allow_duplicates and set(self.elem_to_entry) & set(
             other.elem_to_entry
         ):

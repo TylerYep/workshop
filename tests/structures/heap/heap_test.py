@@ -1,41 +1,52 @@
 import random
+from typing import TypeVar, cast
 
 import pytest
 
-from src.structures import BinomialHeap
+from src.structures import BinomialHeap, FibonacciHeap, Heap
+
+T = TypeVar("T")
+HEAP_TYPES = ("BinomialHeap", "FibonacciHeap")
 
 
-class TestBinomialHeap:
+def construct_heap(heap_type: str, allow_duplicates: bool = False) -> Heap[T]:
+    heap_map = {
+        heap_constructor.__name__: heap_constructor
+        for heap_constructor in (BinomialHeap, FibonacciHeap)
+    }
+    return cast(Heap[T], heap_map[heap_type](allow_duplicates=allow_duplicates))
+
+
+class TestHeap:
     @staticmethod
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_enqueue_100(allow_duplicates: bool) -> None:
-        """ Test creating a Binomial heap and adding 100 values to it. """
-        fib_heap = BinomialHeap[int](allow_duplicates=allow_duplicates)
+    def test_enqueue_100(heap_type: str, allow_duplicates: bool) -> None:
+        """ Test creating a heap and adding 100 values to it. """
+        fib_heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
         for i in range(100):
             random_value = random.randrange(100) if allow_duplicates else i
             random_priority = random.randrange(100)
             fib_heap.enqueue(random_value, random_priority)
 
     @staticmethod
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_get_min_of_1(allow_duplicates: bool) -> None:
-        """
-        Test creating a Binomial heap, adding a single value to it, and retrieving it.
-        """
-        fib_heap = BinomialHeap[int](allow_duplicates=allow_duplicates)
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    def test_get_min_of_1(heap_type: str) -> None:
+        """ Test creating a heap, adding a single value, and retrieving it. """
+        fib_heap: Heap[int] = construct_heap(heap_type)
         fib_heap.enqueue(1, 1)
 
         assert fib_heap.peek().value == 1
 
     @staticmethod
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_get_min_of_3(allow_duplicates: bool) -> None:
+    def test_get_min_of_3(heap_type: str, allow_duplicates: bool) -> None:
         """
-        Test creating a Binomial heap, adding 3 values, and retrieving
+        Test creating a heap, adding 3 values, and retrieving
         the minimum-priority entry.
         """
-        fib_heap = BinomialHeap[int](allow_duplicates=allow_duplicates)
-        fib_heap = BinomialHeap[int]()
+        fib_heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
         fib_heap.enqueue(1, 1)
         fib_heap.enqueue(10, 0)
         fib_heap.enqueue(20, 100)
@@ -43,42 +54,54 @@ class TestBinomialHeap:
         assert fib_heap.peek().value == 10
 
     @staticmethod
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_get_min_of_3_float(allow_duplicates: bool) -> None:
+    def test_get_min_of_3_float(heap_type: str, allow_duplicates: bool) -> None:
         """
-        Test creating a Binomial heap, adding 3 values, and
+        Test creating a heap, adding 3 values, and
         retrieving the minimum-float-priority entry.
         """
-        fib_heap = BinomialHeap[int](allow_duplicates=allow_duplicates)
+        fib_heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
         fib_heap.enqueue(10, 1.1)
         fib_heap.enqueue(100, 1.0)
         fib_heap.enqueue(20, 1.2)
 
         assert fib_heap.peek().value == 100
 
-    @staticmethod
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_empty(allow_duplicates: bool) -> None:
-        """ Test an empty heap to see if it's Falsy. """
-        assert bool(BinomialHeap[int](allow_duplicates=allow_duplicates)) is False
+    # @staticmethod
+    # @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    # @pytest.mark.parametrize("entries", ((3,), (4, 2), (2, 7, 1, 8, 3, 1, 4)))
+    # def test_enqueue_dequeue_no_priority(heap_type: str, entries: Tuple[int]) -> None:
+    #     h: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
+    #     for i in entries:
+    #         h.enqueue(i)
+
+    #     for i, item in enumerate(sorted(entries)):
+    #         assert len(h) == len(entries) - i
+    #         val, _ = h.dequeue()
+    #         assert val == item
 
     @staticmethod
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_nonempty(allow_duplicates: bool) -> None:
-        """ Test creating a Binomial, adding a value, and checking if it's truthy. """
-        fib_heap = BinomialHeap[int](allow_duplicates=allow_duplicates)
+    def test_empty(heap_type: str, allow_duplicates: bool) -> None:
+        """ Test an empty heap to see if it's Falsy. """
+        assert bool(construct_heap(heap_type, allow_duplicates)) is False
+
+        fib_heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
         fib_heap.enqueue(1, 1)
         assert bool(fib_heap) is True
 
     @staticmethod
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_len(allow_duplicates: bool) -> None:
+    def test_len(heap_type: str, allow_duplicates: bool) -> None:
         """
-        Test creating a Binomial heap, adding "intended_length" values, and checking
+        Test creating a heap, adding "intended_length" values, and checking
         for correct length.
         """
         for intended_length in (0, 1, 3, 100):
-            fib_heap = BinomialHeap[int](allow_duplicates=allow_duplicates)
+            fib_heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
             for i in range(intended_length):
                 random_value = (
                     random.randrange(intended_length) if allow_duplicates else i
@@ -89,14 +112,15 @@ class TestBinomialHeap:
             assert len(fib_heap) == intended_length
 
     @staticmethod
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_dequeue(allow_duplicates: bool) -> None:
+    def test_dequeue(heap_type: str, allow_duplicates: bool) -> None:
         """
-        Test creating a Binomial heap, adding "intended_length" values,
+        Test creating a heap, adding "intended_length" values,
         and checking for correct dequeue values.
         """
-        for intended_length in (10,):  # (0, 1, 2, 3, 10, 100):
-            fib_heap = BinomialHeap[int](allow_duplicates=allow_duplicates)
+        for intended_length in (0, 1, 2, 3, 10, 100):
+            fib_heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
             # random.seed(0) gives too-consistent priorities
             random.seed(1)
             expected_priorities_list = []
@@ -123,16 +147,17 @@ class TestBinomialHeap:
             assert expected_priorities_list == actual_priorities_list
 
     @staticmethod
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
     @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_dequeue_sort(allow_duplicates: bool) -> None:
+    def test_dequeue_sort(heap_type: str, allow_duplicates: bool) -> None:
         """
-        Test creating a Binomial heap, adding "intended_length" values, and
+        Test creating a heap, adding "intended_length" values, and
         checking for correct dequeue values.
 
         Does not use duplicate vales or priorities.
         """
         for intended_length in (0, 1, 2, 3, 10, 100):
-            fib_heap = BinomialHeap[int](allow_duplicates=allow_duplicates)
+            fib_heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
             # random.seed(0) gives too-consistent priorities
             random.seed(1)
             random_values = range(intended_length)
@@ -154,10 +179,11 @@ class TestBinomialHeap:
             assert expected_list == actual_list
 
     @staticmethod
-    def test_merge_duplicates() -> None:
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    def test_merge_duplicates(heap_type: str) -> None:
         """ Test merging two heaps. """
-        heap1 = BinomialHeap[int](allow_duplicates=True)
-        heap2 = BinomialHeap[int]()
+        heap1: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
+        heap2: Heap[int] = construct_heap(heap_type)
         heap1.enqueue(1, 1)
         heap1.enqueue(3, 3)
         heap1.enqueue(5, 5)
@@ -179,10 +205,11 @@ class TestBinomialHeap:
         assert actual_list == [(1, 1), (2, 2), (3, 3), (3, 3), (4, 4), (5, 5), (6, 6)]
 
     @staticmethod
-    def test_merge() -> None:
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    def test_merge(heap_type: str) -> None:
         """ Test merging two heaps. """
-        heap1 = BinomialHeap[int](allow_duplicates=False)
-        heap2 = BinomialHeap[int]()
+        heap1: Heap[int] = construct_heap(heap_type)
+        heap2: Heap[int] = construct_heap(heap_type)
         heap1.enqueue(1, 1)
         heap1.enqueue(3, 3)
         heap1.enqueue(5, 5)
@@ -203,10 +230,11 @@ class TestBinomialHeap:
         assert actual_list == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]
 
     @staticmethod
-    def test_merge_exception() -> None:
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    def test_merge_exception(heap_type: str) -> None:
         """ Test merging two heaps. """
-        heap1 = BinomialHeap[int](allow_duplicates=False)
-        heap2 = BinomialHeap[int]()
+        heap1: Heap[int] = construct_heap(heap_type)
+        heap2: Heap[int] = construct_heap(heap_type)
         heap1.enqueue(1, 1)
         heap1.enqueue(3, 3)
         heap1.enqueue(5, 5)
@@ -214,30 +242,14 @@ class TestBinomialHeap:
         heap2.enqueue(2, 2)
         heap2.enqueue(3, 3)
         heap2.enqueue(4, 4)
-        heap2.enqueue(6, 6)
 
         with pytest.raises(RuntimeError):
             heap1.merge(heap2)
 
     @staticmethod
-    def test_duplicates() -> None:
-        """ Add lots of duplicates and see what happens. """
-        heap = BinomialHeap[int](allow_duplicates=True)
-        for _ in range(10):
-            for index2 in range(10):
-                heap.enqueue(index2, 1.0)
-
-        assert len(heap) == 100
-        actual_count = 0
-        while heap:
-            _ = heap.dequeue()
-            actual_count += 1
-
-        assert actual_count == 100
-
-    @staticmethod
-    def test_print_heap() -> None:
-        heap = BinomialHeap[int]()
+    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    def test_print_heap(heap_type: str) -> None:
+        heap: Heap[int] = construct_heap(heap_type)
         heap.enqueue(1, 1)
         heap.enqueue(3, 3)
         heap.enqueue(5, 2)
@@ -245,16 +257,18 @@ class TestBinomialHeap:
         heap.enqueue(4, 4)
         heap.enqueue(6, 8)
         heap.dequeue()
-
-        assert str(heap) == (
-            "BinomialHeap(trees=[Entry(priority=3, value=3), None, Entry(\n"
-            "    priority=2,\n"
-            "    value=5,\n"
-            "    child=Entry(\n"
-            "        priority=4,\n"
-            "        value=4,\n"
-            "        child=Entry(priority=8, value=6),\n"
-            "        right=Entry(priority=2, value=2)\n"
-            "    )\n"
-            ")])"
-        )
+        if isinstance(heap, FibonacciHeap):
+            assert str(heap) == "FibonacciHeap(top=Entry(priority=2, value=5))"
+        elif isinstance(heap, BinomialHeap):
+            assert str(heap) == (
+                "BinomialHeap(trees=[Entry(priority=3, value=3), None, Entry(\n"
+                "    priority=2,\n"
+                "    value=5,\n"
+                "    child=Entry(\n"
+                "        priority=4,\n"
+                "        value=4,\n"
+                "        child=Entry(priority=8, value=6),\n"
+                "        right=Entry(priority=2, value=2)\n"
+                "    )\n"
+                ")])"
+            )
