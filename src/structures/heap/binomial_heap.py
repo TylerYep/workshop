@@ -5,10 +5,11 @@ from dataclasses import dataclass, field
 from typing import Dict, Generic, List, Optional, Tuple, TypeVar, Union
 from uuid import UUID, uuid4
 
+from src.algorithms.sort.comparable import Comparable
 from src.structures.heap.heap import Heap
 from src.util import formatter
 
-T = TypeVar("T")
+T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(order=True)
@@ -25,7 +26,7 @@ class Entry(Generic[T]):
     """
 
     priority: float
-    value: T = field(compare=False)
+    value: T
     child: Optional[Entry[T]] = field(compare=False, default=None)
     right: Optional[Entry[T]] = field(compare=False, default=None)
 
@@ -36,8 +37,12 @@ class Entry(Generic[T]):
 @dataclass(init=False)
 class BinomialHeap(Heap[T]):
     """
-    See docs/binomial_heap.md for code credits and implementation details.
-    Author: Keith Schwarz (htiek@cs.stanford.edu)
+    Binomial Heap implementation using a list of trees, represented by Entry objects.
+
+    Note that the input type should be bounded by Comparable in order for the
+    implementation to type-check. Otherwise, the heap should still work so long as
+    there are no equal priorities. If you want to use a non-comparable type with this
+    class, use a wrapper class with a custom comparator or only use unique priorities.
     """
 
     trees: List[Optional[Entry[T]]]
@@ -207,7 +212,7 @@ class BinomialHeap(Heap[T]):
         self.elem_to_entry[key] = result
         return key
 
-    def peek(self) -> Entry[T]:
+    def peek(self) -> Tuple[T, float]:
         """
         Return an Entry object corresponding to the minimum element of the heap.
 
@@ -218,7 +223,8 @@ class BinomialHeap(Heap[T]):
         """
         if not self.trees:
             raise IndexError("Heap is empty.")
-        return min(entry for entry in self.trees if entry is not None)
+        top = min(entry for entry in self.trees if entry is not None)
+        return top.value, top.priority
 
     def dequeue(self) -> Tuple[T, float]:
         """

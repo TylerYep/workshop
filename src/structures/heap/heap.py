@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Generic, Tuple, TypeVar, Union
+from typing import Generic, Tuple, TypeVar, Union
 from uuid import UUID
 
-T = TypeVar("T")
+from src.algorithms.sort.comparable import Comparable
+
+T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(init=False)
@@ -24,14 +26,11 @@ class Heap(Generic[T]):
     def enqueue(self, value: T, priority: float = 0) -> Union[T, UUID]:
         raise NotImplementedError
 
-    def peek(self) -> Any:
+    def peek(self) -> Tuple[T, float]:
         raise NotImplementedError
 
     def dequeue(self) -> Tuple[T, float]:
         raise NotImplementedError
-
-    # def remove(self, value: Union[T, UUID]) -> None:
-    #     raise NotImplementedError
 
     def merge(self, other: Heap[T]) -> None:
         raise NotImplementedError

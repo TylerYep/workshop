@@ -52,5 +52,6 @@ def test_dijkstra_search() -> None:
 
 def test_dijkstra_shortest_paths() -> None:
     TestShortestPaths.all_test_scenarios(
-        TestShortestPaths.single_source_to_all_pairs(dijkstra_shortest_paths)
+        TestShortestPaths.single_source_to_all_pairs(dijkstra_shortest_paths),
+        negative_weights=False,
     )

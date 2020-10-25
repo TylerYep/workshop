@@ -11,10 +11,14 @@ APSPFunction = Callable[[Graph[V]], Dict[V, Dict[V, float]]]
 
 class TestShortestPaths:
     @staticmethod
-    def all_test_scenarios(shortest_paths_fn: APSPFunction[Any]) -> None:
+    def all_test_scenarios(
+        shortest_paths_fn: APSPFunction[Any], negative_weights: bool = True
+    ) -> None:
         TestShortestPaths.adj_list(shortest_paths_fn)
         TestShortestPaths.edge_list(shortest_paths_fn)
         TestShortestPaths.matrix(shortest_paths_fn)
+        if negative_weights:
+            TestShortestPaths.adj_list_negative_weights(shortest_paths_fn)
 
     @staticmethod
     def single_source_to_all_pairs(
@@ -23,7 +27,7 @@ class TestShortestPaths:
         return lambda graph: {start: shortest_paths_fn(graph, start) for start in graph}
 
     @staticmethod
-    def adj_list(shortest_paths_fn: APSPFunction[Any]) -> None:
+    def adj_list_negative_weights(shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](
             {
                 "a": {"b": -1, "c": 4},
@@ -62,6 +66,8 @@ class TestShortestPaths:
             "S": {"A": 6, "B": 9, "C": 13, "D": 16, "E": 14, "S": 0},
         }
 
+    @staticmethod
+    def adj_list(shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](
             {
                 "A": {"B": 2, "C": 5},

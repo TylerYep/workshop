@@ -3,14 +3,15 @@ from __future__ import annotations
 
 import collections
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Deque, Dict, Generic, Optional, Tuple, TypeVar, Union
 from uuid import UUID, uuid4
 
+from src.algorithms.sort.comparable import Comparable
 from src.structures.heap.heap import Heap
 from src.util import formatter
 
-T = TypeVar("T")
+T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(order=True)
@@ -23,11 +24,16 @@ class Entry(Generic[T]):
     node in the tree. In actuality, this handle is the node itself.
 
     Priority is the first parameter because the dataclass orders Entry as a
-    tuple (priority, value)
+    tuple (priority, value).
+
+    Note that the input type should be bounded by Comparable in order for the
+    implementation to type-check. Otherwise, the heap should still work so long as
+    there are no equal priorities. If you want to use a non-comparable type with this
+    class, use a wrapper class with a custom comparator or only use unique priorities.
     """
 
     priority: float
-    value: T = field(compare=False)
+    value: T
 
     def __post_init__(self) -> None:
         """ Initialize an Entry in the heap. """
@@ -189,7 +195,7 @@ class FibonacciHeap(Heap[T]):
         self.elem_to_entry[key] = result
         return key
 
-    def peek(self) -> Entry[T]:
+    def peek(self) -> Tuple[T, float]:
         """
         Return an Entry object corresponding to the minimum element of the heap.
 
@@ -200,7 +206,8 @@ class FibonacciHeap(Heap[T]):
         """
         if self.top is None:
             raise IndexError("Heap is empty.")
-        return self.top
+        top = self.top
+        return top.value, top.priority
 
     def dequeue(self) -> Tuple[T, float]:
         """
