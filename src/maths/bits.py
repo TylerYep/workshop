@@ -6,6 +6,10 @@ from typing import Iterator, Optional
 
 
 class Bits:
+    """
+    https://docs.python.org/3/library/operator.html
+    """
+
     def __init__(self, val: str = "", *, length: Optional[int] = None) -> None:
         is_negative = len(val) > 0 and val[0] == "-"
         val_check = val[1:] if is_negative else val
@@ -15,6 +19,12 @@ class Bits:
         self.val = int(val, 2) if val else -1  # -1 == 111111
         self.length = len(val) if length is None else length
 
+    def __str__(self) -> str:
+        return self.binary_str(self.val, self.length)
+
+    def __repr__(self) -> str:
+        return f"Bits({str(self)}, " f"val={self.val}, length={self.length})"
+
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be intersected with Bits.")
@@ -23,17 +33,25 @@ class Bits:
     def __len__(self) -> int:
         return self.length
 
-    # def __repr__(self) -> str:
-    #     return f"Bits({self.val}, {self.length})"
+    def __lshift__(self, other: object) -> Bits:
+        if not isinstance(other, int):
+            raise TypeError("Bit shifts require an integer shift amount.")
+        return Bits(str(self.val * (2 ** other)), length=self.length)
 
-    def __lshift__(self, other: object) -> None:
-        pass
+    def __rshift__(self, other: object) -> Bits:
+        if not isinstance(other, int):
+            raise TypeError("Bit shifts require an integer shift amount.")
+        return Bits(str(self.val // (2 ** other)), length=self.length)
 
-    def __rshift__(self, other: object) -> None:
-        pass
+    def __ilshift__(self, other: object) -> None:
+        if not isinstance(other, int):
+            raise TypeError("Bit shifts require an integer shift amount.")
+        self.val *= 2 ** other
 
-    def __repr__(self) -> str:
-        return self.binary_str(self.val, self.length)
+    def __irshift__(self, other: object) -> None:
+        if not isinstance(other, int):
+            raise TypeError("Bit shifts require an integer shift amount.")
+        self.val //= 2 ** other
 
     def __invert__(self) -> Bits:
         """ Inverts all bits. """
@@ -45,17 +63,35 @@ class Bits:
             raise TypeError(f"{other} cannot be intersected with Bits.")
         return Bits.from_num(self.val & other.val, self.length)
 
-    def __or__(self, other: object) -> Bits:
+    def __iand__(self, other: object) -> None:
         """ Intersection of two role sets. """
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be intersected with Bits.")
+        self.val &= other.val
+
+    def __or__(self, other: object) -> Bits:
+        """ Intersection of two role sets. """
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be or'd with Bits.")
         return Bits.from_num(self.val | other.val, self.length)
+
+    def __ior__(self, other: object) -> None:
+        """ Intersection of two role sets. """
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be or'd with Bits.")
+        self.val |= other.val
 
     def __xor__(self, other: object) -> Bits:
         """ Intersection of two role sets. """
         if not isinstance(other, Bits):
-            raise TypeError(f"{other} cannot be intersected with Bits.")
+            raise TypeError(f"{other} cannot be xor'd with Bits.")
         return Bits.from_num(self.val ^ other.val, self.length)
+
+    def __ixor__(self, other: object) -> None:
+        """ Intersection of two role sets. """
+        if not isinstance(other, Bits):
+            raise TypeError(f"{other} cannot be xor'd with Bits.")
+        self.val ^= other.val
 
     def __getitem__(self, index: int) -> int:
         return int(str(self)[index])
@@ -90,7 +126,7 @@ class Bits:
 
     def __sub__(self, other: object) -> Bits:
         if not isinstance(other, Bits):
-            raise TypeError(f"{other} cannot be added with Bits.")
+            raise TypeError(f"{other} cannot be subtracted from Bits.")
         length = max(len(self), len(other))
         lhs = [0] * (length - len(self)) + [int(digit) for digit in self]
         rhs = [0] * (length - len(other)) + [int(digit) for digit in other]

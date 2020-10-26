@@ -66,3 +66,14 @@ def linear_search(arr: Sequence[C], target: C) -> int:
         if item == target:
             return i
     return -1
+
+
+def binary_search_recursive(arr: Sequence[C], target: C) -> int:
+    if not arr:
+        return -1
+    midpoint = len(arr) // 2
+    if arr[midpoint] == target:
+        return midpoint
+    if target < arr[midpoint]:
+        return binary_search(arr[:midpoint], target)
+    return binary_search(arr[midpoint + 1 :], target)

@@ -100,17 +100,17 @@ class FibonacciHeap(Heap[T]):
         return self.elem_to_entry[value]
 
     def __or__(self, other: object) -> FibonacciHeap[T]:
-        if not isinstance(other, FibonacciHeap):
-            raise NotImplementedError
-        result = FibonacciHeap[T]()
-        self.merge(other)
-        result.merge(self)
-        return result
+        if isinstance(other, FibonacciHeap):
+            result = FibonacciHeap[T]()
+            self.merge(other)
+            result.merge(self)
+            return result
+        raise NotImplementedError
 
     def __ior__(self, other: object) -> None:
-        if not isinstance(other, FibonacciHeap):
-            raise NotImplementedError
-        self.merge(other)
+        if isinstance(other, FibonacciHeap):
+            self.merge(other)
+        raise NotImplementedError
 
     @staticmethod
     def merge_lists(

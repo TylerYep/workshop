@@ -24,7 +24,6 @@ Argmax
 AVL Tree
 Binary Cyclic Subsets
 Binary Quicksort
-Binomial Heap
 Bounded Priority Queue
 BST LCA
 Cartesian Tree Sort
@@ -79,3 +78,82 @@ Ternary Search Tree
 Treap
 van Emde Boas Tree
 Zeckendorf Logarithm
+
+
+### Types and Data Structures
+
+Associative Arrays
+Unrolled Linked List
+Bloom Filter
+Cuckoo Filter
+Merkle Tree
+Treaps
+Fenwick Tree
+AVL Tree
+Scapegoat Tree
+Splay Tree
+Pairing Heap
+Spanning Trees
+Social Networks
+Strings
+
+# Algorithms
+
+Backpack Problem
+Egg Dropping
+Fast Fibonacci Transform
+A\* Search
+Matching Algorithms (Graph Theory)
+Flow Network
+Max-flow Min-cut Algorithm
+Ford-Fulkerson Algorithm
+Edmonds-Karp Algorithm
+Shunting Yard Algorithm
+Rabin-Karp Algorithm
+Basic Shapes, Polygons, Trigonometry
+Convex Hull
+Grids
+Finite State Machines
+Turing Machines
+Halting Problem
+Kolmogorov Complexity
+Traveling Salesperson Problem
+Pushdown Automata
+Regular Languages
+Context Free Grammars
+Context Free Languages
+Signals and Systems
+Linear Time Invariant Systems
+Predicting System Behavior
+
+# Cryptography and Simulations
+
+Caesar Cipher
+Vigenère Cipher
+RSA Encryption
+Enigma Machine
+Diffie-Hellman
+Knapsack Cryptosystem
+Secure Hash Algorithms
+Entropy (Information Theory)
+Error correcting codes
+Symmetric Ciphers
+Inverse Transform Sampling
+Monte-Carlo Simulation
+Annealing
+Genetic Algorithms
+
+# Machine Learning
+
+Feature Vector
+Naive Bayes Classifier
+Perceptron
+Principal Component Analysis
+Ridge Regression
+k-Means Clustering
+Markov Chains
+Hidden Markov Models
+Gaussian Mixture Model
+Collaborative Filtering
+Artificial Neural Network
+

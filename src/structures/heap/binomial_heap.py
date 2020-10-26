@@ -91,17 +91,17 @@ class BinomialHeap(Heap[T]):
         return self.elem_to_entry[value]
 
     def __or__(self, other: object) -> BinomialHeap[T]:
-        if not isinstance(other, BinomialHeap):
-            raise NotImplementedError
-        result = BinomialHeap[T]()
-        self.merge(other)
-        result.merge(self)
-        return result
+        if isinstance(other, BinomialHeap):
+            result = BinomialHeap[T]()
+            self.merge(other)
+            result.merge(self)
+            return result
+        raise NotImplementedError
 
     def __ior__(self, other: object) -> None:
-        if not isinstance(other, BinomialHeap):
-            raise NotImplementedError
-        self.merge(other)
+        if isinstance(other, BinomialHeap):
+            self.merge(other)
+        raise NotImplementedError
 
     @staticmethod
     def merge_lists(

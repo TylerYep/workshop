@@ -21,12 +21,11 @@ def construct_heap(heap_type: str, allow_duplicates: bool = False) -> Heap[T]:
 class TestHeap:
     @staticmethod
     @pytest.mark.parametrize("heap_type", HEAP_TYPES)
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
-    def test_enqueue_100(heap_type: str, allow_duplicates: bool) -> None:
+    def test_enqueue_100(heap_type: str) -> None:
         """ Test creating a heap and adding 100 values to it. """
-        heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
-        for i in range(100):
-            random_value = random.randrange(100) if allow_duplicates else i
+        heap: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
+        for _ in range(100):
+            random_value = random.randrange(100)
             random_priority = random.randrange(100)
             heap.enqueue(random_value, random_priority)
 
@@ -135,8 +134,6 @@ class TestHeap:
         """
         for intended_length in (0, 1, 2, 3, 10, 100):
             heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
-            # random.seed(0) gives too-consistent priorities
-            random.seed(1)
             expected_priorities_list = []
             for i in range(intended_length):
                 random_value = (
@@ -156,8 +153,8 @@ class TestHeap:
             with pytest.raises(IndexError):
                 _ = heap.dequeue()
 
-            # We can't just compare lists, because this is basically a heapsort,
-            # which isn't stable. So instead we compare all the priorities
+            # We can't compare lists, because this is basically a heapsort,
+            # which isn't stable. So instead we compare all the priorities.
             assert expected_priorities_list == actual_priorities_list
 
     @staticmethod
@@ -172,8 +169,6 @@ class TestHeap:
         """
         for intended_length in (0, 1, 2, 3, 10, 100):
             heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
-            # random.seed(0) gives too-consistent priorities
-            random.seed(1)
             random_values = range(intended_length)
             random_priorities = range(intended_length)
             tuples = list(zip(random_priorities, random_values))
@@ -187,17 +182,16 @@ class TestHeap:
             assert len(heap) == intended_length
             actual_list = [heap.dequeue() for _ in range(intended_length)]
 
-            # We can just compare lists, because although this is basically a heapsort,
-            # which isn't stable, we have no duplicate priorities or duplicate values,
-            # so the instability doesn't matter.
+            # We can compare lists now, because although this is basically heapsort, we
+            # have no duplicate priorities or values, so there is no instability.
             assert expected_list == actual_list
 
     @staticmethod
     @pytest.mark.parametrize("heap_type", HEAP_TYPES)
     def test_merge_duplicates(heap_type: str) -> None:
         """ Test merging two heaps. """
-        heap1: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
-        heap2: Heap[int] = construct_heap(heap_type)
+        heap1: Heap[int] = construct_heap(heap_type)
+        heap2: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
         heap1.enqueue(1, 1)
         heap1.enqueue(3, 3)
         heap1.enqueue(5, 5)

@@ -37,9 +37,6 @@ class TestBinarySearchTree:
         assert len(t) == 0
 
         t.insert(8)
-        r"""
-              8
-        """
         assert t.root is not None
 
         assert t.root.parent is None

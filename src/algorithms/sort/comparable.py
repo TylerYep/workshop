@@ -1,7 +1,5 @@
 from abc import abstractmethod
-from typing import Any, TypeVar
-
-from typing_extensions import Protocol
+from typing import Any, Protocol, TypeVar
 
 C = TypeVar("C", bound="Comparable")
 
