@@ -5,8 +5,9 @@ run them using `pytest -vv`.
 It seems to work fine, but take that with a grain of salt.
 """
 import math
-import random
 from typing import Dict, List, Set, Tuple
+
+from src.util import weighted_coin_flip
 
 Vertex = int
 
@@ -96,8 +97,3 @@ class ApproxFiniteMetricOracle:
 
     def distance_fn(self, u: Vertex, v: Vertex) -> float:
         return self.distance_matrix[u][v]
-
-
-def weighted_coin_flip(prob: float) -> bool:
-    """ Returns True with probability prob. """
-    return random.choices([True, False], [prob, 1 - prob])[0]

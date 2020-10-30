@@ -1,4 +1,5 @@
 import os
+import random
 
 import prettyprinter
 from prettyprinter.prettyprinter import IMPLICIT_MODULES
@@ -12,3 +13,8 @@ for root, _, files in os.walk("src/structures"):
             IMPLICIT_MODULES.add(".".join(parts))
 
 formatter = prettyprinter
+
+
+def weighted_coin_flip(prob: float) -> bool:
+    """ Returns True with probability prob. """
+    return random.choices([True, False], [prob, 1 - prob])[0]

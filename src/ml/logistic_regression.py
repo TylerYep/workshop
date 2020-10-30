@@ -6,11 +6,11 @@ import torch.nn.functional as F
 from torch.optim import Adam
 
 
-class LogisticRegression(nn.Module):
+class LogisticRegression(nn.Module):  # type: ignore
     """ Think of this as Sigmoidal Classification! """
 
     def __init__(self) -> None:
-        super().__init__()  # type: ignore
+        super().__init__()
         # define parameters to be part of the model
         # "weight" of linear model
         self.theta1 = nn.Parameter(torch.zeros(1))  # type: ignore
@@ -28,7 +28,10 @@ class LogisticRegression(nn.Module):
 
 
 def optimize(
-    model: nn.Module, data: torch.Tensor, max_iters: int = 100, verbose: bool = True
+    model: nn.Module,  # type: ignore
+    data: torch.Tensor,
+    max_iters: int = 100,
+    verbose: bool = True,
 ) -> None:
     # Binds the model to the optimizer.
     # Notice we set a learning rate (lr)! this is really important in
@@ -74,7 +77,7 @@ def optimize(
         curr_loss = loss.item()
         counter += 1
         if curr_loss < min_loss:
-            best_params = (model.theta1.item(), model.theta0.item())  # type: ignore
+            best_params = (model.theta1.item(), model.theta0.item())
             min_loss = curr_loss
 
         if verbose:
