@@ -1,9 +1,8 @@
 # type: ignore
-# flake8: noqa
 # pylint: disable=protected-access
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum, unique
 from typing import Generic, Iterator, Optional, TypeVar
 
@@ -20,27 +19,81 @@ class Color(Enum):
     RED = "red"
 
 
+def color(node: Optional[RedBlackTree[T]]) -> Color:
+    """ Returns the color of a node, allowing for None leaves. """
+    return Color.BLACK if node is None else node.color
+
+
 @dataslots
 @dataclass
 class RedBlackTree(Generic[T]):
     """
-    A Red-Black tree, which is a self-balancing BST (binary search
-    tree).
+    A Red-Black tree, which is a self-balancing BST (binary search tree).
     This tree has similar performance to AVL trees, but the balancing is
     less strict, so it will perform faster for writing/deleting nodes
     and slower for reading in the average case, though, because they're
-    both balanced binary search trees, both will get the same asymptotic
-    performance.
+    both balanced binary search trees, both will get the same asymptotic performance.
     To read more about them, https://en.wikipedia.org/wiki/Red–black_tree
     Unless otherwise specified, all asymptotic runtimes are specified in
     terms of the size of the tree.
     """
 
     data: Optional[T] = None
-    color: Color = Color.BLACK
-    parent: Optional[RedBlackTree[T]] = None
+    color: Color = field(compare=False, default=Color.BLACK)
+    parent: Optional[RedBlackTree[T]] = field(compare=False, default=None)
     left: Optional[RedBlackTree[T]] = None
     right: Optional[RedBlackTree[T]] = None
+
+    def __repr__(self) -> str:
+        from pprint import pformat
+
+        if self.left is None and self.right is None:
+            return "'{} {}'".format(self.data, (self.color and "red") or "blk")
+        return pformat(
+            {
+                "%s %s"
+                % (self.data, (self.color and "red") or "blk"): (self.left, self.right)
+            },
+            indent=1,
+        )
+
+    def __bool__(self) -> bool:
+        return self.data is not None
+
+    def __len__(self) -> int:
+        """
+        Return the number of nodes in this tree.
+        """
+        ln = 1
+        if self.left is not None:
+            ln += len(self.left)
+        if self.right is not None:
+            ln += len(self.right)
+        return ln
+
+    def __contains__(self, data: T) -> bool:
+        """
+        Search through the tree for data, returning True iff it is
+        found somewhere in the tree.
+        Guaranteed to run in O(log(n)) time.
+        """
+        return self.search(data) is not None
+
+    @property
+    def grandparent(self) -> Optional[RedBlackTree[T]]:
+        """ Get the current node's grandparent, or None if it doesn't exist. """
+        if self.parent is None:
+            return None
+        return self.parent.parent
+
+    @property
+    def sibling(self) -> Optional[RedBlackTree[T]]:
+        """ Get the current node's sibling, or None if it doesn't exist. """
+        if self.parent is None:
+            return None
+        if self.parent.left is self:
+            return self.parent.right
+        return self.parent.left
 
     # Here are functions which are specific to red-black trees
 
@@ -110,41 +163,10 @@ class RedBlackTree(Generic[T]):
                 self.right._insert_repair()
         return self.parent or self
 
-    def _insert_repair(self) -> None:
-        """Repair the coloring from inserting into a tree."""
-        if self.parent is None:
-            # This node is the root, so it just needs to be black
-            self.color = Color.BLACK
-        elif color(self.parent) == Color.BLACK:
-            # If the parent is black, then it just needs to be red
-            self.color = Color.RED
-        else:
-            uncle = self.parent.sibling
-            if color(uncle) == Color.BLACK:
-                if self.is_left() and self.parent.is_right():
-                    self.parent.rotate_right()
-                    self.right._insert_repair()
-                elif self.is_right() and self.parent.is_left():
-                    self.parent.rotate_left()
-                    self.left._insert_repair()
-                elif self.is_left():
-                    self.grandparent.rotate_right()
-                    self.parent.color = Color.BLACK
-                    self.parent.right.color = Color.RED
-                else:
-                    self.grandparent.rotate_left()
-                    self.parent.color = Color.BLACK
-                    self.parent.left.color = Color.RED
-            else:
-                self.parent.color = Color.BLACK
-                uncle.color = Color.BLACK
-                self.grandparent.color = Color.RED
-                self.grandparent._insert_repair()
-
     def remove(  # pylint: disable=too-many-branches
         self, data
     ) -> Optional[RedBlackTree[T]]:
-        """Remove data from this tree."""
+        """  Remove data from this tree. """
         if self.data == data:
             if self.left and self.right:
                 # It's easier to balance a node with at most one child,
@@ -157,7 +179,7 @@ class RedBlackTree(Generic[T]):
                 # This node has at most one non-None child, so we don't
                 # need to replace
                 child = self.left or self.right
-                if self.color == Color.RED:
+                if self.color is Color.RED:
                     # This node is red, and its child is black
                     # The only way this happens to a node with one child
                     # is if both children are None leaves.
@@ -198,72 +220,9 @@ class RedBlackTree(Generic[T]):
                 self.right.remove(data)
         return self.parent or self
 
-    def _remove_repair(self) -> None:
-        """Repair the coloring of the tree that may have been messed up."""
-        if color(self.sibling) == Color.RED:
-            self.sibling.color = Color.BLACK
-            self.parent.color = Color.RED
-            if self.is_left():
-                self.parent.rotate_left()
-            else:
-                self.parent.rotate_right()
-        if (
-            color(self.parent) == Color.BLACK
-            and color(self.sibling) == Color.BLACK
-            and color(self.sibling.left) == Color.BLACK
-            and color(self.sibling.right) == Color.BLACK
-        ):
-            self.sibling.color = Color.RED
-            self.parent._remove_repair()
-            return
-        if (
-            color(self.parent) == Color.RED
-            and color(self.sibling) == Color.BLACK
-            and color(self.sibling.left) == Color.BLACK
-            and color(self.sibling.right) == Color.BLACK
-        ):
-            self.sibling.color = Color.RED
-            self.parent.color = Color.BLACK
-            return
-        if (
-            self.is_left()
-            and color(self.sibling) == Color.BLACK
-            and color(self.sibling.right) == Color.BLACK
-            and color(self.sibling.left) == Color.RED
-        ):
-            self.sibling.rotate_right()
-            self.sibling.color = Color.BLACK
-            self.sibling.right.color = Color.RED
-        if (
-            self.is_right()
-            and color(self.sibling) == Color.BLACK
-            and color(self.sibling.right) == Color.RED
-            and color(self.sibling.left) == Color.BLACK
-        ):
-            self.sibling.rotate_left()
-            self.sibling.color = Color.BLACK
-            self.sibling.left.color = Color.RED
-        if (
-            self.is_left()
-            and color(self.sibling) == Color.BLACK
-            and color(self.sibling.right) == Color.RED
-        ):
-            self.parent.rotate_left()
-            self.grandparent.color = self.parent.color
-            self.parent.color = Color.BLACK
-            self.parent.sibling.color = Color.BLACK
-        if (
-            self.is_right()
-            and color(self.sibling) == Color.BLACK
-            and color(self.sibling.left) == Color.RED
-        ):
-            self.parent.rotate_right()
-            self.grandparent.color = self.parent.color
-            self.parent.color = Color.BLACK
-            self.parent.sibling.color = Color.BLACK
-
     def check_color_properties(self) -> bool:
-        """Check the coloring of the tree, and return True iff the tree
+        """
+        Check the coloring of the tree, and return True iff the tree
         is colored in a way which matches these five properties:
         (wording stolen from wikipedia article)
          1. Each node is either red or black.
@@ -279,7 +238,7 @@ class RedBlackTree(Generic[T]):
         # make the color be anything other than 0 or 1.
 
         # Property 2
-        if self.color == Color.RED:
+        if self.color is Color.RED:
             # The root was red
             # print("Property 2")
             return False
@@ -300,11 +259,12 @@ class RedBlackTree(Generic[T]):
         return True
 
     def check_coloring(self) -> bool:
-        """A helper function to recursively check Property 4 of a
+        """
+        A helper function to recursively check Property 4 of a
         Red-Black Tree. See check_color_properties for more info.
         """
-        if self.color == Color.RED:
-            if color(self.left) == Color.RED or color(self.right) == Color.RED:
+        if self.color is Color.RED:
+            if color(self.left) is Color.RED or color(self.right) is Color.RED:
                 return False
         if self.left and not self.left.check_coloring():
             return False
@@ -313,7 +273,8 @@ class RedBlackTree(Generic[T]):
         return True
 
     def black_height(self) -> Optional[int]:
-        """Returns the number of black nodes from this node to the
+        """
+        Returns the number of black nodes from this node to the
         leaves of the tree, or None if there isn't one such value (the
         tree is color incorrectly).
         """
@@ -329,19 +290,13 @@ class RedBlackTree(Generic[T]):
             # The two children have unequal depths
             return None
         # Return the black depth of children, plus one if this node is black
-        return left + (1 if self.color == Color.BLACK else 0)
+        return left + (1 if self.color is Color.BLACK else 0)
 
     # Here are functions which are general to all binary search trees
 
-    def __contains__(self, data: T) -> bool:
-        """Search through the tree for data, returning True iff it is
-        found somewhere in the tree.
-        Guaranteed to run in O(log(n)) time.
-        """
-        return self.search(data) is not None
-
     def search(self, data: T) -> Optional[RedBlackTree[T]]:
-        """Search through the tree for data, returning its node if
+        """
+        Search through the tree for data, returning its node if
         it's found, and None otherwise.
         This method is guaranteed to run in O(log(n)) time.
         """
@@ -356,8 +311,10 @@ class RedBlackTree(Generic[T]):
         return self.left.search(data)
 
     def floor(self, data: T) -> Optional[RedBlackTree[T]]:
-        """Returns the largest element in this tree which is at most data.
-        This method is guaranteed to run in O(log(n)) time."""
+        """
+        Returns the largest element in this tree which is at most data.
+        This method is guaranteed to run in O(log(n)) time.
+        """
         if self.data == data:
             return self.data
         if self.data > data:
@@ -372,7 +329,8 @@ class RedBlackTree(Generic[T]):
         return self.data
 
     def ceil(self, data: T) -> Optional[RedBlackTree[T]]:
-        """Returns the smallest element in this tree which is at least data.
+        """
+        Returns the smallest element in this tree which is at least data.
         This method is guaranteed to run in O(log(n)) time.
         """
         if self.data == data:
@@ -389,7 +347,8 @@ class RedBlackTree(Generic[T]):
         return self.data
 
     def get_max(self) -> Optional[RedBlackTree[T]]:
-        """Returns the largest element in this tree.
+        """
+        Returns the largest element in this tree.
         This method is guaranteed to run in O(log(n)) time.
         """
         if self.right:
@@ -398,7 +357,8 @@ class RedBlackTree(Generic[T]):
         return self.data
 
     def get_min(self) -> Optional[RedBlackTree[T]]:
-        """Returns the smallest element in this tree.
+        """
+        Returns the smallest element in this tree.
         This method is guaranteed to run in O(log(n)) time.
         """
         if self.left:
@@ -406,43 +366,13 @@ class RedBlackTree(Generic[T]):
             return self.left.get_min()
         return self.data
 
-    @property
-    def grandparent(self) -> Optional[RedBlackTree[T]]:
-        """Get the current node's grandparent, or None if it doesn't exist."""
-        if self.parent is None:
-            return None
-        return self.parent.parent
-
-    @property
-    def sibling(self) -> Optional[RedBlackTree[T]]:
-        """Get the current node's sibling, or None if it doesn't exist."""
-        if self.parent is None:
-            return None
-        if self.parent.left is self:
-            return self.parent.right
-        return self.parent.left
-
     def is_left(self) -> Optional[RedBlackTree[T]]:
-        """Returns true iff this node is the left child of its parent."""
+        """ Returns true iff this node is the left child of its parent. """
         return self.parent and self.parent.left is self
 
     def is_right(self) -> Optional[RedBlackTree[T]]:
-        """Returns true iff this node is the right child of its parent."""
+        """ Returns true iff this node is the right child of its parent. """
         return self.parent and self.parent.right is self
-
-    def __bool__(self) -> bool:
-        return True
-
-    def __len__(self) -> int:
-        """
-        Return the number of nodes in this tree.
-        """
-        ln = 1
-        if self.left:
-            ln += len(self.left)
-        if self.right:
-            ln += len(self.right)
-        return ln
 
     def preorder_traverse(self) -> Iterator[RedBlackTree[T]]:
         yield self.data
@@ -465,28 +395,97 @@ class RedBlackTree(Generic[T]):
             yield from self.right.postorder_traverse()
         yield self.data
 
-    def __repr__(self) -> str:
-        from pprint import pformat
+    def _insert_repair(self) -> None:
+        """ Repair the coloring from inserting into a tree. """
+        if self.parent is None:
+            # This node is the root, so it just needs to be black
+            self.color = Color.BLACK
+        elif color(self.parent) is Color.BLACK:
+            # If the parent is black, then it just needs to be red
+            self.color = Color.RED
+        else:
+            uncle = self.parent.sibling
+            if color(uncle) is Color.BLACK:
+                if self.is_left() and self.parent.is_right():
+                    self.parent.rotate_right()
+                    self.right._insert_repair()
+                elif self.is_right() and self.parent.is_left():
+                    self.parent.rotate_left()
+                    self.left._insert_repair()
+                elif self.is_left():
+                    self.grandparent.rotate_right()
+                    self.parent.color = Color.BLACK
+                    self.parent.right.color = Color.RED
+                else:
+                    self.grandparent.rotate_left()
+                    self.parent.color = Color.BLACK
+                    self.parent.left.color = Color.RED
+            else:
+                self.parent.color = Color.BLACK
+                uncle.color = Color.BLACK
+                self.grandparent.color = Color.RED
+                self.grandparent._insert_repair()
 
-        if self.left is None and self.right is None:
-            return "'{} {}'".format(self.data, (self.color and "red") or "blk")
-        return pformat(
-            {
-                "%s %s"
-                % (self.data, (self.color and "red") or "blk"): (self.left, self.right)
-            },
-            indent=1,
-        )
-
-    def __eq__(self, other: object) -> bool:
-        """Test if two trees are equal."""
-        if self.data == other.data:
-            return self.left == other.left and self.right == other.right
-        return False
-
-
-def color(node: Optional[RedBlackTree[T]]) -> Color:
-    """Returns the color of a node, allowing for None leaves."""
-    if node is None:
-        return Color.BLACK
-    return node.color
+    def _remove_repair(self) -> None:
+        """ Repair the coloring of the tree that may have been messed up. """
+        if color(self.sibling) is Color.RED:
+            self.sibling.color = Color.BLACK
+            self.parent.color = Color.RED
+            if self.is_left():
+                self.parent.rotate_left()
+            else:
+                self.parent.rotate_right()
+        if (
+            color(self.parent) is Color.BLACK
+            and color(self.sibling) is Color.BLACK
+            and color(self.sibling.left) is Color.BLACK
+            and color(self.sibling.right) is Color.BLACK
+        ):
+            self.sibling.color = Color.RED
+            self.parent._remove_repair()
+            return
+        if (
+            color(self.parent) is Color.RED
+            and color(self.sibling) is Color.BLACK
+            and color(self.sibling.left) is Color.BLACK
+            and color(self.sibling.right) is Color.BLACK
+        ):
+            self.sibling.color = Color.RED
+            self.parent.color = Color.BLACK
+            return
+        if (
+            self.is_left()
+            and color(self.sibling) is Color.BLACK
+            and color(self.sibling.right) is Color.BLACK
+            and color(self.sibling.left) is Color.RED
+        ):
+            self.sibling.rotate_right()
+            self.sibling.color = Color.BLACK
+            self.sibling.right.color = Color.RED
+        if (
+            self.is_right()
+            and color(self.sibling) is Color.BLACK
+            and color(self.sibling.right) is Color.RED
+            and color(self.sibling.left) is Color.BLACK
+        ):
+            self.sibling.rotate_left()
+            self.sibling.color = Color.BLACK
+            self.sibling.left.color = Color.RED
+        if (
+            self.is_left()
+            and color(self.sibling) is Color.BLACK
+            and color(self.sibling.right) is Color.RED
+        ):
+            self.parent.rotate_left()
+            self.grandparent.color = self.parent.color
+            self.parent.color = Color.BLACK
+            self.parent.sibling.color = Color.BLACK
+        if (
+            self.is_right()
+            and color(self.sibling) is Color.BLACK
+            and color(self.sibling.left) is Color.RED
+        ):
+            self.parent.rotate_right()
+            self.grandparent.color = self.parent.color
+            self.parent.color = Color.BLACK
+            self.parent.sibling.color = Color.BLACK

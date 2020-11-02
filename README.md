@@ -31,6 +31,9 @@ Separated into two sections:
 
 Dataclasses are one of the trickiest things to work with in Python. I tentatively have decided to make any class that would benefit from one of the below points into a dataclass.
 
+If you want slots, and not using __post_init__, inherit NamedTuple
+If you have a dataclass, use @dataslots
+
 ### Benefits
 
 - `__init__`, in constructors that simply set all parameters.
