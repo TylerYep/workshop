@@ -17,14 +17,45 @@ class TreeNode(Generic[T]):
     data: T
     left: Optional[TreeNode[T]] = None
     right: Optional[TreeNode[T]] = None
-    parent: Optional[TreeNode[T]] = field(default=None, repr=False)
+    parent: Optional[TreeNode[T]] = field(compare=False, default=None, repr=False)
 
     def __repr__(self) -> str:
         return str(formatter.pformat(self))
 
+    @property
+    def grandparent(self) -> Optional[TreeNode[T]]:
+        """ Get the current node's grandparent, or None if it doesn't exist. """
+        if self.parent is None:
+            return None
+        return self.parent.parent
+
+    @property
+    def sibling(self) -> Optional[TreeNode[T]]:
+        """ Get the current node's sibling, or None if it doesn't exist. """
+        if self.parent is None:
+            return None
+        return self.parent.right if self.parent.left is self else self.parent.left
+
+    def is_root(self) -> bool:
+        """ Returns true iff this node is the root of the tree. """
+        return self.parent is None
+
+    def is_left(self) -> bool:
+        """ Returns true iff this node is the left child of its parent. """
+        return self.parent is not None and self.parent.left is self
+
+    def is_right(self) -> bool:
+        """ Returns true iff this node is the right child of its parent. """
+        return self.parent is not None and self.parent.right is self
+
 
 @dataclass(init=False)
 class BinarySearchTree(Generic[T]):
+    """
+    We separate the BinarySearchTree with the TreeNode class to allow the root
+    of the tree to be None, which allows this implementation to type-check.
+    """
+
     root: Optional[TreeNode[T]]
 
     def __init__(self) -> None:
@@ -53,16 +84,24 @@ class BinarySearchTree(Generic[T]):
     def __contains__(self, data: T) -> bool:
         return self.search(data) is not None
 
+    @staticmethod
+    def _depth(tree: Optional[TreeNode[T]]) -> int:
+        if tree is None:
+            return 0
+        return 1 + max(
+            BinarySearchTree._depth(tree.left), BinarySearchTree._depth(tree.right)
+        )
+
     def clear(self) -> None:
         self.root = None
 
-    def depth(self) -> int:
-        def _depth(tree: Optional[TreeNode[T]]) -> int:
-            if tree is None:
-                return 0
-            return 1 + max(_depth(tree.left), _depth(tree.right))
+    def height(self) -> int:
+        return self._depth(self.root)
 
-        return _depth(self.root)
+    def is_balanced(self) -> bool:
+        if self.root is None:
+            raise Exception("Binary search tree is empty")
+        return self._depth(self.root.left) == self._depth(self.root.right)
 
     def search(self, data: T) -> Optional[TreeNode[T]]:
         """ Searches a node in the tree. """
@@ -72,9 +111,7 @@ class BinarySearchTree(Generic[T]):
                 return None
             if node.data == data:
                 return node
-            if data < node.data:
-                return _search(node.left)
-            return _search(node.right)
+            return _search(node.left) if data < node.data else _search(node.right)
 
         return _search(self.root)
 
@@ -83,7 +120,7 @@ class BinarySearchTree(Generic[T]):
 
         def _insert(
             node: Optional[TreeNode[T]], parent: Optional[TreeNode[T]] = None
-        ) -> Optional[TreeNode[T]]:
+        ) -> TreeNode[T]:
             if node is None:
                 node = TreeNode(data, parent=parent)
                 return node
@@ -158,22 +195,22 @@ class BinarySearchTree(Generic[T]):
             node = node.left
         return node.data
 
-    def traversal(self, method: str = "inorder") -> Iterator[TreeNode[T]]:
+    def traverse(self, method: str = "inorder") -> Iterator[T]:
         """ Return the pre-order, in-order, or post-order traversal of the tree. """
         if method not in ("preorder", "inorder", "postorder"):
             raise ValueError(
                 "Method must be one of: 'preorder', 'inorder', or 'postorder'"
             )
 
-        def _traversal(node: Optional[TreeNode[T]]) -> Iterator[TreeNode[T]]:
+        def _traverse(node: Optional[TreeNode[T]]) -> Iterator[T]:
             if node is not None:
                 if method == "preorder":
-                    yield node
-                yield from _traversal(node.left)
+                    yield node.data
+                yield from _traverse(node.left)
                 if method == "inorder":
-                    yield node
-                yield from _traversal(node.right)
+                    yield node.data
+                yield from _traverse(node.right)
                 if method == "postorder":
-                    yield node
+                    yield node.data
 
-        return _traversal(self.root)
+        return _traverse(self.root)

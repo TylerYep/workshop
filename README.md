@@ -31,8 +31,8 @@ Separated into two sections:
 
 Dataclasses are one of the trickiest things to work with in Python. I tentatively have decided to make any class that would benefit from one of the below points into a dataclass.
 
-If you want slots, and not using __post_init__, inherit NamedTuple
-If you have a dataclass, use @dataslots
+If you want slots, and not using __post_init__, inherit NamedTuple.
+If you have a dataclass, use @dataslots.
 
 ### Benefits
 
@@ -44,7 +44,7 @@ If you have a dataclass, use @dataslots
 ### My choices
 
 - `@dataclass(init=False, eq=False, order=False, repr=False)` means don't use dataclasses.
-- Explicitly define the `__init__` function whenever you have more initialization logic than "set all parameters as fields". A common example is when a self member variable shouldn't be a constructor parameter. This makes reading the class much easier and allows better control over the logic.
+- Explicitly define the `__init__` function whenever you have more initialization logic than "set all parameters as fields". A common example is when a self member variable shouldn't be a constructor parameter. This makes reading the class much easier and allows better control over the logic. Avoid __post_init__ when possible.
 - Create a separate `__str__` function to use when printing the object for visualizing the state of the data structure. `__repr__` should contain a single line while string should be pretty printed.
 - Define `__hash__` myself, since I can choose the necessary fields to make a unique hash. Additionally, using `@dataclass(frozen=True)` is almost never a good idea, since you won't be able to even set attributes in `__post_init__`, and the docs specifically point out a performance penalty.
 - Prefer the `@dataslots` and the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings.

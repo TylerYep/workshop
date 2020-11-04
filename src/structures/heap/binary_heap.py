@@ -11,8 +11,11 @@ T = TypeVar("T", bound=Comparable)
 @dataclass(init=False)
 class BinaryHeap(Generic[T]):
     """
-    A generic Heap class, represented by an array.
-    Can be used as min or max by passing the key function accordingly.
+    A generic Heap class, represented using an array. We use an array
+    rather than a binary tree because heaps grow in a balanced manner, which
+    means that the data fits in contiguous memory and no array space is wasted.
+
+    Can be used as min or max heap by passing the according key function.
     """
 
     _heap: List[T]
