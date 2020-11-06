@@ -287,10 +287,10 @@ class TestBinarySearchTree:
             repr(tree)
             == str(tree)
             == (
-                "BinarySearchTree(root=TreeNode(\n"
+                "BinarySearchTree(root=BinaryTreeNode(\n"
                 "    data=8,\n"
-                "    left=TreeNode(data=6, left=TreeNode(data=1)),\n"
-                "    right=TreeNode(data=73, left=TreeNode(data=11))\n"
-                "))"
+                "    left=BinaryTreeNode(data=6, left=BinaryTreeNode(data=1)),\n"
+                "    right=BinaryTreeNode(data=73, left=BinaryTreeNode(data=11))\n"
+                "), size=5)"
             )
         )

@@ -7,7 +7,7 @@ from typing import Optional, TypeVar
 from dataslots import dataslots
 
 from src.algorithms.sort.comparable import Comparable
-from src.structures.tree.binary_search_tree import BinarySearchTree, TreeNode
+from src.structures.tree.binary_search_tree import BinarySearchTree, BinaryTreeNode
 
 T = TypeVar("T", bound=Comparable)
 
@@ -20,7 +20,7 @@ class Color(Enum):
 
 @dataslots
 @dataclass(order=True, repr=False)
-class RedBlackTreeNode(TreeNode[T]):
+class RedBlackTreeNode(BinaryTreeNode[T]):
     left: Optional[RedBlackTreeNode[T]] = None
     right: Optional[RedBlackTreeNode[T]] = None
     parent: Optional[RedBlackTreeNode[T]] = field(
@@ -51,6 +51,7 @@ class RedBlackTree(BinarySearchTree[T]):
     """
 
     root: Optional[RedBlackTreeNode[T]]
+    size: int = 0
 
     @staticmethod
     def color(node: Optional[RedBlackTreeNode[T]]) -> Color:
@@ -62,46 +63,53 @@ class RedBlackTree(BinarySearchTree[T]):
         """ Returns the color of a node, allowing for None leaves. """
         return Color.RED if node.color is Color.BLACK else Color.BLACK
 
-    # @staticmethod
-    # def rotate_left(node: RedBlackTreeNode[T]) -> None:
-    #     """Rotate the subtree rooted at this node to the left and
-    #     returns the new root to this subtree.
-    #     Performing one rotation can be done in O(1).
-    #     """
-    #     parent = node.parent
-    #     right = node.right
-    #     node.right = right.left
-    #     if node.right is not None:
-    #         node.right.parent = node
-    #     node.parent = right
-    #     right.left = node
-    #     if parent is not None:
-    #         if parent.left == node:
-    #             parent.left = right
-    #         else:
-    #             parent.right = right
-    #     right.parent = parent
+    @staticmethod
+    def rotate_left(node: RedBlackTreeNode[T]) -> RedBlackTreeNode[T]:
+        """
+        Rotate the subtree rooted at this node to the left and
+        returns the new root to this subtree.
+        Performing one rotation can be done in O(1).
+        """
+        right = node.right
+        if right is None:
+            raise RuntimeError("There is no left node to rotate to as the new root.")
+        node.right = right.left
+        if node.right is not None:
+            node.right.parent = node
+        parent = node.parent
+        node.parent = right
+        right.left = node
+        if parent is not None:
+            if node.is_left:
+                parent.left = right
+            else:
+                parent.right = right
+        right.parent = parent
+        return right
 
-    # @staticmethod
-    # def rotate_right(node: RedBlackTreeNode[T]) -> None:
-    #     """
-    #     Rotate the subtree rooted at this node to the right and
-    #     returns the new root to this subtree.
-    #     Performing one rotation can be done in O(1).
-    #     """
-    #     parent = node.parent
-    #     left = node.left
-    #     node.left = left.right
-    #     if node.left is not None:
-    #         node.left.parent = node
-    #     node.parent = left
-    #     left.right = node
-    #     if parent is not None:
-    #         if parent.right is node:
-    #             parent.right = left
-    #         else:
-    #             parent.left = left
-    #     left.parent = parent
+    @staticmethod
+    def rotate_right(node: RedBlackTreeNode[T]) -> RedBlackTreeNode[T]:
+        """
+        Rotate the subtree rooted at this node to the right and
+        returns the new root to this subtree.
+        Performing one rotation can be done in O(1).
+        """
+        left = node.left
+        if left is None:
+            raise RuntimeError("There is no left node to rotate to as the new root.")
+        node.left = left.right
+        if node.left is not None:
+            node.left.parent = node
+        parent = node.parent
+        node.parent = left
+        left.right = node
+        if parent is not None:
+            if node.is_right:
+                parent.right = left
+            else:
+                parent.left = left
+        left.parent = parent
+        return left
 
     def check_correctness(self) -> bool:
         """
@@ -133,7 +141,7 @@ class RedBlackTree(BinarySearchTree[T]):
         def _black_height(node: Optional[RedBlackTreeNode[T]]) -> int:
             """
             Returns the number of black nodes from this node to the leaves of the tree,
-            or None if there isn't one such value (the tree is colored incorrectly).
+            or -1 if there isn't one such value (the tree is colored incorrectly).
             """
             if node is None:
                 return 1
@@ -161,7 +169,7 @@ class RedBlackTree(BinarySearchTree[T]):
         while curr is not None:
             parent = curr
             if data == curr.data:
-                # Data is already present
+                curr.count += 1
                 return
             curr = curr.left if data < curr.data else curr.right
 
@@ -247,11 +255,11 @@ class RedBlackTree(BinarySearchTree[T]):
                 uncle is None or self.color(uncle) is Color.BLACK
             ):
                 self.rotate_with_parent(node)
-                if node.is_left() != parent.is_left():
-                    self.rotate_with_parent(node)
-                else:
+                if node.is_left() == parent.is_left():
                     parent.color = Color.BLACK
                     node.color = Color.RED
+                else:
+                    self.rotate_with_parent(node)
                 grandparent.color = Color.RED
 
             # Otherwise, we are inserting into a 4-node. There are several orientations
@@ -336,67 +344,73 @@ class RedBlackTree(BinarySearchTree[T]):
 
     # def remove(self, data: T) -> None:  # pylint: disable=too-many-branches
     #     """  Remove data from this tree. """
-    #     if self.data == data:
-    #         if self.left and self.right:
-    #             # It's easier to balance a node with at most one child,
-    #             # so we replace this node with the greatest one less than
-    #             # it and remove that.
-    #             value = self.left.get_max()
-    #             self.data = value
-    #             self.left.remove(value)
-    #         else:
-    #             # This node has at most one non-None child, so we don't
-    #             # need to replace
-    #             child = self.left or self.right
-    #             if self.color is Color.RED:
-    #                 # This node is red, and its child is black
-    #                 # The only way this happens to a node with one child
-    #                 # is if both children are None leaves.
-    #                 # We can just remove this node and call it a day.
-    #                 if self.is_left():
-    #                     self.parent.left = None
-    #                 else:
-    #                     self.parent.right = None
-    #             else:
-    #                 # The node is black
-    #                 if child is None:
-    #                     # This node and its child are black
-    #                     if self.parent is None:
-    #                         # The tree is now empty
-    #                         return
 
-    #                     self._remove_repair()
-    #                     if self.is_left():
-    #                         self.parent.left = None
+    #     def _remove(node: RedBlackTreeNode[T]) -> Optional[RedBlackTreeNode[T]]:
+    #         nonlocal data
+    #         if node.data == data:
+    #             if node.left is not None and node.right is not None:
+    #                 # It's easier to balance a node with at most one child,
+    #                 # so we replace this node with the greatest one less than
+    #                 # it and remove that.
+    #                 value = node.left.get_max()
+    #                 node.data = value
+    #                 data = value
+    #                 _remove(node.left)
+    #             else:
+    #                 # This node has at most one non-None child, so we don't
+    #                 # need to replace
+    #                 child = node.left or node.right
+    #                 if node.color is Color.RED:
+    #                     # This node is red, and its child is black
+    #                     # The only way this happens to a node with one child
+    #                     # is if both children are None leaves.
+    #                     # We can just remove this node and call it a day.
+    #                     if node.is_left():
+    #                         node.parent.left = None
     #                     else:
-    #                         self.parent.right = None
-    #                     self.parent = None
+    #                         node.parent.right = None
     #                 else:
-    #                     # This node is black and its child is red
-    #                     # Move the child node here and make it black
-    #                     self.data = child.data
-    #                     self.left = child.left
-    #                     self.right = child.right
-    #                     if self.left:
-    #                         self.left.parent = self.root
-    #                     if self.right:
-    #                         self.right.parent = self.root
-    #     elif self.data > data:
-    #         if self.left:
-    #             self.left.remove(data)
-    #     else:
-    #         if self.right:
-    #             self.right.remove(data)
+    #                     # The node is black
+    #                     if child is None:
+    #                         # This node and its child are black
+    #                         if node.parent is None:
+    #                             # The tree is now empty
+    #                             return
+
+    #                         self._remove_repair(node)
+    #                         if node.is_left:
+    #                             node.parent.left = None
+    #                         else:
+    #                             node.parent.right = None
+    #                         node.parent = None
+    #                     else:
+    #                         # This node is black and its child is red
+    #                         # Move the child node here and make it black
+    #                         node.data = child.data
+    #                         node.left = child.left
+    #                         node.right = child.right
+    #                         if node.left:
+    #                             node.left.parent = self.root
+    #                         if node.right:
+    #                             node.right.parent = self.root
+    #         elif node.data > data:
+    #             if node.left:
+    #                 _remove(node.left)
+    #         else:
+    #             if node.right:
+    #                 _remove(node.right)
+
+    #     _remove(self.root)
 
     # def _remove_repair(self, node: RedBlackTreeNode[T]) -> None:
     #     """ Repair the coloring of the tree that may have been messed up. """
     #     if self.color(node.sibling) is Color.RED:
     #         node.sibling.color = Color.BLACK
     #         node.parent.color = Color.RED
-    #         if node.is_left():
-    #             node.parent.rotate_left()
+    #         if node.is_left:
+    #             self.rotate_left(node.parent)
     #         else:
-    #             node.parent.rotate_right()
+    #             self.rotate_right(node.parent)
     #     if (
     #         self.color(node.parent) is Color.BLACK
     #         and self.color(node.sibling) is Color.BLACK
@@ -404,7 +418,7 @@ class RedBlackTree(BinarySearchTree[T]):
     #         and self.color(node.sibling.right) is Color.BLACK
     #     ):
     #         node.sibling.color = Color.RED
-    #         node.parent._remove_repair()
+    #         self._remove_repair(node.parent)
     #         return
     #     if (
     #         self.color(node.parent) is Color.RED
@@ -416,38 +430,38 @@ class RedBlackTree(BinarySearchTree[T]):
     #         node.parent.color = Color.BLACK
     #         return
     #     if (
-    #         node.is_left()
+    #         node.is_left
     #         and self.color(node.sibling) is Color.BLACK
     #         and self.color(node.sibling.right) is Color.BLACK
     #         and self.color(node.sibling.left) is Color.RED
     #     ):
-    #         node.sibling.rotate_right()
+    #         self.rotate_right(node.sibling)
     #         node.sibling.color = Color.BLACK
     #         node.sibling.right.color = Color.RED
     #     if (
-    #         node.is_right()
+    #         node.is_right
     #         and self.color(node.sibling) is Color.BLACK
     #         and self.color(node.sibling.right) is Color.RED
     #         and self.color(node.sibling.left) is Color.BLACK
     #     ):
-    #         node.sibling.rotate_left()
+    #         self.rotate_left(node.sibling)
     #         node.sibling.color = Color.BLACK
     #         node.sibling.left.color = Color.RED
     #     if (
-    #         node.is_left()
+    #         node.is_left
     #         and self.color(node.sibling) is Color.BLACK
     #         and self.color(node.sibling.right) is Color.RED
     #     ):
-    #         node.parent.rotate_left()
+    #         self.rotate_left(node.parent)
     #         node.grandparent.color = node.parent.color
     #         node.parent.color = Color.BLACK
     #         node.parent.sibling.color = Color.BLACK
     #     if (
-    #         node.is_right()
+    #         node.is_right
     #         and self.color(node.sibling) is Color.BLACK
     #         and self.color(node.sibling.left) is Color.RED
     #     ):
-    #         node.parent.rotate_right()
+    #         self.rotate_right(node.parent)
     #         node.grandparent.color = node.parent.color
     #         node.parent.color = Color.BLACK
     #         node.parent.sibling.color = Color.BLACK

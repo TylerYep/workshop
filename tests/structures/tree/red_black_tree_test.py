@@ -1,45 +1,44 @@
-from src.structures import RedBlackTree  # , RedBlackTreeNode
-
-# @staticmethod
-# def test_rotations() -> None:
-#     """Test that the rotate_left and rotate_right functions work."""
-#     # Make a tree to test on
-#     rb_tree = RedBlackTree[int]()
-#     rb_tree.root = tree = RedBlackTreeNode[int](0)
-#     tree.left = RedBlackTreeNode[int](-10, parent=tree)
-#     tree.right = RedBlackTreeNode[int](10, parent=tree)
-#     tree.left.left = RedBlackTreeNode[int](-20, parent=tree.left)
-#     tree.left.right = RedBlackTreeNode[int](-5, parent=tree.left)
-#     tree.right.left = RedBlackTreeNode[int](5, parent=tree.right)
-#     tree.right.right = RedBlackTreeNode[int](20, parent=tree.right)
-#     # Make the right rotation
-#     left_rot = RedBlackTreeNode[int](10)
-#     left_rot.left = RedBlackTreeNode[int](0, parent=left_rot)
-#     left_rot.left.left = RedBlackTreeNode[int](-10, parent=left_rot.left)
-#     left_rot.left.right = RedBlackTreeNode[int](5, parent=left_rot.left)
-#     left_rot.left.left.left = RedBlackTreeNode[int](-20, parent=left_rot.left.left)
-#     left_rot.left.left.right = RedBlackTreeNode[int](-5, parent=left_rot.left.left)
-#     left_rot.right = RedBlackTreeNode[int](20, parent=left_rot)
-#     RedBlackTree.rotate_left(tree)
-#     assert rb_tree.root == left_rot
-#     RedBlackTree.rotate_right(tree)
-#     RedBlackTree.rotate_right(tree)
-#     # Make the left rotation
-#     right_rot = RedBlackTreeNode[int](-10)
-#     right_rot.left = RedBlackTreeNode[int](-20, parent=right_rot)
-#     right_rot.right = RedBlackTreeNode[int](0, parent=right_rot)
-#     right_rot.right.left = RedBlackTreeNode[int](-5, parent=right_rot.right)
-#     right_rot.right.right = RedBlackTreeNode[int](10, parent=right_rot.right)
-#     right_rot.right.right.left = RedBlackTreeNode[int](
-#         5, parent=right_rot.right.right
-#     )
-#     right_rot.right.right.right = RedBlackTreeNode[int](
-#         20, parent=right_rot.right.right
-#     )
-#     assert tree == right_rot
+from src.structures import RedBlackTree, RedBlackTreeNode
 
 
 class TestRedBlackTree:
+    @staticmethod
+    def test_rotations() -> None:
+        """Test that the rotate_left and rotate_right functions work."""
+        # Make a tree to test on
+        tree = RedBlackTreeNode[int](0)
+        tree.left = RedBlackTreeNode[int](-10, parent=tree)
+        tree.right = RedBlackTreeNode[int](10, parent=tree)
+        tree.left.left = RedBlackTreeNode[int](-20, parent=tree.left)
+        tree.left.right = RedBlackTreeNode[int](-5, parent=tree.left)
+        tree.right.left = RedBlackTreeNode[int](5, parent=tree.right)
+        tree.right.right = RedBlackTreeNode[int](20, parent=tree.right)
+        # Make the right rotation
+        left_rot = RedBlackTreeNode[int](10)
+        left_rot.left = RedBlackTreeNode[int](0, parent=left_rot)
+        left_rot.left.left = RedBlackTreeNode[int](-10, parent=left_rot.left)
+        left_rot.left.right = RedBlackTreeNode[int](5, parent=left_rot.left)
+        left_rot.left.left.left = RedBlackTreeNode[int](-20, parent=left_rot.left.left)
+        left_rot.left.left.right = RedBlackTreeNode[int](-5, parent=left_rot.left.left)
+        left_rot.right = RedBlackTreeNode[int](20, parent=left_rot)
+        tree = RedBlackTree.rotate_left(tree)
+        assert tree == left_rot
+        tree = RedBlackTree.rotate_right(tree)
+        tree = RedBlackTree.rotate_right(tree)
+        # Make the left rotation
+        right_rot = RedBlackTreeNode[int](-10)
+        right_rot.left = RedBlackTreeNode[int](-20, parent=right_rot)
+        right_rot.right = RedBlackTreeNode[int](0, parent=right_rot)
+        right_rot.right.left = RedBlackTreeNode[int](-5, parent=right_rot.right)
+        right_rot.right.right = RedBlackTreeNode[int](10, parent=right_rot.right)
+        right_rot.right.right.left = RedBlackTreeNode[int](
+            5, parent=right_rot.right.right
+        )
+        right_rot.right.right.right = RedBlackTreeNode[int](
+            20, parent=right_rot.right.right
+        )
+        assert tree == right_rot
+
     @staticmethod
     def test_insert() -> None:
         """Test the insert() method of the tree correctly balances, colors,
@@ -79,27 +78,27 @@ class TestRedBlackTree:
         assert -8 in tree
         assert 0 in tree
 
-    # @staticmethod
-    # def test_insert_remove() -> None:
-    #     """Test the insert() and remove() method of the tree, verifying the
-    #     insertion and removal of elements, and the balancing of the tree.
-    #     """
-    #     tree = RedBlackTree[int]()
-    #     tree.insert(0)
-    #     tree.insert(-12)
-    #     tree.insert(8)
-    #     tree.insert(-8)
-    #     tree.insert(15)
-    #     tree.insert(4)
-    #     tree.insert(12)
-    #     tree.insert(10)
-    #     tree.insert(9)
-    #     tree.insert(11)
-    #     tree.remove(15)
-    #     tree.remove(-12)
-    #     tree.remove(9)
-    #     assert tree.check_color_properties()
-    #     assert list(tree.inorder_traverse()) == [-8, 0, 4, 8, 10, 11, 12]
+    @staticmethod
+    def test_insert_remove() -> None:
+        """Test the insert() and remove() method of the tree, verifying the
+        insertion and removal of elements, and the balancing of the tree.
+        """
+        tree = RedBlackTree[int]()
+        tree.insert(0)
+        tree.insert(-12)
+        tree.insert(8)
+        tree.insert(-8)
+        tree.insert(15)
+        tree.insert(4)
+        tree.insert(12)
+        tree.insert(10)
+        tree.insert(9)
+        tree.insert(11)
+        tree.remove(15)
+        tree.remove(-12)
+        tree.remove(9)
+        # assert tree.check_correctness()
+        assert list(tree.traverse("inorder")) == [-8, 0, 4, 8, 10, 11, 12]
 
     # @staticmethod
     # def test_floor_ceil() -> None:

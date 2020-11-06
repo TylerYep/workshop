@@ -1,36 +1,31 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Generic, Iterator, Optional, TypeVar
+from typing import Iterator, Optional, TypeVar
 
 from dataslots import dataslots
 
 from src.algorithms.sort.comparable import Comparable
-from src.util import formatter
+from src.structures.tree.tree import Tree, TreeNode
 
 T = TypeVar("T", bound=Comparable)
 
 
 @dataslots
 @dataclass(order=True, repr=False)
-class TreeNode(Generic[T]):
-    data: T
-    left: Optional[TreeNode[T]] = None
-    right: Optional[TreeNode[T]] = None
-    parent: Optional[TreeNode[T]] = field(compare=False, default=None, repr=False)
-
-    def __repr__(self) -> str:
-        return str(formatter.pformat(self))
+class BinaryTreeNode(TreeNode[T]):
+    left: Optional[BinaryTreeNode[T]] = None
+    right: Optional[BinaryTreeNode[T]] = None
+    parent: Optional[BinaryTreeNode[T]] = field(compare=False, default=None, repr=False)
+    count: int = 1
 
     @property
-    def grandparent(self) -> Optional[TreeNode[T]]:
+    def grandparent(self) -> Optional[BinaryTreeNode[T]]:
         """ Get the current node's grandparent, or None if it doesn't exist. """
-        if self.parent is None:
-            return None
-        return self.parent.parent
+        return None if self.parent is None else self.parent.parent
 
     @property
-    def sibling(self) -> Optional[TreeNode[T]]:
+    def sibling(self) -> Optional[BinaryTreeNode[T]]:
         """ Get the current node's sibling, or None if it doesn't exist. """
         if self.parent is None:
             return None
@@ -50,22 +45,16 @@ class TreeNode(Generic[T]):
 
 
 @dataclass(init=False)
-class BinarySearchTree(Generic[T]):
+class BinarySearchTree(Tree[T]):
     """
     We separate the BinarySearchTree with the TreeNode class to allow the root
     of the tree to be None, which allows this implementation to type-check.
     """
 
-    root: Optional[TreeNode[T]]
+    root: Optional[BinaryTreeNode[T]]
+    size: int = 0
 
-    def __init__(self) -> None:
-        self.root: Optional[TreeNode[T]] = None
-        self.size = 0
-
-    def __len__(self) -> int:
-        return self.size
-
-    def __iter__(self) -> Iterator[TreeNode[T]]:
+    def __iter__(self) -> Iterator[BinaryTreeNode[T]]:
         node = self.root
         prev = None
         while node is not None:
@@ -78,35 +67,29 @@ class BinarySearchTree(Generic[T]):
                 node = node.right
             node = prev
 
-    def __bool__(self) -> bool:
-        return self.root is not None
-
-    def __contains__(self, data: T) -> bool:
-        return self.search(data) is not None
-
     @staticmethod
-    def _depth(tree: Optional[TreeNode[T]]) -> int:
+    def depth(tree: Optional[BinaryTreeNode[T]]) -> int:
         if tree is None:
             return 0
         return 1 + max(
-            BinarySearchTree._depth(tree.left), BinarySearchTree._depth(tree.right)
+            BinarySearchTree.depth(tree.left), BinarySearchTree.depth(tree.right)
         )
 
-    def clear(self) -> None:
-        self.root = None
-
     def height(self) -> int:
-        return self._depth(self.root)
+        return self.depth(self.root)
 
     def is_balanced(self) -> bool:
         if self.root is None:
             raise Exception("Binary search tree is empty")
-        return self._depth(self.root.left) == self._depth(self.root.right)
+        return self.depth(self.root.left) == self.depth(self.root.right)
 
-    def search(self, data: T) -> Optional[TreeNode[T]]:
+    def clear(self) -> None:
+        self.root = None
+
+    def search(self, data: T) -> Optional[BinaryTreeNode[T]]:
         """ Searches a node in the tree. """
 
-        def _search(node: Optional[TreeNode[T]]) -> Optional[TreeNode[T]]:
+        def _search(node: Optional[BinaryTreeNode[T]]) -> Optional[BinaryTreeNode[T]]:
             if node is None:
                 return None
             if node.data == data:
@@ -119,12 +102,15 @@ class BinarySearchTree(Generic[T]):
         """ Puts a new node in the tree. """
 
         def _insert(
-            node: Optional[TreeNode[T]], parent: Optional[TreeNode[T]] = None
-        ) -> TreeNode[T]:
+            node: Optional[BinaryTreeNode[T]],
+            parent: Optional[BinaryTreeNode[T]] = None,
+        ) -> BinaryTreeNode[T]:
             if node is None:
-                node = TreeNode(data, parent=parent)
+                node = BinaryTreeNode(data, parent=parent)
                 return node
-            if data < node.data:
+            if data == node.data:
+                node.count += 1
+            elif data < node.data:
                 node.left = _insert(node.left, node)
             else:
                 node.right = _insert(node.right, node)
@@ -137,42 +123,43 @@ class BinarySearchTree(Generic[T]):
         """ Removes a node in the tree. """
 
         def _reassign_nodes(
-            node: TreeNode[T], new_children: Optional[TreeNode[T]]
+            node: BinaryTreeNode[T], new_child: Optional[BinaryTreeNode[T]]
         ) -> None:
-            if new_children is not None:
-                new_children.parent = node.parent
-            if node.parent is not None:
-                if node.parent.right == node:
-                    node.parent.right = new_children
-                else:
-                    node.parent.left = new_children
-            else:
-                self.root = new_children
+            if new_child is not None:
+                new_child.parent = node.parent
 
-        def _get_lowest_node(node: TreeNode[T]) -> TreeNode[T]:
-            if node.left is not None:
-                lowest_node = _get_lowest_node(node.left)
+            if node.parent is None:
+                self.root = new_child
+            elif node.parent.right == node:
+                node.parent.right = new_child
             else:
+                node.parent.left = new_child
+
+        def _get_lowest_node(node: BinaryTreeNode[T]) -> BinaryTreeNode[T]:
+            if node.left is None:
                 lowest_node = node
                 _reassign_nodes(node, node.right)
+            else:
+                lowest_node = _get_lowest_node(node.left)
             return lowest_node
 
         node = self.search(data)
         if node is None:
             raise Exception(f"TreeNode with data {data} does not exist")
-
         self.size -= 1
-        if node.right is None and node.left is None:
-            _reassign_nodes(node, None)
-        elif node.right is None and node.left is not None:
+        if node.count > 1:
+            # If count is greater than 1, we just decrease the count and return.
+            node.count -= 1
+        elif node.right is None:
             _reassign_nodes(node, node.left)
-        elif node.right is not None and node.left is None:
+        elif node.left is None:
             _reassign_nodes(node, node.right)
-        elif node.right is not None and node.left is not None:
+        else:
             lowest_node = _get_lowest_node(node.right)
             lowest_node.left = node.left
             lowest_node.right = node.right
-            node.left.parent = lowest_node
+            if node.left is not None:
+                node.left.parent = lowest_node
             if node.right is not None:
                 node.right.parent = lowest_node
             _reassign_nodes(node, lowest_node)
@@ -202,7 +189,7 @@ class BinarySearchTree(Generic[T]):
                 "Method must be one of: 'preorder', 'inorder', or 'postorder'"
             )
 
-        def _traverse(node: Optional[TreeNode[T]]) -> Iterator[T]:
+        def _traverse(node: Optional[BinaryTreeNode[T]]) -> Iterator[T]:
             if node is not None:
                 if method == "preorder":
                     yield node.data
@@ -214,3 +201,40 @@ class BinarySearchTree(Generic[T]):
                     yield node.data
 
         return _traverse(self.root)
+
+    # def remove(self, data: T) -> None:
+    #     def _remove(node: Optional[TreeNode[T]]) -> Optional[TreeNode[T]]:
+    #         if node is None:
+    #             return node
+    #         if data < node.data:
+    #             node.left = _remove(node.left)
+    #         elif data > node.data:
+    #             node.right = _remove(node.right)
+    #         else:
+    #             # If count is greater than 1, we just decrease the count and return.
+    #             if node.count > 1:
+    #                 node.count -= 1
+    #                 return node
+
+    #             # Else, delete the node with only one child or no child
+    #             if node.left is None:
+    #                 if node.right is not None:
+    #                     node.right.parent = node.parent
+    #                 return node.right
+    #             if node.right is None:
+    #                 if node.left is not None:
+    #                     node.left.parent = node.parent
+    #                 return node.left
+
+    #             # two children: Get inorder successor (smallest in the right subtree)
+    #             current = node.right
+    #             while current.left is not None:
+    #                 current = current.left
+
+    #             # Replace its data and delete the inorder successor
+    #             node.data = current.data
+    #             node.right = _remove(current)
+    #         return node
+
+    #     self.size -= 1
+    #     self.root = _remove(self.root)

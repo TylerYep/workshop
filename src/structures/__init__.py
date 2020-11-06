@@ -24,6 +24,7 @@ from .stack import Stack
 from .suffix_array import SuffixArray
 from .tree.binary_search_tree import BinarySearchTree
 from .tree.red_black_tree import RedBlackTree, RedBlackTreeNode
+from .tree.tree import Tree
 from .trie import Trie
 
 __all__ = (
@@ -57,6 +58,7 @@ __all__ = (
     "SparseTableRMQ",
     "Stack",
     "SuffixArray",
+    "Tree",
     "Trie",
     "UndirectedGraph",
     "V",

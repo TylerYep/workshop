@@ -12,8 +12,8 @@ HEAP_TYPES = ("BinomialHeap", "FibonacciHeap")
 
 def construct_heap(heap_type: str, allow_duplicates: bool = False) -> Heap[T]:
     heap_map = {
-        heap_constructor.__name__: heap_constructor
-        for heap_constructor in (BinomialHeap, FibonacciHeap)
+        constructor.__name__: constructor
+        for constructor in (BinomialHeap, FibonacciHeap)
     }
     return cast(Heap[T], heap_map[heap_type](allow_duplicates=allow_duplicates))
 
