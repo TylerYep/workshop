@@ -1,7 +1,7 @@
 from fractions import Fraction
 
 
-def main() -> None:
+def convert_decimal_to_fraction() -> None:
     while num := input("Enter a decimal: "):
         try:
             result = Fraction(float(num))
@@ -14,4 +14,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    convert_decimal_to_fraction()

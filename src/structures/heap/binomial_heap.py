@@ -291,5 +291,4 @@ class BinomialHeap(Heap[T]):
         self.allow_duplicates = self.allow_duplicates or other.allow_duplicates
 
         # TODO: Python 3.9
-        # self.elem_to_entry |= other.elem_to_entry
-        self.elem_to_entry = {**self.elem_to_entry, **other.elem_to_entry}
+        self.elem_to_entry |= other.elem_to_entry  # type: ignore

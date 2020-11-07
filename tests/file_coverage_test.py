@@ -31,10 +31,9 @@ def test_all_exported() -> None:
     """ Test that __all__ contains only names that are actually exported. """
     import src.algorithms as algorithms
     import src.maths as maths
-    import src.ml as ml
     import src.structures as structures
 
-    for module in (algorithms, ml, maths, structures):
+    for module in (algorithms, maths, structures):
         if hasattr(module, "__all__"):
             module_all = module.__all__  # type: ignore[attr-defined]
             missing_export = [name for name in module_all if not hasattr(module, name)]

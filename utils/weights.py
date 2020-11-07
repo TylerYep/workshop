@@ -1,5 +1,6 @@
 import itertools
 from pprint import pprint
+from typing import List
 
 MAX_WEIGHTS_ON_HANDLE = 6
 HANDLE_WEIGHT = 0.6
@@ -8,7 +9,7 @@ CONNECTOR_WEIGHT = 0.8
 WEIGHTS = [2.8] * 4 + [3.3] * 4 + [4.4] * 4
 
 
-def calculate_weight_combinations(weights):
+def calculate_weight_combinations(weights: List[float]) -> None:
     configs = {}
     for i in range(len(weights) + 1):
         for config in set(itertools.combinations(weights, i)):
@@ -32,4 +33,5 @@ def calculate_weight_combinations(weights):
     pprint(sorted_by_value)
 
 
-calculate_weight_combinations(WEIGHTS)
+if __name__ == "__main__":
+    calculate_weight_combinations(WEIGHTS)

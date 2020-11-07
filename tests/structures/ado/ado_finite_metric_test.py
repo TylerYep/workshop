@@ -1,10 +1,8 @@
-import numpy as np
-
 from src.structures import ApproxFiniteMetricOracle
 
 
 def test_zero_distance_approx() -> None:
-    distance_matrix = np.zeros((4, 4))
+    distance_matrix = [[0.0] * 4] * 4
 
     ado = ApproxFiniteMetricOracle(distance_matrix)
 
@@ -13,9 +11,9 @@ def test_zero_distance_approx() -> None:
 
 
 def test_approx_greater_than_actual() -> None:
-    distance_matrix = np.ones((41, 41))
-    distance_matrix[0, 40] = 50
-    distance_matrix[40, 0] = 50
+    distance_matrix = [[1.0] * 41] * 41
+    distance_matrix[0][40] = 50
+    distance_matrix[40][0] = 50
 
     ado = ApproxFiniteMetricOracle(distance_matrix)
 

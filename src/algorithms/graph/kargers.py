@@ -28,8 +28,7 @@ def kargers_min_cut(orig_graph: Graph[V]) -> Set[Edge[V]]:
         uv = Node(edge.start.data + edge.end.data)
 
         # TODO Python 3.9
-        # uv_neighbors = graph[edge.start] | graph[edge.end]
-        uv_neighbors = {**graph[edge.start], **graph[edge.end]}
+        uv_neighbors = graph[edge.start] | graph[edge.end]  # type: ignore
         del uv_neighbors[edge.start]
         del uv_neighbors[edge.end]
 

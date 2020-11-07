@@ -2,8 +2,6 @@ import math
 from pprint import pformat
 from typing import List
 
-import numpy as np
-
 from .rmq import RMQ
 
 
@@ -23,7 +21,12 @@ class SparseTableRMQ(RMQ):
                 self.rmq_table[i][j] = self.return_smaller_index(index1, index2)
 
     def __repr__(self) -> str:
-        return pformat(np.transpose(np.array(self.rmq_table)))
+        try:
+            import numpy as np
+
+            return pformat(np.transpose(np.array(self.rmq_table)))
+        except ImportError:
+            return pformat(self.rmq_table)
 
     def rmq(self, low: int, high: int) -> int:
         if low >= high:
