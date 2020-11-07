@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Dict, Generic, Iterator, List, Optional, TypeVar
 
-from src.algorithms.sort.comparable import Comparable
+from src.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 

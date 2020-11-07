@@ -6,8 +6,8 @@ from typing import Optional, TypeVar
 
 from dataslots import dataslots
 
-from src.algorithms.sort.comparable import Comparable
 from src.structures.tree.binary_search_tree import BinarySearchTree, BinaryTreeNode
+from src.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 

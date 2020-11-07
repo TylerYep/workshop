@@ -3,8 +3,8 @@ from typing import Tuple, TypeVar, Union, cast
 
 import pytest
 
-from src.algorithms.sort.comparable import Comparable
 from src.structures import BinomialHeap, FibonacciHeap, Heap
+from src.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 HEAP_TYPES = ("BinomialHeap", "FibonacciHeap")

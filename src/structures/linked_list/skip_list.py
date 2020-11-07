@@ -8,7 +8,7 @@ import random
 from dataclasses import dataclass, field
 from typing import Generic, Iterator, List, Optional, Tuple, TypeVar, cast
 
-from src.algorithms.sort.comparable import Comparable
+from src.util import Comparable
 
 KT = TypeVar("KT", bound=Comparable)
 VT = TypeVar("VT")

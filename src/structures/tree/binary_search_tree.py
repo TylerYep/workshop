@@ -5,8 +5,8 @@ from typing import Iterator, Optional, TypeVar
 
 from dataslots import dataslots
 
-from src.algorithms.sort.comparable import Comparable
 from src.structures.tree.tree import Tree, TreeNode
+from src.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 

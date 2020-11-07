@@ -2,8 +2,8 @@ from typing import TypeVar, cast
 
 import pytest
 
-from src.algorithms.sort.comparable import Comparable
 from src.structures import BinarySearchTree, RedBlackTree, Tree
+from src.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 TREE_TYPES = ("BinarySearchTree", "RedBlackTree")

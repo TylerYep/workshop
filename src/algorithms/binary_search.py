@@ -1,6 +1,6 @@
 from typing import Sequence, TypeVar
 
-from src.algorithms.sort.comparable import Comparable
+from src.util import Comparable
 
 C = TypeVar("C", bound=Comparable)
 

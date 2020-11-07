@@ -19,8 +19,7 @@ from typing import (
 
 from dataslots import dataslots
 
-from src.algorithms.sort.comparable import Comparable
-from src.util import formatter
+from src.util import Comparable, formatter
 
 V = TypeVar("V", bound=Comparable)
 

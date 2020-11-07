@@ -5,9 +5,8 @@ from dataclasses import dataclass, field
 from typing import Dict, Generic, List, Optional, Tuple, TypeVar, Union
 from uuid import UUID, uuid4
 
-from src.algorithms.sort.comparable import Comparable
 from src.structures.heap.heap import Heap
-from src.util import formatter
+from src.util import Comparable, formatter
 
 T = TypeVar("T", bound=Comparable)
 

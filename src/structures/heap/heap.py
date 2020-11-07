@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Generic, Tuple, TypeVar, Union
 from uuid import UUID
 
-from src.algorithms.sort.comparable import Comparable
+from src.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 

@@ -1,7 +1,7 @@
 import random
 from typing import List, Sequence, Tuple, TypeVar
 
-from src.algorithms.sort.comparable import Comparable
+from src.util import Comparable
 
 C = TypeVar("C", bound=Comparable)
 
