@@ -67,6 +67,11 @@ class BinarySearchTree(Tree[T]):
                 node = node.right
             node = prev
 
+    def __str__(self) -> str:
+        from src.structures.tree.draw_tree import draw_tree
+
+        return draw_tree(self.root)
+
     @staticmethod
     def depth(tree: Optional[BinaryTreeNode[T]]) -> int:
         if tree is None:

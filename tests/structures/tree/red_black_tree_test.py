@@ -143,3 +143,24 @@ class TestRedBlackTree:
         assert list(tree.traverse("inorder")) == [-16, 0, 8, 16, 20, 22, 24]
         assert list(tree.traverse("preorder")) == [0, -16, 16, 8, 22, 20, 24]
         assert list(tree.traverse("postorder")) == [-16, 8, 20, 24, 22, 16, 0]
+
+    @staticmethod
+    def test_print_tree() -> None:
+        tree = RedBlackTree[int]()
+        tree.insert(8)
+        tree.insert(6)
+        tree.insert(1)
+        tree.insert(73)
+        tree.insert(11)
+
+        assert repr(tree) == (
+            "RedBlackTree(root=RedBlackTreeNode(\n"
+            "    data=6,\n"
+            "    left=RedBlackTreeNode(data=1),\n"
+            "    right=RedBlackTreeNode(\n"
+            "        data=11,\n"
+            "        left=RedBlackTreeNode(data=8),\n"
+            "        right=RedBlackTreeNode(data=73)\n"
+            "    )\n"
+            "), size=5)"
+        )

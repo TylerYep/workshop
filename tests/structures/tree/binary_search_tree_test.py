@@ -34,59 +34,64 @@ class TestBinarySearchTree:
     @staticmethod
     def test_insert() -> None:
         t = BinarySearchTree[int]()
+
         assert len(t) == 0
 
         t.insert(8)
-        assert t.root is not None
 
+        assert t.root is not None
         assert t.root.parent is None
         assert t.root.data == 8
 
         t.insert(10)
-        r"""
-              8
-               \
-                10
-        """
-        assert t.root.right is not None
 
+        assert str(t).split("\n") == [
+            "8",
+            " \\",
+            " 10",
+            "",
+        ]
+        assert t.root.right is not None
         assert t.root.right.parent == t.root
         assert t.root.right.data == 10
 
         t.insert(3)
-        r"""
-              8
-             / \
-            3   10
-        """
-        assert t.root.left is not None
 
+        assert str(t).split("\n") == [
+            "  8",
+            " / \\",
+            "3  10",
+            "",
+        ]
+        assert t.root.left is not None
         assert t.root.left.parent == t.root
         assert t.root.left.data == 3
 
         t.insert(6)
-        r"""
-              8
-             / \
-            3   10
-             \
-              6
-        """
-        assert t.root.left.right is not None
 
+        assert str(t).split("\n") == [
+            "  8",
+            " / \\",
+            "3  10",
+            " \\",
+            "  6",
+            "",
+        ]
+        assert t.root.left.right is not None
         assert t.root.left.right.parent == t.root.left
         assert t.root.left.right.data == 6
 
         t.insert(1)
-        r"""
-              8
-             / \
-            3   10
-           / \
-          1   6
-        """
-        assert t.root.left.left is not None
 
+        assert str(t).split("\n") == [
+            "    8",
+            "   / \\",
+            "  3  10",
+            " / \\",
+            "1   6",
+            "",
+        ]
+        assert t.root.left.left is not None
         assert t.root.left.left.parent == t.root.left
         assert t.root.left.left.data == 1
 
@@ -112,19 +117,21 @@ class TestBinarySearchTree:
 
     @staticmethod
     def test_remove(t: BinarySearchTree[int]) -> None:
-
         t.remove(13)
-        r"""
-              8
-             / \
-            3   10
-           / \    \
-          1   6    14
-             / \
-            4   7
-             \
-              5
-        """
+
+        assert str(t).split("\n") == [
+            "     8",
+            "    / \\",
+            "   /   \\",
+            "  3    10",
+            " / \\     \\",
+            "1   6    14",
+            "   / \\",
+            "  4   7",
+            "   \\",
+            "    5",
+            "",
+        ]
         assert t.root is not None
         assert t.root.right is not None
         assert t.root.left is not None
@@ -138,30 +145,37 @@ class TestBinarySearchTree:
         assert t.root.right.right.left is None
 
         t.remove(7)
-        r"""
-              8
-             / \
-            3   10
-           / \    \
-          1   6    14
-             /
-            4
-             \
-              5
-        """
+
+        assert str(t).split("\n") == [
+            "     8",
+            "    / \\",
+            "   /   \\",
+            "  3    10",
+            " / \\     \\",
+            "1   6    14",
+            "   /",
+            "  /",
+            " 4",
+            "  \\",
+            "   5",
+            "",
+        ]
         assert t.root.left.right.right is None
         assert t.root.left.right.left.data == 4
 
         t.remove(6)
-        r"""
-              8
-             / \
-            3   10
-           / \    \
-          1   4    14
-               \
-                5
-        """
+
+        assert str(t).split("\n") == [
+            "     8",
+            "    / \\",
+            "   /   \\",
+            "  3    10",
+            " / \\     \\",
+            "1   4    14",
+            "     \\",
+            "      5",
+            "",
+        ]
         assert t.root.left.left.data == 1
         assert t.root.left.right.data == 4
         assert t.root.left.right.right.data == 5
@@ -170,14 +184,16 @@ class TestBinarySearchTree:
         assert t.root.left.right.parent == t.root.left
 
         t.remove(3)
-        r"""
-              8
-             / \
-            4   10
-           / \    \
-          1   5    14
-        """
 
+        assert str(t).split("\n") == [
+            "     8",
+            "    / \\",
+            "   /   \\",
+            "  4    10",
+            " / \\     \\",
+            "1   5    14",
+            "",
+        ]
         assert t.root.left.data == 4
         assert t.root.left.right.data == 5
         assert t.root.left.left.data == 1
@@ -186,13 +202,16 @@ class TestBinarySearchTree:
         assert t.root.left.right.parent == t.root.left
 
         t.remove(4)
-        r"""
-              8
-             / \
-            5   10
-           /      \
-          1        14
-        """
+
+        assert str(t).split("\n") == [
+            "     8",
+            "    / \\",
+            "   /   \\",
+            "  5    10",
+            " /       \\",
+            "1        14",
+            "",
+        ]
         assert t.root.left.data == 5
         assert t.root.left.right is None
         assert t.root.left.left.data == 1
@@ -208,19 +227,24 @@ class TestBinarySearchTree:
         t.remove(14)
         t.remove(5)
         assert t.root is None
+        assert str(t).split("\n") == [""]
 
     @staticmethod
     def test_remove_2(t: BinarySearchTree[int]) -> None:
         t.remove(3)
-        r"""
-              8
-             / \
-            4   10
-           / \    \
-          1   6    14
-             / \   /
-            5   7 13
-        """
+
+        assert str(t).split("\n") == [
+            "      8",
+            "     / \\",
+            "    /   \\",
+            "   /     \\",
+            "  4      10",
+            " / \\       \\",
+            "1   6      14",
+            "   / \\     /",
+            "  5   7   13",
+            "",
+        ]
         assert t.root is not None
         assert t.root.left is not None
         assert t.root.left.left is not None
@@ -283,14 +307,10 @@ class TestBinarySearchTree:
         tree.insert(73)
         tree.insert(11)
 
-        assert (
-            repr(tree)
-            == str(tree)
-            == (
-                "BinarySearchTree(root=BinaryTreeNode(\n"
-                "    data=8,\n"
-                "    left=BinaryTreeNode(data=6, left=BinaryTreeNode(data=1)),\n"
-                "    right=BinaryTreeNode(data=73, left=BinaryTreeNode(data=11))\n"
-                "), size=5)"
-            )
+        assert repr(tree) == (
+            "BinarySearchTree(root=BinaryTreeNode(\n"
+            "    data=8,\n"
+            "    left=BinaryTreeNode(data=6, left=BinaryTreeNode(data=1)),\n"
+            "    right=BinaryTreeNode(data=73, left=BinaryTreeNode(data=11))\n"
+            "), size=5)"
         )
