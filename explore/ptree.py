@@ -2,25 +2,33 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
+from enum import Enum, auto, unique
+from typing import Any, Optional
 
 from src.structures import RedBlackTree
+from src.structures.tree.binary_search_tree import BinaryTreeNode
 
 MAX_HEIGHT = 1000
 INFINITY = 1 << 20
 
 
-def drawtree(t):
+def drawtree(t: BinaryTreeNode[Any]) -> None:
+    @unique
+    class ParentDir(Enum):
+        LEFT, ROOT, RIGHT = auto(), auto(), auto()
+
     @dataclass
     class AsciiNode:
         left: Optional[AsciiNode] = None
         right: Optional[AsciiNode] = None
         edge_length: int = 0  # length of the edge from this node to its children
         height: int = 0
-        parent_dir: int = 0  # -1 = left, 0 = root, 1 = right
+        parent_dir: ParentDir = ParentDir.ROOT
         label: str = ""  # max supported unit32 in dec, 10 digits max
 
-    def build_ascii_tree_recursive(t):
+    def build_ascii_tree_recursive(
+        t: Optional[BinaryTreeNode[Any]],
+    ) -> Optional[AsciiNode]:
         if t is None:
             return None
 
@@ -32,20 +40,14 @@ def drawtree(t):
             label=str(t.data),
         )
         if node.left is not None:
-            node.left.parent_dir = -1
+            node.left.parent_dir = ParentDir.LEFT
         if node.right is not None:
-            node.right.parent_dir = 1
+            node.right.parent_dir = ParentDir.RIGHT
         return node
 
-    # Copy the tree into the ascii node structure
-    def build_ascii_tree(t):
-        if t is None:
-            return None
-        node = build_ascii_tree_recursive(t)
-        node.parent_dir = 0
-        return node
-
-    def compute_profile(node, x: int = 0, y: int = 0, left_side: bool = True) -> None:
+    def compute_profile(
+        node: Optional[AsciiNode], x: int = 0, y: int = 0, left_side: bool = True
+    ) -> None:
         """
         Fills in the lprofile array for the given tree. It assumes that the center of
         the label of the root of this tree is located at a position (x,y) and assumes
@@ -55,10 +57,10 @@ def drawtree(t):
             return
 
         if left_side:
-            isleft = int(node.parent_dir == -1)
+            isleft = int(node.parent_dir is ParentDir.LEFT)
             lprofile[y] = min(lprofile[y], x - ((len(node.label) - isleft) // 2))
         else:
-            notleft = int(node.parent_dir != -1)
+            notleft = int(node.parent_dir is not ParentDir.LEFT)
             rprofile[y] = max(rprofile[y], x + ((len(node.label) - notleft) // 2))
 
         if (node.left if left_side else node.right) is not None:
@@ -77,7 +79,7 @@ def drawtree(t):
 
     # This function fills in the edge_length and
     # height fields of the specified tree
-    def compute_edge_lengths(node):
+    def compute_edge_lengths(node: Optional[AsciiNode]) -> None:
         if node is None:
             return
         compute_edge_lengths(node.left)
@@ -98,6 +100,7 @@ def drawtree(t):
                 for i in range(min(node.right.height, MAX_HEIGHT)):
                     lprofile[i] = INFINITY
                 compute_profile(node.right, left_side=True)
+                # If left is None then this value is 0.
                 hmin = min(node.right.height, hmin)
 
             delta = max([4] + [4 + rprofile[i] - lprofile[i] for i in range(hmin)])
@@ -118,19 +121,19 @@ def drawtree(t):
             h = max(node.right.height + node.edge_length + 1, h)
         node.height = h
 
-    # used for printing next node in the same level,
-    # this is the x coordinate of the next char printed
-    print_next = 0
-
-    # This function prints the given level of the given tree, assuming
-    # that the node has the given x coordinate.
-    def print_level(node, x, level):
-        nonlocal print_next
+    def print_level(
+        node: Optional[AsciiNode], x: int, level: int, print_next: int = 0
+    ) -> int:
+        """
+        This function prints the given level of the given tree, assuming that the node
+        has the given x coordinate. print_next is the x coordinate of the next char
+        printed, used for printing next node in the same level.
+        """
         if node is None:
-            return
-        isleft = node.parent_dir == -1
+            return print_next
 
         if level == 0:
+            isleft = int(node.parent_dir == ParentDir.LEFT)
             spaces = x - print_next - ((len(node.label) - isleft) // 2)
             print_next += spaces + len(node.label)
             print(f"{' ' * spaces}{node.label}", end="")
@@ -146,19 +149,27 @@ def drawtree(t):
                 print(f"{' ' * spaces}\\", end="")
 
         else:
-            print_level(
-                node.left, x - node.edge_length - 1, level - node.edge_length - 1
+            print_next = print_level(
+                node.left,
+                x - node.edge_length - 1,
+                level - node.edge_length - 1,
+                print_next,
             )
-            print_level(
-                node.right, x + node.edge_length + 1, level - node.edge_length - 1
+            print_next = print_level(
+                node.right,
+                x + node.edge_length + 1,
+                level - node.edge_length - 1,
+                print_next,
             )
+        return print_next
 
     lprofile = [0] * MAX_HEIGHT
     rprofile = [0] * MAX_HEIGHT
 
     if t is None:
         return
-    proot = build_ascii_tree(t)
+    proot = build_ascii_tree_recursive(t)
+    assert proot is not None
     compute_edge_lengths(proot)
     for i in range(min(proot.height, MAX_HEIGHT)):
         lprofile[i] = INFINITY
@@ -167,7 +178,6 @@ def drawtree(t):
     xmin = min([0] + [lprofile[i] for i in range(min(proot.height, MAX_HEIGHT))])
 
     for i in range(proot.height):
-        print_next = 0
         print_level(proot, -xmin, i)
         print()
 
@@ -176,9 +186,10 @@ def drawtree(t):
 
 
 if __name__ == "__main__":
-    t = RedBlackTree()
+    t = RedBlackTree[int]()
     drawtree(t.root)
     t.insert(17)
+    drawtree(t.root)
     t.insert(14)
     drawtree(t.root)
     for i in range(0, 10, 2):
