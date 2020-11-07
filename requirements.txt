@@ -1,6 +1,6 @@
 dataslots==1.0.2
 matplotlib==3.3.2
-numpy==1.19.3
+numpy==1.19.4
 prettyprinter==0.18.0
 torch==1.7.0
 torchvision==0.8.1

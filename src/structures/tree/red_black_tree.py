@@ -26,15 +26,19 @@ class RedBlackTreeNode(BinaryTreeNode[T]):
     parent: Optional[RedBlackTreeNode[T]] = field(
         compare=False, default=None, repr=False
     )
-    color: Color = field(compare=False, default=Color.BLACK)
+    color: Color = field(compare=False, default=Color.BLACK, repr=False)
 
     @property
     def grandparent(self) -> Optional[RedBlackTreeNode[T]]:
-        ...
+        """ Redefined here because @property cannot be inherited. """
+        return None if self.parent is None else self.parent.parent
 
     @property
     def sibling(self) -> Optional[RedBlackTreeNode[T]]:
-        ...
+        """ Redefined here because @property cannot be inherited. """
+        if self.parent is None:
+            return None
+        return self.parent.right if self.parent.left is self else self.parent.left
 
 
 @dataclass(init=False)
@@ -80,7 +84,7 @@ class RedBlackTree(BinarySearchTree[T]):
         node.parent = right
         right.left = node
         if parent is not None:
-            if node.is_left:
+            if node.is_left():
                 parent.left = right
             else:
                 parent.right = right
@@ -104,7 +108,7 @@ class RedBlackTree(BinarySearchTree[T]):
         node.parent = left
         left.right = node
         if parent is not None:
-            if node.is_right:
+            if node.is_right():
                 parent.right = left
             else:
                 parent.left = left
@@ -184,7 +188,7 @@ class RedBlackTree(BinarySearchTree[T]):
 
     def insert_repair(self, node: RedBlackTreeNode[T]) -> None:
         """ Repair the coloring from inserting into a tree. """
-        while not node.is_root:
+        while node.parent is not None:
             # For simplicity, get our parent, sibling, uncle, and grandparent.
             # These are the nodes marked in this diagram:
             #           G
@@ -196,7 +200,7 @@ class RedBlackTree(BinarySearchTree[T]):
             parent = node.parent
             sibling = node.sibling
             grandparent = node.grandparent
-            uncle = node.parent.sibling
+            uncle = parent.sibling
 
             # If the parent corresponds to a node with one key in the 2-3-4 tree (that
             # is, the parent is a black node), then via the isometry we add ourselves
@@ -231,6 +235,7 @@ class RedBlackTree(BinarySearchTree[T]):
                 or (sibling is not None and self.color(sibling) is Color.RED)
             ):
                 node.color = Color.RED
+                return
 
             # There are two subcases here, which correspond to the relative ordering
             # at which the node to insert appears relative to the two other nodes in
@@ -251,16 +256,19 @@ class RedBlackTree(BinarySearchTree[T]):
             #   /       rotate        \    recolor       \
             #  N       R with B        B                  B
             #
-            elif self.color(parent) is Color.RED and (
+            if self.color(parent) is Color.RED and (
                 uncle is None or self.color(uncle) is Color.BLACK
             ):
-                self.rotate_with_parent(node)
                 if node.is_left() == parent.is_left():
+                    self.rotate_with_parent(parent)
                     parent.color = Color.BLACK
                     node.color = Color.RED
                 else:
                     self.rotate_with_parent(node)
+                    self.rotate_with_parent(node)
+                assert grandparent is not None
                 grandparent.color = Color.RED
+                return
 
             # Otherwise, we are inserting into a 4-node. There are several orientations
             # possible here, but with mirroring excluded there are basically two unique
@@ -288,11 +296,11 @@ class RedBlackTree(BinarySearchTree[T]):
             #     R                  R
             # In other words, we just flip the colors of the nodes and propagate the
             # search upward from the grandparent.
-            else:
-                parent.color = Color.BLACK
-                uncle.color = Color.BLACK
-                node.color = Color.RED
-                node = grandparent
+            assert uncle is not None
+            parent.color = Color.BLACK
+            uncle.color = Color.BLACK
+            node.color = Color.RED
+            node = grandparent  # type: ignore
 
     def rotate_with_parent(self, node: RedBlackTreeNode[T]) -> None:
         """
@@ -300,14 +308,14 @@ class RedBlackTree(BinarySearchTree[T]):
         returns the new root to this subtree.
         Performing one rotation can be done in O(1).
         """
-        if node.is_root:
+        if node.parent is None:
             raise RuntimeError("Node is the root and has no parent.")
 
         # Step 1: Do the logic to "locally" rotate the nodes. This repositions the
         # node, its parent, and the middle child. However, it leaves the parent
         # pointers of these nodes unmodified; we'll handle that later.
         child = None
-        if node.is_left:
+        if node.is_left():
             # Rotate right
             child = node.right
             node.right = node.parent
@@ -323,12 +331,12 @@ class RedBlackTree(BinarySearchTree[T]):
         # Step 2: Make the node's grandparent now point at it.
         grandparent = node.grandparent
         if grandparent is None:
-            if grandparent.left == node.parent:
+            self.root = node
+        else:
+            if node.parent.is_left():
                 grandparent.left = node
             else:
                 grandparent.right = node
-        else:
-            self.root = node
 
         # Step 3: Update parent pointers.
         #  1. The child node that got swapped needs its parent updated.
