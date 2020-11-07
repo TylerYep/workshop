@@ -27,6 +27,7 @@ class RedBlackTreeNode(BinaryTreeNode[T]):
         compare=False, default=None, repr=False
     )
     color: Color = field(compare=False, default=Color.BLACK, repr=False)
+    rank: int = field(compare=False, default=0, repr=False)
 
     @property
     def grandparent(self) -> Optional[RedBlackTreeNode[T]]:
@@ -255,7 +256,6 @@ class RedBlackTree(BinarySearchTree[T]):
             #    R   B   --->    N   B      --->    R   R
             #   /       rotate        \    recolor       \
             #  N       R with B        B                  B
-            #
             if self.color(parent) is Color.RED and (
                 uncle is None or self.color(uncle) is Color.BLACK
             ):
@@ -320,13 +320,13 @@ class RedBlackTree(BinarySearchTree[T]):
             child = node.right
             node.right = node.parent
             node.parent.left = child
-            # node.parent.rank = node.parent.rank - node.rank - 1
+            node.parent.rank = node.parent.rank - node.rank - 1
         else:
             # Rotate left
             child = node.left
             node.left = node.parent
             node.parent.right = child
-            # node.rank = node.parent.rank + node.rank + 1
+            node.rank = node.parent.rank + node.rank + 1
 
         # Step 2: Make the node's grandparent now point at it.
         grandparent = node.grandparent
@@ -349,6 +349,36 @@ class RedBlackTree(BinarySearchTree[T]):
         old_parent = node.parent
         node.parent = old_parent.parent
         old_parent.parent = node
+
+    def select(self, rank: int) -> T:
+        """ Takes in an integer rank and returns the rank-th order statistic. """
+        curr = self.root
+        while curr is not None:
+            if rank == curr.rank:
+                return curr.data
+            if rank < curr.rank:
+                curr = curr.left
+            else:
+                rank -= curr.rank + 1
+                curr = curr.right
+        raise RuntimeError("Not enough elements in tree.")
+
+    def rank_of(self, data: T) -> int:
+        """
+        Inverse of select; takes in a node in the tree and returns the number
+        of elements in the tree smaller than that key.
+        """
+        curr = self.root
+        total = 0
+        while curr is not None:
+            if data == curr.data:
+                return total + curr.rank
+            if data < curr.data:
+                curr = curr.left
+            else:
+                total += curr.rank + 1
+                curr = curr.right
+        return total
 
     # def remove(self, data: T) -> None:  # pylint: disable=too-many-branches
     #     """  Remove data from this tree. """
