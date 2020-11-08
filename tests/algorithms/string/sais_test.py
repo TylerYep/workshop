@@ -1,8 +1,8 @@
 from typing import List
 
 from src.algorithms.string.sais import (
+    build_suffix_array,
     build_suffix_array_naive,
-    build_suffix_array_sais,
     get_suffix_annotations,
     induced_sort,
     to_rank_array,
@@ -17,8 +17,8 @@ def test_build_suffix_array() -> None:
 
 
 def run_sais(text: str, expected_suffix_arr: List[int]) -> None:
-    assert build_suffix_array_sais(text) == build_suffix_array_naive(text)
-    assert build_suffix_array_sais(text) == expected_suffix_arr
+    assert build_suffix_array(text) == build_suffix_array_naive(text)
+    assert build_suffix_array(text) == expected_suffix_arr
 
 
 def test_nonsense() -> None:

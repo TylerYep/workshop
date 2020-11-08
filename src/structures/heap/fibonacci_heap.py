@@ -409,8 +409,6 @@ class FibonacciHeap(Heap[T]):
         # The size of the new heap is the sum of the sizes of the input heaps.
         self.size += other.size
         self.allow_duplicates = self.allow_duplicates or other.allow_duplicates
-
-        # TODO: Python 3.9
         self.elem_to_entry |= other.elem_to_entry  # type: ignore
 
     def _decrease_key_unchecked(self, entry: Entry[T], priority: float) -> None:

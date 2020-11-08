@@ -2,10 +2,10 @@ from typing import List, TypeVar
 
 from src.util import Comparable
 
-C = TypeVar("C", bound=Comparable)
+T = TypeVar("T", bound=Comparable)
 
 
-def insertion_sort(array: List[C]) -> List[C]:
+def insertion_sort(array: List[T]) -> List[T]:
     """
     Insertion sort algorithm implementation.
 

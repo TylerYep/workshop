@@ -2,17 +2,17 @@ from typing import List, TypeVar
 
 from src.util import Comparable
 
-C = TypeVar("C", bound=Comparable)
+T = TypeVar("T", bound=Comparable)
 
 
-def merge_sort(array: List[C]) -> List[C]:
+def merge_sort(array: List[T]) -> List[T]:
     """
     Merge sort algorithm implementation.
 
     Runtime: O(n log n)
     """
 
-    def merge(left: List[C], right: List[C]) -> List[C]:
+    def merge(left: List[T], right: List[T]) -> List[T]:
         """ Merge sort merging function. """
         left_index, right_index = 0, 0
         result = []

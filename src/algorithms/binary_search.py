@@ -2,10 +2,10 @@ from typing import Sequence, TypeVar
 
 from src.util import Comparable
 
-C = TypeVar("C", bound=Comparable)
+T = TypeVar("T", bound=Comparable)
 
 
-def binary_search(arr: Sequence[C], target: C) -> int:
+def binary_search(arr: Sequence[T], target: T) -> int:
     """
     Returns the index of target element, or -1 if it cannot be found.
     Performs a left binary search, which is equivalent to:
@@ -27,7 +27,7 @@ def binary_search(arr: Sequence[C], target: C) -> int:
     return -1
 
 
-def left_right_binary_search(arr: Sequence[C], target: C, is_left: bool = True) -> int:
+def left_right_binary_search(arr: Sequence[T], target: T, is_left: bool = True) -> int:
     """
     Returns the leftmost index of target element, or -1 if it cannot be found.
     Returns rightmost index if is_left is False. Allows duplicates.
@@ -56,7 +56,7 @@ def left_right_binary_search(arr: Sequence[C], target: C, is_left: bool = True) 
     return index
 
 
-def linear_search(arr: Sequence[C], target: C) -> int:
+def linear_search(arr: Sequence[T], target: T) -> int:
     """
     Returns the index of target element, or -1 if it cannot be found.
 
@@ -68,7 +68,7 @@ def linear_search(arr: Sequence[C], target: C) -> int:
     return -1
 
 
-def binary_search_recursive(arr: Sequence[C], target: C) -> int:
+def binary_search_recursive(arr: Sequence[T], target: T) -> int:
     if not arr:
         return -1
     midpoint = len(arr) // 2

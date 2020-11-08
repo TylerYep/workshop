@@ -154,3 +154,14 @@ at some point you want to cut off the tail of the distribution
 and that way the code minimizes both height and width (multiply them together)
 
 I need a stable version of Black and a way to remove all trailing commas to reset it.
+
+# Python Upgrades
+## 3.9
+- Replace List[int] with list[int].
+   Wait until PEP 585 is implemented in mypy and someone makes a tool to automatically upgrade and remove the typing imports.
+
+## 3.10
+- Remove all from __future__ imports, and remove Union[] type annotations.
+   However, this might be painful if I need numpy, as I would need to add them all back.
+- Fix `zip(..., strict=True)`
+-

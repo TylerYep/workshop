@@ -9,9 +9,7 @@ class NewHybridRMQ(RMQ):
     def __init__(self, elems: List[int]) -> None:
         super().__init__(elems)
         sparse_table = SparseTableRMQ(elems)
-        self.block_size = math.floor(math.log2(len(elems)))
-        if self.block_size == 0:
-            self.block_size = 1
+        self.block_size = max(1, math.floor(math.log2(len(elems))))
         self.blocks = [
             sparse_table.rmq(low, min(low + self.block_size, len(elems)))
             for low in range(0, len(elems) - self.block_size, self.block_size)

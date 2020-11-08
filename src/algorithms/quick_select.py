@@ -3,10 +3,10 @@ from typing import List, Sequence, Tuple, TypeVar
 
 from src.util import Comparable
 
-C = TypeVar("C", bound=Comparable)
+T = TypeVar("T", bound=Comparable)
 
 
-def quick_select(items: Sequence[C], index: int) -> C:
+def quick_select(items: Sequence[T], index: int) -> T:
     """
     A Python implementation of the quick select algorithm, which is efficient for
     calculating the value that would appear in the index of a list if it would be
@@ -17,7 +17,7 @@ def quick_select(items: Sequence[C], index: int) -> C:
     This algorithm is often much better than sorting, which is O(n log n).
     """
 
-    def _partition(data: Sequence[C], pivot: C) -> Tuple[List[C], List[C], List[C]]:
+    def _partition(data: Sequence[T], pivot: T) -> Tuple[List[T], List[T], List[T]]:
         """
         Three way partition the data into smaller, equal, and greater lists,
         in relation to the pivot

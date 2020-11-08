@@ -32,7 +32,7 @@ def build_suffix_array_naive(source: str) -> List[int]:
     return [n - len(suffix) for suffix in suffixes]
 
 
-def build_suffix_array_sais(orig_text: str) -> List[int]:
+def build_suffix_array(orig_text: str) -> List[int]:
     """
     SAIS algorithm to form a Suffix Array.
 

@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+from src.algorithms.string.sais import build_suffix_array
+
 
 @dataclass(init=False)
 class SuffixArray:
@@ -8,8 +10,6 @@ class SuffixArray:
     suffix_arr: List[int] = field(init=False, repr=False, default_factory=list)
 
     def __init__(self, text: str) -> None:
-        from src.algorithms import build_suffix_array
-
         self.text = text + "$"
         self.suffix_arr = build_suffix_array(text)
 

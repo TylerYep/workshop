@@ -39,10 +39,7 @@ def calc_cart_num(arr: List[int]) -> int:
 class FischerHeunRMQ(RMQ):
     def __init__(self, elems: List[int]) -> None:
         super().__init__(elems)
-        self.block_size = math.floor(math.log2(len(elems))) // 4
-        if self.block_size == 0:
-            self.block_size = 1
-
+        self.block_size = max(1, math.floor(math.log2(len(elems))) // 4)
         self.block_mins = []
         block_min_vals = []
         for i in range(0, len(elems), self.block_size):

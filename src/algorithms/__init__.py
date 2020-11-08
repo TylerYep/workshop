@@ -22,16 +22,15 @@ from .sort.radix_sort import radix_sort
 from .sort.selection_sort import selection_sort
 from .string.knuth_morris_pratt import kmp_string_match
 from .string.lcs import longest_common_subsequence
-from .string.sais import build_suffix_array_sais as build_suffix_array
+from .string.sais import build_suffix_array
 
 __all__ = (
-    "binary_search",
-    "left_right_binary_search",
-    "linear_search",
-    "huffman_compress",
-    "huffman_decompress",
     "bellman_ford_shortest_paths",
+    "binary_search",
     "breadth_first_search",
+    "bubble_sort",
+    "bucket_sort",
+    "build_suffix_array",
     "connected_components",
     "depth_first_search",
     "dfs_traversal",
@@ -39,20 +38,21 @@ __all__ = (
     "dijkstra_shortest_paths",
     "floyd_warshall_shortest_paths",
     "hamiltonian_cycle",
+    "huffman_compress",
+    "huffman_decompress",
+    "insertion_sort",
     "johnsons_shortest_paths",
     "kargers_min_cut",
+    "kmp_string_match",
     "kruskals_mst",
-    "prims_mst",
-    "topological_sort",
-    "quick_select",
-    "bubble_sort",
-    "bucket_sort",
-    "insertion_sort",
+    "left_right_binary_search",
+    "linear_search",
+    "longest_common_subsequence",
     "merge_sort",
+    "prims_mst",
+    "quick_select",
     "quick_sort",
     "radix_sort",
     "selection_sort",
-    "kmp_string_match",
-    "longest_common_subsequence",
-    "build_suffix_array",
+    "topological_sort",
 )
