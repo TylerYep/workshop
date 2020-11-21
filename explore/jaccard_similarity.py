@@ -28,15 +28,15 @@
 #     Examples:
 #     >>> setA = {'a', 'b', 'c', 'd', 'e'}
 #     >>> setB = {'c', 'd', 'e', 'f', 'h', 'i'}
-#     >>> jaccard_similariy(setA,setB)
+#     >>> jaccard_similarity(setA,setB)
 #     0.375
-#     >>> jaccard_similariy(setA,setA)
+#     >>> jaccard_similarity(setA,setA)
 #     1.0
-#     >>> jaccard_similariy(setA,setA,True)
+#     >>> jaccard_similarity(setA,setA,True)
 #     0.5
 #     >>> setA = ['a', 'b', 'c', 'd', 'e']
 #     >>> setB = ('c', 'd', 'e', 'f', 'h', 'i')
-#     >>> jaccard_similariy(setA,setB)
+#     >>> jaccard_similarity(setA,setB)
 #     0.375
 #     """
 
@@ -67,4 +67,4 @@
 
 #     setA = {"a", "b", "c", "d", "e"}
 #     setB = {"c", "d", "e", "f", "h", "i"}
-#     print(jaccard_similariy(setA, setB))
+#     print(jaccard_similarity(setA, setB))

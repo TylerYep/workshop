@@ -27,22 +27,16 @@ class AsciiNode:
 
 def build_ascii_tree_recursive(
     t: Optional[BinaryTreeNode[Any]],
+    direction: ParentDirection = ParentDirection.ROOT,
 ) -> Optional[AsciiNode]:
     if t is None:
         return None
 
-    left_side = build_ascii_tree_recursive(t.left)
-    right_side = build_ascii_tree_recursive(t.right)
-    node = AsciiNode(
-        left=left_side,
-        right=right_side,
-        label=str(t.data),
+    left_side = build_ascii_tree_recursive(t.left, ParentDirection.LEFT)
+    right_side = build_ascii_tree_recursive(t.right, ParentDirection.RIGHT)
+    return AsciiNode(
+        left=left_side, right=right_side, parent_dir=direction, label=str(t.data)
     )
-    if node.left is not None:
-        node.left.parent_dir = ParentDirection.LEFT
-    if node.right is not None:
-        node.right.parent_dir = ParentDirection.RIGHT
-    return node
 
 
 def compute_profile(
