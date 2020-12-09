@@ -12,7 +12,6 @@ from src.util import Comparable
 
 KT = TypeVar("KT", bound=Comparable)
 VT = TypeVar("VT")
-# TODO delete should raise an error if the key does not exist
 
 
 @dataclass
@@ -105,9 +104,7 @@ class SkipList(Generic[KT, VT]):
         'Three'
         """
         node, _ = self._locate_node(key)
-        if node is None:
-            return False
-        return True
+        return node is not None
 
     def random_level(self) -> int:
         """
@@ -134,14 +131,16 @@ class SkipList(Generic[KT, VT]):
         [1, 3]
         """
         node, update_vector = self._locate_node(key)
-        if node is not None:
-            for i, update_node in enumerate(update_vector):
-                # Remove or replace all references to removed node.
-                if len(update_node.next) > i and update_node.next[i].key == key:
-                    if len(node.next) > i:
-                        update_node.next[i] = node.next[i]
-                    else:
-                        update_node.next = update_node.next[:i]
+        if node is None:
+            raise KeyError(f"List does not contain: {key}")
+
+        for i, update_node in enumerate(update_vector):
+            # Remove or replace all references to removed node.
+            if len(update_node.next) > i and update_node.next[i].key == key:
+                if len(node.next) > i:
+                    update_node.next[i] = node.next[i]
+                else:
+                    update_node.next = update_node.next[:i]
 
     def insert(self, key: KT, value: VT) -> None:
         """

@@ -46,7 +46,7 @@ def features_from_img(imgpath, imgsize):
     return extract_features(img_var, cnn), img_var
 
 
-# Load the pre-trained SqueezeNet model. TODO
+# Load the pre-trained SqueezeNet model.
 cnn = torchvision.models.squeezenet1_1(pretrained=True).features
 cnn.type(dtype)
 

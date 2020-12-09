@@ -72,9 +72,10 @@ class TestSkipList:
         assert skip_list["V"] == 13
 
     @staticmethod
-    def test_deleting_item_from_empty_list_do_nothing() -> None:
+    def test_deleting_item_from_empty_list_raises_error() -> None:
         skip_list = SkipList[str, int]()
-        skip_list.remove("Some key")
+        with pytest.raises(KeyError):
+            skip_list.remove("Some key")
 
         assert len(skip_list.next) == 0
 

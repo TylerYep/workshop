@@ -63,11 +63,13 @@ class Graph(Generic[V]):
                             self.add_edge(u, v, weight=edge, **kwargs)
                         else:
                             raise TypeError(f"{edge} is not a supported Edge type.")
-                    else:
-                        # TODO: only make these collections
-                        # Dict values are some collection; only contains node names.
+                    elif isinstance(graph[u], (list, tuple, set)):
+                        # TODO: add other collections
+                        # Values are some other collection; only contains node names.
                         # Use default weight parameter.
                         self.add_edge(u, v, weight)
+                    else:
+                        raise TypeError(f"{graph[u]} is not a supported Edge mapping.")
 
     def __str__(self) -> str:
         return str(formatter.pformat(self._graph))
