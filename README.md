@@ -155,6 +155,15 @@ and that way the code minimizes both height and width (multiply them together)
 
 I need a stable version of Black and a way to remove all trailing commas to reset it.
 
+To merge TheAlgorithms:
+
+```fish
+git pull upstream master
+git rebase --abort
+git merge upstream/master --strategy-option theirs
+yes d | git mergetool --
+```
+
 # Python Upgrades
 ## 3.9
 - Replace List[int] with list[int].

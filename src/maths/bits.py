@@ -26,9 +26,11 @@ class Bits:
         return f"Bits({str(self)}, " f"val={self.val}, length={self.length})"
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, Bits):
-            raise TypeError(f"{other} cannot be intersected with Bits.")
-        return str(self) == str(other)
+        if isinstance(other, int):
+            return self.val == other
+        if isinstance(other, Bits):
+            return str(self) == str(other)
+        raise TypeError(f"{other} cannot be compared with Bits.")
 
     def __len__(self) -> int:
         return self.length
@@ -167,25 +169,30 @@ class Bits:
 
     def is_one(self, index: int) -> bool:
         """ Returns True if the bit at given index is 1. """
+        if index > self.length:
+            return False
         return (self.val & (1 << index)) == 0
+        # return ((self.val >> index) & 1) == 1
 
-    def set_bit(self, index: int, new_val: bool) -> None:
+    def set_bit(self, index: int, new_val: bool = True) -> Bits:
         """ Mark an index as the given value of its current state. """
         if not 0 <= index < self.length:
             raise RuntimeError("Invalid bit; cannot be set.")
+
         reversed_index = self.length - index - 1
         if new_val:
             self.val |= 1 << reversed_index
         else:
             self.val &= ~(1 << reversed_index)
 
+        return Bits.from_num(self.val, self.length)
+
     def flip_index(self, index: int) -> Bits:
         """ Mark an index as opposite of its current state. """
-        # TODO USE XOR
-        # return Bits(self.val ^ 1 << index, self.length)
-        reversed_index = self.length - index - 1
-        new_val = self.val
-        new_val &= ~(1 << reversed_index)
-        if new_val == self.val:
-            new_val |= 1 << reversed_index
-        return Bits.from_num(new_val, self.length)
+        return Bits.from_num(self.val ^ (1 << index), self.length)
+        # reversed_index = self.length - index - 1
+        # new_val = self.val
+        # new_val &= ~(1 << reversed_index)
+        # if new_val == self.val:
+        #     new_val |= 1 << reversed_index
+        # return Bits.from_num(new_val, self.length)

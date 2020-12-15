@@ -1,5 +1,5 @@
 import random
-from typing import List, Sequence, Tuple, TypeVar
+from typing import Sequence, TypeVar
 
 from src.util import Comparable
 
@@ -8,46 +8,34 @@ T = TypeVar("T", bound=Comparable)
 
 def quick_select(items: Sequence[T], index: int) -> T:
     """
-    A Python implementation of the quick select algorithm, which is efficient for
-    calculating the value that would appear in the index of a list if it would be
-    sorted, even if it is not already sorted.
+    A Python implementation of the quick select algorithm (also called the kth order
+    statistic), which is efficient for calculating the value that would appear in the
+    index of a list if it would be sorted, even if it is not already sorted.
+
+    Partition the data into smaller and greater lists in relation to the pivot, then
+    recurse.
 
     Average runtime: O(n)
     Runtime: O(n^2)
     This algorithm is often much better than sorting, which is O(n log n).
     """
-
-    def _partition(data: Sequence[T], pivot: T) -> Tuple[List[T], List[T], List[T]]:
-        """
-        Three way partition the data into smaller, equal, and greater lists,
-        in relation to the pivot
-        :param data: Data to be sorted (list)
-        :param pivot: Value to partition the data on
-        :return: Three lists: smaller, equal and greater
-        """
-        less, equal, greater = [], [], []
-        for element in data:
-            if element < pivot:
-                less.append(element)
-            elif element > pivot:
-                greater.append(element)
-            else:
-                equal.append(element)
-        return less, equal, greater
-
     if index < 0 or index >= len(items):
         raise ValueError(f"Index {index} is out of range.")
 
-    pivot = items[random.randrange(len(items))]
-    smaller, equal, larger = _partition(items, pivot)
-    m = len(smaller)  # end of smaller
-    n = m + len(equal)  # start of larger
+    pivot = random.choice(items)
+    equal, smaller, larger = 0, [], []
+    for elem in items:
+        if elem == pivot:
+            equal += 1
+        elif elem < pivot:
+            smaller.append(elem)
+        else:
+            larger.append(elem)
 
-    # index is the pivot
-    if m <= index < n:
+    m = len(smaller)
+    if index == m:
         return pivot
-    # must be in smaller
     if index < m:
         return quick_select(smaller, index)
-    # must be in larger
-    return quick_select(larger, index - n)
+    # eliminate all smaller elements than pivot
+    return quick_select(larger, index - (m + equal))

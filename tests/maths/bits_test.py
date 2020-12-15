@@ -9,6 +9,13 @@ def test_constructors() -> None:
     assert x_inv.val == 10
 
 
+def test_is_solo() -> None:
+    bits = Bits("1010")
+    for i, bit in enumerate(bits):
+        assert bits.is_one(i) is (bit == 1)
+    assert Bits("0").is_one(17) is False
+
+
 def test_set_bit() -> None:
     y = Bits("11001", length=6)
     assert str(y) == "011001"
@@ -27,6 +34,25 @@ def test_set_bit() -> None:
     assert str(y) == "001000"
 
     assert y.is_solo is True
+
+
+def test_set_bit_immutable() -> None:
+    assert Bits("1101").set_bit(index=2) == 15
+    assert Bits("1111").set_bit(index=1) == 15
+    # assert Bits("0").set_bit(index=5) == 32
+
+    result = Bits("10010").set_bit(3, False)
+    assert result == 16
+    assert str(result) == "10000"
+
+    # result = Bits("0").set_bit(5, False)
+    # assert result == 0
+    # assert str(result) == "00000"
+
+
+def test_flip_bit() -> None:
+    assert Bits("101").flip_index(1) == 7
+    assert Bits("101").flip_index(0) == 4
 
 
 def test_bit_setter() -> None:
