@@ -10,7 +10,8 @@ def test_zero_distance_approx() -> None:
             [4, 0, 2, INF],
             [3, 2, 0, 1],
             [INF, INF, 1, 0],
-        ]
+        ],
+        zero_is_no_edge=False,
     )
 
     ado = ApproxDistanceOracle(graph)

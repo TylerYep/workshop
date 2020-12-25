@@ -134,20 +134,19 @@ class TestGraph:
 
     @staticmethod
     def test_to_matrix() -> None:
-        INF = Graph.INFINITY
         matrix = [
-            [INF, 1, 5, INF],
-            [1, INF, 8, INF],
-            [5, 8, INF, 8],
-            [INF, INF, 8, 1],
+            [0, 1, 5, 0],
+            [1, 0, 8, 0],
+            [5, 8, 0, 8],
+            [0, 0, 8, 1],
         ]
         assert Graph.from_matrix(matrix).to_matrix() == matrix
 
         matrix = [
-            [INF, 1, 5, INF],
-            [INF, INF, 2, INF],
-            [INF, INF, INF, 8],
-            [INF, INF, INF, 1],
+            [0, 1, 5, 0],
+            [0, 0, 2, 0],
+            [0, 0, 0, 8],
+            [0, 0, 0, 1],
         ]
         assert Graph.from_matrix(matrix).to_matrix() == matrix
 
@@ -162,10 +161,10 @@ class TestGraph:
         new_matrix = graph.to_matrix()
 
         assert new_matrix == [
-            [INF, 1, 1, INF],
-            [INF, INF, INF, INF],
-            [INF, INF, INF, 1],
-            [INF, INF, INF, INF],
+            [0, 1, 1, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 1],
+            [0, 0, 0, 0],
         ]
 
     @staticmethod

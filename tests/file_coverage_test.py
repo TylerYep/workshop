@@ -45,4 +45,5 @@ def test_all_exported() -> None:
                 and name not in module_all
             ]
 
-            assert not missing_export and not extra_exports
+            assert not missing_export
+            assert not extra_exports

@@ -218,7 +218,7 @@ class TestBinarySearchTree:
         assert t.root.left.parent == t.root
         assert t.root.left.left.parent == t.root.left
 
-        with pytest.raises(Exception):
+        with pytest.raises(Exception, match="TreeNode with data 42 does not exist"):
             t.remove(42)
 
         t.remove(8)
@@ -277,7 +277,7 @@ class TestBinarySearchTree:
         assert t.max_element() == 14
 
         t.clear()
-        with pytest.raises(Exception):
+        with pytest.raises(Exception, match="Binary search tree is empty"):
             t.max_element()
 
     @staticmethod
@@ -285,7 +285,7 @@ class TestBinarySearchTree:
         assert t.min_element() == 1
 
         t.clear()
-        with pytest.raises(Exception):
+        with pytest.raises(Exception, match="Binary search tree is empty"):
             t.min_element()
 
     @staticmethod

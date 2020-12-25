@@ -6,6 +6,7 @@ from .graph.connected import connected_components
 from .graph.dfs import depth_first_search, dfs_traversal
 from .graph.dijkstras import dijkstra_search, dijkstra_shortest_paths
 from .graph.floyd_warshall import floyd_warshall_shortest_paths
+from .graph.ford_fulkerson import ford_max_flow
 from .graph.hamiltonian_cycle import hamiltonian_cycle
 from .graph.johnsons import johnsons_shortest_paths
 from .graph.kargers import kargers_min_cut
@@ -37,6 +38,7 @@ __all__ = (
     "dijkstra_search",
     "dijkstra_shortest_paths",
     "floyd_warshall_shortest_paths",
+    "ford_max_flow",
     "hamiltonian_cycle",
     "huffman_compress",
     "huffman_decompress",

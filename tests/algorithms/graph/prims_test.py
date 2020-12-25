@@ -3,15 +3,14 @@ from src.structures import Graph
 
 
 def test_prims() -> None:
-    INF = Graph.INFINITY
     g = Graph.from_matrix(
         [
-            [INF, 2, INF, 6, INF],
-            [2, INF, 3, 8, 5],
-            [INF, 3, INF, INF, 7],
-            [6, 8, INF, INF, 9],
-            [INF, 5, 7, 9, INF],
-        ]
+            [0, 2, 0, 6, 0],
+            [2, 0, 3, 8, 5],
+            [0, 3, 0, 0, 7],
+            [6, 8, 0, 0, 9],
+            [0, 5, 7, 9, 0],
+        ],
     )
 
     assert prims_mst(g) == Graph(

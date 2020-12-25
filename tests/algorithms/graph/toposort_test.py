@@ -28,9 +28,9 @@ def test_topological_sort() -> None:
 
 def test_topological_sort_cycle_detection() -> None:
     graph = Graph[str]({"a": ["a"]})
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Cycle detected in node a"):
         _ = topological_sort(graph)
 
     graph = Graph({"a": ["b"], "b": ["c"], "c": ["a"]})
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Cycle detected in node c"):
         _ = topological_sort(graph)

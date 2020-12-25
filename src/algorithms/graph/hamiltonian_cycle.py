@@ -7,6 +7,7 @@ https://en.wikipedia.org/wiki/Hamiltonian_path
 from typing import List
 
 
+# TODO: convert to use custom graph class
 def hamiltonian_cycle(graph: List[List[int]], start_index: int) -> List[int]:
     """
     Either return array of vertices indicating the hamiltonian cycle

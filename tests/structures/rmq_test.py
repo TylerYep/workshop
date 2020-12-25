@@ -2,7 +2,7 @@ import random
 import time
 from typing import List
 
-from tqdm import tqdm
+from tqdm import trange
 
 from src.structures import FischerHeunRMQ, SparseTableRMQ
 
@@ -25,7 +25,7 @@ def run_tests(
 
         total_build_time_ref, total_build_time_test = 0.0, 0.0
         total_run_time_ref, total_run_time_test = 0.0, 0.0
-        for _ in tqdm(range(num_builds), disable=not verbose):
+        for _ in trange(num_builds, disable=not verbose):
             # Generate reference RMQ
             t_start = time.perf_counter()
             reference_rmq = RMQ(data)

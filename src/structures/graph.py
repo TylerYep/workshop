@@ -139,7 +139,10 @@ class Graph(Generic[V]):
         return graph
 
     @classmethod
-    def from_matrix(cls, matrix: Sequence[Sequence[float]]) -> Graph[int]:
+    def from_matrix(
+        cls, matrix: Sequence[Sequence[float]], *, zero_is_no_edge: bool = True
+    ) -> Graph[int]:
+        """ By default, treat edges with weight 0 as non-existent edges. """
         is_directed = False
         n = len(matrix)
         graph: Dict[int, Dict[int, float]] = {i: {} for i in range(n)}
@@ -150,7 +153,9 @@ class Graph(Generic[V]):
                 if not is_directed and i < j and edge_data != matrix[j][i]:
                     is_directed = True
                 # Only add edges with nonzero edges.
-                if edge_data != Graph.INFINITY:
+                if edge_data != Graph.INFINITY and not (
+                    zero_is_no_edge and edge_data == 0
+                ):
                     graph[i][j] = edge_data
         return Graph(graph, is_directed=is_directed)
 
@@ -164,9 +169,12 @@ class Graph(Generic[V]):
                     return False
         return True
 
-    def to_matrix(self) -> List[List[float]]:
+    def to_matrix(self, *, zero_is_no_edge: bool = True) -> List[List[float]]:
+        """ By default, outputs non-existent edges as having weight 0. """
         nodes = sorted(self._graph)
-        graph = [[Graph.INFINITY for _ in nodes] for _ in nodes]
+        graph = [
+            [0 if zero_is_no_edge else Graph.INFINITY for _ in nodes] for _ in nodes
+        ]
         for i, u in enumerate(nodes):
             for j, v in enumerate(nodes):
                 if v in self._graph[u]:
@@ -301,7 +309,7 @@ class Edge(Generic[V], Mapping[str, Any]):
     end: V
     weight: float
 
-    def __init__(self, start: V, end: V, weight: float = 1, **kwargs: Dict[str, Any]):
+    def __init__(self, start: V, end: V, weight: float = 1, **kwargs: Any):
         self.start = start
         self.end = end
         self.weight = weight

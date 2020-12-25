@@ -42,9 +42,7 @@ def johnsons_shortest_paths(graph: Graph[V]) -> Dict[V, Dict[V, float]]:
     reweighted_graph = Graph.from_graph(
         graph,
         edge_fn=lambda e: Edge(
-            e.start,
-            e.end,
-            e.weight + bellman_costs[e.start] - bellman_costs[e.end],
+            e.start, e.end, e.weight + bellman_costs[e.start] - bellman_costs[e.end]
         ),
     )
 
