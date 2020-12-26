@@ -1,6 +1,12 @@
+from typing import Any
+
 from src.algorithms import ford_max_flow
-from tests.algorithms.graph.problems.max_flow import TestMaxFlow
+from tests.algorithms.graph.problems.max_flow import MaxFlow
 
 
-def test_ford_max_flow() -> None:
-    TestMaxFlow.all_test_scenarios(ford_max_flow)
+class TestFordFulkerson(MaxFlow):
+    max_flow_fn = ford_max_flow
+
+
+def pytest_generate_tests(metafunc: Any) -> None:
+    metafunc.parametrize("max_flow_fn", (metafunc.cls.max_flow_fn,))
