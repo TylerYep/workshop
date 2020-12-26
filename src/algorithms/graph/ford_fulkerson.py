@@ -3,7 +3,12 @@ from typing import List, Optional, Set
 from src.structures import Edge, Graph, V
 
 
-def ford_max_flow(graph: Graph[V], source: V, sink: V) -> Graph[V]:
+def ford_max_flow(graph: Graph[V], source: V, sink: V) -> float:
+    result = ford_max_flow_network(graph, source, sink)
+    return sum(edge["flow"] for edge in result[source].values())
+
+
+def ford_max_flow_network(graph: Graph[V], source: V, sink: V) -> Graph[V]:
     """
     Given a graph and a pair of nodes s and t, produces a maximum s-t flow in that
     graph. Any flow that already exists in the input network will be used as a guess of

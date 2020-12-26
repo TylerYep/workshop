@@ -5,6 +5,7 @@ from .graph.bfs import breadth_first_search
 from .graph.connected import connected_components
 from .graph.dfs import depth_first_search, dfs_traversal
 from .graph.dijkstras import dijkstra_search, dijkstra_shortest_paths
+from .graph.edmonds_karp import edmonds_karp_max_flow
 from .graph.floyd_warshall import floyd_warshall_shortest_paths
 from .graph.ford_fulkerson import ford_max_flow
 from .graph.hamiltonian_cycle import hamiltonian_cycle
@@ -37,6 +38,7 @@ __all__ = (
     "dfs_traversal",
     "dijkstra_search",
     "dijkstra_shortest_paths",
+    "edmonds_karp_max_flow",
     "floyd_warshall_shortest_paths",
     "ford_max_flow",
     "hamiltonian_cycle",

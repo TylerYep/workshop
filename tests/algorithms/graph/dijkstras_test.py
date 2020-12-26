@@ -1,6 +1,6 @@
 from src.algorithms import dijkstra_search, dijkstra_shortest_paths
 from src.structures import Graph
-from tests.algorithms.graph.all_pairs_shortest_path_test import TestShortestPaths
+from tests.algorithms.graph.problems.all_pairs_shortest_paths import TestShortestPaths
 
 
 def test_dijkstra_search() -> None:
