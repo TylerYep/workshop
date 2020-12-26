@@ -1,6 +1,13 @@
+from typing import Any
+
+from conftest import add_fixtures
 from src.algorithms import johnsons_shortest_paths
-from tests.algorithms.graph.problems.all_pairs_shortest_paths import TestShortestPaths
+from tests.algorithms.graph.problems.apsp import AllPairsShortestPaths
 
 
-def test_johnsons() -> None:
-    TestShortestPaths.all_test_scenarios(johnsons_shortest_paths)
+class TestJohnsons(AllPairsShortestPaths):
+    shortest_paths_fn = johnsons_shortest_paths
+
+
+def pytest_generate_tests(metafunc: Any) -> None:
+    add_fixtures(metafunc, "shortest_paths_fn")

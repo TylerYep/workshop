@@ -1,5 +1,6 @@
 from typing import Any
 
+from conftest import add_fixtures
 from src.algorithms import edmonds_karp_max_flow
 from tests.algorithms.graph.problems.max_flow import MaxFlow
 
@@ -9,4 +10,4 @@ class TestEdmondsKarp(MaxFlow):
 
 
 def pytest_generate_tests(metafunc: Any) -> None:
-    metafunc.parametrize("max_flow_fn", (metafunc.cls.max_flow_fn,))
+    add_fixtures(metafunc, "max_flow_fn")

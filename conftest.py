@@ -1,3 +1,4 @@
+import inspect
 import random
 import time
 from typing import Any, Callable, List
@@ -32,6 +33,13 @@ def assert_a_faster_than_b(
     slow_version = end - start
 
     assert fast_version < slow_version, f"{fast_version} {slow_version}"
+
+
+def add_fixtures(metafunc: Any, *fixture_names: str) -> None:
+    """ Used for linking fixtures in class vars to the inherited superclass. """
+    for name in fixture_names:
+        if name in inspect.signature(metafunc.function).parameters:
+            metafunc.parametrize(name, [getattr(metafunc.cls, name)])
 
 
 def pytest_addoption(parser: Parser) -> None:

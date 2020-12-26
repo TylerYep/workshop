@@ -1,7 +1,5 @@
 from typing import Any, Callable, Dict
 
-import pytest
-
 from src.structures import Edge, Graph, V
 
 INF = Graph.INFINITY
@@ -9,16 +7,8 @@ SingleSourceFunction = Callable[[Graph[V], V], Dict[V, float]]
 APSPFunction = Callable[[Graph[V]], Dict[V, Dict[V, float]]]
 
 
-class TestShortestPaths:
-    @staticmethod
-    def all_test_scenarios(
-        shortest_paths_fn: APSPFunction[Any], negative_weights: bool = True
-    ) -> None:
-        TestShortestPaths.adj_list(shortest_paths_fn)
-        TestShortestPaths.edge_list(shortest_paths_fn)
-        TestShortestPaths.matrix(shortest_paths_fn)
-        if negative_weights:
-            TestShortestPaths.adj_list_negative_weights(shortest_paths_fn)
+class AllPairsShortestPaths:
+    # pylint: disable=no-self-use
 
     @staticmethod
     def single_source_to_all_pairs(
@@ -26,8 +16,7 @@ class TestShortestPaths:
     ) -> APSPFunction[V]:
         return lambda graph: {start: shortest_paths_fn(graph, start) for start in graph}
 
-    @staticmethod
-    def adj_list_negative_weights(shortest_paths_fn: APSPFunction[Any]) -> None:
+    def test_adj_list_neg_weights(self, shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](
             {
                 "a": {"b": -1, "c": 4},
@@ -66,8 +55,7 @@ class TestShortestPaths:
             "S": {"A": 6, "B": 9, "C": 13, "D": 16, "E": 14, "S": 0},
         }
 
-    @staticmethod
-    def adj_list(shortest_paths_fn: APSPFunction[Any]) -> None:
+    def test_adj_list(self, shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](
             {
                 "A": {"B": 2, "C": 5},
@@ -118,8 +106,7 @@ class TestShortestPaths:
             6: {2: INF, 3: INF, 4: INF, 5: INF, 6: 0},
         }
 
-    @staticmethod
-    def edge_list(shortest_paths_fn: APSPFunction[Any]) -> None:
+    def edge_list(self, shortest_paths_fn: APSPFunction[Any]) -> None:
         e01 = Edge(0, 1, -1)
         e05 = Edge(0, 5, 2)
         e12 = Edge(1, 2, 2)
@@ -141,8 +128,7 @@ class TestShortestPaths:
             5: {0: INF, 1: 2, 2: 3, 3: 0, 4: 4, 5: 0},
         }
 
-    @staticmethod
-    def matrix(shortest_paths_fn: APSPFunction[Any]) -> None:
+    def test_matrix(self, shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph.from_matrix(
             [[0, 5, INF, 10], [INF, 0, 3, INF], [INF, INF, 0, 1], [INF, INF, INF, 0]]
         )
@@ -153,23 +139,3 @@ class TestShortestPaths:
             2: {0: INF, 1: INF, 2: 0, 3: 1},
             3: {0: INF, 1: INF, 2: INF, 3: 0},
         }
-
-    @staticmethod
-    def negative_cycles(shortest_paths_fn: SingleSourceFunction[Any]) -> None:
-        e01 = Edge(0, 1, -1)
-        e05 = Edge(0, 5, 2)
-        e12 = Edge(1, 2, 2)
-        e15 = Edge(1, 5, -2)
-        e23 = Edge(2, 3, 5)
-        e24 = Edge(2, 4, 1)
-        e43 = Edge(4, 3, -4)
-        e45 = Edge(4, 5, 3)
-        e51 = Edge(5, 1, 2)
-        e52 = Edge(5, 2, 3)
-        graph2 = Graph.from_edgelist(
-            [e01, e05, e12, e15, e23, e24, e43, e45, e51, e52],
-            is_directed=False,
-        )
-
-        with pytest.raises(AssertionError):
-            _ = shortest_paths_fn(graph2, 0)

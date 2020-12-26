@@ -59,6 +59,8 @@ def dijkstra_shortest_paths(graph: Graph[V], start: V) -> Dict[V, float]:
         distances[u] = cost
         for v, e in graph[u].items():
             if v not in distances:
+                if e.weight < 0:
+                    raise RuntimeError("Dijkstra's does not work for negative weights.")
                 path_cost = cost + e.weight
                 if path_cost < heap[v].priority:
                     heap.decrease_key(v, path_cost)

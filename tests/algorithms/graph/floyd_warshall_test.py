@@ -1,6 +1,13 @@
+from typing import Any
+
+from conftest import add_fixtures
 from src.algorithms import floyd_warshall_shortest_paths
-from tests.algorithms.graph.problems.all_pairs_shortest_paths import TestShortestPaths
+from tests.algorithms.graph.problems.apsp import AllPairsShortestPaths
 
 
-def test_floyd_warshall() -> None:
-    TestShortestPaths.all_test_scenarios(floyd_warshall_shortest_paths)
+class TestFloydWarshall(AllPairsShortestPaths):
+    shortest_paths_fn = floyd_warshall_shortest_paths
+
+
+def pytest_generate_tests(metafunc: Any) -> None:
+    add_fixtures(metafunc, "shortest_paths_fn")
