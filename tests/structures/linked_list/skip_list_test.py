@@ -2,7 +2,7 @@ from typing import Dict, List
 
 import pytest
 
-from src.structures import SkipList
+from cs.structures import SkipList
 
 
 class TestSkipList:

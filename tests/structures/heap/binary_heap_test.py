@@ -1,4 +1,4 @@
-from src.structures import BinaryHeap
+from cs.structures import BinaryHeap
 
 
 class TestBinaryHeap:

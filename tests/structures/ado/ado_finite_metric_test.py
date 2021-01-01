@@ -1,4 +1,4 @@
-from src.structures import ApproxFiniteMetricOracle
+from cs.structures import ApproxFiniteMetricOracle
 
 
 def test_zero_distance_approx() -> None:

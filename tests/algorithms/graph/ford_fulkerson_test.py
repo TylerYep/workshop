@@ -1,7 +1,7 @@
 from typing import Any
 
 from conftest import add_fixtures
-from src.algorithms import ford_max_flow
+from cs.algorithms import ford_max_flow
 from tests.algorithms.graph.problems.max_flow import MaxFlow
 
 

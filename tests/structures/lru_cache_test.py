@@ -1,4 +1,4 @@
-from src.structures import LRUCache, lru_cache
+from cs.structures import LRUCache, lru_cache
 
 
 def test_lru_cache() -> None:

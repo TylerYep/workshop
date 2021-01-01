@@ -1,5 +1,5 @@
-from src.algorithms import kruskals_mst
-from src.structures import Edge, Graph
+from cs.algorithms import kruskals_mst
+from cs.structures import Edge, Graph
 
 
 def test_kruskals_small() -> None:

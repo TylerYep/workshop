@@ -1,4 +1,4 @@
-from src.structures import LinkedList
+from cs.structures import LinkedList
 
 
 class TestLinkedList:

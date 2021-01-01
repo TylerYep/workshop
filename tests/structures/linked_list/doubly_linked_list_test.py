@@ -1,4 +1,4 @@
-from src.structures import DoublyLinkedList
+from cs.structures import DoublyLinkedList
 
 
 class TestDoublyLinkedList:

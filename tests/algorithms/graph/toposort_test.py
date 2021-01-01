@@ -1,7 +1,7 @@
 import pytest
 
-from src.algorithms import topological_sort
-from src.structures import Graph
+from cs.algorithms import topological_sort
+from cs.structures import Graph
 
 
 def test_topological_sort() -> None:

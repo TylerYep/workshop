@@ -1,4 +1,4 @@
-from src.algorithms import hamiltonian_cycle
+from cs.algorithms import hamiltonian_cycle
 
 
 def test_hamiltonian_cycle() -> None:

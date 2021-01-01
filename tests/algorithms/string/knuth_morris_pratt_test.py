@@ -1,4 +1,4 @@
-from src.algorithms import kmp_string_match
+from cs.algorithms import kmp_string_match
 
 
 def test_knuth_morris_pratt() -> None:

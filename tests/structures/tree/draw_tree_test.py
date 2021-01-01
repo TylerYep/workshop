@@ -1,4 +1,4 @@
-from src.structures import RedBlackTree
+from cs.structures import RedBlackTree
 
 
 class TestDrawTree:

@@ -1,4 +1,4 @@
-from src.algorithms import quick_select
+from cs.algorithms import quick_select
 
 
 def test_quick_select() -> None:

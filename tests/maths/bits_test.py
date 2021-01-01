@@ -1,4 +1,4 @@
-from src.maths.bits import Bits
+from cs.maths.bits import Bits
 
 
 def test_constructors() -> None:

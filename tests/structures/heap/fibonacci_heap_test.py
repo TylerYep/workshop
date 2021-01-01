@@ -1,6 +1,6 @@
 import pytest
 
-from src.structures import FibonacciHeap, Heap
+from cs.structures import FibonacciHeap, Heap
 from tests.structures.heap.heap_test import HEAP_TYPES, construct_heap
 
 

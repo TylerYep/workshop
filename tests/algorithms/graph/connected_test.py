@@ -1,5 +1,5 @@
-from src.algorithms import connected_components
-from src.structures import Graph
+from cs.algorithms import connected_components
+from cs.structures import Graph
 
 
 def test_connected_components() -> None:

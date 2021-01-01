@@ -1,6 +1,6 @@
 import pytest
 
-from src.structures import BinarySearchTree
+from cs.structures import BinarySearchTree
 
 
 class TestBinarySearchTree:

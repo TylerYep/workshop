@@ -1,4 +1,4 @@
-from src.maths.karatsuba import karatsuba
+from cs.maths.karatsuba import karatsuba
 
 
 def test_karatsuba() -> None:

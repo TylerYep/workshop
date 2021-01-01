@@ -3,8 +3,8 @@ from typing import Any
 import pytest
 
 from conftest import add_fixtures
-from src.algorithms import dijkstra_search, dijkstra_shortest_paths
-from src.structures import Graph
+from cs.algorithms import dijkstra_search, dijkstra_shortest_paths
+from cs.structures import Graph
 from tests.algorithms.graph.problems.apsp import AllPairsShortestPaths, APSPFunction
 
 

@@ -23,7 +23,7 @@ def show_images(images):
     sqrtn = int(np.ceil(np.sqrt(images.shape[0])))
     sqrtimg = int(np.ceil(np.sqrt(images.shape[1])))
 
-    fig = plt.figure(figsize=(sqrtn, sqrtn))
+    _ = plt.figure(figsize=(sqrtn, sqrtn))
     gs = gridspec.GridSpec(sqrtn, sqrtn)
     gs.update(wspace=0.05, hspace=0.05)
 
@@ -160,8 +160,8 @@ def run_a_gan(
     - D, G: PyTorch models for the discriminator and generator
     - D_solver, G_solver: torch.optim Optimizers to use for training the
       discriminator and generator.
-    - discriminator_loss, generator_loss: Functions to use for computing the generator and
-      discriminator loss, respectively.
+    - discriminator_loss, generator_loss: Functions to use for computing the generator
+      and discriminator loss, respectively.
     - show_every: Show samples after every show_every iterations.
     - batch_size: Batch size to use for training.
     - noise_size: Dimension of the noise to use as input to the generator.
@@ -195,7 +195,8 @@ def run_a_gan(
 
             if iter_count % show_every == 0:
                 print(
-                    f"Iter: {iter_count}, D: {d_total_error.item():.4}, G: {g_error.item():.4}"
+                    f"Iter: {iter_count}, "
+                    f"D: {d_total_error.item():.4}, G: {g_error.item():.4}"
                 )
                 imgs_numpy = fake_images.data.cpu().numpy()
                 show_images(imgs_numpy[:16])
@@ -250,10 +251,12 @@ def main():
     norm = transforms.Compose([transforms.ToTensor()])
     mnist_train = datasets.MNIST("data", train=True, download=False, transform=norm)
     mnist_val = datasets.MNIST("data", train=False, transform=norm)
+    del mnist_val
     loader_train = DataLoader(
         mnist_train, batch_size=128, sampler=ChunkSampler(NUM_TRAIN, 0)
     )
-    # loader_val = DataLoader(mnist_val, batch_size=128, sampler=ChunkSampler(NUM_VAL, NUM_TRAIN))
+    # loader_val = DataLoader(
+    #   mnist_val, batch_size=128, sampler=ChunkSampler(NUM_VAL, NUM_TRAIN))
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

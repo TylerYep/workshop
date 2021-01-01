@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.ml import KNearestNeighbor
+from cs.ml import KNearestNeighbor
 
 
 def k_fold_validation(X_train, y_train, num_folds=5):

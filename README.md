@@ -31,7 +31,7 @@ Separated into two sections:
 
 Dataclasses are one of the trickiest things to work with in Python. I tentatively have decided to make any class that would benefit from one of the below points into a dataclass.
 
-If you want slots, and not using __post_init__, inherit NamedTuple.
+If you want slots, and not using **post_init**, inherit NamedTuple.
 If you have a dataclass, use @dataslots.
 
 ### Benefits
@@ -44,7 +44,7 @@ If you have a dataclass, use @dataslots.
 ### My choices
 
 - `@dataclass(init=False, eq=False, order=False, repr=False)` means don't use dataclasses.
-- Explicitly define the `__init__` function whenever you have more initialization logic than "set all parameters as fields". A common example is when a self member variable shouldn't be a constructor parameter. This makes reading the class much easier and allows better control over the logic. Avoid __post_init__ when possible.
+- Explicitly define the `__init__` function whenever you have more initialization logic than "set all parameters as fields". A common example is when a self member variable shouldn't be a constructor parameter. This makes reading the class much easier and allows better control over the logic. Avoid **post_init** when possible.
 - Create a separate `__str__` function to use when printing the object for visualizing the state of the data structure. `__repr__` should contain a single line while string should be pretty printed.
 - Define `__hash__` myself, since I can choose the necessary fields to make a unique hash. Additionally, using `@dataclass(frozen=True)` is almost never a good idea, since you won't be able to even set attributes in `__post_init__`, and the docs specifically point out a performance penalty.
 - Prefer the `@dataslots` and the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings.
@@ -58,28 +58,30 @@ If you have a dataclass, use @dataslots.
 
 1. The best option - name includes classic algorithm name, as well as purpose.
    ```
-   from src.algorithms import breadth_first_search, kargers
+   from cs.algorithms import breadth_first_search, kargers
    kargers_min_cut()
    breadth_first_search()
    ```
 2. No point in making a class for each function.
 
    ```
-   from src.algorithms import bfs, kargers
+   from cs.algorithms import bfs, kargers
    bfs.find_shortest_path()
    kargers.partition_graph()
    ```
 
 3. Easier to import from overall algorithms, but what if we want to use two different algorithms for the same task?
    ```
-   from src.algorithms.bfs import find_shortest_path
-   from src.algorithms.kargers import partition_graph
+   from cs.algorithms.bfs import find_shortest_path
+   from cs.algorithms.kargers import partition_graph
    find_shortest_path()
    partition_graph()
    ```
 
 ## In-place operations vs Functional Paradigms in Python
+
 - Avoid destructive operations in Python whenever possible.
+
 ```
 h1.merge(h2)
 h1 |= h2
@@ -89,12 +91,13 @@ h3 = h1.merge(h2)
 h3 = h1 | h2
 h3 = BinomialHeap.merge(h1, h2)
 ```
-- Python has imperative paradigm when it comes to performing actions. For example, `stack.push(5)` does not return a new Stack. This is because we are not interested in keeping track of our state over time. Thus, it is an action that operates in place.
 
+- Python has imperative paradigm when it comes to performing actions. For example, `stack.push(5)` does not return a new Stack. This is because we are not interested in keeping track of our state over time. Thus, it is an action that operates in place.
 
 ## Naming data structure methods
 
 ### Adding
+
 - add - easily confused with arithmetic, but useful for stuff like sets, which can only increase.
 - append - adds to end.
 - push - adds to end or pile, like a stack.
@@ -102,6 +105,7 @@ h3 = BinomialHeap.merge(h1, h2)
 - insert - in my opinion should be able to specify index.
 
 ## Removing
+
 - subtract - rarely ever used.
 - dequeue - only used with enqueue.
 - pop - remove but also return result.
@@ -138,6 +142,7 @@ Using this mode, the code is compiled uniquely and increases runtime.
 Once you are confident with your shapes, you can simply run your program normally.
 
 # Line lengths
+
 i am interested in arguing for an optimal python line length. PEP8 says 79 and black says 88, some people use 100 or 120.
 What if the best answer is 90?
 
@@ -165,13 +170,16 @@ yes d | git mergetool --
 ```
 
 # Python Upgrades
+
 ## 3.9
+
 - Replace List[int] with list[int].
-   Wait until PEP 585 is implemented in mypy and someone makes a tool to automatically upgrade and remove the typing imports.
+  Wait until PEP 585 is implemented in mypy and someone makes a tool to automatically upgrade and remove the typing imports.
 
 ## 3.10
-- Remove all from __future__ imports.
-   However, this might be painful if I need numpy, as I would need to add them all back.
+
+- Remove all from **future** imports.
+  However, this might be painful if I need numpy, as I would need to add them all back.
 - Fix `zip(..., strict=True)`
 - Remove all Optional[] type annotations.
 - Remove Union[] type annotations.

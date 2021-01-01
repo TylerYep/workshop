@@ -1,7 +1,7 @@
 from typing import Any
 
 from conftest import add_fixtures
-from src.algorithms import floyd_warshall_shortest_paths
+from cs.algorithms import floyd_warshall_shortest_paths
 from tests.algorithms.graph.problems.apsp import AllPairsShortestPaths
 
 

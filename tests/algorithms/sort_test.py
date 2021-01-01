@@ -1,6 +1,6 @@
 from typing import Any, List, Tuple
 
-from src.algorithms import (
+from cs.algorithms import (
     bubble_sort,
     bucket_sort,
     insertion_sort,

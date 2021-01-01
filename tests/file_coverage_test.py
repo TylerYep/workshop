@@ -4,11 +4,12 @@ from types import ModuleType
 
 IGNORED_FOLDERS = {"rmq", "sort", "hash_table", "heap", "conversions"}
 IGNORED_FILES = {"util.py", "svm.py", "linear_classifier.py", "softmax.py"}
-SRC_FOLDER = "src"
+SRC_FOLDER = "cs"
 TEST_FOLDER = "tests"
 
 
 def test_file_coverage() -> None:
+    """ Test that all files in cs/ have a corresponding file in tests/. """
     untested_files = []
     if not os.path.isdir(SRC_FOLDER) or not os.path.isdir(SRC_FOLDER):
         raise RuntimeError(f"{SRC_FOLDER} and/or {TEST_FOLDER} does not exist.")
@@ -29,9 +30,9 @@ def test_file_coverage() -> None:
 
 def test_all_exported() -> None:
     """ Test that __all__ contains only names that are actually exported. """
-    import src.algorithms as algorithms
-    import src.maths as maths
-    import src.structures as structures
+    import cs.algorithms as algorithms
+    import cs.maths as maths
+    import cs.structures as structures
 
     for module in (algorithms, maths, structures):
         if hasattr(module, "__all__"):

@@ -1,4 +1,4 @@
-from src.algorithms.compression.burrows_wheeler import (
+from cs.algorithms.compression.burrows_wheeler import (
     all_rotations,
     bwt_transform,
     reverse_bwt,

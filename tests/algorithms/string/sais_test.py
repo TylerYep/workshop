@@ -1,13 +1,13 @@
 from typing import List
 
-from src.algorithms.string.sais import (
+from cs.algorithms.string.sais import (
     build_suffix_array,
     build_suffix_array_naive,
     get_suffix_annotations,
     induced_sort,
     to_rank_array,
 )
-from src.structures import SuffixArray
+from cs.structures import SuffixArray
 
 
 def test_build_suffix_array() -> None:

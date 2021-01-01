@@ -1,5 +1,5 @@
-from src.algorithms import prims_mst
-from src.structures import Graph
+from cs.algorithms import prims_mst
+from cs.structures import Graph
 
 
 def test_prims() -> None:

@@ -1,6 +1,6 @@
 from typing import Any, Callable
 
-from src.structures import Graph, V
+from cs.structures import Graph, V
 
 MaxFlowFunction = Callable[[Graph[V], V, V], float]
 

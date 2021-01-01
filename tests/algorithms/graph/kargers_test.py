@@ -1,5 +1,5 @@
-from src.algorithms import connected_components, kargers_min_cut
-from src.structures import Graph
+from cs.algorithms import connected_components, kargers_min_cut
+from cs.structures import Graph
 
 
 def test_kargers_directed_graph() -> None:

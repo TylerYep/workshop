@@ -1,4 +1,4 @@
-from src.structures import Queue
+from cs.structures import Queue
 
 
 class TestQueue:

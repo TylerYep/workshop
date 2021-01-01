@@ -1,5 +1,5 @@
-from src.algorithms import breadth_first_search
-from src.structures import Graph
+from cs.algorithms import breadth_first_search
+from cs.structures import Graph
 
 
 def test_bfs() -> None:

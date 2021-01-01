@@ -50,8 +50,8 @@ def features_from_img(imgpath, imgsize):
 cnn = torchvision.models.squeezenet1_1(pretrained=True).features
 cnn.type(dtype)
 
-# We don't want to train the model any further, so we don't want PyTorch to waste computation
-# computing gradients on parameters we're never going to update.
+# We don't want to train the model any further, so we don't want PyTorch to waste
+# computation computing gradients on parameters we're never going to update.
 for param in cnn.parameters():
     param.requires_grad = False
 
@@ -70,12 +70,12 @@ def extract_features(x, cnn):
     Returns:
     - features: A list of feature for the input images x extracted using the cnn model.
       features[i] is a PyTorch Tensor of shape (N, C_i, H_i, W_i); recall that features
-      from different layers of the network may have different numbers of channels (C_i) and
-      spatial dimensions (H_i, W_i).
+      from different layers of the network may have different numbers of channels (C_i)
+      and spatial dimensions (H_i, W_i).
     """
     features = []
     prev_feat = x
-    for i, module in enumerate(cnn._modules.values()):
+    for module in cnn._modules.values():
         next_feat = module(prev_feat)
         features.append(next_feat)
         prev_feat = next_feat
@@ -90,7 +90,7 @@ def content_loss(content_weight, content_current, content_original):
     - content_weight: Scalar giving the weighting for the content loss.
     - content_current: features of the current image; this is a PyTorch Tensor of shape
       (1, C_l, H_l, W_l).
-    - content_target: features of the content image, Tensor with shape (1, C_l, H_l, W_l).
+    - content_target: features of the content image, Tensor of shape (1, C_l, H_l, W_l).
 
     Returns:
     - scalar content loss
@@ -183,7 +183,8 @@ def style_transfer(
     Inputs:
     - content_image: filename of content image
     - style_image: filename of style image
-    - image_size: size of smallest image dimension (used for content loss and generated image)
+    - image_size: size of smallest image dimension (used for content loss and generated
+      image)
     - style_size: size of smallest style image dimension
     - content_layer: layer to use for content loss
     - content_weight: weighting on content loss

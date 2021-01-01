@@ -24,6 +24,7 @@ def main():
 
     clf = clf_dict[clf_name](*args, **kwargs)
     loss_hist = clf.fit(X_train, y_train)
+    print(loss_hist)
     y_test_pred = clf.predict(X_test)
 
     num_correct = np.sum(y_test_pred == y_test)
@@ -46,7 +47,8 @@ def visualize_weights(clf, classes=None):
     w = clf.W[:-1, :]  # strip out the bias
     w = w.reshape(28, 28, 1, 10)  # (h, w, c, b)
     w_min, w_max = np.min(w), np.max(w)
-    # classes = ['plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
+    # classes = [
+    #   'plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
     for i in range(10):
         # Rescale the weights to be between 0 and 255
         wimg = 255.0 * (w[:, :, :, i].squeeze() - w_min) / (w_max - w_min)
@@ -85,6 +87,7 @@ def tune_svm(X_train, y_train, X_val, y_val):
                 best_val = val_acc
                 best_svm = svm
 
+    print(best_svm)
     x_scatter = [math.log10(x[0]) for x in results]
     y_scatter = [math.log10(x[1]) for x in results]
 

@@ -1,6 +1,6 @@
 from typing import Any, Callable, Dict
 
-from src.structures import Edge, Graph, V
+from cs.structures import Edge, Graph, V
 
 INF = Graph.INFINITY
 SingleSourceFunction = Callable[[Graph[V], V], Dict[V, float]]

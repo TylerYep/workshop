@@ -1,4 +1,4 @@
-from src.structures import Stack
+from cs.structures import Stack
 
 
 class TestStack:

@@ -1,4 +1,4 @@
-from src.structures import SuffixArray
+from cs.structures import SuffixArray
 
 
 class TestSuffixArray:

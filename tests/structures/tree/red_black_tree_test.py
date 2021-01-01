@@ -1,5 +1,5 @@
-from src.structures import RedBlackTree, RedBlackTreeNode
-from src.structures.tree.red_black_tree import Color
+from cs.structures import RedBlackTree, RedBlackTreeNode
+from cs.structures.tree.red_black_tree import Color
 
 
 class TestRedBlackTree:

@@ -1,7 +1,7 @@
 from typing import Union
 
 from conftest import assert_a_faster_than_b
-from src.structures import DisjointSet
+from cs.structures import DisjointSet
 
 
 class TestDisjointSet:

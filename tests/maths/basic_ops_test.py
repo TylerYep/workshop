@@ -1,4 +1,4 @@
-from src.maths.basic_ops import greatest_common_divisor, least_common_multiple
+from cs.maths.basic_ops import greatest_common_divisor, least_common_multiple
 
 
 def test_gcd() -> None:

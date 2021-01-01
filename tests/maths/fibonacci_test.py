@@ -1,4 +1,4 @@
-from src.maths.fibonacci import (
+from cs.maths.fibonacci import (
     fibonacci_formula,
     fibonacci_iterative,
     fibonacci_recursive,

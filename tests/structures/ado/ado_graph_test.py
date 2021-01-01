@@ -1,4 +1,4 @@
-from src.structures import ApproxDistanceOracle, Graph
+from cs.structures import ApproxDistanceOracle, Graph
 
 
 def test_zero_distance_approx() -> None:

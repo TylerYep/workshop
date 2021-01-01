@@ -1,6 +1,6 @@
-from src.algorithms import depth_first_search
-from src.algorithms.graph.dfs import depth_first_search_recursive
-from src.structures import Graph
+from cs.algorithms import depth_first_search
+from cs.algorithms.graph.dfs import depth_first_search_recursive
+from cs.structures import Graph
 
 
 def test_dfs() -> None:

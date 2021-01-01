@@ -1,4 +1,4 @@
-from src.structures import Trie
+from cs.structures import Trie
 
 
 class TestTrie:

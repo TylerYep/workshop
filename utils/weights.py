@@ -1,28 +1,23 @@
 import itertools
+from collections import Counter
 from pprint import pprint
 from typing import List
 
 MAX_WEIGHTS_ON_HANDLE = 6
+MAX_WEIGHTS_ON_BAR = 12
 HANDLE_WEIGHT = 0.6
 CONNECTOR_WEIGHT = 0.8
 # WEIGHTS = [4.4] * 4 + [5.5] * 8
-WEIGHTS = [2.8] * 4 + [3.3] * 4 + [4.4] * 4
+WEIGHTS = [2.8] * 4 + [3.3] * 4 + [4.4] * 4 + [10.0] * 2
 
 
 def calculate_weight_combinations(weights: List[float]) -> None:
+    print(f"Weight counts: {dict(Counter(weights))}")
     configs = {}
-    for i in range(len(weights) + 1):
+    for i in range(MAX_WEIGHTS_ON_BAR + 1):
         for config in set(itertools.combinations(weights, i)):
-            counts = {}
-            for w in config:
-                if w not in counts:
-                    counts[w] = 0
-                counts[w] += 1
-
-            for count in counts.values():
-                if count % 2 != 0:
-                    break
-            else:
+            counts = Counter(config)
+            if all(count % 2 == 0 for count in counts.values()):
                 result = sum(config) + HANDLE_WEIGHT
                 if len(config) > MAX_WEIGHTS_ON_HANDLE:
                     # We already added one handle weight

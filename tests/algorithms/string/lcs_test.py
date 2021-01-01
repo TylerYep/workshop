@@ -1,4 +1,4 @@
-from src.algorithms import longest_common_subsequence
+from cs.algorithms import longest_common_subsequence
 
 
 def test_lcs() -> None:

@@ -2,7 +2,7 @@ from typing import Union
 
 import pytest
 
-from src.structures import Edge, Graph, Node
+from cs.structures import Edge, Graph, Node
 
 
 class TestGraph:
