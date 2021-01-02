@@ -9,7 +9,7 @@ F = TypeVar("F", bound=Callable[..., Any])
 
 
 class CacheInfo(NamedTuple):
-    # pylint: disable=inherit-non-class, too-few-public-methods
+    # pylint: disable=inherit-non-class
     hits: int
     misses: int
     capacity: int

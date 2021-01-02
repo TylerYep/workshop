@@ -32,9 +32,8 @@ class UnionMode(Enum):
 @dataclass(init=False, repr=False)
 class DisjointSet(Generic[T]):
     """
-    Implementation of DisjointSet used in Kruskal's algorithm as a
-    union-find data structure. With # of elements n and a(n) being the
-    inverse Ackermann function:
+    Implementation of DisjointSet used in Kruskal's algorithm as a union-find data
+    structure. Let # of elements n and a(n) be the inverse Ackermann function.
 
     Runtime:
         Find: O(a(n))

@@ -46,7 +46,7 @@ class TestHeap:
         types, but only if the priorities match.
         """
 
-        class A:  # pylint: disable=too-few-public-methods
+        class A:
             def __init__(self, a: int) -> None:
                 self.a = a
 

@@ -29,8 +29,15 @@ class Comparable(Protocol):
         return not self < other
 
 
-# TODO: Make this not return a module, fix the WolfBot version as well.
-def init_prettyprinter() -> Any:
+class Formatter:
+    """ Wrapper class for PrettyPrinter. """
+
+    def __init__(self, prettyprinter_module: Any) -> None:
+        self.pformat = prettyprinter_module.pformat
+        self.pprint = prettyprinter_module.pprint
+
+
+def init_prettyprinter() -> Formatter:
     """ Initialize prettyprinter and add all IMPLICIT_MODULES. """
     prettyprinter.install_extras(include={"python"})
     prettyprinter.register_pretty(predicate=dataclasses.is_dataclass)(
@@ -42,7 +49,7 @@ def init_prettyprinter() -> Any:
                 module_name = os.path.splitext(filename)[0]
                 prefix = ".".join(root.split(os.sep) + [module_name])
                 IMPLICIT_MODULES.add(prefix)
-    return prettyprinter
+    return Formatter(prettyprinter)
 
 
 def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:

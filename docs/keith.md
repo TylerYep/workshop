@@ -4,7 +4,6 @@ Alias Method
 Cuckoo HashMap
 Edmonds's Matching Algorithm
 Extendible Array
-Ford-Fulkerson Algorithm
 Hashed Array Tree
 Interval Heap
 Kosaraju's Algorithm
@@ -70,7 +69,6 @@ Recurrence Solver
 RPN Evaluator
 Shunting-Yard Algorithm
 Skew Binomial Heap
-Skiplist
 Smoothsort
 Splay Tree
 Strassen Algorithm
@@ -156,4 +154,3 @@ Hidden Markov Models
 Gaussian Mixture Model
 Collaborative Filtering
 Artificial Neural Network
-

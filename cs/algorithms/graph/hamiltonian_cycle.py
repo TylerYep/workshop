@@ -4,40 +4,34 @@ each node exactly once. Determining whether such paths and cycles exist in graph
 the 'Hamiltonian path problem', which is NP-complete. Wikipedia:
 https://en.wikipedia.org/wiki/Hamiltonian_path
 """
-from typing import List
+from typing import List, Optional, cast
+
+from cs.structures import Graph, V
 
 
-# TODO: convert to use custom graph class
-def hamiltonian_cycle(graph: List[List[int]], start_index: int) -> List[int]:
+def hamiltonian_cycle(graph: Graph[V], start: V) -> List[V]:
     """
     Either return array of vertices indicating the hamiltonian cycle
     or an empty list indicating that hamiltonian cycle was not found.
     """
 
-    def _valid_connection(
-        graph: List[List[int]], neighbor: int, curr_ind: int, path: List[int]
-    ) -> bool:
-        """ Checks whether it is possible to add next into path. """
-        # Validate that no path exists between current and next vertices
-        if graph[path[curr_ind - 1]][neighbor] == 0:
-            return False
-        # Validate that next vertex is not already in path
-        return not any(vertex == neighbor for vertex in path)
+    def hamilton_cycle(graph: Graph[V], path: List[Optional[V]], curr_ind: int) -> bool:
+        prev = path[curr_ind - 1]
+        if prev is None:
+            raise RuntimeError
 
-    def _hamilton_cycle(graph: List[List[int]], path: List[int], curr_ind: int) -> bool:
         if curr_ind == len(graph):
             # Return whether path exists between current and starting vertices
-            return graph[path[curr_ind - 1]][path[0]] == 1
+            return start in graph[prev]
 
-        for neighbor in range(len(graph)):
-            if _valid_connection(graph, neighbor, curr_ind, path):
+        for neighbor in graph[prev]:
+            if neighbor not in path:
                 path[curr_ind] = neighbor
-                if _hamilton_cycle(graph, path, curr_ind + 1):
+                if hamilton_cycle(graph, path, curr_ind + 1):
                     return True
-                path[curr_ind] = -1
+                path[curr_ind] = None
         return False
 
-    path = [-1] * (len(graph) + 1)
-    path[0] = start_index
-    path[-1] = start_index
-    return path if _hamilton_cycle(graph, path, 1) else []
+    path: List[Optional[V]] = [None] * (len(graph) + 1)
+    path[0] = path[-1] = start
+    return cast(List[V], path) if hamilton_cycle(graph, path, 1) else []

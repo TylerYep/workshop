@@ -4,13 +4,23 @@
 [![Build Status](https://travis-ci.com/TylerYep/workshop.svg?branch=master)](https://travis-ci.com/TylerYep/workshop)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/workshop)](https://github.com/TylerYep/workshop/blob/master/LICENSE)
 [![codecov](https://codecov.io/gh/TylerYep/workshop/branch/master/graph/badge.svg)](https://codecov.io/gh/TylerYep/workshop)
+[![Downloads](https://pepy.tech/badge/csworkshop)](https://pepy.tech/project/csworkshop)
 
 My design studio of AI/ML/CS concepts. Code is adapted from many different websites across the Internet.
 
-Separated into two sections:
+Separated into three sections:
 
-- Algorithms + Data Structures
-- AI/ML
+- Algorithms
+- Math (AI/ML)
+- Data Structures
+
+# Usage
+`pip install csworkshop`
+
+```python
+from cs.algorithms import binary_search
+from cs.structures import Graph, FibonacciHeap
+```
 
 ## Key Tenets
 
@@ -180,6 +190,6 @@ yes d | git mergetool --
 
 - Remove all from **future** imports.
   However, this might be painful if I need numpy, as I would need to add them all back.
-- Fix `zip(..., strict=True)`
-- Remove all Optional[] type annotations.
-- Remove Union[] type annotations.
+- Add `zip(..., strict=True)` once mypy detects the new parameter.
+- Remove all Optional[] type annotations in favor of int | None.
+- Remove Union[] type annotations in favor of list | tuple.
