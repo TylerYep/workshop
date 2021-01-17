@@ -1,7 +1,9 @@
-import pytest
-
 from cs.structures import FibonacciHeap, Heap
-from tests.structures.heap.heap_test import HEAP_TYPES, construct_heap
+from tests.structures.heap.heap_test import (
+    construct_heap,
+    parametrize_allow_duplicates,
+    parametrize_heap_type,
+)
 
 
 class TestFibonacciHeap:
@@ -11,7 +13,7 @@ class TestFibonacciHeap:
     """
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     def test_duplicates(heap_type: str) -> None:
         """ Add lots of duplicates and see what happens. """
         heap: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
@@ -28,7 +30,7 @@ class TestFibonacciHeap:
         assert actual_count == 100
 
     @staticmethod
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
+    @parametrize_allow_duplicates
     def test_decrease_key(allow_duplicates: bool) -> None:
         """ Test decrease_key method. """
         fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
@@ -45,7 +47,7 @@ class TestFibonacciHeap:
         assert actual_list == [(3, -1), (1, 1), (5, 5)]
 
     @staticmethod
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
+    @parametrize_allow_duplicates
     def test_severe_decrease_key(allow_duplicates: bool) -> None:
         """ More severe decrease_key test, based on SSCCE code from Marian Aioanei. """
         heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)

@@ -7,7 +7,12 @@ from cs.structures import BinomialHeap, FibonacciHeap, Heap
 from cs.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
-HEAP_TYPES = ("BinomialHeap", "FibonacciHeap")
+parametrize_heap_type = pytest.mark.parametrize(
+    "heap_type", ("BinomialHeap", "FibonacciHeap")
+)
+parametrize_allow_duplicates = pytest.mark.parametrize(
+    "allow_duplicates", (True, False)
+)
 
 
 def construct_heap(heap_type: str, allow_duplicates: bool = False) -> Heap[T]:
@@ -20,7 +25,7 @@ def construct_heap(heap_type: str, allow_duplicates: bool = False) -> Heap[T]:
 
 class TestHeap:
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     def test_enqueue_100(heap_type: str) -> None:
         """ Test creating a heap and adding 100 values to it. """
         heap: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
@@ -30,7 +35,7 @@ class TestHeap:
             heap.enqueue(random_value, random_priority)
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     def test_get_min_of_1(heap_type: str) -> None:
         """ Test creating a heap, adding a single value, and retrieving it. """
         heap: Heap[int] = construct_heap(heap_type)
@@ -39,7 +44,7 @@ class TestHeap:
         assert heap.peek() == (1, 1)
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     def test_uncomparable_types(heap_type: str) -> None:
         """
         The dataclass should raise an exception when trying to sort uncomparable
@@ -71,8 +76,8 @@ class TestHeap:
             heap.dequeue()
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
+    @parametrize_heap_type
+    @parametrize_allow_duplicates
     def test_get_min_of_3(heap_type: str, allow_duplicates: bool) -> None:
         """
         Test creating a heap, adding 3 values, and retrieving
@@ -86,8 +91,8 @@ class TestHeap:
         assert heap.peek() == (10, 0)
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
+    @parametrize_heap_type
+    @parametrize_allow_duplicates
     def test_get_min_of_3_float(heap_type: str, allow_duplicates: bool) -> None:
         """
         Test creating a heap, adding 3 values, and
@@ -101,7 +106,7 @@ class TestHeap:
         assert heap.peek() == (100, 1.0)
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     @pytest.mark.parametrize("entries", ((3,), (4, 2), (2, 7, 1, 8, 3, 1, 4)))
     def test_enqueue_dequeue_no_priority(heap_type: str, entries: Tuple[int]) -> None:
         h: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
@@ -114,8 +119,8 @@ class TestHeap:
             assert val == item
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
+    @parametrize_heap_type
+    @parametrize_allow_duplicates
     def test_empty(heap_type: str, allow_duplicates: bool) -> None:
         """ Test an empty heap to see if it's Falsy. """
         assert bool(construct_heap(heap_type, allow_duplicates)) is False
@@ -125,8 +130,8 @@ class TestHeap:
         assert bool(heap) is True
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
+    @parametrize_heap_type
+    @parametrize_allow_duplicates
     def test_dequeue(heap_type: str, allow_duplicates: bool) -> None:
         """
         Test creating a heap, adding "intended_length" values,
@@ -158,8 +163,8 @@ class TestHeap:
             assert expected_priorities_list == actual_priorities_list
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
-    @pytest.mark.parametrize("allow_duplicates", (True, False))
+    @parametrize_heap_type
+    @parametrize_allow_duplicates
     def test_dequeue_sort(heap_type: str, allow_duplicates: bool) -> None:
         """
         Test creating a heap, adding "intended_length" values, and
@@ -187,7 +192,7 @@ class TestHeap:
             assert expected_list == actual_list
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     def test_merge_duplicates(heap_type: str) -> None:
         """ Test merging two heaps. """
         heap1: Heap[int] = construct_heap(heap_type)
@@ -213,7 +218,7 @@ class TestHeap:
         assert actual_list == [(1, 1), (2, 2), (3, 3), (3, 3), (4, 4), (5, 5), (6, 6)]
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     def test_merge(heap_type: str) -> None:
         """ Test merging two heaps. """
         heap1: Heap[int] = construct_heap(heap_type)
@@ -238,7 +243,7 @@ class TestHeap:
         assert actual_list == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     def test_merge_exception(heap_type: str) -> None:
         """ Test merging two heaps. """
         heap1: Heap[int] = construct_heap(heap_type)
@@ -254,7 +259,7 @@ class TestHeap:
             heap1.merge(heap2)
 
     @staticmethod
-    @pytest.mark.parametrize("heap_type", HEAP_TYPES)
+    @parametrize_heap_type
     def test_print_heap(heap_type: str) -> None:
         heap: Heap[int] = construct_heap(heap_type)
         heap.enqueue(1, 1)

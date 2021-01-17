@@ -6,7 +6,9 @@ from cs.structures import BinarySearchTree, RedBlackTree, Tree
 from cs.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
-TREE_TYPES = ("BinarySearchTree", "RedBlackTree")
+parametrize_tree_types = pytest.mark.parametrize(
+    "tree_type", ("BinarySearchTree", "RedBlackTree")
+)
 
 
 def construct_tree(tree_type: str) -> Tree[T]:
@@ -19,7 +21,7 @@ def construct_tree(tree_type: str) -> Tree[T]:
 
 class TestTree:
     @staticmethod
-    @pytest.mark.parametrize("tree_type", TREE_TYPES)
+    @parametrize_tree_types
     def test_search(tree_type: str) -> None:
         t: Tree[int] = construct_tree(tree_type)
         t.insert(6)
@@ -35,7 +37,7 @@ class TestTree:
         assert t.search(2) is None
 
     @staticmethod
-    @pytest.mark.parametrize("tree_type", TREE_TYPES)
+    @parametrize_tree_types
     def test_basic_remove(tree_type: str) -> None:
         t: Tree[int] = construct_tree(tree_type)
         t.insert(3)
@@ -44,7 +46,7 @@ class TestTree:
         assert t.search(3) is None
 
     @staticmethod
-    @pytest.mark.parametrize("tree_type", TREE_TYPES)
+    @parametrize_tree_types
     def test_clear(tree_type: str) -> None:
         t: Tree[int] = construct_tree(tree_type)
         t.clear()
