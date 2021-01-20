@@ -25,9 +25,9 @@ pylint==2.6.0
 pylint-pytest==0.3.0
 pyre-check==0.0.59
 pytest==6.2.1
-pytest-cov==2.10.1
+pytest-cov==2.11.1
 pytest-timeout==1.4.2
-setuptools==51.3.2
+setuptools==51.3.3
 sort-requirements==1.3.0
 twine==3.3.0
 vermin==1.1.0

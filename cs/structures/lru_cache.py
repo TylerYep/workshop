@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections import OrderedDict
 from typing import Any, Callable, ClassVar, Dict, Generic, NamedTuple, Optional, TypeVar
 
 KT = TypeVar("KT")
@@ -17,15 +16,13 @@ class CacheInfo(NamedTuple):
 
 
 class LRUCache(Generic[KT, VT]):
-    """ Must use an OrderedDict in order to use the move_to_end() command """
+    """ Uses a regular dictionary and the fact that dictionaries are ordered. """
 
-    # class variable to map the decorator functions to their respective instance
+    # Class variable maps the decorator functions to their respective instance
     decorator_instance_map: ClassVar[Dict[Callable[..., Any], LRUCache[KT, VT]]] = {}
 
     def __init__(self, max_capacity: int) -> None:
-        self.cache: OrderedDict[  # pylint: disable=unsubscriptable-object
-            KT, VT
-        ] = OrderedDict()
+        self.cache: Dict[KT, VT] = {}
         self.max_capacity = max_capacity
         self.hits = 0
         self.misses = 0
@@ -33,7 +30,8 @@ class LRUCache(Generic[KT, VT]):
     def __getitem__(self, key: KT) -> Optional[VT]:
         if key in self.cache:
             self.hits += 1
-            self.cache.move_to_end(key)
+            # Equivalent to OrderedDict:  self.cache.move_to_end(key)
+            self.cache[key] = self.cache.pop(key)
             return self.cache[key]
 
         self.misses += 1
@@ -44,7 +42,8 @@ class LRUCache(Generic[KT, VT]):
             del self.cache[key]
         self.cache[key] = val
         if len(self.cache) > self.max_capacity:
-            self.cache.popitem(last=False)
+            # Equivalent to OrderedDict:  self.cache.popitem(last=False)
+            self.cache.pop(next(iter(self.cache)))
 
     def __bool__(self) -> bool:
         return bool(self.cache)
