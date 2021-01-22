@@ -1,7 +1,6 @@
 from collections import Counter
 from dataclasses import dataclass
 from enum import Enum, unique
-from typing import Tuple
 
 from dataslots import dataslots
 
@@ -74,7 +73,7 @@ def build_suffix_array(orig_text: str) -> list[int]:
 
 def create_lms_blocks(
     suffix_arr: list[int], lms_suffixes: list[int]
-) -> Tuple[list[LMSBlock], dict[int, int]]:
+) -> tuple[list[LMSBlock], dict[int, int]]:
     """
     This function fetches all LMS blocks, which span from one LMS suffix to another.
     """
@@ -122,7 +121,7 @@ def assign_block_numbers(text: list[int], lms_blocks: list[LMSBlock]) -> bool:
 
 def get_reduced_string(
     text: list[int], suffix_arr: list[int], lms_suffixes: list[int]
-) -> Tuple[list[int], bool]:
+) -> tuple[list[int], bool]:
     """
     >>> suffix_arr = [10, 0, 1, 2, 3, 4, 6, 8, 5, 7, 9]
     >>> lms_suffixes = [6, 8, 10]
@@ -200,7 +199,7 @@ def induced_sort(
     return suffix_arr
 
 
-def get_suffix_annotations(text: list[int]) -> Tuple[list[SuffixType], list[int]]:
+def get_suffix_annotations(text: list[int]) -> tuple[list[SuffixType], list[int]]:
     """
     Returns all LMS suffixes, as well as the L/S markings for each index.
     >>> marks, lms = get_suffix_annotations("ACGTGCCTAGCCTACCGTGCC$")

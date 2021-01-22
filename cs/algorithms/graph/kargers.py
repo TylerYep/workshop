@@ -1,5 +1,4 @@
 import random
-from typing import Tuple
 
 from cs.structures import Edge, Graph, Node, V
 
@@ -17,7 +16,7 @@ def kargers_min_cut(orig_graph: Graph[V]) -> set[Edge[V]]:
     >>> partition_graph(graph)
     {('0', '1')}
     """
-    graph: Graph[Node[Tuple[V, ...]]] = Graph.from_graph(
+    graph: Graph[Node[tuple[V, ...]]] = Graph.from_graph(
         orig_graph, node_fn=lambda x: Node((x,))
     )
 

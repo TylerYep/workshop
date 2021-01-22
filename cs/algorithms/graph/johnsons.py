@@ -20,7 +20,7 @@ def johnsons_shortest_paths(graph: Graph[V]) -> dict[V, dict[V, float]]:
     # Create augmented graph G' that will be fed into the Bellman-Ford algorithm by
     # copying the graph and adding an extra node. Adding a new directed source node
     # ensures that there will be no negative cycles in this new graph. We convert the
-    # graph into a Node[Tuple[V]] type in order to ensure we can add a new, unique node.
+    # graph into a Node[tuple[V]] type in order to ensure we can add a new, unique node.
     aug_graph = Graph.from_graph(graph, node_fn=lambda x: Node((x,)))
     source_node = Node(())
     aug_graph.add_node(source_node)
@@ -28,7 +28,7 @@ def johnsons_shortest_paths(graph: Graph[V]) -> dict[V, dict[V, float]]:
         if u != source_node:
             aug_graph.add_edge(source_node, u, 0)
 
-    # Convert the Bellman-Ford output of Node[Tuple[V]] back into the original type.
+    # Convert the Bellman-Ford output of Node[tuple[V]] back into the original type.
     bellman_costs = {
         node.data[0]: cost
         for node, cost in bellman_ford_shortest_paths(aug_graph, source_node).items()

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass, field
-from typing import Generic, Iterator, Optional, Tuple, TypeVar, cast
+from typing import Generic, Iterator, Optional, TypeVar, cast
 
 from cs.util import Comparable
 
@@ -178,7 +178,7 @@ class SkipList(Generic[KT, VT]):
 
     def _locate_node(
         self, key: KT
-    ) -> Tuple[Optional[SkipList[KT, VT]], list[SkipList[KT, VT]]]:
+    ) -> tuple[Optional[SkipList[KT, VT]], list[SkipList[KT, VT]]]:
         """
         :param key: Searched key,
         :return: Tuple with searched node (or None if given key is not present)

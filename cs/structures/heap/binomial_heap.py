@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Generic, Optional, Tuple, TypeVar, Union
+from typing import Generic, Optional, TypeVar, Union
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -211,7 +211,7 @@ class BinomialHeap(Heap[T]):
         self.elem_to_entry[key] = result
         return key
 
-    def peek(self) -> Tuple[T, float]:
+    def peek(self) -> tuple[T, float]:
         """
         Return an Entry object corresponding to the minimum element of the heap.
 
@@ -225,7 +225,7 @@ class BinomialHeap(Heap[T]):
         top = min(entry for entry in self.trees if entry is not None)
         return top.value, top.priority
 
-    def dequeue(self) -> Tuple[T, float]:
+    def dequeue(self) -> tuple[T, float]:
         """
         Dequeue and return the minimum element of the Binomial heap.
 

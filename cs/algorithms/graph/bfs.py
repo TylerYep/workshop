@@ -1,5 +1,5 @@
 from collections import deque
-from typing import Deque, Optional, Tuple
+from typing import Optional
 
 from cs.structures import Graph, V
 
@@ -11,7 +11,7 @@ def breadth_first_search(graph: Graph[V], start: V, end: V) -> Optional[list[V]]
 
     Runtime: O(V + E)
     """
-    queue: Deque[Tuple[V, list[V]]] = deque([(start, [start])])
+    queue: deque[tuple[V, list[V]]] = deque([(start, [start])])
     visited: set[V] = set()
     while queue:
         vertex, path = queue.popleft()

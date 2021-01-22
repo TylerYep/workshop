@@ -1,5 +1,4 @@
 from collections import defaultdict
-from typing import Tuple
 
 from cs.structures.graph import Graph
 from cs.structures.heap.fibonacci_heap import FibonacciHeap
@@ -40,7 +39,7 @@ class ApproxDistanceOracle:
         self.B: list[set[int]] = [{v} for v in self.graph]
 
         # Initialize table of calculated distances
-        self.distances: dict[Tuple[int, int], float] = defaultdict(
+        self.distances: dict[tuple[int, int], float] = defaultdict(
             lambda: Graph.INFINITY
         )
         for v in self.graph:

@@ -1,5 +1,5 @@
 import random
-from typing import Tuple, TypeVar, Union, cast
+from typing import TypeVar, Union, cast
 
 import pytest
 
@@ -68,7 +68,7 @@ class TestHeap:
         with pytest.raises(TypeError):
             a_heap.enqueue(A(3), 3)
 
-        heap: Heap[Union[int, Tuple[str, ...]]] = construct_heap(heap_type)
+        heap: Heap[Union[int, tuple[str, ...]]] = construct_heap(heap_type)
         heap.enqueue(1, 1)
         heap.enqueue(("2", "hello"), 3)
         heap.enqueue(5, 3)
@@ -108,7 +108,7 @@ class TestHeap:
     @staticmethod
     @parametrize_heap_type
     @pytest.mark.parametrize("entries", ((3,), (4, 2), (2, 7, 1, 8, 3, 1, 4)))
-    def test_enqueue_dequeue_no_priority(heap_type: str, entries: Tuple[int]) -> None:
+    def test_enqueue_dequeue_no_priority(heap_type: str, entries: tuple[int]) -> None:
         h: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
         for i in entries:
             h.enqueue(i)

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import Any, Optional, Tuple
+from typing import Any, Optional
 
 from cs.structures.tree.binary_search_tree import BinaryTreeNode
 
@@ -43,7 +43,7 @@ def compute_profile(
     node: Optional[AsciiNode],
     lprofile: list[int],
     rprofile: list[int],
-    xy: Tuple[int, int] = (0, 0),
+    xy: tuple[int, int] = (0, 0),
     left_side: bool = True,
 ) -> None:
     """

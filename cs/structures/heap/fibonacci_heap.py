@@ -1,10 +1,10 @@
 # pylint: disable=too-many-branches
 from __future__ import annotations
 
-import collections
 import math
+from collections import deque
 from dataclasses import dataclass
-from typing import Deque, Generic, Optional, Tuple, TypeVar, Union
+from typing import Generic, Optional, TypeVar, Union
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -194,7 +194,7 @@ class FibonacciHeap(Heap[T]):
         self.elem_to_entry[key] = result
         return key
 
-    def peek(self) -> Tuple[T, float]:
+    def peek(self) -> tuple[T, float]:
         """
         Return an Entry object corresponding to the minimum element of the heap.
 
@@ -208,7 +208,7 @@ class FibonacciHeap(Heap[T]):
         top = self.top
         return top.value, top.priority
 
-    def dequeue(self) -> Tuple[T, float]:
+    def dequeue(self) -> tuple[T, float]:
         """
         Dequeue and return the minimum element of the Fibonacci heap.
 
@@ -272,7 +272,7 @@ class FibonacciHeap(Heap[T]):
         # tree of each degree. To track trees of each size, we allocate an
         # ArrayList where the entry at position i is either None or the
         # unique tree of degree i.
-        tree_table: Deque[Optional[Entry[T]]] = collections.deque()
+        tree_table: deque[Optional[Entry[T]]] = deque()
 
         # We need to traverse the entire list, but since we're going to be
         # messing around with it we have to be careful not to break our
@@ -280,7 +280,7 @@ class FibonacciHeap(Heap[T]):
         # whether we're visiting the same node twice. To do this, we'll
         # spent a bit of overhead adding all of the nodes to a list, and
         # then will visit each element of this list in order.
-        to_visit: Deque[Entry[T]] = collections.deque()
+        to_visit: deque[Entry[T]] = deque()
 
         # To add everything, we'll iterate across the elements until we
         # find the first element twice. We check this by looping while the

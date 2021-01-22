@@ -5,7 +5,6 @@ run them using `pytest -vv`.
 It seems to work fine, but take that with a grain of salt.
 """
 import math
-from typing import Tuple
 
 from cs.util import weighted_coin_flip
 
@@ -72,7 +71,7 @@ class ApproxFiniteMetricOracle:
             for w in b_set:
                 self.hash_table[(w, v)] = self.distance_fn(w, v)
 
-    def find_closest_vertex(self, A_i: set[Vertex], v: Vertex) -> Tuple[float, Vertex]:
+    def find_closest_vertex(self, A_i: set[Vertex], v: Vertex) -> tuple[float, Vertex]:
         """
         The result of the below code is that:
             distances[(A[i], v)] = min([ distances[(w, v)] for w in A[i] ])

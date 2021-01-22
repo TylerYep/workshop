@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 from cs.structures import FibonacciHeap, Graph, V
 
@@ -56,7 +56,7 @@ def _add_outgoing_edges(
             heap.decrease_key(v, e.weight)
 
 
-def _min_cost_endpoint(node: V, graph: Graph[V], mst: Graph[V]) -> Tuple[V, float]:
+def _min_cost_endpoint(node: V, graph: Graph[V], mst: Graph[V]) -> tuple[V, float]:
     """
     Given a node in the source graph and a set of nodes that we've visited
     so far, returns the minimum-cost edge from that node to some node that

@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 from cs.structures import Graph, V
 
@@ -9,7 +9,7 @@ def depth_first_search(graph: Graph[V], start: V, end: V) -> Optional[list[V]]:
 
     Runtime: O(V + E)
     """
-    stack: list[Tuple[V, list[V]]] = [(start, [start])]
+    stack: list[tuple[V, list[V]]] = [(start, [start])]
     visited: set[V] = set()
     while stack:
         vertex, path = stack.pop()

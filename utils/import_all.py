@@ -1,9 +1,8 @@
 import re
 import sys
-from typing import Tuple
 
 
-def create_all_exports(init_file_content: str) -> Tuple[str]:
+def create_all_exports(init_file_content: str) -> tuple[str]:
     file_parts = init_file_content.split("\n")
     matches = []
     reg = re.compile("from .* import ")
