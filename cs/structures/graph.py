@@ -11,7 +11,6 @@ from typing import (
     Mapping,
     Optional,
     Sequence,
-    Set,
     TypeVar,
 )
 
@@ -92,7 +91,7 @@ class Graph(Generic[V]):
         return self._graph.keys()
 
     @property
-    def edges(self) -> Set[Edge[V]]:
+    def edges(self) -> set[Edge[V]]:
         return {self._graph[u][v] for u in self._graph for v in self._graph[u]}
 
     @classmethod

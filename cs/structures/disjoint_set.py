@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Hashable
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import Generic, Iterator, Set, TypeVar
+from typing import Generic, Iterator, TypeVar
 
 T = TypeVar("T")
 
@@ -138,12 +138,12 @@ class DisjointSet(Generic[T]):
         """
         return self.find_set(x) == self.find_set(y)
 
-    def itersets(self) -> list[Set[T]]:
+    def itersets(self) -> list[set[T]]:
         """
         Yields sets of connected components.
         The roots dict shares the set references with entries in the same set.
         """
-        roots: dict[T, Set[T]] = {}
+        roots: dict[T, set[T]] = {}
         seen_nodes: dict[DisjointSetNode[T], T] = {}
         for node in self.node_data:
             curr = node
@@ -169,12 +169,12 @@ class DisjointSet(Generic[T]):
                 roots[root].add(node.data)
         return list(roots.values())
 
-    def naive_itersets(self) -> list[Set[T]]:
+    def naive_itersets(self) -> list[set[T]]:
         """
         Yields sets of connected components.
         The roots dict shares the set references with entries in the same set.
         """
-        roots: dict[T, Set[T]] = {}
+        roots: dict[T, set[T]] = {}
         for node in self.node_data:
             curr = node
             while curr != curr.parent:

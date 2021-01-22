@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Set, Tuple
+from typing import Tuple
 
 from cs.structures.graph import Graph
 from cs.structures.heap.fibonacci_heap import FibonacciHeap
@@ -18,7 +18,7 @@ class ApproxDistanceOracle:
         self.n = len(graph)
 
         # Initialize k+1 sets of vertices with decreasing sizes. (i-centers)
-        self.A: list[Set[int]] = [set()] * (k + 1)
+        self.A: list[set[int]] = [set()] * (k + 1)
         self.A[0] = set(self.graph)
         self.A[k] = set()
         for i in range(1, k):  # for i = 1 to k - 1
@@ -37,7 +37,7 @@ class ApproxDistanceOracle:
         self.p[k] = [None] * self.n  # type: ignore[list-item]
 
         # Initialize empty bunches
-        self.B: list[Set[int]] = [{v} for v in self.graph]
+        self.B: list[set[int]] = [{v} for v in self.graph]
 
         # Initialize table of calculated distances
         self.distances: dict[Tuple[int, int], float] = defaultdict(

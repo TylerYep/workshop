@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Callable, Set
+from typing import Callable
 
 from dataslots import dataslots
 
@@ -83,5 +83,5 @@ class RobinHood(HashTable):
                 break
         return False
 
-    def get_elems(self) -> Set[int]:
+    def get_elems(self) -> set[int]:
         return {x.val for x in self.table}

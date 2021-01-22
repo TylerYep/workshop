@@ -1,10 +1,10 @@
 import random
-from typing import Set, Tuple
+from typing import Tuple
 
 from cs.structures import Edge, Graph, Node, V
 
 
-def kargers_min_cut(orig_graph: Graph[V]) -> Set[Edge[V]]:
+def kargers_min_cut(orig_graph: Graph[V]) -> set[Edge[V]]:
     """
     Partitions a graph using Karger's Algorithm. Works on directed and undirected
     graphs, but involves random choices, so it does not give consistent outputs.

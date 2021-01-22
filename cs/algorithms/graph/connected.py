@@ -1,9 +1,7 @@
-from typing import Set
-
 from cs.structures import Graph, V
 
 
-def connected_components(graph: Graph[V]) -> list[Set[V]]:
+def connected_components(graph: Graph[V]) -> list[set[V]]:
     """
     This function returns the list of connected components of the given Graph.
 
@@ -11,8 +9,8 @@ def connected_components(graph: Graph[V]) -> list[Set[V]]:
     """
     from cs.algorithms import dfs_traversal
 
-    visited: Set[V] = set()
-    components_list: list[Set[V]] = []
+    visited: set[V] = set()
+    components_list: list[set[V]] = []
     for v in graph:
         if v not in visited:
             components_list.append(dfs_traversal(graph, v, visited))

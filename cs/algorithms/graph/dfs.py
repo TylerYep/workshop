@@ -1,4 +1,4 @@
-from typing import Optional, Set, Tuple
+from typing import Optional, Tuple
 
 from cs.structures import Graph, V
 
@@ -10,7 +10,7 @@ def depth_first_search(graph: Graph[V], start: V, end: V) -> Optional[list[V]]:
     Runtime: O(V + E)
     """
     stack: list[Tuple[V, list[V]]] = [(start, [start])]
-    visited: Set[V] = set()
+    visited: set[V] = set()
     while stack:
         vertex, path = stack.pop()
         if vertex == end:
@@ -32,7 +32,7 @@ def depth_first_search_recursive(
     Runtime: O(V + E)
     """
 
-    def _dfs(curr: V, visited: Set[V], path: list[V]) -> Optional[list[V]]:
+    def _dfs(curr: V, visited: set[V], path: list[V]) -> Optional[list[V]]:
         if curr == end:
             return path
         if curr not in visited:
@@ -46,7 +46,7 @@ def depth_first_search_recursive(
     return _dfs(start, set(), [start])
 
 
-def dfs_traversal(graph: Graph[V], start: V, visited: Optional[Set[V]]) -> Set[V]:
+def dfs_traversal(graph: Graph[V], start: V, visited: Optional[set[V]]) -> set[V]:
     """
     Explores graph starting with start using a depth-first-search traversal.
     Modifies a visited set in place, and returns a set of connected vertices.

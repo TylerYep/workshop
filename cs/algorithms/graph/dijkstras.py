@@ -1,5 +1,5 @@
 import heapq
-from typing import Optional, Set, Tuple
+from typing import Optional, Tuple
 
 from cs.structures import FibonacciHeap, Graph, V
 
@@ -77,7 +77,7 @@ def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> Optional[float]:
     Runtime: O(|E + V| log |V|)
     """
     heap: list[Tuple[float, V]] = [(0, start)]
-    visited: Set[V] = set()
+    visited: set[V] = set()
     while heap:
         cost, u = heapq.heappop(heap)
         if u == end:
@@ -92,7 +92,7 @@ def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> Optional[float]:
 
 def dijkstra_shortest_paths_heapq(graph: Graph[V], start: V) -> dict[V, float]:
     heap: list[Tuple[float, V]] = [(0.0, start)]
-    visited: Set[V] = set()
+    visited: set[V] = set()
     distances = {v: Graph.INFINITY for v in graph}
     distances[start] = 0.0
     while heap:

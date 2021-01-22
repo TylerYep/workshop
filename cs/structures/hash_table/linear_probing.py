@@ -1,5 +1,3 @@
-from typing import Set
-
 from .hash_table import HashTable
 
 
@@ -37,7 +35,7 @@ class LinearProbing(HashTable):
         self.num_elems -= 1
         return True
 
-    def get_elems(self) -> Set[int]:
+    def get_elems(self) -> set[int]:
         return set(self.table)
 
     def _find_data(self, data: int) -> int:
