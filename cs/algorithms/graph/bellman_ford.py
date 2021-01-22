@@ -1,11 +1,9 @@
-from typing import Dict
-
 from cs.structures import Graph, V
 
 
 def bellman_ford_shortest_paths(
     graph: Graph[V], start: V, *, check_negative_cycles: bool = True
-) -> Dict[V, float]:
+) -> dict[V, float]:
     """
     Bellman-Ford algorithm for the single-source shortest paths problem.
 

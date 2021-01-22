@@ -2,7 +2,6 @@ import argparse
 import os
 from collections import defaultdict
 from pprint import pprint
-from typing import Dict
 
 import matplotlib.pyplot as plt
 
@@ -14,7 +13,7 @@ def init_pipeline() -> argparse.Namespace:
 
 
 def count_project_lines(project: str) -> None:
-    counts: Dict[int, int] = defaultdict(int)
+    counts: dict[int, int] = defaultdict(int)
     lines_above_88 = 0
     for root, _, files in os.walk(project):
         for filename in files:

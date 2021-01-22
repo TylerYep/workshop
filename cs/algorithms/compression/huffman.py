@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import heapq
 from dataclasses import dataclass, field
-from typing import Dict, Optional, cast
+from typing import Optional, cast
 
 from dataslots import dataslots
 
@@ -22,7 +22,7 @@ def parse_file(file_path: str) -> list[HuffmanTreeNode]:
     Read the file and build a dict of all letters and their
     frequencies, then convert the dict into a list of Letters.
     """
-    chars: Dict[str, int] = {}
+    chars: dict[str, int] = {}
     with open(file_path) as f:
         while c := f.read(1):
             if c in chars:

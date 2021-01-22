@@ -5,7 +5,7 @@ run them using `pytest -vv`.
 It seems to work fine, but take that with a grain of salt.
 """
 import math
-from typing import Dict, Set, Tuple
+from typing import Set, Tuple
 
 from cs.util import weighted_coin_flip
 
@@ -48,9 +48,9 @@ class ApproxFiniteMetricOracle:
         A.append(set())
 
         """ Find minimum distances from each vertex to each other set. """
-        a_i_v_distances: list[Dict[int, float]] = [{} for _ in range(k + 1)]
-        self.p: list[Dict[int, Vertex]] = [{} for _ in range(k + 1)]
-        self.B: Dict[int, Set[int]] = {}
+        a_i_v_distances: list[dict[int, float]] = [{} for _ in range(k + 1)]
+        self.p: list[dict[int, Vertex]] = [{} for _ in range(k + 1)]
+        self.B: dict[int, Set[int]] = {}
 
         for v in V:
             for i in range(k):

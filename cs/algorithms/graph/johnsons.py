@@ -1,10 +1,8 @@
-from typing import Dict
-
 from cs.algorithms import bellman_ford_shortest_paths, dijkstra_shortest_paths
 from cs.structures import Edge, Graph, Node, V
 
 
-def johnsons_shortest_paths(graph: Graph[V]) -> Dict[V, Dict[V, float]]:
+def johnsons_shortest_paths(graph: Graph[V]) -> dict[V, dict[V, float]]:
     """
     An implementation of Johnson's all-pairs shortest paths algorithm.  This algorithm
     is remarkable in that it combines two single-source shortest path algrithms -

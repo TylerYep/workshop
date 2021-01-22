@@ -1,10 +1,10 @@
 import math
 import random
-from typing import Callable, Dict, cast
+from typing import Callable, cast
 
 from .hash_table import HashTable
 
-_memomask: Dict[int, int] = {}
+_memomask: dict[int, int] = {}
 
 
 def hash_function(n: int) -> Callable[[int], int]:

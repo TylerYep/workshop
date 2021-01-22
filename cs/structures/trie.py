@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict
 
 from cs.util import formatter
 
@@ -17,7 +16,7 @@ class Trie:
     char: str = ""
     is_leaf: bool = False
     size: int = 0
-    children: Dict[str, Trie] = field(default_factory=dict)
+    children: dict[str, Trie] = field(default_factory=dict)
 
     def __str__(self) -> str:
         return str(formatter.pformat(self))

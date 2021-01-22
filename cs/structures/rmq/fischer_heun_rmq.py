@@ -1,5 +1,4 @@
 import math
-from typing import Dict
 
 from .precomputed_rmq import PrecomputedRMQ
 from .rmq import RMQ
@@ -53,7 +52,7 @@ class FischerHeunRMQ(RMQ):
 
         self.block_index_to_cart = []
         # Can also use:  [None] * (4 ** self.block_size)
-        self.cart_to_rmq: Dict[int, RMQ] = {}
+        self.cart_to_rmq: dict[int, RMQ] = {}
         for i in range(math.ceil(len(elems) / self.block_size)):
             start = i * self.block_size
             current_range = self.elems[start : min(len(elems), start + self.block_size)]

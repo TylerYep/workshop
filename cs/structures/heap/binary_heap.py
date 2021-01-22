@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Dict, Generic, Iterator, Optional, TypeVar
+from typing import Callable, Generic, Iterator, Optional, TypeVar
 
 from cs.util import Comparable
 
@@ -22,7 +22,7 @@ class BinaryHeap(Generic[T]):
 
     def __init__(self, *, key: Callable[[T], T] = lambda x: x) -> None:
         self._heap = []
-        self.elem_to_index: Dict[T, int] = {}
+        self.elem_to_index: dict[T, int] = {}
         self.size = 0
         self.key = key
 

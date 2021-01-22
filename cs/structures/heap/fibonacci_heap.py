@@ -4,7 +4,7 @@ from __future__ import annotations
 import collections
 import math
 from dataclasses import dataclass
-from typing import Deque, Dict, Generic, Optional, Tuple, TypeVar, Union
+from typing import Deque, Generic, Optional, Tuple, TypeVar, Union
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -62,7 +62,7 @@ class FibonacciHeap(Heap[T]):
 
         # Mapping from element to corresponding entry.
         # Should not introduce any asymptotic change in memory overhead.
-        self.elem_to_entry: Dict[Union[UUID, T], Entry[T]] = {}
+        self.elem_to_entry: dict[Union[UUID, T], Entry[T]] = {}
 
         # Cached size of the heap, so we don't have to recompute this explicitly.
         self.size = 0

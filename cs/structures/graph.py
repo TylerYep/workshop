@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import (
     Any,
     Callable,
-    Dict,
     Generic,
     Iterable,
     Iterator,
@@ -34,12 +33,12 @@ class Graph(Generic[V]):
     """
 
     INFINITY = float("inf")
-    _graph: Dict[V, Dict[V, Edge[V]]]
+    _graph: dict[V, dict[V, Edge[V]]]
     is_directed: bool
 
     def __init__(
         self,
-        graph: Optional[Dict[V, Any]] = None,
+        graph: Optional[dict[V, Any]] = None,
         *,
         is_directed: bool = True,
         weight: float = 1,
@@ -81,7 +80,7 @@ class Graph(Generic[V]):
     def __contains__(self, v: V) -> bool:
         return v in self._graph
 
-    def __getitem__(self, v: V) -> Dict[V, Edge[V]]:
+    def __getitem__(self, v: V) -> dict[V, Edge[V]]:
         self.verify_nodes_exist(v)
         return self._graph[v]
 
@@ -144,7 +143,7 @@ class Graph(Generic[V]):
         """ By default, treat edges with weight 0 as non-existent edges. """
         is_directed = False
         n = len(matrix)
-        graph: Dict[int, Dict[int, float]] = {i: {} for i in range(n)}
+        graph: dict[int, dict[int, float]] = {i: {} for i in range(n)}
         for i in range(n):
             for j in range(n):
                 edge_data = matrix[i][j]
@@ -278,7 +277,7 @@ class Graph(Generic[V]):
         Runtime: O(|V| + |E|)
         """
         visited = set()
-        color: Dict[V, bool] = {}
+        color: dict[V, bool] = {}
 
         def dfs(v: V, curr_color: bool) -> None:
             visited.add(v)
@@ -363,10 +362,10 @@ class Node(Generic[V]):
 
 
 class DirectedGraph(Generic[V], Graph[V]):
-    def __init__(self, graph: Optional[Dict[V, Any]] = None) -> None:
+    def __init__(self, graph: Optional[dict[V, Any]] = None) -> None:
         super().__init__(graph)
 
 
 class UndirectedGraph(Generic[V], Graph[V]):
-    def __init__(self, graph: Optional[Dict[V, Any]] = None) -> None:
+    def __init__(self, graph: Optional[dict[V, Any]] = None) -> None:
         super().__init__(graph, is_directed=False)

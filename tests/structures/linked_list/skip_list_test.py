@@ -1,5 +1,3 @@
-from typing import Dict
-
 import pytest
 
 from cs.structures import SkipList
@@ -15,7 +13,7 @@ class TestSkipList:
         skip_list.insert("Key4", -19)
 
         node = skip_list
-        all_values: Dict[str, int] = {}
+        all_values: dict[str, int] = {}
         while len(node.next) != 0:
             node = node.next[0]
             if node.key is not None and node.value is not None:
@@ -42,7 +40,7 @@ class TestSkipList:
         skip_list.insert("Key10", 10)
 
         node = skip_list
-        all_values: Dict[str, int] = {}
+        all_values: dict[str, int] = {}
         while len(node.next) != 0:
             node = node.next[0]
             if node.key is not None and node.value is not None:

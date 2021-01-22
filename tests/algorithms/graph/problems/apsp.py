@@ -1,10 +1,10 @@
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
 from cs.structures import Edge, Graph, V
 
 INF = Graph.INFINITY
-SingleSourceFunction = Callable[[Graph[V], V], Dict[V, float]]
-APSPFunction = Callable[[Graph[V]], Dict[V, Dict[V, float]]]
+SingleSourceFunction = Callable[[Graph[V], V], dict[V, float]]
+APSPFunction = Callable[[Graph[V]], dict[V, dict[V, float]]]
 
 
 class AllPairsShortestPaths:

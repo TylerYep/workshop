@@ -1,5 +1,5 @@
 import heapq
-from typing import Dict, Optional, Set, Tuple
+from typing import Optional, Set, Tuple
 
 from cs.structures import FibonacciHeap, Graph, V
 
@@ -33,7 +33,7 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
     return None
 
 
-def dijkstra_shortest_paths(graph: Graph[V], start: V) -> Dict[V, float]:
+def dijkstra_shortest_paths(graph: Graph[V], start: V) -> dict[V, float]:
     """
     Dijkstra's algorithm for the single-source shortest paths problem.
 
@@ -90,7 +90,7 @@ def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> Optional[float]:
     return None
 
 
-def dijkstra_shortest_paths_heapq(graph: Graph[V], start: V) -> Dict[V, float]:
+def dijkstra_shortest_paths_heapq(graph: Graph[V], start: V) -> dict[V, float]:
     heap: list[Tuple[float, V]] = [(0.0, start)]
     visited: Set[V] = set()
     distances = {v: Graph.INFINITY for v in graph}

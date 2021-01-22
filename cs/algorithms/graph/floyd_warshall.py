@@ -1,9 +1,7 @@
-from typing import Dict
-
 from cs.structures import Graph, V
 
 
-def floyd_warshall_shortest_paths(graph: Graph[V]) -> Dict[V, Dict[V, float]]:
+def floyd_warshall_shortest_paths(graph: Graph[V]) -> dict[V, dict[V, float]]:
     """
     Calculates the shortest distance between all vertex pairs using dynamic programming.
     distance[u][v] will contain the shortest distance from vertex u to v.
@@ -20,7 +18,7 @@ def floyd_warshall_shortest_paths(graph: Graph[V]) -> Dict[V, Dict[V, float]]:
 
     Runtime: O(|V|^3) Memory: O(|V|^2)
     """
-    dist: Dict[V, Dict[V, float]] = {}
+    dist: dict[V, dict[V, float]] = {}
     for u in graph:
         dist[u] = {}
         for v in graph:

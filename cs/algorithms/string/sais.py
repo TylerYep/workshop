@@ -1,7 +1,7 @@
 from collections import Counter
 from dataclasses import dataclass
 from enum import Enum, unique
-from typing import Dict, Tuple
+from typing import Tuple
 
 from dataslots import dataslots
 
@@ -74,7 +74,7 @@ def build_suffix_array(orig_text: str) -> list[int]:
 
 def create_lms_blocks(
     suffix_arr: list[int], lms_suffixes: list[int]
-) -> Tuple[list[LMSBlock], Dict[int, int]]:
+) -> Tuple[list[LMSBlock], dict[int, int]]:
     """
     This function fetches all LMS blocks, which span from one LMS suffix to another.
     """
@@ -235,7 +235,7 @@ def to_rank_array(text: str) -> list[int]:
     [1, 2, 3, 4, 3, 2, 2, 4, 1, 3, 2, 2, 4, 1, 2, 2, 3, 4, 3, 2, 2, 0]
     """
     chars = sorted(set(text))
-    char_map: Dict[str, int] = {}
+    char_map: dict[str, int] = {}
     for ch in chars:
         char_map[ch] = len(char_map) + 1
     result: list[int] = []
@@ -246,7 +246,7 @@ def to_rank_array(text: str) -> list[int]:
     return result
 
 
-def rank_text_to_str(char_map: Dict[str, int], rank_text: list[int]) -> str:
+def rank_text_to_str(char_map: dict[str, int], rank_text: list[int]) -> str:
     """ Util function to convert rank text back into strings. """
     result = ""
     reversed_char_map = {}

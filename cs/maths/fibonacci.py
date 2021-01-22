@@ -1,9 +1,8 @@
 import math
-from typing import Dict
 
 
 def fibonacci_recursive(n: int) -> list[int]:
-    cache: Dict[int, int] = {0: 0, 1: 1}
+    cache: dict[int, int] = {0: 0, 1: 1}
 
     def _fib(n: int) -> int:
         if n in cache:

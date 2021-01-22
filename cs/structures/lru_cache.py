@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Callable, ClassVar, Dict, Generic, NamedTuple, Optional, TypeVar
+from typing import Any, Callable, ClassVar, Generic, NamedTuple, Optional, TypeVar
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
@@ -19,10 +19,10 @@ class LRUCache(Generic[KT, VT]):
     """ Uses a regular dictionary and the fact that dictionaries are ordered. """
 
     # Class variable maps the decorator functions to their respective instance
-    decorator_instance_map: ClassVar[Dict[Callable[..., Any], LRUCache[KT, VT]]] = {}
+    decorator_instance_map: ClassVar[dict[Callable[..., Any], LRUCache[KT, VT]]] = {}
 
     def __init__(self, max_capacity: int) -> None:
-        self.cache: Dict[KT, VT] = {}
+        self.cache: dict[KT, VT] = {}
         self.max_capacity = max_capacity
         self.hits = 0
         self.misses = 0
