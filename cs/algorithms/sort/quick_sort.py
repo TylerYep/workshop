@@ -1,11 +1,11 @@
-from typing import List, TypeVar
+from typing import TypeVar
 
 from cs.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 
 
-def quick_sort(array: List[T]) -> List[T]:
+def quick_sort(array: list[T]) -> list[T]:
     """
     Quick sort algorithm implementation.
 

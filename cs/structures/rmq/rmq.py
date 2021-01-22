@@ -1,8 +1,5 @@
-from typing import List
-
-
 class RMQ:
-    def __init__(self, elems: List[int]) -> None:
+    def __init__(self, elems: list[int]) -> None:
         self.elems = elems
 
     def rmq(self, low: int, high: int) -> int:

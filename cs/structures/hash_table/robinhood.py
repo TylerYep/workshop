@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Callable, List, Set
+from typing import Callable, Set
 
 from dataslots import dataslots
 
@@ -19,7 +19,7 @@ class Pair:
 class RobinHood(HashTable):
     def __init__(self, num_buckets: int) -> None:
         super().__init__(num_buckets)
-        self.table: List[Pair] = [Pair() for _ in range(num_buckets)]
+        self.table: list[Pair] = [Pair() for _ in range(num_buckets)]
         self.hash: Callable[[int], int] = lambda x: x % num_buckets
 
     def __contains__(self, data: int) -> bool:

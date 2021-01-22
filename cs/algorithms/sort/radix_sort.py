@@ -1,7 +1,4 @@
-from typing import List
-
-
-def radix_sort(array: List[int]) -> List[int]:
+def radix_sort(array: list[int]) -> list[int]:
     """
     Radix sort algorithm implementation.
 

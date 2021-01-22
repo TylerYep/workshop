@@ -9,7 +9,6 @@ from typing import (
     Iterable,
     Iterator,
     KeysView,
-    List,
     Mapping,
     Optional,
     Sequence,
@@ -169,7 +168,7 @@ class Graph(Generic[V]):
                     return False
         return True
 
-    def to_matrix(self, *, zero_is_no_edge: bool = True) -> List[List[float]]:
+    def to_matrix(self, *, zero_is_no_edge: bool = True) -> list[list[float]]:
         """ By default, outputs non-existent edges as having weight 0. """
         nodes = sorted(self._graph)
         graph = [

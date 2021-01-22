@@ -1,4 +1,4 @@
-from typing import Any, List, Tuple
+from typing import Any, Tuple
 
 from cs.algorithms import (
     bubble_sort,
@@ -13,7 +13,7 @@ from cs.algorithms import (
 
 def test_sort() -> None:
     sort_fns = (bubble_sort, insertion_sort, merge_sort, quick_sort, selection_sort)
-    arrays: Tuple[List[Any], ...] = (
+    arrays: Tuple[list[Any], ...] = (
         [0, 5, 2, 3, 2],
         [],
         [-2, -45, -5],
@@ -29,7 +29,7 @@ def test_sort() -> None:
 
 def test_positive_int_sort() -> None:
     sort_fns = (bucket_sort, radix_sort)
-    arrays: Tuple[List[int], ...] = (
+    arrays: Tuple[list[int], ...] = (
         [0, 5, 2, 3, 2],
         [],
         list(range(10, 0, -1)),

@@ -1,6 +1,5 @@
 import random
 import time
-from typing import List
 
 from tqdm import trange
 
@@ -10,7 +9,7 @@ RMQ = SparseTableRMQ
 ProposedRMQ = FischerHeunRMQ
 
 
-def print_arr_with_index(data: List[int], low: int) -> str:
+def print_arr_with_index(data: list[int], low: int) -> str:
     result = f"\nIndex | Data\n{'-' * 15}\n"
     for i, value in enumerate(data):
         result += f"{low+i if low else i:5d} | {value}\n"

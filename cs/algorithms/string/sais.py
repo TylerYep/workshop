@@ -1,7 +1,7 @@
 from collections import Counter
 from dataclasses import dataclass
 from enum import Enum, unique
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
 from dataslots import dataslots
 
@@ -19,7 +19,7 @@ class LMSBlock:
     block_num: int = -1
 
 
-def build_suffix_array_naive(source: str) -> List[int]:
+def build_suffix_array_naive(source: str) -> list[int]:
     """
     A naive, slow suffix-array construction algorithm.
     Construct a list of suffixes of the source string, then calculate the start
@@ -32,14 +32,14 @@ def build_suffix_array_naive(source: str) -> List[int]:
     return [n - len(suffix) for suffix in suffixes]
 
 
-def build_suffix_array(orig_text: str) -> List[int]:
+def build_suffix_array(orig_text: str) -> list[int]:
     """
     SAIS algorithm to form a Suffix Array.
 
     Runtime: O(n)
     """
 
-    def _sais(text: List[int]) -> List[int]:
+    def _sais(text: list[int]) -> list[int]:
         """ Helper function required to handle the recursive call. """
 
         # Handle empty string edge case
@@ -73,8 +73,8 @@ def build_suffix_array(orig_text: str) -> List[int]:
 
 
 def create_lms_blocks(
-    suffix_arr: List[int], lms_suffixes: List[int]
-) -> Tuple[List[LMSBlock], Dict[int, int]]:
+    suffix_arr: list[int], lms_suffixes: list[int]
+) -> Tuple[list[LMSBlock], Dict[int, int]]:
     """
     This function fetches all LMS blocks, which span from one LMS suffix to another.
     """
@@ -96,7 +96,7 @@ def create_lms_blocks(
     return lms_blocks, block_mapping
 
 
-def assign_block_numbers(text: List[int], lms_blocks: List[LMSBlock]) -> bool:
+def assign_block_numbers(text: list[int], lms_blocks: list[LMSBlock]) -> bool:
     """
     Iterate over the sorted LMS blocks and assign them block numbers in place. If any
     two have the same block number, make a note to recurse later to sort the
@@ -121,8 +121,8 @@ def assign_block_numbers(text: List[int], lms_blocks: List[LMSBlock]) -> bool:
 
 
 def get_reduced_string(
-    text: List[int], suffix_arr: List[int], lms_suffixes: List[int]
-) -> Tuple[List[int], bool]:
+    text: list[int], suffix_arr: list[int], lms_suffixes: list[int]
+) -> Tuple[list[int], bool]:
     """
     >>> suffix_arr = [10, 0, 1, 2, 3, 4, 6, 8, 5, 7, 9]
     >>> lms_suffixes = [6, 8, 10]
@@ -140,8 +140,8 @@ def get_reduced_string(
 
 
 def reorder_lms_substrings(
-    lms_suffixes: List[int], reduced_str: List[int]
-) -> List[int]:
+    lms_suffixes: list[int], reduced_str: list[int]
+) -> list[int]:
     """
     >>> reorder_lms_substrings([2, 6, 8, 11, 13, 16, 20], [6, 5, 3, 1, 0, 4, 2])
     [20, 16, 11, 6, 2, 13, 8]
@@ -150,8 +150,8 @@ def reorder_lms_substrings(
 
 
 def induced_sort(
-    text: List[int], suffix_marks: List[SuffixType], lms_suffixes: List[int]
-) -> List[int]:
+    text: list[int], suffix_marks: list[SuffixType], lms_suffixes: list[int]
+) -> list[int]:
     """
     Runs induced sort on the text and returns a suffix array.
     """
@@ -200,7 +200,7 @@ def induced_sort(
     return suffix_arr
 
 
-def get_suffix_annotations(text: List[int]) -> Tuple[List[SuffixType], List[int]]:
+def get_suffix_annotations(text: list[int]) -> Tuple[list[SuffixType], list[int]]:
     """
     Returns all LMS suffixes, as well as the L/S markings for each index.
     >>> marks, lms = get_suffix_annotations("ACGTGCCTAGCCTACCGTGCC$")
@@ -210,7 +210,7 @@ def get_suffix_annotations(text: List[int]) -> Tuple[List[SuffixType], List[int]
     >>> lms
     [5, 8, 10, 13, 21]
     """
-    lms_suffixes: List[int] = []
+    lms_suffixes: list[int] = []
     suffix_marks = [SuffixType.S] * len(text)
     for k in range(len(text) - 1, 0, -1):
         if (
@@ -226,7 +226,7 @@ def get_suffix_annotations(text: List[int]) -> Tuple[List[SuffixType], List[int]
     return suffix_marks, lms_suffixes
 
 
-def to_rank_array(text: str) -> List[int]:
+def to_rank_array(text: str) -> list[int]:
     """
     Gets rank array representation for a text. Appends a sentinel $ at the end.
     >>> to_rank_array("abracadabra")
@@ -238,7 +238,7 @@ def to_rank_array(text: str) -> List[int]:
     char_map: Dict[str, int] = {}
     for ch in chars:
         char_map[ch] = len(char_map) + 1
-    result: List[int] = []
+    result: list[int] = []
     for ch in text:
         result.append(char_map[ch])
     # End string terminator
@@ -246,7 +246,7 @@ def to_rank_array(text: str) -> List[int]:
     return result
 
 
-def rank_text_to_str(char_map: Dict[str, int], rank_text: List[int]) -> str:
+def rank_text_to_str(char_map: Dict[str, int], rank_text: list[int]) -> str:
     """ Util function to convert rank text back into strings. """
     result = ""
     reversed_char_map = {}

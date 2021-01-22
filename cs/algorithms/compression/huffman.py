@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import heapq
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, cast
+from typing import Dict, Optional, cast
 
 from dataslots import dataslots
 
@@ -17,7 +17,7 @@ class HuffmanTreeNode:
     bitstring: str = field(default="", compare=False)
 
 
-def parse_file(file_path: str) -> List[HuffmanTreeNode]:
+def parse_file(file_path: str) -> list[HuffmanTreeNode]:
     """
     Read the file and build a dict of all letters and their
     frequencies, then convert the dict into a list of Letters.
@@ -35,7 +35,7 @@ def parse_file(file_path: str) -> List[HuffmanTreeNode]:
     return queue
 
 
-def build_tree(letters: List[HuffmanTreeNode]) -> HuffmanTreeNode:
+def build_tree(letters: list[HuffmanTreeNode]) -> HuffmanTreeNode:
     """
     Run through the list of Letters and build the
     min heap for the Huffman Tree.
@@ -48,7 +48,7 @@ def build_tree(letters: List[HuffmanTreeNode]) -> HuffmanTreeNode:
     return letters[0]
 
 
-def encode(root: HuffmanTreeNode, bitstring: str) -> List[HuffmanTreeNode]:
+def encode(root: HuffmanTreeNode, bitstring: str) -> list[HuffmanTreeNode]:
     """
     Recursively traverse the Huffman Tree to set each
     letter's bitstring, and return the list of letters.

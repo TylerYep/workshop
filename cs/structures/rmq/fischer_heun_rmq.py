@@ -1,12 +1,12 @@
 import math
-from typing import Dict, List
+from typing import Dict
 
 from .precomputed_rmq import PrecomputedRMQ
 from .rmq import RMQ
 from .sparse_table_rmq import SparseTableRMQ
 
 
-def calc_cart_num(arr: List[int]) -> int:
+def calc_cart_num(arr: list[int]) -> int:
     """
     Calculate cartesian number
     >>> arr = [93, 84, 33, 64, 62, 83, 63, 58]
@@ -22,7 +22,7 @@ def calc_cart_num(arr: List[int]) -> int:
     True
     """
     result = ""
-    stack: List[int] = []
+    stack: list[int] = []
     for elem in arr:
         if not stack:
             stack.append(elem)
@@ -37,7 +37,7 @@ def calc_cart_num(arr: List[int]) -> int:
 
 
 class FischerHeunRMQ(RMQ):
-    def __init__(self, elems: List[int]) -> None:
+    def __init__(self, elems: list[int]) -> None:
         super().__init__(elems)
         self.block_size = max(1, math.floor(math.log2(len(elems))) // 4)
         self.block_mins = []

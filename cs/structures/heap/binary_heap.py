@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Dict, Generic, Iterator, List, Optional, TypeVar
+from typing import Callable, Dict, Generic, Iterator, Optional, TypeVar
 
 from cs.util import Comparable
 
@@ -18,7 +18,7 @@ class BinaryHeap(Generic[T]):
     Can be used as min or max heap by passing the according key function.
     """
 
-    _heap: List[T]
+    _heap: list[T]
 
     def __init__(self, *, key: Callable[[T], T] = lambda x: x) -> None:
         self._heap = []

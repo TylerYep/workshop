@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import Any, List, Optional, Tuple
+from typing import Any, Optional, Tuple
 
 from cs.structures.tree.binary_search_tree import BinaryTreeNode
 
@@ -41,8 +41,8 @@ def build_ascii_tree_recursive(
 
 def compute_profile(
     node: Optional[AsciiNode],
-    lprofile: List[int],
-    rprofile: List[int],
+    lprofile: list[int],
+    rprofile: list[int],
     xy: Tuple[int, int] = (0, 0),
     left_side: bool = True,
 ) -> None:
@@ -86,7 +86,7 @@ def compute_profile(
 
 
 def compute_edge_lengths(
-    node: Optional[AsciiNode], lprofile: List[int], rprofile: List[int]
+    node: Optional[AsciiNode], lprofile: list[int], rprofile: list[int]
 ) -> None:
     """
     This function fills in the edge_length and height fields of the specified tree.
@@ -137,7 +137,7 @@ def print_level(
     node: Optional[AsciiNode],
     x: int,
     level: int,
-    result: List[str],
+    result: list[str],
     print_next: int = 0,
 ) -> int:
     """
@@ -203,7 +203,7 @@ def draw_tree(t: Optional[BinaryTreeNode[Any]]) -> str:
     compute_profile(proot, lprofile, rprofile, left_side=True)
     xmin = min([0] + [lprofile[i] for i in range(min(proot.height, MAX_HEIGHT))])
 
-    result: List[str] = []
+    result: list[str] = []
     for i in range(proot.height):
         print_level(proot, -xmin, i, result)
         result.append("\n")

@@ -1,15 +1,15 @@
-from typing import List, Optional, Set, Tuple
+from typing import Optional, Set, Tuple
 
 from cs.structures import Graph, V
 
 
-def depth_first_search(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:
+def depth_first_search(graph: Graph[V], start: V, end: V) -> Optional[list[V]]:
     """
     Iterative version of DFS.
 
     Runtime: O(V + E)
     """
-    stack: List[Tuple[V, List[V]]] = [(start, [start])]
+    stack: list[Tuple[V, list[V]]] = [(start, [start])]
     visited: Set[V] = set()
     while stack:
         vertex, path = stack.pop()
@@ -25,14 +25,14 @@ def depth_first_search(graph: Graph[V], start: V, end: V) -> Optional[List[V]]:
 
 def depth_first_search_recursive(
     graph: Graph[V], start: V, end: V
-) -> Optional[List[V]]:
+) -> Optional[list[V]]:
     """
     Recursive version of DFS.
 
     Runtime: O(V + E)
     """
 
-    def _dfs(curr: V, visited: Set[V], path: List[V]) -> Optional[List[V]]:
+    def _dfs(curr: V, visited: Set[V], path: list[V]) -> Optional[list[V]]:
         if curr == end:
             return path
         if curr not in visited:

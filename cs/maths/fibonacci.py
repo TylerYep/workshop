@@ -1,8 +1,8 @@
 import math
-from typing import Dict, List
+from typing import Dict
 
 
-def fibonacci_recursive(n: int) -> List[int]:
+def fibonacci_recursive(n: int) -> list[int]:
     cache: Dict[int, int] = {0: 0, 1: 1}
 
     def _fib(n: int) -> int:
@@ -16,7 +16,7 @@ def fibonacci_recursive(n: int) -> List[int]:
     return list(cache.values())
 
 
-def fibonacci_iterative(n: int) -> List[int]:
+def fibonacci_iterative(n: int) -> list[int]:
     seq_out = [0, 1]
     a, b = 0, 1
     for _ in range(2, n):
@@ -25,7 +25,7 @@ def fibonacci_iterative(n: int) -> List[int]:
     return seq_out
 
 
-def fibonacci_formula(n: int) -> List[int]:
+def fibonacci_formula(n: int) -> list[int]:
     """
     Uses Binet's formula to calculate the fibonacci sequence.
     This formula does not yield correct results past n = 72 because of rounding errors.

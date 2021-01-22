@@ -1,9 +1,9 @@
-from typing import Any, List
+from typing import Any
 
 
 class HashTable:
     def __init__(self, num_buckets: int) -> None:
-        self.table: List[Any] = []
+        self.table: list[Any] = []
         self.num_buckets = num_buckets
         self.capacity = num_buckets
         self.num_elems = 0

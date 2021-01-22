@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict
 
 import pytest
 
@@ -133,7 +133,7 @@ class TestSkipList:
 
     @staticmethod
     def test_iter_always_yields_sorted_values() -> None:
-        def is_sorted(lst: List[int]) -> bool:
+        def is_sorted(lst: list[int]) -> bool:
             for item, next_item in zip(lst, lst[1:]):
                 if next_item < item:
                     return False

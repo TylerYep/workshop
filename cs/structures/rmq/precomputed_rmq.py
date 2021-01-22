@@ -1,10 +1,8 @@
-from typing import List
-
 from .rmq import RMQ
 
 
 class PrecomputedRMQ(RMQ):
-    def __init__(self, elems: List[int]) -> None:
+    def __init__(self, elems: list[int]) -> None:
         super().__init__(elems)
         self.rmq_table = [[0] * len(elems) for _ in range(len(elems))]
 

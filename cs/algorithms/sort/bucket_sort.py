@@ -1,9 +1,7 @@
-from typing import List
-
 BUCKET_SIZE = 10
 
 
-def bucket_sort(array: List[int]) -> List[int]:
+def bucket_sort(array: list[int]) -> list[int]:
     """
     Time Complexity of Solution:
     Worst Case: occurs when all the elements are placed in a single bucket.
@@ -19,7 +17,7 @@ def bucket_sort(array: List[int]) -> List[int]:
         return array
     min_value, max_value = min(array), max(array)
     bucket_count = (max_value - min_value) // BUCKET_SIZE + 1
-    buckets: List[List[int]] = [[] for _ in range(int(bucket_count))]
+    buckets: list[list[int]] = [[] for _ in range(int(bucket_count))]
 
     for item in array:
         buckets[int((item - min_value) // BUCKET_SIZE)].append(item)

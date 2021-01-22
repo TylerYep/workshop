@@ -1,7 +1,6 @@
 import itertools
 from collections import Counter
 from pprint import pprint
-from typing import List
 
 MAX_WEIGHTS_ON_HANDLE = 6
 MAX_WEIGHTS_ON_BAR = 12
@@ -11,7 +10,7 @@ CONNECTOR_WEIGHT = 0.8
 WEIGHTS = [2.8] * 4 + [3.3] * 4 + [4.4] * 4 + [10.0] * 2
 
 
-def calculate_weight_combinations(weights: List[float]) -> None:
+def calculate_weight_combinations(weights: list[float]) -> None:
     print(f"Weight counts: {dict(Counter(weights))}")
     configs = {}
     for i in range(MAX_WEIGHTS_ON_BAR + 1):

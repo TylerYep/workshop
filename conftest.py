@@ -1,7 +1,7 @@
 import inspect
 import random
 import time
-from typing import Any, Callable, List
+from typing import Any, Callable
 
 # import numpy as np
 import pytest
@@ -50,7 +50,7 @@ def pytest_configure(config: Config) -> None:
     config.addinivalue_line("markers", "slow: mark test as slow to run")
 
 
-def pytest_collection_modifyitems(config: Config, items: List[Node]) -> None:
+def pytest_collection_modifyitems(config: Config, items: list[Node]) -> None:
     if not config.getoption("--runslow"):
         skip_slow = pytest.mark.skip(reason="need --runslow option to run this test")
         for item in items:

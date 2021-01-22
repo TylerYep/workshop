@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Generic, List, TypeVar
+from typing import Generic, TypeVar
 
 from dataslots import dataslots
 
@@ -11,7 +11,7 @@ T = TypeVar("T")
 class Stack(Generic[T]):
     """ You should probably use the Python built-in List instead. """
 
-    _stack: List[T] = field(default_factory=list)
+    _stack: list[T] = field(default_factory=list)
 
     def __bool__(self) -> bool:
         return bool(self._stack)

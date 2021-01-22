@@ -15,6 +15,7 @@ Separated into three sections:
 - Data Structures
 
 # Usage
+
 `pip install csworkshop`
 
 ```python
@@ -183,7 +184,7 @@ yes d | git mergetool --
 
 ## 3.9
 
-- Replace List[int] with list[int].
+- Replace list[int] with list[int].
   Wait until PEP 585 is implemented in mypy and someone makes a tool to automatically upgrade and remove the typing imports.
 
 ## 3.10

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Generic, Iterator, List, Optional, TypeVar
+from typing import Generic, Iterator, Optional, TypeVar
 
 from dataslots import dataslots
 
@@ -67,7 +67,7 @@ class LinkedList(Generic[T]):
         current.data = data
 
     @classmethod
-    def from_list(cls, lst: List[T]) -> LinkedList[T]:
+    def from_list(cls, lst: list[T]) -> LinkedList[T]:
         linked_lst = cls()
         for item in reversed(lst):
             linked_lst.insert(item)

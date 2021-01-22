@@ -1,5 +1,3 @@
-from typing import List
-
 from cs.algorithms.string.sais import (
     build_suffix_array,
     build_suffix_array_naive,
@@ -16,7 +14,7 @@ def test_build_suffix_array() -> None:
     assert str(s) == str(sorted(s.text[suffix:] for suffix in s.suffix_arr))
 
 
-def run_sais(text: str, expected_suffix_arr: List[int]) -> None:
+def run_sais(text: str, expected_suffix_arr: list[int]) -> None:
     assert build_suffix_array(text) == build_suffix_array_naive(text)
     assert build_suffix_array(text) == expected_suffix_arr
 

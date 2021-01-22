@@ -1,12 +1,11 @@
 import math
 from pprint import pformat
-from typing import List
 
 from .rmq import RMQ
 
 
 class SparseTableRMQ(RMQ):
-    def __init__(self, elems: List[int]) -> None:
+    def __init__(self, elems: list[int]) -> None:
         super().__init__(elems)
         log_elems = math.floor(math.log2(len(elems))) + 1
         self.rmq_table = [[-1] * len(elems) for _ in range(log_elems)]

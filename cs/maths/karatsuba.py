@@ -2,10 +2,9 @@
 See docs/karatsuba.md for code credits and implementation details.
 Author: Keith Schwarz (htiek@cs.stanford.edu)
 """
-from typing import List
 
 
-def add(lhs: List[int], rhs: List[int], base: int) -> List[int]:
+def add(lhs: list[int], rhs: list[int], base: int) -> list[int]:
     """
     Adds two arbitrary-precision values in some base together.
 
@@ -47,7 +46,7 @@ def add(lhs: List[int], rhs: List[int], base: int) -> List[int]:
     return result
 
 
-def subtract(lhs: List[int], rhs: List[int], base: int) -> List[int]:
+def subtract(lhs: list[int], rhs: list[int], base: int) -> list[int]:
     """
     Subtracts two arbitrary-precision values in some base.
 
@@ -100,7 +99,7 @@ def subtract(lhs: List[int], rhs: List[int], base: int) -> List[int]:
     return result
 
 
-def multiply(lhs: List[int], rhs: List[int], base: int) -> List[int]:
+def multiply(lhs: list[int], rhs: list[int], base: int) -> list[int]:
     """
     Multiplies two arbitrary-precision values in some base.
 

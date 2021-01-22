@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Dict, List, Set, Tuple
+from typing import Dict, Set, Tuple
 
 from cs.structures.graph import Graph
 from cs.structures.heap.fibonacci_heap import FibonacciHeap
@@ -18,17 +18,17 @@ class ApproxDistanceOracle:
         self.n = len(graph)
 
         # Initialize k+1 sets of vertices with decreasing sizes. (i-centers)
-        self.A: List[Set[int]] = [set()] * (k + 1)
+        self.A: list[Set[int]] = [set()] * (k + 1)
         self.A[0] = set(self.graph)
         self.A[k] = set()
         for i in range(1, k):  # for i = 1 to k - 1
             prob = self.n ** (-1 / k)
             self.A[i] = {x for x in self.A[i - 1] if weighted_coin_flip(prob)}
 
-        self.a_i_v_distances: List[List[float]] = [
+        self.a_i_v_distances: list[list[float]] = [
             [None] * self.n for _ in range(k + 1)  # type: ignore[list-item]
         ]
-        self.p: List[List[int]] = [
+        self.p: list[list[int]] = [
             [None] * self.n for _ in range(k + 1)  # type: ignore[list-item]
         ]
 
@@ -37,7 +37,7 @@ class ApproxDistanceOracle:
         self.p[k] = [None] * self.n  # type: ignore[list-item]
 
         # Initialize empty bunches
-        self.B: List[Set[int]] = [{v} for v in self.graph]
+        self.B: list[Set[int]] = [{v} for v in self.graph]
 
         # Initialize table of calculated distances
         self.distances: Dict[Tuple[int, int], float] = defaultdict(

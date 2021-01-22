@@ -1,12 +1,11 @@
 import math
-from typing import List
 
 from .rmq import RMQ
 from .sparse_table_rmq import SparseTableRMQ
 
 
 class NewHybridRMQ(RMQ):
-    def __init__(self, elems: List[int]) -> None:
+    def __init__(self, elems: list[int]) -> None:
         super().__init__(elems)
         sparse_table = SparseTableRMQ(elems)
         self.block_size = max(1, math.floor(math.log2(len(elems))))

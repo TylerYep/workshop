@@ -1,11 +1,11 @@
-from typing import List, TypeVar
+from typing import TypeVar
 
 from cs.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 
 
-def bubble_sort(array: List[T]) -> List[T]:
+def bubble_sort(array: list[T]) -> list[T]:
     """
     Bubble sort algorithm implementation.
 
