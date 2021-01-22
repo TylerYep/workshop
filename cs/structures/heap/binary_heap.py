@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass
-from typing import Callable, Generic, Iterator, Optional, TypeVar
+from typing import Generic, Optional, TypeVar
 
 from cs.util import Comparable
 

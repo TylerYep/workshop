@@ -5,8 +5,9 @@ https://epaperpress.com/sortsearch/download/skiplist.pdf
 from __future__ import annotations
 
 import random
+from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Generic, Iterator, Optional, TypeVar, cast
+from typing import Generic, Optional, TypeVar, cast
 
 from cs.util import Comparable
 

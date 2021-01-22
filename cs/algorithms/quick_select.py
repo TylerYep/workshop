@@ -1,5 +1,6 @@
 import random
-from typing import Sequence, TypeVar
+from collections.abc import Sequence
+from typing import TypeVar
 
 from cs.util import Comparable
 

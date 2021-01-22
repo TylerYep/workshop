@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import math
-from typing import Iterator, Optional
+from collections.abc import Iterator
+from typing import Optional
 
 
 class Bits:

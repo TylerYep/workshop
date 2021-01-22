@@ -1,5 +1,6 @@
 import random
-from typing import Callable, Optional
+from collections.abc import Callable
+from typing import Optional
 
 
 def get_statement(indent: int, prev_fn: Optional[Callable[[int], str]]) -> str:

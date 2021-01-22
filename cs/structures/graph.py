@@ -1,18 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Callable, Iterable, Iterator, KeysView, Mapping, Sequence
 from dataclasses import dataclass
-from typing import (
-    Any,
-    Callable,
-    Generic,
-    Iterable,
-    Iterator,
-    KeysView,
-    Mapping,
-    Optional,
-    Sequence,
-    TypeVar,
-)
+from typing import Any, Generic, Optional, TypeVar
 
 from dataslots import dataslots
 

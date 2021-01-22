@@ -1,6 +1,7 @@
 import math
 import random
-from typing import Callable, cast
+from collections.abc import Callable
+from typing import cast
 
 from .hash_table import HashTable
 

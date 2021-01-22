@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Callable, ClassVar, Generic, NamedTuple, Optional, TypeVar
+from collections.abc import Callable
+from typing import Any, ClassVar, Generic, NamedTuple, Optional, TypeVar
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")

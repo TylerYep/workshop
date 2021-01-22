@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, Iterator, Optional, TypeVar
+from typing import Generic, Optional, TypeVar
 
 from dataslots import dataslots
 
