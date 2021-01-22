@@ -27,7 +27,7 @@ def kargers_min_cut(orig_graph: Graph[V]) -> Set[Edge[V]]:
         # Contract edge (u, v) to new node uv
         uv = Node(edge.start.data + edge.end.data)
 
-        uv_neighbors = graph[edge.start] | graph[edge.end]  # type: ignore
+        uv_neighbors = graph[edge.start] | graph[edge.end]
         del uv_neighbors[edge.start]
         del uv_neighbors[edge.end]
 

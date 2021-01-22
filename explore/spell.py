@@ -103,15 +103,13 @@ def spelltest(tests, verbose=False):
             unknown += right not in WORDS
             if verbose:
                 print(
-                    "correction({}) => {} ({}); expected {} ({})".format(
-                        wrong, w, WORDS[w], right, WORDS[right]
-                    )
+                    f"correction({wrong}) => {w} ({WORDS[w]}); "
+                    f"expected {right} ({WORDS[right]})"
                 )
     dt = time.clock() - start
     print(
-        "{:.0%} of {} correct ({:.0%} unknown) at {:.0f} words per second ".format(
-            good / n, n, unknown / n, n / dt
-        )
+        f"{good / n:.0%} of {n} correct ({unknown / n:.0%} "
+        f"unknown) at {n / dt:.0f} words per second"
     )
 
 
