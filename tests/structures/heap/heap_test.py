@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import random
-from typing import TypeVar, Union, cast
+from typing import TypeVar, cast
 
 import pytest
 
@@ -68,7 +70,7 @@ class TestHeap:
         with pytest.raises(TypeError):
             a_heap.enqueue(A(3), 3)
 
-        heap: Heap[Union[int, tuple[str, ...]]] = construct_heap(heap_type)
+        heap: Heap[int | tuple[str, ...]] = construct_heap(heap_type)
         heap.enqueue(1, 1)
         heap.enqueue(("2", "hello"), 3)
         heap.enqueue(5, 3)

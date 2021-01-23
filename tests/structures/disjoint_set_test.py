@@ -7,7 +7,7 @@ from cs.structures import DisjointSet
 class TestDisjointSet:
     @staticmethod
     def test_make_set() -> None:
-        dset = DisjointSet[Union[int, str]]()
+        dset = DisjointSet[Union[int, str]]()  # TODO: Fix in Python 3.10
         assert not dset
         assert 1 not in dset
         for i in range(5):

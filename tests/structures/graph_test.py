@@ -204,7 +204,7 @@ class TestGraph:
 
     @staticmethod
     def test_noncomparable_types() -> None:
-        graph = Graph[Union[str, int]]()
+        graph = Graph[Union[str, int]]()  # TODO: Fix in Python 3.10
         for i in range(5):
             graph.add_node(i)
             graph.add_node(str(i))

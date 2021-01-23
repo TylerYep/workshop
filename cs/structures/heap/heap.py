@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Generic, TypeVar, Union
+from typing import Generic, TypeVar
 from uuid import UUID
 
 from cs.util import Comparable
@@ -23,7 +23,7 @@ class Heap(Generic[T]):
     def __ior__(self, other: object) -> None:
         raise NotImplementedError
 
-    def enqueue(self, value: T, priority: float = 0) -> Union[T, UUID]:
+    def enqueue(self, value: T, priority: float = 0) -> T | UUID:
         raise NotImplementedError
 
     def peek(self) -> tuple[T, float]:

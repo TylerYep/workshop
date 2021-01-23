@@ -182,15 +182,9 @@ yes d | git mergetool --
 
 # Python Upgrades
 
-## 3.9
-
-- Replace list[int] with list[int].
-  Wait until PEP 585 is implemented in mypy and someone makes a tool to automatically upgrade and remove the typing imports.
-
 ## 3.10
 
-- Remove all from **future** imports.
+- Remove all `from __future__` imports.
   However, this might be painful if I need numpy, as I would need to add them all back.
 - Add `zip(..., strict=True)` once mypy detects the new parameter.
 - Remove all Optional[] type annotations in favor of int | None.
-- Remove Union[] type annotations in favor of list | tuple.

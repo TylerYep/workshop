@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Generic, Optional, TypeVar, Union
+from typing import Generic, Optional, TypeVar
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -52,7 +52,7 @@ class BinomialHeap(Heap[T]):
 
         # Mapping from element to corresponding entry.
         # Should not introduce any asymptotic change in memory overhead.
-        self.elem_to_entry: dict[Union[UUID, T], Entry[T]] = {}
+        self.elem_to_entry: dict[UUID | T, Entry[T]] = {}
 
         # Cached size of the heap, so we don't have to recompute this explicitly.
         self.size = 0
@@ -73,7 +73,7 @@ class BinomialHeap(Heap[T]):
             raise NotImplementedError
         return item in self.elem_to_entry
 
-    def __getitem__(self, value: Union[T, UUID]) -> Entry[T]:
+    def __getitem__(self, value: T | UUID) -> Entry[T]:
         """ Gets the correct Entry object from the given value or UUID. """
         if self.allow_duplicates and not isinstance(value, UUID):
             raise RuntimeError(
@@ -183,7 +183,7 @@ class BinomialHeap(Heap[T]):
         if math.isnan(priority):
             raise ValueError(f"Priority {priority} is invalid.")
 
-    def enqueue(self, value: T, priority: float = 0) -> Union[T, UUID]:
+    def enqueue(self, value: T, priority: float = 0) -> T | UUID:
         """
         Insert an element into the Binomial heap with the specified priority.
 
@@ -207,7 +207,7 @@ class BinomialHeap(Heap[T]):
         self.trees = self.merge_lists(self.trees, [result])
         self.size += 1
 
-        key: Union[T, UUID] = uuid4() if self.allow_duplicates else value
+        key: T | UUID = uuid4() if self.allow_duplicates else value
         self.elem_to_entry[key] = result
         return key
 
