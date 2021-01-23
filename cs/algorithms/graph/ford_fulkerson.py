@@ -1,4 +1,4 @@
-from typing import Optional
+from __future__ import annotations
 
 from cs.structures import Edge, Graph, V
 
@@ -89,8 +89,8 @@ def add_flow(graph: Graph[V], edge: Edge[V], amount: int) -> None:
 
 
 def find_path(
-    residual_graph: Graph[V], start: V, end: V, visited: Optional[set[V]] = None
-) -> Optional[list[Edge[V]]]:
+    residual_graph: Graph[V], start: V, end: V, visited: set[V] | None = None
+) -> list[Edge[V]] | None:
     """
     Recursively explores a residual graph, starting at the node indicated by start and
     searching for a particular destination node. If a path is found, it is returned.

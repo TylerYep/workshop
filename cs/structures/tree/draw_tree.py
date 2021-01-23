@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import Any, Optional
+from typing import Any
 
 from cs.structures.tree.binary_search_tree import BinaryTreeNode
 
@@ -17,8 +17,8 @@ class ParentDirection(Enum):
 
 @dataclass
 class AsciiNode:
-    left: Optional[AsciiNode] = None
-    right: Optional[AsciiNode] = None
+    left: AsciiNode | None = None
+    right: AsciiNode | None = None
     edge_length: int = 0  # length of the edge from this node to its children
     height: int = 0
     parent_dir: ParentDirection = ParentDirection.ROOT
@@ -26,9 +26,9 @@ class AsciiNode:
 
 
 def build_ascii_tree_recursive(
-    t: Optional[BinaryTreeNode[Any]],
+    t: BinaryTreeNode[Any] | None,
     direction: ParentDirection = ParentDirection.ROOT,
-) -> Optional[AsciiNode]:
+) -> AsciiNode | None:
     if t is None:
         return None
 
@@ -40,7 +40,7 @@ def build_ascii_tree_recursive(
 
 
 def compute_profile(
-    node: Optional[AsciiNode],
+    node: AsciiNode | None,
     lprofile: list[int],
     rprofile: list[int],
     xy: tuple[int, int] = (0, 0),
@@ -86,7 +86,7 @@ def compute_profile(
 
 
 def compute_edge_lengths(
-    node: Optional[AsciiNode], lprofile: list[int], rprofile: list[int]
+    node: AsciiNode | None, lprofile: list[int], rprofile: list[int]
 ) -> None:
     """
     This function fills in the edge_length and height fields of the specified tree.
@@ -134,7 +134,7 @@ def compute_edge_lengths(
 
 
 def print_level(
-    node: Optional[AsciiNode],
+    node: AsciiNode | None,
     x: int,
     level: int,
     result: list[str],
@@ -182,7 +182,7 @@ def print_level(
     return print_next
 
 
-def draw_tree(t: Optional[BinaryTreeNode[Any]]) -> str:
+def draw_tree(t: BinaryTreeNode[Any] | None) -> str:
     if t is None:
         return ""
     proot = build_ascii_tree_recursive(t)

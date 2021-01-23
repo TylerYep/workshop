@@ -4,7 +4,9 @@ each node exactly once. Determining whether such paths and cycles exist in graph
 the 'Hamiltonian path problem', which is NP-complete. Wikipedia:
 https://en.wikipedia.org/wiki/Hamiltonian_path
 """
-from typing import Optional, cast
+from __future__ import annotations
+
+from typing import cast
 
 from cs.structures import Graph, V
 
@@ -15,7 +17,7 @@ def hamiltonian_cycle(graph: Graph[V], start: V) -> list[V]:
     or an empty list indicating that hamiltonian cycle was not found.
     """
 
-    def hamilton_cycle(graph: Graph[V], path: list[Optional[V]], curr_ind: int) -> bool:
+    def hamilton_cycle(graph: Graph[V], path: list[V | None], curr_ind: int) -> bool:
         prev = path[curr_ind - 1]
         if prev is None:
             raise RuntimeError
@@ -32,6 +34,6 @@ def hamiltonian_cycle(graph: Graph[V], start: V) -> list[V]:
                 path[curr_ind] = None
         return False
 
-    path: list[Optional[V]] = [None] * (len(graph) + 1)
+    path: list[V | None] = [None] * (len(graph) + 1)
     path[0] = path[-1] = start
     return cast(list[V], path) if hamilton_cycle(graph, path, 1) else []

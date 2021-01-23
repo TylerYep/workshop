@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum, unique
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from dataslots import dataslots
 
@@ -21,21 +21,19 @@ class Color(Enum):
 @dataslots
 @dataclass(order=True, repr=False)
 class RedBlackTreeNode(BinaryTreeNode[T]):
-    left: Optional[RedBlackTreeNode[T]] = None
-    right: Optional[RedBlackTreeNode[T]] = None
-    parent: Optional[RedBlackTreeNode[T]] = field(
-        compare=False, default=None, repr=False
-    )
+    left: RedBlackTreeNode[T] | None = None
+    right: RedBlackTreeNode[T] | None = None
+    parent: RedBlackTreeNode[T] | None = field(compare=False, default=None, repr=False)
     color: Color = field(compare=False, default=Color.BLACK, repr=False)
     rank: int = field(compare=False, default=0, repr=False)
 
     @property
-    def grandparent(self) -> Optional[RedBlackTreeNode[T]]:
+    def grandparent(self) -> RedBlackTreeNode[T] | None:
         """ Redefined here because @property cannot be inherited. """
         return None if self.parent is None else self.parent.parent
 
     @property
-    def sibling(self) -> Optional[RedBlackTreeNode[T]]:
+    def sibling(self) -> RedBlackTreeNode[T] | None:
         """ Redefined here because @property cannot be inherited. """
         if self.parent is None:
             return None
@@ -55,11 +53,11 @@ class RedBlackTree(BinarySearchTree[T]):
     terms of the size of the tree.
     """
 
-    root: Optional[RedBlackTreeNode[T]]
+    root: RedBlackTreeNode[T] | None
     size: int = 0
 
     @staticmethod
-    def color(node: Optional[RedBlackTreeNode[T]]) -> Color:
+    def color(node: RedBlackTreeNode[T] | None) -> Color:
         """ Returns the color of a node, allowing for None leaves. """
         return Color.BLACK if node is None else node.color
 
@@ -130,7 +128,7 @@ class RedBlackTree(BinarySearchTree[T]):
         This function runs in O(n) time, because of properties 4 and 5.
         """
 
-        def _check_coloring(node: Optional[RedBlackTreeNode[T]]) -> bool:
+        def _check_coloring(node: RedBlackTreeNode[T] | None) -> bool:
             """
             A helper function to recursively check Property 4 of a Red-Black Tree.
             See check_color_properties for more info.
@@ -143,7 +141,7 @@ class RedBlackTree(BinarySearchTree[T]):
                 and _check_coloring(node.right)
             )
 
-        def _black_height(node: Optional[RedBlackTreeNode[T]]) -> int:
+        def _black_height(node: RedBlackTreeNode[T] | None) -> int:
             """
             Returns the number of black nodes from this node to the leaves of the tree,
             or -1 if there isn't one such value (the tree is colored incorrectly).
@@ -383,7 +381,7 @@ class RedBlackTree(BinarySearchTree[T]):
     # def remove(self, data: T) -> None:  # pylint: disable=too-many-branches
     #     """  Remove data from this tree. """
 
-    #     def _remove(node: RedBlackTreeNode[T]) -> Optional[RedBlackTreeNode[T]]:
+    #     def _remove(node: RedBlackTreeNode[T]) -> RedBlackTreeNode[T] | None:
     #         nonlocal data
     #         if node.data == data:
     #             if node.left is not None and node.right is not None:

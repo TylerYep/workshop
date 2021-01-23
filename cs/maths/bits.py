@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import math
 from collections.abc import Iterator
-from typing import Optional
 
 
 class Bits:
@@ -11,7 +10,7 @@ class Bits:
     https://docs.python.org/3/library/operator.html
     """
 
-    def __init__(self, val: str = "", *, length: Optional[int] = None) -> None:
+    def __init__(self, val: str = "", *, length: int | None = None) -> None:
         is_negative = len(val) > 0 and val[0] == "-"
         val_check = val[1:] if is_negative else val
         if not all(ch in ("0", "1") for ch in val_check):

@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import heapq
-from typing import Optional
 
 from cs.structures import FibonacciHeap, Graph, V
 
 
-def dijkstra_search(graph: Graph[V], start: V, end: V) -> Optional[float]:
+def dijkstra_search(graph: Graph[V], start: V, end: V) -> float | None:
     """
     Identical to BFS and DFS, except uses a priority queue and weights from the graph.
 
@@ -67,7 +68,7 @@ def dijkstra_shortest_paths(graph: Graph[V], start: V) -> dict[V, float]:
     return distances
 
 
-def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> Optional[float]:
+def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> float | None:
     """
     Identical to BFS and DFS, except uses a priority queue and weights from the graph.
 

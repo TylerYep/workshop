@@ -1,7 +1,7 @@
-from typing import Optional
+from __future__ import annotations
 
 
-def kmp_string_match(needle: str, haystack: str) -> Optional[int]:
+def kmp_string_match(needle: str, haystack: str) -> int | None:
     """
     The Knuth-Morris-Pratt algorithm finds an occurrence of the specified needle string
     in the haystack string. To do this, we compute a failure table. Next, we iterate

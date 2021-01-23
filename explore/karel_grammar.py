@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 import random
 from collections.abc import Callable
-from typing import Optional
 
 
-def get_statement(indent: int, prev_fn: Optional[Callable[[int], str]]) -> str:
+def get_statement(indent: int, prev_fn: Callable[[int], str] | None) -> str:
     good = prev_fn not in (get_two_statements, add_statement)
     dist = {
         get_two_statements: 1 - 0.4 * indent,

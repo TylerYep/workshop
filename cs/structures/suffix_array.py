@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import Optional
 
 from cs.algorithms.string.sais import build_suffix_array
 
@@ -25,7 +26,7 @@ class SuffixArray:
         Uses a two-pass binary search.
         """
 
-        def left_right_binary_search(target: str, is_left: bool) -> Optional[int]:
+        def left_right_binary_search(target: str, is_left: bool) -> int | None:
             """
             Returns the leftmost index of target element,
             or -1 if it cannot be found.

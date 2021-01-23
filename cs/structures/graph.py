@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Iterator, KeysView, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Generic, Optional, TypeVar
+from typing import Any, Generic, TypeVar
 
 from dataslots import dataslots
 
@@ -27,7 +27,7 @@ class Graph(Generic[V]):
 
     def __init__(
         self,
-        graph: Optional[dict[V, Any]] = None,
+        graph: dict[V, Any] | None = None,
         *,
         is_directed: bool = True,
         weight: float = 1,
@@ -351,10 +351,10 @@ class Node(Generic[V]):
 
 
 class DirectedGraph(Generic[V], Graph[V]):
-    def __init__(self, graph: Optional[dict[V, Any]] = None) -> None:
+    def __init__(self, graph: dict[V, Any] | None = None) -> None:
         super().__init__(graph)
 
 
 class UndirectedGraph(Generic[V], Graph[V]):
-    def __init__(self, graph: Optional[dict[V, Any]] = None) -> None:
+    def __init__(self, graph: dict[V, Any] | None = None) -> None:
         super().__init__(graph, is_directed=False)

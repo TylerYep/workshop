@@ -4,7 +4,7 @@ from __future__ import annotations
 import math
 from collections import deque
 from dataclasses import dataclass
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -39,8 +39,8 @@ class Entry(Generic[T]):
         # Number of children
         self.degree = 0
         self.is_marked = False
-        self.parent: Optional[Entry[T]] = None
-        self.child: Optional[Entry[T]] = None
+        self.parent: Entry[T] | None = None
+        self.child: Entry[T] | None = None
         self.next = self.prev = self
 
     def __repr__(self) -> str:
@@ -54,11 +54,11 @@ class FibonacciHeap(Heap[T]):
     Author: Keith Schwarz (htiek@cs.stanford.edu)
     """
 
-    top: Optional[Entry[T]]
+    top: Entry[T] | None
 
     def __init__(self, *, allow_duplicates: bool = False) -> None:
         # Pointer to the minimum element in the heap.
-        self.top: Optional[Entry[T]] = None
+        self.top: Entry[T] | None = None
 
         # Mapping from element to corresponding entry.
         # Should not introduce any asymptotic change in memory overhead.
@@ -112,9 +112,7 @@ class FibonacciHeap(Heap[T]):
         raise NotImplementedError
 
     @staticmethod
-    def merge_lists(
-        one: Optional[Entry[T]], two: Optional[Entry[T]]
-    ) -> Optional[Entry[T]]:
+    def merge_lists(one: Entry[T] | None, two: Entry[T] | None) -> Entry[T] | None:
         """
         Merge 2 lists.
 
@@ -272,7 +270,7 @@ class FibonacciHeap(Heap[T]):
         # tree of each degree. To track trees of each size, we allocate an
         # ArrayList where the entry at position i is either None or the
         # unique tree of degree i.
-        tree_table: deque[Optional[Entry[T]]] = deque()
+        tree_table: deque[Entry[T] | None] = deque()
 
         # We need to traverse the entire list, but since we're going to be
         # messing around with it we have to be careful not to break our

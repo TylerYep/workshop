@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from collections import deque
-from typing import Optional
 
 from cs.structures import Graph, V
 
 
-def breadth_first_search(graph: Graph[V], start: V, end: V) -> Optional[list[V]]:
+def breadth_first_search(graph: Graph[V], start: V, end: V) -> list[V] | None:
     """
     Identical to DFS except with a queue and pop(0).
     Does not benefit from an additional visited check because it uses a queue.

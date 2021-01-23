@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 
 from cs.util import Comparable
 
@@ -98,16 +98,16 @@ class BinaryHeap(Generic[T]):
         self.dequeue(top_item)
         return top_item
 
-    def _parent(self, i: int) -> Optional[int]:
+    def _parent(self, i: int) -> int | None:
         """ Returns parent index of given index if exists, else None. """
         return ((i - 1) // 2) if 0 < i < self.size else None
 
-    def _left(self, i: int) -> Optional[int]:
+    def _left(self, i: int) -> int | None:
         """ Returns left-child-index of given index if exists, else None. """
         left = int(2 * i + 1)
         return left if 0 < left < self.size else None
 
-    def _right(self, i: int) -> Optional[int]:
+    def _right(self, i: int) -> int | None:
         """ Returns right-child-index of given index if exists, else None. """
         right = int(2 * i + 2)
         return right if 0 < right < self.size else None

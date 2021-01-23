@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import Any, ClassVar, Generic, NamedTuple, Optional, TypeVar
+from typing import Any, ClassVar, Generic, NamedTuple, TypeVar
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
@@ -28,7 +28,7 @@ class LRUCache(Generic[KT, VT]):
         self.hits = 0
         self.misses = 0
 
-    def __getitem__(self, key: KT) -> Optional[VT]:
+    def __getitem__(self, key: KT) -> VT | None:
         if key in self.cache:
             self.hits += 1
             # Equivalent to OrderedDict:  self.cache.move_to_end(key)

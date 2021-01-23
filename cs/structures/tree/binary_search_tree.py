@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from dataslots import dataslots
 
@@ -15,18 +15,18 @@ T = TypeVar("T", bound=Comparable)
 @dataslots
 @dataclass(order=True, repr=False)
 class BinaryTreeNode(TreeNode[T]):
-    left: Optional[BinaryTreeNode[T]] = None
-    right: Optional[BinaryTreeNode[T]] = None
-    parent: Optional[BinaryTreeNode[T]] = field(compare=False, default=None, repr=False)
+    left: BinaryTreeNode[T] | None = None
+    right: BinaryTreeNode[T] | None = None
+    parent: BinaryTreeNode[T] | None = field(compare=False, default=None, repr=False)
     count: int = 1
 
     @property
-    def grandparent(self) -> Optional[BinaryTreeNode[T]]:
+    def grandparent(self) -> BinaryTreeNode[T] | None:
         """ Get the current node's grandparent, or None if it doesn't exist. """
         return None if self.parent is None else self.parent.parent
 
     @property
-    def sibling(self) -> Optional[BinaryTreeNode[T]]:
+    def sibling(self) -> BinaryTreeNode[T] | None:
         """ Get the current node's sibling, or None if it doesn't exist. """
         if self.parent is None:
             return None
@@ -52,7 +52,7 @@ class BinarySearchTree(Tree[T]):
     of the tree to be None, which allows this implementation to type-check.
     """
 
-    root: Optional[BinaryTreeNode[T]]
+    root: BinaryTreeNode[T] | None
     size: int = 0
 
     def __iter__(self) -> Iterator[BinaryTreeNode[T]]:
@@ -74,7 +74,7 @@ class BinarySearchTree(Tree[T]):
         return draw_tree(self.root)
 
     @staticmethod
-    def depth(tree: Optional[BinaryTreeNode[T]]) -> int:
+    def depth(tree: BinaryTreeNode[T] | None) -> int:
         if tree is None:
             return 0
         return 1 + max(
@@ -92,10 +92,10 @@ class BinarySearchTree(Tree[T]):
     def clear(self) -> None:
         self.root = None
 
-    def search(self, data: T) -> Optional[BinaryTreeNode[T]]:
+    def search(self, data: T) -> BinaryTreeNode[T] | None:
         """ Searches a node in the tree. """
 
-        def _search(node: Optional[BinaryTreeNode[T]]) -> Optional[BinaryTreeNode[T]]:
+        def _search(node: BinaryTreeNode[T] | None) -> BinaryTreeNode[T] | None:
             if node is None:
                 return None
             if node.data == data:
@@ -108,8 +108,8 @@ class BinarySearchTree(Tree[T]):
         """ Puts a new node in the tree. """
 
         def _insert(
-            node: Optional[BinaryTreeNode[T]],
-            parent: Optional[BinaryTreeNode[T]] = None,
+            node: BinaryTreeNode[T] | None,
+            parent: BinaryTreeNode[T] | None = None,
         ) -> BinaryTreeNode[T]:
             if node is None:
                 node = BinaryTreeNode(data, parent=parent)
@@ -129,7 +129,7 @@ class BinarySearchTree(Tree[T]):
         """ Removes a node in the tree. """
 
         def _reassign_nodes(
-            node: BinaryTreeNode[T], new_child: Optional[BinaryTreeNode[T]]
+            node: BinaryTreeNode[T], new_child: BinaryTreeNode[T] | None
         ) -> None:
             if new_child is not None:
                 new_child.parent = node.parent
@@ -195,7 +195,7 @@ class BinarySearchTree(Tree[T]):
                 "Method must be one of: 'preorder', 'inorder', or 'postorder'"
             )
 
-        def _traverse(node: Optional[BinaryTreeNode[T]]) -> Iterator[T]:
+        def _traverse(node: BinaryTreeNode[T] | None) -> Iterator[T]:
             if node is not None:
                 if method == "preorder":
                     yield node.data
@@ -209,7 +209,7 @@ class BinarySearchTree(Tree[T]):
         return _traverse(self.root)
 
     # def remove(self, data: T) -> None:
-    #     def _remove(node: Optional[TreeNode[T]]) -> Optional[TreeNode[T]]:
+    #     def _remove(node: TreeNode[T]]) -> TreeNode[T] | None:
     #         if node is None:
     #             return node
     #         if data < node.data:

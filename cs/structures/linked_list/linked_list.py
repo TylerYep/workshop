@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 
 from dataslots import dataslots
 
@@ -13,7 +13,7 @@ T = TypeVar("T")
 @dataclass(repr=False)
 class LinkedListNode(Generic[T]):
     data: T
-    next: Optional[LinkedListNode[T]] = None
+    next: LinkedListNode[T] | None = None
 
     def __repr__(self) -> str:
         return f"({self.data}) -> {self.next}"
@@ -21,7 +21,7 @@ class LinkedListNode(Generic[T]):
 
 @dataclass
 class LinkedList(Generic[T]):
-    head: Optional[LinkedListNode[T]]
+    head: LinkedListNode[T] | None
 
     def __init__(self) -> None:
         self.head = None
@@ -120,12 +120,12 @@ class LinkedList(Generic[T]):
             curr = curr.next
         curr.next = LinkedListNode(data)
 
-    def remove_last(self) -> Optional[LinkedListNode[T]]:
+    def remove_last(self) -> LinkedListNode[T] | None:
         """ Deletes the last element of a linked list using only self.head. """
 
         def _remove_last(
-            lst: Optional[LinkedListNode[T]],
-        ) -> Optional[LinkedListNode[T]]:
+            lst: LinkedListNode[T] | None,
+        ) -> LinkedListNode[T] | None:
             if lst is None or lst.next is None:
                 return None
             lst.next = _remove_last(lst.next)

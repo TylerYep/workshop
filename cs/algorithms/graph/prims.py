@@ -1,9 +1,9 @@
-from typing import Optional
+from __future__ import annotations
 
 from cs.structures import FibonacciHeap, Graph, V
 
 
-def prims_mst(graph: Graph[V], start_node: Optional[V] = None) -> Graph[V]:
+def prims_mst(graph: Graph[V], start_node: V | None = None) -> Graph[V]:
     """
     Given a connected, undirected graph with real-valued edge costs, returns an MST of
     that graph.

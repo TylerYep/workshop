@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 
 from dataslots import dataslots
 
@@ -27,7 +27,7 @@ class Tree(Generic[T]):
     of the tree to be None, which allows this implementation to type-check.
     """
 
-    root: Optional[TreeNode[T]] = None
+    root: TreeNode[T] | None = None
     size: int = 0
 
     def __bool__(self) -> bool:
@@ -45,7 +45,7 @@ class Tree(Generic[T]):
     def clear(self) -> None:
         raise NotImplementedError
 
-    def search(self, data: T) -> Optional[TreeNode[T]]:
+    def search(self, data: T) -> TreeNode[T] | None:
         raise NotImplementedError
 
     def insert(self, data: T) -> None:

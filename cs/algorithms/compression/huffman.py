@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import heapq
 from dataclasses import dataclass, field
-from typing import Optional, cast
+from typing import cast
 
 from dataslots import dataslots
 
@@ -11,8 +11,8 @@ from dataslots import dataslots
 @dataclass(order=True)
 class HuffmanTreeNode:
     freq: int
-    left: Optional[HuffmanTreeNode] = field(default=None, compare=False, repr=False)
-    right: Optional[HuffmanTreeNode] = field(default=None, compare=False, repr=False)
+    left: HuffmanTreeNode | None = field(default=None, compare=False, repr=False)
+    right: HuffmanTreeNode | None = field(default=None, compare=False, repr=False)
     letter: str = field(default="")
     bitstring: str = field(default="", compare=False)
 
@@ -60,7 +60,7 @@ def encode(root: HuffmanTreeNode, bitstring: str) -> list[HuffmanTreeNode]:
 
 
 def huffman_compress(
-    file_path: str, output_file_path: Optional[str] = None
+    file_path: str, output_file_path: str | None = None
 ) -> HuffmanTreeNode:
     """
     Parse the file, build the tree, then run through the file

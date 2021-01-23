@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 
 from dataslots import dataslots
 
@@ -13,8 +13,8 @@ T = TypeVar("T")
 @dataclass(repr=False)
 class DoublyLinkedListNode(Generic[T]):
     data: T
-    prev: Optional[DoublyLinkedListNode[T]] = None
-    next: Optional[DoublyLinkedListNode[T]] = None
+    prev: DoublyLinkedListNode[T] | None = None
+    next: DoublyLinkedListNode[T] | None = None
 
     def __repr__(self) -> str:
         return f"({self.data}) -> {self.next}"
@@ -34,11 +34,11 @@ class DoublyLinkedList(Generic[T]):
         backward direction. Delete operation is more efficient.
     """
 
-    head: Optional[DoublyLinkedListNode[T]]
+    head: DoublyLinkedListNode[T] | None
 
     def __init__(self) -> None:
-        self.head: Optional[DoublyLinkedListNode[T]] = None
-        self.tail: Optional[DoublyLinkedListNode[T]] = None
+        self.head: DoublyLinkedListNode[T] | None = None
+        self.tail: DoublyLinkedListNode[T] | None = None
         self.size = 0
 
     def __len__(self) -> int:

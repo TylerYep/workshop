@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
-from typing import Generic, Optional, TypeVar
+from typing import Generic, TypeVar
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -26,8 +26,8 @@ class Entry(Generic[T]):
 
     priority: float
     value: T
-    child: Optional[Entry[T]] = field(compare=False, default=None)
-    right: Optional[Entry[T]] = field(compare=False, default=None)
+    child: Entry[T] | None = field(compare=False, default=None)
+    right: Entry[T] | None = field(compare=False, default=None)
 
     def __repr__(self) -> str:
         return str(formatter.pformat(self))
@@ -44,11 +44,11 @@ class BinomialHeap(Heap[T]):
     class, use a wrapper class with a custom comparator or only use unique priorities.
     """
 
-    trees: list[Optional[Entry[T]]]
+    trees: list[Entry[T] | None]
 
     def __init__(self, *, allow_duplicates: bool = False) -> None:
         # Trees in ascending order: 1, 2, 4, 8, ..., etc.
-        self.trees: list[Optional[Entry[T]]] = []
+        self.trees: list[Entry[T] | None] = []
 
         # Mapping from element to corresponding entry.
         # Should not introduce any asymptotic change in memory overhead.
@@ -104,8 +104,8 @@ class BinomialHeap(Heap[T]):
 
     @staticmethod
     def merge_lists(
-        one: list[Optional[Entry[T]]], two: list[Optional[Entry[T]]]
-    ) -> list[Optional[Entry[T]]]:
+        one: list[Entry[T] | None], two: list[Entry[T] | None]
+    ) -> list[Entry[T] | None]:
         """
         Merging two binomial heaps is similar to adding two binary numbers.
         We proceed from the "least-significant tree" to the "most-significant
@@ -130,8 +130,8 @@ class BinomialHeap(Heap[T]):
         lhs = one + [None] * (max_order - len(one))
         rhs = two + [None] * (max_order - len(two))
 
-        result: list[Optional[Entry[T]]] = []
-        carry: Optional[Entry[T]] = None
+        result: list[Entry[T] | None] = []
+        carry: Entry[T] | None = None
         for order in range(max_order):
             # There are eight possible combinations of the None-ity of the carry,
             # lhs, and rhs trees. To make the logic simpler, we'll add them all to
@@ -239,7 +239,7 @@ class BinomialHeap(Heap[T]):
 
         result = min(entry for entry in self.trees if entry is not None)
         index = self.trees.index(result)
-        children: list[Optional[Entry[T]]] = []
+        children: list[Entry[T] | None] = []
         entry = result.child
         while entry is not None:
             children.append(entry)
