@@ -60,6 +60,7 @@ def decrypt(message: str) -> str:
     message += " "
     decipher = ""
     citext = ""
+    i = 0
     for letter in message:
         if letter != " ":
             i = 0

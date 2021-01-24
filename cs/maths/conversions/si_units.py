@@ -43,14 +43,6 @@ class Binary_Unit(IntEnum):
 def convert_si_prefix(
     known_amount: float, from_prefix: SI_Unit, to_prefix: SI_Unit
 ) -> float:
-    """
-    >>> convert_si_prefix(1, SI_Unit.giga, SI_Unit.mega)
-    1000
-    >>> convert_si_prefix(1, SI_Unit.mega, SI_Unit.giga)
-    0.001
-    >>> convert_si_prefix(1, SI_Unit.kilo, SI_Unit.kilo)
-    1
-    """
     difference: float = from_prefix - to_prefix
     return known_amount * (10 ** difference)
 
@@ -58,13 +50,5 @@ def convert_si_prefix(
 def convert_binary_prefix(
     known_amount: float, from_prefix: Binary_Unit, to_prefix: Binary_Unit
 ) -> float:
-    """
-    >>> convert_binary_prefix(1, Binary_Unit.giga, Binary_Unit.mega)
-    1024
-    >>> convert_binary_prefix(1, Binary_Unit.mega, Binary_Unit.giga)
-    0.0009765625
-    >>> convert_binary_prefix(1, Binary_Unit.kilo, Binary_Unit.kilo)
-    1
-    """
     difference: float = from_prefix.value - to_prefix.value
     return known_amount * (2 ** (difference * 10))

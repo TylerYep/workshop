@@ -1,11 +1,4 @@
----
-title: workshop
-author: Tyler Yep
-author_title: Software Engineer @ Robinhood
-author_url: https://github.com/tyleryep
-author_image_url: https://github.com/tyleryep.png
-tags: [robinhood, intern]
----
+# workshop
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![Build Status](https://travis-ci.com/TylerYep/workshop.svg?branch=master)](https://travis-ci.com/TylerYep/workshop)
@@ -72,6 +65,7 @@ If you have a dataclass, use @dataslots.
 - Order functions within a class using flake8-function-order.
 - Iterables cannot be indexed and must get length by casting to tuple or set. Sequences are indexable.
 - Put test cases into classes to avoid naming conflicts!
+- Remove all unnecessary casts to float() and trailing 1.0 in numbers.
 - Name functions to include their algorithm name but also the purpose:
 
 1. The best option - name includes classic algorithm name, as well as purpose.
@@ -188,6 +182,8 @@ yes d | git mergetool --
 ```
 
 # Python Upgrades
+
+https://blog.ionelmc.ro/2014/05/25/python-packaging/
 
 ## 3.10
 

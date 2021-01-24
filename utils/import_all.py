@@ -8,7 +8,17 @@ def create_all_exports(init_file_content: str) -> tuple[str]:
     reg = re.compile("from .* import ")
     for line in file_parts:
         if match := reg.search(line):
-            matches.append(line[match.end() :])
+            import_part = line[match.end() :]
+            if import_part not in ("(", ")"):
+                matches.append(import_part)
+
+    # Super janky parens matching
+    reg = re.compile(r"\(.*,\n\)", re.DOTALL)
+    matches += [
+        m.replace(" " * 4, "").replace(",", "")
+        for m in reg.findall(init_file_content)[0].split("\n")
+        if "(" not in m and ")" not in m and "from" not in m
+    ]
 
     exports = []
     for result in matches:
@@ -17,7 +27,7 @@ def create_all_exports(init_file_content: str) -> tuple[str]:
             if (index := split.find(" as ")) != -1:
                 split_on_commas[i] = split_on_commas[i][index + len(" as ") :]
         exports.extend(split_on_commas)
-    return f"__all__ = {tuple(exports)}"
+    return f"__all__ = {tuple(sorted(exports))}"
 
 
 if __name__ == "__main__":
