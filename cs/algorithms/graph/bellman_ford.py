@@ -20,7 +20,7 @@ def bellman_ford_shortest_paths(
     Runtime: O(|V||E|), or worst case, O(|V|^3).
     """
     distances = {v: Graph.INFINITY for v in graph}
-    distances[start] = 0.0
+    distances[start] = 0
 
     for _ in range(1, len(graph)):
         temp = distances

@@ -35,7 +35,7 @@ def k_fold_validation(X_train, y_train, num_folds=5):
             )
             prediction = classifier.predict(X_train_folds[i])
             num_correct = np.sum(prediction == y_train_folds[i])
-            accuracy = float(num_correct) / len(y_train_folds[i])
+            accuracy = num_correct / len(y_train_folds[i])
             params_to_accuracies[k].append(accuracy)
 
     # plot the raw observations
@@ -44,10 +44,10 @@ def k_fold_validation(X_train, y_train, num_folds=5):
 
     # plot the trend line with error bars that correspond to standard deviation
     accuracies_mean = np.array(
-        [np.mean(v) for k, v in sorted(params_to_accuracies.items())]
+        [np.mean(v) for _, v in sorted(params_to_accuracies.items())]
     )
     accuracies_std = np.array(
-        [np.std(v) for k, v in sorted(params_to_accuracies.items())]
+        [np.std(v) for _, v in sorted(params_to_accuracies.items())]
     )
     plt.errorbar(k_choices, accuracies_mean, yerr=accuracies_std)
     plt.title("Cross-validation on k")

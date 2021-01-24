@@ -19,14 +19,10 @@ def celsius_to_fahrenheit(celsius: float, ndigits: int = 2) -> float:
     32.0
     >>> celsius_to_fahrenheit(20)
     68.0
-    >>> celsius_to_fahrenheit("40")
+    >>> celsius_to_fahrenheit(40)
     104.0
-    >>> celsius_to_fahrenheit("celsius")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'celsius'
     """
-    return round((float(celsius) * 9 / 5) + 32, ndigits)
+    return round(celsius * 9 / 5 + 32, ndigits)
 
 
 def celsius_to_kelvin(celsius: float, ndigits: int = 2) -> float:
@@ -43,14 +39,10 @@ def celsius_to_kelvin(celsius: float, ndigits: int = 2) -> float:
     273.15
     >>> celsius_to_kelvin(20.0)
     293.15
-    >>> celsius_to_kelvin("40")
+    >>> celsius_to_kelvin(40)
     313.15
-    >>> celsius_to_kelvin("celsius")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'celsius'
     """
-    return round(float(celsius) + 273.15, ndigits)
+    return round(celsius + 273.15, ndigits)
 
 
 def celsius_to_rankine(celsius: float, ndigits: int = 2) -> float:
@@ -67,14 +59,10 @@ def celsius_to_rankine(celsius: float, ndigits: int = 2) -> float:
     491.67
     >>> celsius_to_rankine(20.0)
     527.67
-    >>> celsius_to_rankine("40")
+    >>> celsius_to_rankine(40)
     563.67
-    >>> celsius_to_rankine("celsius")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'celsius'
     """
-    return round((float(celsius) * 9 / 5) + 491.67, ndigits)
+    return round(celsius * 9 / 5 + 491.67, ndigits)
 
 
 def fahrenheit_to_celsius(fahrenheit: float, ndigits: int = 2) -> float:
@@ -97,14 +85,10 @@ def fahrenheit_to_celsius(fahrenheit: float, ndigits: int = 2) -> float:
     15.56
     >>> fahrenheit_to_celsius(80)
     26.67
-    >>> fahrenheit_to_celsius("100")
+    >>> fahrenheit_to_celsius(100)
     37.78
-    >>> fahrenheit_to_celsius("fahrenheit")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'fahrenheit'
     """
-    return round((float(fahrenheit) - 32) * 5 / 9, ndigits)
+    return round((fahrenheit - 32) * 5 / 9, ndigits)
 
 
 def fahrenheit_to_kelvin(fahrenheit: float, ndigits: int = 2) -> float:
@@ -127,14 +111,10 @@ def fahrenheit_to_kelvin(fahrenheit: float, ndigits: int = 2) -> float:
     288.71
     >>> fahrenheit_to_kelvin(80)
     299.82
-    >>> fahrenheit_to_kelvin("100")
+    >>> fahrenheit_to_kelvin(100)
     310.93
-    >>> fahrenheit_to_kelvin("fahrenheit")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'fahrenheit'
     """
-    return round(((float(fahrenheit) - 32) * 5 / 9) + 273.15, ndigits)
+    return round(((fahrenheit - 32) * 5 / 9) + 273.15, ndigits)
 
 
 def fahrenheit_to_rankine(fahrenheit: float, ndigits: int = 2) -> float:
@@ -157,14 +137,10 @@ def fahrenheit_to_rankine(fahrenheit: float, ndigits: int = 2) -> float:
     519.67
     >>> fahrenheit_to_rankine(80)
     539.67
-    >>> fahrenheit_to_rankine("100")
+    >>> fahrenheit_to_rankine(100)
     559.67
-    >>> fahrenheit_to_rankine("fahrenheit")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'fahrenheit'
     """
-    return round(float(fahrenheit) + 459.67, ndigits)
+    return round(fahrenheit + 459.67, ndigits)
 
 
 def kelvin_to_celsius(kelvin: float, ndigits: int = 2) -> float:
@@ -181,14 +157,10 @@ def kelvin_to_celsius(kelvin: float, ndigits: int = 2) -> float:
     0.0
     >>> kelvin_to_celsius(300)
     26.85
-    >>> kelvin_to_celsius("315.5")
+    >>> kelvin_to_celsius(315.5)
     42.35
-    >>> kelvin_to_celsius("kelvin")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'kelvin'
     """
-    return round(float(kelvin) - 273.15, ndigits)
+    return round(kelvin - 273.15, ndigits)
 
 
 def kelvin_to_fahrenheit(kelvin: float, ndigits: int = 2) -> float:
@@ -205,14 +177,10 @@ def kelvin_to_fahrenheit(kelvin: float, ndigits: int = 2) -> float:
     32.0
     >>> kelvin_to_fahrenheit(300)
     80.33
-    >>> kelvin_to_fahrenheit("315.5")
+    >>> kelvin_to_fahrenheit(315.5)
     108.23
-    >>> kelvin_to_fahrenheit("kelvin")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'kelvin'
     """
-    return round(((float(kelvin) - 273.15) * 9 / 5) + 32, ndigits)
+    return round((kelvin - 273.15) * 9 / 5 + 32, ndigits)
 
 
 def kelvin_to_rankine(kelvin: float, ndigits: int = 2) -> float:
@@ -229,14 +197,10 @@ def kelvin_to_rankine(kelvin: float, ndigits: int = 2) -> float:
     0.0
     >>> kelvin_to_rankine(20.0)
     36.0
-    >>> kelvin_to_rankine("40")
+    >>> kelvin_to_rankine(40)
     72.0
-    >>> kelvin_to_rankine("kelvin")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'kelvin'
     """
-    return round((float(kelvin) * 9 / 5), ndigits)
+    return round(kelvin * 9 / 5, ndigits)
 
 
 def rankine_to_celsius(rankine: float, ndigits: int = 2) -> float:
@@ -253,14 +217,10 @@ def rankine_to_celsius(rankine: float, ndigits: int = 2) -> float:
     -121.4
     >>> rankine_to_celsius(300)
     -106.48
-    >>> rankine_to_celsius("315.5")
+    >>> rankine_to_celsius(315.5)
     -97.87
-    >>> rankine_to_celsius("rankine")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'rankine'
     """
-    return round((float(rankine) - 491.67) * 5 / 9, ndigits)
+    return round((rankine - 491.67) * 5 / 9, ndigits)
 
 
 def rankine_to_fahrenheit(rankine: float, ndigits: int = 2) -> float:
@@ -273,14 +233,10 @@ def rankine_to_fahrenheit(rankine: float, ndigits: int = 2) -> float:
     -186.52
     >>> rankine_to_fahrenheit(300)
     -159.67
-    >>> rankine_to_fahrenheit("315.5")
+    >>> rankine_to_fahrenheit(315.5)
     -144.17
-    >>> rankine_to_fahrenheit("rankine")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'rankine'
     """
-    return round(float(rankine) - 459.67, ndigits)
+    return round(rankine - 459.67, ndigits)
 
 
 def rankine_to_kelvin(rankine: float, ndigits: int = 2) -> float:
@@ -293,11 +249,7 @@ def rankine_to_kelvin(rankine: float, ndigits: int = 2) -> float:
     0.0
     >>> rankine_to_kelvin(20.0)
     11.11
-    >>> rankine_to_kelvin("40")
+    >>> rankine_to_kelvin(40)
     22.22
-    >>> rankine_to_kelvin("rankine")
-    Traceback (most recent call last):
-    ...
-    ValueError: could not convert string to float: 'rankine'
     """
-    return round((float(rankine) * 5 / 9), ndigits)
+    return round(rankine * 5 / 9, ndigits)

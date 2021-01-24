@@ -50,12 +50,8 @@ def convert_si_prefix(
     0.001
     >>> convert_si_prefix(1, SI_Unit.kilo, SI_Unit.kilo)
     1
-    >>> convert_si_prefix(1, 'giga', 'mega')
-    1000
-    >>> convert_si_prefix(1, 'gIGa', 'mEGa')
-    1000
     """
-    difference: float = from_prefix.value - to_prefix.value
+    difference: float = from_prefix - to_prefix
     return known_amount * (10 ** difference)
 
 
@@ -69,10 +65,6 @@ def convert_binary_prefix(
     0.0009765625
     >>> convert_binary_prefix(1, Binary_Unit.kilo, Binary_Unit.kilo)
     1
-    >>> convert_binary_prefix(1, 'giga', 'mega')
-    1024
-    >>> convert_binary_prefix(1, 'gIGa', 'mEGa')
-    1024
     """
     difference: float = from_prefix.value - to_prefix.value
     return known_amount * (2 ** (difference * 10))

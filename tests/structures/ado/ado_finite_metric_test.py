@@ -17,9 +17,9 @@ def test_approx_greater_than_actual() -> None:
 
     ado = ApproxFiniteMetricOracle(distance_matrix)
 
-    assert ado.query(3, 5) == 2.0
-    assert ado.query(0, 3) == 51.0
-    assert ado.query(0, 30) == 51.0
+    assert ado.query(3, 5) == 2
+    assert ado.query(0, 3) == 51
+    assert ado.query(0, 30) == 51
 
 
 def test_custom_graph() -> None:
@@ -27,4 +27,4 @@ def test_custom_graph() -> None:
     distances = [[float(i) for i in row] for row in dist_matrix]
     ado = ApproxFiniteMetricOracle(distances)
 
-    assert ado.query(0, 2) == 0.0
+    assert ado.query(0, 2) == 0

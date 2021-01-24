@@ -29,7 +29,7 @@ def main():
 
     num_correct = np.sum(y_test_pred == y_test)
     num_test = y_test.shape[0]
-    accuracy = float(num_correct) / num_test
+    accuracy = num_correct / num_test
     print(f"Got {int(num_correct)} / {int(num_test)} correct => accuracy: {accuracy:f}")
     # k_fold_validation(X_train, y_train)
     # tune_svm(X_train, y_train, X_test, y_test)
