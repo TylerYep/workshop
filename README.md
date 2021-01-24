@@ -1,4 +1,11 @@
-# workshop
+---
+title: workshop
+author: Tyler Yep
+author_title: Software Engineer @ Robinhood
+author_url: https://github.com/tyleryep
+author_image_url: https://github.com/tyleryep.png
+tags: [robinhood, intern]
+---
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![Build Status](https://travis-ci.com/TylerYep/workshop.svg?branch=master)](https://travis-ci.com/TylerYep/workshop)

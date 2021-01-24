@@ -1,5 +1,6 @@
 from .ado.ado_finite_metric import ApproxFiniteMetricOracle
 from .ado.ado_graph import ApproxDistanceOracle
+from .bloom_filter import BloomFilter
 from .disjoint_set import DisjointSet
 from .graph import DirectedGraph, Edge, Graph, Node, UndirectedGraph, V
 from .hash_table.cuckoo import Cuckoo
@@ -33,6 +34,7 @@ __all__ = (
     "BinaryHeap",
     "BinarySearchTree",
     "BinomialHeap",
+    "BloomFilter",
     "Cuckoo",
     "DirectedGraph",
     "DisjointSet",

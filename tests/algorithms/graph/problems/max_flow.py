@@ -1,4 +1,5 @@
-from typing import Any, Callable  # TODO: Fix this for Callable definitions
+# from collections.abc import Callable
+from typing import Any, Callable  # TODO: Fix in Python 3.10
 
 from cs.structures import Graph, V
 

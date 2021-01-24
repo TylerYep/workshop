@@ -12,9 +12,6 @@ def kargers_min_cut(orig_graph: Graph[V]) -> set[Edge[V]]:
             Nodes must be strings.
     Returns:
         The cutset of the cut found by Karger's Algorithm.
-    >>> graph = {'0':['1'], '1':['0']}
-    >>> partition_graph(graph)
-    {('0', '1')}
     """
     graph: Graph[Node[tuple[V, ...]]] = Graph.from_graph(
         orig_graph, node_fn=lambda x: Node((x,))

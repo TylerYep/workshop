@@ -1,3 +1,4 @@
+bitarray
 dataslots
 prettyprinter
 tqdm

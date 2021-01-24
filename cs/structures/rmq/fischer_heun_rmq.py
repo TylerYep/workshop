@@ -5,36 +5,6 @@ from .rmq import RMQ
 from .sparse_table_rmq import SparseTableRMQ
 
 
-def calc_cart_num(arr: list[int]) -> int:
-    """
-    Calculate cartesian number
-    >>> arr = [93, 84, 33, 64, 62, 83, 63, 58]
-    >>> calc_cart_num(arr) == int('1010110110100100'[::-1], 2)
-    True
-    >>> arr = [1, 2, 0, 4, 5]
-    >>> arr2 = [17, 34, 5, 100, 120]
-    >>> calc_cart_num(arr) == calc_cart_num(arr2)
-    True
-    >>> arr = [952, 946, 414, 894, 675, 154, 627, 154, 414]
-    >>> arr2 = [764, 319, 198, 680, 376, 113, 836, 368, 831]
-    >>> calc_cart_num(arr) == calc_cart_num(arr2)
-    True
-    """
-    result = ""
-    stack: list[int] = []
-    for elem in arr:
-        if not stack:
-            stack.append(elem)
-            result = "1" + result
-        else:
-            while len(stack) > 0 and stack[-1] > elem:
-                stack.pop()
-                result = "0" + result
-            stack.append(elem)
-            result = "1" + result
-    return int(result, 2)
-
-
 class FischerHeunRMQ(RMQ):
     def __init__(self, elems: list[int]) -> None:
         super().__init__(elems)
@@ -49,17 +19,28 @@ class FischerHeunRMQ(RMQ):
             block_min_vals.append(elems[curr_min])
 
         self.summary_rmq = SparseTableRMQ(block_min_vals)
-
-        self.block_index_to_cart = []
-        # Can also use:  [None] * (4 ** self.block_size)
+        self.block_index_to_cart = []  # [None] * (4 ** self.block_size)
         self.cart_to_rmq: dict[int, RMQ] = {}
         for i in range(math.ceil(len(elems) / self.block_size)):
             start = i * self.block_size
             current_range = self.elems[start : min(len(elems), start + self.block_size)]
-            cartesian_num = calc_cart_num(current_range)
+            cartesian_num = self.calc_cart_num(current_range)
             self.block_index_to_cart.append(cartesian_num)
             if cartesian_num not in self.cart_to_rmq:
                 self.cart_to_rmq[cartesian_num] = PrecomputedRMQ(current_range)
+
+    @staticmethod
+    def calc_cart_num(arr: list[int]) -> int:
+        """ Calculate cartesian number. """
+        result = ""
+        stack: list[int] = []
+        for elem in arr:
+            while stack and stack[-1] > elem:
+                stack.pop()
+                result += "0"
+            stack.append(elem)
+            result += "1"
+        return int(result[::-1], 2)
 
     def rmq(self, low: int, high: int) -> int:
         if low >= high:

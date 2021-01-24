@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from collections.abc import Hashable
+from collections.abc import Hashable, Iterator
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import Generic, Iterator, TypeVar
+from typing import Generic, TypeVar
 
 T = TypeVar("T")
 

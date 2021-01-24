@@ -10,8 +10,7 @@ def kmp_string_match(needle: str, haystack: str) -> int | None:
     failure, we update these values by trying to preserve the maximum proper border
     of the string we were able to manage by that point.
 
-    >>> kmp_string_match("0101", "0011001011")
-    5
+    kmp_string_match("0101", "0011001011") == 5
     """
     # Create the failure table, which for length zero is None.
     fail = [0]

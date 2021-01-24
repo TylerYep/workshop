@@ -1,5 +1,10 @@
 from cs.algorithms import connected_components, kargers_min_cut
-from cs.structures import Graph
+from cs.structures import Edge, Graph
+
+
+def test_kargers_simple() -> None:
+    graph = Graph({"0": ["1"], "1": ["0"]})
+    assert kargers_min_cut(graph) == {Edge("0", "1")}
 
 
 def test_kargers_directed_graph() -> None:

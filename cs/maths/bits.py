@@ -7,6 +7,7 @@ from collections.abc import Iterator
 
 class Bits:
     """
+    Personal bits implementation. For all real purposes, use the bitarray library.
     https://docs.python.org/3/library/operator.html
     """
 
