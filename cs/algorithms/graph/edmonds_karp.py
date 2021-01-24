@@ -7,7 +7,7 @@ def edmonds_karp_max_flow(graph: Graph[V], source: V, sink: V) -> float:
     max_flow = 0.0
 
     # Augment the flow while there is path from source to sink
-    while (path := breadth_first_search(flow_network, source, sink)) is not None:
+    while path := breadth_first_search(flow_network, source, sink):
         # Find minimum residual capacity of the edges along the path filled by BFS,
         # aka the maximum flow through the path found, by iterating over pairs of nodes.
         path_flow = min(

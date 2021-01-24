@@ -10,12 +10,22 @@ APSPFunction = Callable[[Graph[V]], dict[V, dict[V, float]]]
 
 class AllPairsShortestPaths:
     # pylint: disable=no-self-use
+    # TODO: Remove self in pytest 6.2.2+
 
     @staticmethod
     def single_source_to_all_pairs(
         shortest_paths_fn: SingleSourceFunction[V],
     ) -> APSPFunction[V]:
         return lambda graph: {start: shortest_paths_fn(graph, start) for start in graph}
+
+    def test_no_paths(self, shortest_paths_fn: APSPFunction[Any]) -> None:
+        graph = Graph[str]({"a": {}, "b": {}, "c": {}})
+
+        assert shortest_paths_fn(graph) == {
+            "a": {"a": 0, "b": INF, "c": INF},
+            "b": {"a": INF, "b": 0, "c": INF},
+            "c": {"a": INF, "b": INF, "c": 0},
+        }
 
     def test_adj_list_neg_weights(self, shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](

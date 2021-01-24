@@ -3,7 +3,7 @@ from __future__ import annotations
 from cs.structures import Graph, V
 
 
-def depth_first_search(graph: Graph[V], start: V, end: V) -> list[V] | None:
+def depth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:
     """
     Iterative version of DFS.
 
@@ -20,26 +20,25 @@ def depth_first_search(graph: Graph[V], start: V, end: V) -> list[V] | None:
             for neighbor in graph[vertex]:
                 if neighbor not in visited:
                     stack.append((neighbor, path + [neighbor]))
-    return None
+    return []
 
 
-def depth_first_search_recursive(graph: Graph[V], start: V, end: V) -> list[V] | None:
+def depth_first_search_recursive(graph: Graph[V], start: V, end: V) -> list[V]:
     """
     Recursive version of DFS.
 
     Runtime: O(V + E)
     """
 
-    def _dfs(curr: V, visited: set[V], path: list[V]) -> list[V] | None:
+    def _dfs(curr: V, visited: set[V], path: list[V]) -> list[V]:
         if curr == end:
             return path
         if curr not in visited:
             visited.add(curr)
             for neighbor in graph[curr]:
-                result = _dfs(neighbor, visited, path + [neighbor])
-                if result is not None:
+                if result := _dfs(neighbor, visited, path + [neighbor]):
                     return result
-        return None
+        return []
 
     return _dfs(start, set(), [start])
 
