@@ -148,6 +148,10 @@ class Graph(Generic[V]):
 
     @staticmethod
     def is_undirected(graph: Any) -> bool:
+        """
+        Returns whether the graph can be interpreted as undirected - in other words,
+        all forward edges have an accompanying reverse edge.
+        """
         if not graph:
             return False
         for u in graph:
@@ -305,7 +309,7 @@ class Edge(Generic[V], Mapping[str, Any]):
     def __len__(self) -> int:
         return 3 + len(self.kwargs)
 
-    def __iter__(self) -> Any:
+    def __iter__(self) -> Iterator[Any]:
         for item in ("start", "end", "weight"):
             yield item
         for kwarg in self.kwargs:

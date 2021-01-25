@@ -20,7 +20,7 @@ class DoublyLinkedListNode(Generic[T]):
         return f"({self.data}) -> {self.next}"
 
 
-@dataclass
+@dataclass(init=False)
 class DoublyLinkedList(Generic[T]):
     """
     - A linked list is similar to an array, it holds values. However, links

@@ -26,8 +26,7 @@ class AsciiNode:
 
 
 def build_ascii_tree_recursive(
-    t: BinaryTreeNode[Any] | None,
-    direction: ParentDirection = ParentDirection.ROOT,
+    t: BinaryTreeNode[Any] | None, direction: ParentDirection = ParentDirection.ROOT
 ) -> AsciiNode | None:
     if t is None:
         return None

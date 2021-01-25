@@ -11,7 +11,7 @@ def ford_max_flow(graph: Graph[V], source: V, sink: V) -> float:
 def ford_max_flow_network(graph: Graph[V], source: V, sink: V) -> Graph[V]:
     """
     Given a graph and a pair of nodes s and t, produces a maximum s-t flow in that
-    graph. Any flow that already exists in the input network will be used as a guess of
+    graph. Flow that already exists in the input network will be used as a guess of
     the maximum flow.
 
     The algorithm works by maintaining a candidate max flow, constructing the residual

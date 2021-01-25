@@ -55,10 +55,13 @@ If you have a dataclass, use @dataslots.
 ### My choices
 
 - `@dataclass(init=False, eq=False, order=False, repr=False)` means don't use dataclasses.
-- Explicitly define the `__init__` function whenever you have more initialization logic than "set all parameters as fields". A common example is when a self member variable shouldn't be a constructor parameter. This makes reading the class much easier and allows better control over the logic. Avoid **post_init** when possible.
-- Create a separate `__str__` function to use when printing the object for visualizing the state of the data structure. `__repr__` should contain a single line while string should be pretty printed.
+- Use `@dataclass(init=False)` to explicitly define the `__init__` function whenever you have more initialization logic than "set all parameters as fields".
+  - A common example is when a self member variable shouldn't be a constructor parameter. This makes reading the class much easier and allows better control over the logic.
+  - Avoid **post_init** when possible.
+  - You can also set `init=False` when a dataclass does not accept any parameters in its constructor.
+- Create a separate `__str__` function to use when printing the object for visualizing the state of the data structure. `__repr__` should contain a single line while `__str__` should be the pretty printed representation.
 - Define `__hash__` myself, since I can choose the necessary fields to make a unique hash. Additionally, using `@dataclass(frozen=True)` is almost never a good idea, since you won't be able to even set attributes in `__post_init__`, and the docs specifically point out a performance penalty.
-- Prefer the `@dataslots` and the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings.
+- Prefer the `@dataslots` and the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings. Hopefully this will be fixed in Python 3.11 or something.
 
 # Style Guide
 
@@ -75,13 +78,11 @@ If you have a dataclass, use @dataslots.
    breadth_first_search()
    ```
 2. No point in making a class for each function.
-
    ```
    from cs.algorithms import bfs, kargers
    bfs.find_shortest_path()
    kargers.partition_graph()
    ```
-
 3. Easier to import from overall algorithms, but what if we want to use two different algorithms for the same task?
    ```
    from cs.algorithms.bfs import find_shortest_path
@@ -105,6 +106,11 @@ h3 = BinomialHeap.merge(h1, h2)
 ```
 
 - Python has imperative paradigm when it comes to performing actions. For example, `stack.push(5)` does not return a new Stack. This is because we are not interested in keeping track of our state over time. Thus, it is an action that operates in place.
+
+## Tests
+
+- Use pytest metafuncs for testing multiple functions with the same API.
+- Use pytest.mark.parametrize for class constructors.
 
 ## Naming data structure methods
 

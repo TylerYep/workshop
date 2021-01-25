@@ -8,7 +8,7 @@ from cs.algorithms.string.sais import build_suffix_array
 @dataclass(init=False)
 class SuffixArray:
     text: str
-    suffix_arr: list[int] = field(init=False, repr=False, default_factory=list)
+    suffix_arr: list[int] = field(repr=False)
 
     def __init__(self, text: str) -> None:
         self.text = text + "$"

@@ -8,6 +8,8 @@ MaxFlowFunction = Callable[[Graph[V], V, V], float]
 
 class MaxFlow:
     # pylint: disable=no-self-use
+    # TODO: Remove self in pytest 6.2.2+
+
     def test_matrix(self, max_flow_fn: MaxFlowFunction[Any]) -> None:
         graph = Graph.from_matrix(
             [

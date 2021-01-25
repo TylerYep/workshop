@@ -19,7 +19,7 @@ class LinkedListNode(Generic[T]):
         return f"({self.data}) -> {self.next}"
 
 
-@dataclass
+@dataclass(init=False)
 class LinkedList(Generic[T]):
     head: LinkedListNode[T] | None
 

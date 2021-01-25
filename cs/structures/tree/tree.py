@@ -25,6 +25,8 @@ class Tree(Generic[T]):
     """
     We separate the BinarySearchTree with the TreeNode class to allow the root
     of the tree to be None, which allows this implementation to type-check.
+
+    We set init=False because a Tree cannot receive any parameters on creation.
     """
 
     root: TreeNode[T] | None = None
