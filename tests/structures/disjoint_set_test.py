@@ -1,4 +1,4 @@
-from typing import Union
+from __future__ import annotations
 
 from conftest import assert_a_faster_than_b
 from cs.structures import DisjointSet
@@ -7,7 +7,7 @@ from cs.structures import DisjointSet
 class TestDisjointSet:
     @staticmethod
     def test_make_set() -> None:
-        dset = DisjointSet[Union[int, str]]()  # TODO: Fix in Python 3.10
+        dset: DisjointSet[int | str] = DisjointSet()
         assert not dset
         assert 1 not in dset
         for i in range(5):

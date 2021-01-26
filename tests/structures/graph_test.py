@@ -1,4 +1,4 @@
-from typing import Union
+from __future__ import annotations
 
 import pytest
 
@@ -204,7 +204,7 @@ class TestGraph:
 
     @staticmethod
     def test_noncomparable_types() -> None:
-        graph = Graph[Union[str, int]]()  # TODO: Fix in Python 3.10
+        graph: Graph[int | str] = Graph()
         for i in range(5):
             graph.add_node(i)
             graph.add_node(str(i))

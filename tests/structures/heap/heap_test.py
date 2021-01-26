@@ -25,9 +25,9 @@ def construct_heap(heap_type: str, allow_duplicates: bool = False) -> Heap[T]:
     return cast(Heap[T], heap_map[heap_type](allow_duplicates=allow_duplicates))
 
 
+@parametrize_heap_type
 class TestHeap:
     @staticmethod
-    @parametrize_heap_type
     def test_enqueue_100(heap_type: str) -> None:
         """ Test creating a heap and adding 100 values to it. """
         heap: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
@@ -37,7 +37,6 @@ class TestHeap:
             heap.enqueue(random_value, random_priority)
 
     @staticmethod
-    @parametrize_heap_type
     def test_get_min_of_1(heap_type: str) -> None:
         """ Test creating a heap, adding a single value, and retrieving it. """
         heap: Heap[int] = construct_heap(heap_type)
@@ -46,7 +45,6 @@ class TestHeap:
         assert heap.peek() == (1, 1)
 
     @staticmethod
-    @parametrize_heap_type
     def test_uncomparable_types(heap_type: str) -> None:
         """
         The dataclass should raise an exception when trying to sort uncomparable
@@ -78,7 +76,6 @@ class TestHeap:
             heap.dequeue()
 
     @staticmethod
-    @parametrize_heap_type
     @parametrize_allow_duplicates
     def test_get_min_of_3(heap_type: str, allow_duplicates: bool) -> None:
         """
@@ -93,7 +90,6 @@ class TestHeap:
         assert heap.peek() == (10, 0)
 
     @staticmethod
-    @parametrize_heap_type
     @parametrize_allow_duplicates
     def test_get_min_of_3_float(heap_type: str, allow_duplicates: bool) -> None:
         """
@@ -108,7 +104,6 @@ class TestHeap:
         assert heap.peek() == (100, 1.0)
 
     @staticmethod
-    @parametrize_heap_type
     @pytest.mark.parametrize("entries", ((3,), (4, 2), (2, 7, 1, 8, 3, 1, 4)))
     def test_enqueue_dequeue_no_priority(heap_type: str, entries: tuple[int]) -> None:
         h: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
@@ -121,7 +116,6 @@ class TestHeap:
             assert val == item
 
     @staticmethod
-    @parametrize_heap_type
     @parametrize_allow_duplicates
     def test_empty(heap_type: str, allow_duplicates: bool) -> None:
         """ Test an empty heap to see if it's Falsy. """
@@ -132,7 +126,6 @@ class TestHeap:
         assert bool(heap) is True
 
     @staticmethod
-    @parametrize_heap_type
     @parametrize_allow_duplicates
     def test_dequeue(heap_type: str, allow_duplicates: bool) -> None:
         """
@@ -165,7 +158,6 @@ class TestHeap:
             assert expected_priorities_list == actual_priorities_list
 
     @staticmethod
-    @parametrize_heap_type
     @parametrize_allow_duplicates
     def test_dequeue_sort(heap_type: str, allow_duplicates: bool) -> None:
         """
@@ -194,7 +186,22 @@ class TestHeap:
             assert expected_list == actual_list
 
     @staticmethod
-    @parametrize_heap_type
+    def test_duplicates(heap_type: str) -> None:
+        """ Add lots of duplicates and see what happens. """
+        heap: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
+        for _ in range(10):
+            for index2 in range(10):
+                heap.enqueue(index2, 1.0)
+
+        assert len(heap) == 100
+        actual_count = 0
+        while heap:
+            _ = heap.dequeue()
+            actual_count += 1
+
+        assert actual_count == 100
+
+    @staticmethod
     def test_merge_duplicates(heap_type: str) -> None:
         """ Test merging two heaps. """
         heap1: Heap[int] = construct_heap(heap_type)
@@ -220,7 +227,6 @@ class TestHeap:
         assert actual_list == [(1, 1), (2, 2), (3, 3), (3, 3), (4, 4), (5, 5), (6, 6)]
 
     @staticmethod
-    @parametrize_heap_type
     def test_merge(heap_type: str) -> None:
         """ Test merging two heaps. """
         heap1: Heap[int] = construct_heap(heap_type)
@@ -245,7 +251,6 @@ class TestHeap:
         assert actual_list == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]
 
     @staticmethod
-    @parametrize_heap_type
     def test_merge_exception(heap_type: str) -> None:
         """ Test merging two heaps. """
         heap1: Heap[int] = construct_heap(heap_type)
@@ -261,7 +266,6 @@ class TestHeap:
             heap1.merge(heap2)
 
     @staticmethod
-    @parametrize_heap_type
     def test_print_heap(heap_type: str) -> None:
         heap: Heap[int] = construct_heap(heap_type)
         heap.enqueue(1, 1)

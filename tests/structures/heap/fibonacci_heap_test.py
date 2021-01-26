@@ -1,9 +1,5 @@
-from cs.structures import FibonacciHeap, Heap
-from tests.structures.heap.heap_test import (
-    construct_heap,
-    parametrize_allow_duplicates,
-    parametrize_heap_type,
-)
+from cs.structures import FibonacciHeap
+from tests.structures.heap.heap_test import parametrize_allow_duplicates
 
 
 class TestFibonacciHeap:
@@ -11,23 +7,6 @@ class TestFibonacciHeap:
     This class only contains tests exclusive to Fibonacci Heaps.
     All other common heap functionality tests are located in heap_test.py.
     """
-
-    @staticmethod
-    @parametrize_heap_type
-    def test_duplicates(heap_type: str) -> None:
-        """ Add lots of duplicates and see what happens. """
-        heap: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
-        for _ in range(10):
-            for index2 in range(10):
-                heap.enqueue(index2, 1.0)
-
-        assert len(heap) == 100
-        actual_count = 0
-        while heap:
-            _ = heap.dequeue()
-            actual_count += 1
-
-        assert actual_count == 100
 
     @staticmethod
     @parametrize_allow_duplicates
