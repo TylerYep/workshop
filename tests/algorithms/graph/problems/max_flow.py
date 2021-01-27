@@ -7,8 +7,9 @@ MaxFlowFunction = Callable[[Graph[V], V, V], float]
 
 
 class MaxFlow:
-    @staticmethod
-    def test_matrix(max_flow_fn: MaxFlowFunction[Any]) -> None:
+    # pylint: disable=no-self-use
+    # @staticmethod
+    def test_matrix(self, max_flow_fn: MaxFlowFunction[Any]) -> None:
         graph = Graph.from_matrix(
             [
                 [0, 16, 13, 0, 0, 0],
@@ -22,8 +23,8 @@ class MaxFlow:
 
         assert max_flow_fn(graph, 0, 5) == 23
 
-    @staticmethod
-    def test_brilliant(max_flow_fn: MaxFlowFunction[Any]) -> None:
+    # @staticmethod
+    def test_brilliant(self, max_flow_fn: MaxFlowFunction[Any]) -> None:
         graph = Graph[str]()
         for letter in ("s", "t", "a", "b", "c", "d"):
             graph.add_node(letter)

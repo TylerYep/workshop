@@ -1,27 +1,26 @@
-from typing import Any
+from __future__ import annotations
+
+from typing import Generic, TypeVar
+
+T = TypeVar("T")
 
 
-class HashTable:
+class HashTable(Generic[T]):
     def __init__(self, num_buckets: int) -> None:
-        self.table: list[Any] = []
         self.num_buckets = num_buckets
         self.capacity = num_buckets
         self.num_elems = 0
 
-    def __contains__(self, data: int) -> bool:
+    def __contains__(self, data: T) -> bool:
         raise NotImplementedError
 
-    def __repr__(self) -> str:
-        widths = [
-            len(str(self.table[i])) + int(self.table[i] < 0) - 1
-            for i in range(self.num_buckets)
-        ]
-        indices = "  |  ".join([f"{i:{widths[i]}}" for i in range(self.num_buckets)])
-        table = "  |  ".join([str(self.table[i]) for i in range(self.num_buckets)])
-        return f"\n{indices}\n{'---' * sum(widths)}\n{table}\n"
+    @staticmethod
+    def validate_data(data: T) -> None:
+        if data is None:
+            raise ValueError("None cannot be inserted into a HashTable.")
 
-    def insert(self, data: int) -> bool:
+    def insert(self, data: T) -> bool:
         raise NotImplementedError
 
-    def remove(self, data: int) -> bool:
+    def remove(self, data: T) -> bool:
         raise NotImplementedError
