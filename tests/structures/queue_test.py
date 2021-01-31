@@ -8,7 +8,10 @@ class TestQueue:
         queue = Queue[str]()
         for key in keys:
             queue.enqueue(key)
+        if queue:
+            assert "any" in queue
 
+        assert len(queue) == 7
         assert queue.dequeue() == "the"
         assert queue.dequeue() == "a"
         assert queue.peek() == "there"

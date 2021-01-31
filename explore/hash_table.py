@@ -20,14 +20,20 @@ def main() -> None:
         method = command[0].lower()
         data = int(data_str)
         if method == "i":
-            hash_table.insert(data)
+            try:
+                hash_table.insert(data, data)
+            except KeyError:
+                print("Error - skipping command")
             print(f"    Called table.insert({data})")
             curr_elements.add(data)
         elif method == "c":
             ans = data in hash_table
             print(f"    Called table.contains({data}). Returned {ans}.")
         elif method == "r":
-            hash_table.remove(data)
+            try:
+                hash_table.remove(data)
+            except KeyError:
+                print("Error - skipping command")
             print(f"    Called table.remove({data})")
             if data in curr_elements:
                 curr_elements.remove(data)
@@ -57,8 +63,7 @@ def choose_hash_table_type(num_buckets: int) -> HashTable:
     while True:
         print(prompt)
         user_input = input("Your choice: ")
-        letter = user_input[0].lower()
-        if user_input == "" or letter == "q":
+        if user_input == "" or (letter := user_input[0].lower()) == "q":
             sys.exit(0)
 
         if letter == "l":

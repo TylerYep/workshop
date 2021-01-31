@@ -8,7 +8,10 @@ class TestStack:
         stack = Stack[str]()
         for key in keys:
             stack.push(key)
+        if stack:
+            assert "any" in stack
 
+        assert len(stack) == 7
         assert stack.pop() == "their"
         assert stack.pop() == "by"
         assert stack.peek() == "any"
