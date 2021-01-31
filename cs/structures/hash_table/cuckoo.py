@@ -5,44 +5,34 @@ import random
 from collections.abc import Callable
 from typing import cast
 
-from .hash_table import HashTable, T
+from .hash_table import KT, VT, HashTable, TableEntry
 
 _memomask: dict[int, int] = {}
 
 
-def hash_function(n: int) -> Callable[[T], int]:
+def hash_function(n: int) -> Callable[[KT], int]:
     mask = _memomask.get(n)
     if mask is None:
         random.seed(n)
         mask = _memomask[n] = random.getrandbits(32)
 
-    def myhash(x: T) -> int:
+    def myhash(x: KT) -> int:
         return hash(x) ^ cast(int, mask)
 
     return myhash
 
 
-class Cuckoo(HashTable[T]):
+class Cuckoo(HashTable[KT, VT]):
     def __init__(self, num_buckets: int) -> None:
+        if num_buckets <= 1:
+            num_buckets += 1
         super().__init__(num_buckets // 2)
-        self.table_1: list[T | None] = [None] * self.num_buckets
+        self.table_1: list[TableEntry[KT, VT] | None] = [None] * self.num_buckets
         self.table_2 = list(self.table_1)
         self.curr_hash_fn_num = 1
         self.hash_1 = hash_function(self.curr_hash_fn_num)
         self.hash_2 = hash_function(self.curr_hash_fn_num + 1)
         self.rehashing_depth_limit = int(6 * math.log(num_buckets * 2))
-
-    def __contains__(self, data: T) -> bool:
-        self.validate_data(data)
-        bucket = self.hash_1(data) % self.num_buckets
-        if self.table_1[bucket] == data:
-            return True
-
-        bucket = self.hash_2(data) % self.num_buckets
-        if self.table_2[bucket] == data:
-            return True
-
-        return False
 
     def __repr__(self) -> str:
         max_width = 20
@@ -53,27 +43,48 @@ class Cuckoo(HashTable[T]):
             result += f"{table_row_1:<{max_width}} {table_row_2}\n"
         return result
 
-    def insert(self, data: T) -> bool:
-        self.validate_data(data)
-        if data in self:
-            return False
+    def insert(self, key: KT, value: VT) -> None:
+        if self._find_key(key) is not None:
+            raise KeyError
+        self._insert(key, value)
+        self.num_elems += 1
+
+    def remove(self, key: KT) -> None:
+        self.validate_key(key)
+        self.num_elems -= 1
+        bucket = self.hash_1(key) % self.num_buckets
+        entry = self.table_1[bucket]
+        if entry is not None and entry.key == key:
+            self.table_1[bucket] = None
+            return
+
+        bucket = self.hash_2(key) % self.num_buckets
+        entry = self.table_2[bucket]
+        if entry is not None and entry.key == key:
+            self.table_2[bucket] = None
+
+    def _insert(self, key: KT, value: VT) -> None:
+        self.validate_key(key)
 
         use_table_1 = True
-        curr: T | None = data
-        # Try inserting data, swapping items up to the given depth limit.
+        curr: TableEntry[KT, VT] | None = TableEntry(key, value)
+        # Try inserting key, swapping items up to the given depth limit.
         for _ in range(self.rehashing_depth_limit):
+            if curr is None:
+                raise RuntimeError
+
             if use_table_1:
-                bucket = self.hash_1(curr) % self.num_buckets
+                bucket = self.hash_1(curr.key) % self.num_buckets
                 if self.table_1[bucket] is None:
                     self.table_1[bucket] = curr
-                    return True
+                    return
                 curr, self.table_1[bucket] = self.table_1[bucket], curr
 
             else:
-                bucket = self.hash_2(curr) % self.num_buckets
+                bucket = self.hash_2(curr.key) % self.num_buckets
                 if self.table_2[bucket] is None:
                     self.table_2[bucket] = curr
-                    return True
+                    return
                 curr, self.table_2[bucket] = self.table_2[bucket], curr
 
             use_table_1 = not use_table_1
@@ -91,20 +102,17 @@ class Cuckoo(HashTable[T]):
         self.table_2 = list(self.table_1)
 
         for item in table:
-            self.insert(item)
+            self._insert(item.key, item.value)
 
-        return True
+    def _find_key(self, key: KT) -> TableEntry[KT, VT] | None:
+        bucket = self.hash_1(key) % self.num_buckets
+        entry = self.table_1[bucket]
+        if entry is not None and entry.key == key:
+            return entry
 
-    def remove(self, data: T) -> bool:
-        self.validate_data(data)
-        bucket = self.hash_1(data) % self.num_buckets
-        if self.table_1[bucket] == data:
-            self.table_1[bucket] = None
-            return True
+        bucket = self.hash_2(key) % self.num_buckets
+        entry = self.table_2[bucket]
+        if entry is not None and entry.key == key:
+            return entry
 
-        bucket = self.hash_2(data) % self.num_buckets
-        if self.table_2[bucket] == data:
-            self.table_2[bucket] = None
-            return True
-
-        return False
+        return None

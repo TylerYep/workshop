@@ -1,58 +1,62 @@
 from __future__ import annotations
 
-from .hash_table import HashTable, T
+from dataclasses import dataclass
+
+from dataslots import dataslots
+
+from .hash_table import KT, VT, HashTable, TableEntry
 
 
-class LinearProbing(HashTable[T]):
+@dataslots
+@dataclass
+class LinearProbingEntry(TableEntry[KT, VT]):
+    is_dead: bool = False
+
+
+class LinearProbing(HashTable[KT, VT]):
     def __init__(self, num_buckets: int) -> None:
         super().__init__(num_buckets)
-        self.table: list[T | None] = [None] * num_buckets
-        self.is_dead = [False] * num_buckets
-
-    def __contains__(self, data: T) -> bool:
-        self.validate_data(data)
-        return self._find_data(data) is not None
+        self.table: list[LinearProbingEntry[KT, VT] | None] = [None] * num_buckets
 
     def __repr__(self) -> str:
         result = ""
         for i in range(self.num_buckets):
-            result += f"{i}  |  {self.table[i]}\n"
+            entry = self.table[i]
+            result += f"{i}  |  {None if entry is None else entry.value}\n"
         return result
 
-    def insert(self, data: T) -> bool:
-        self.validate_data(data)
-        if self.num_elems == self.capacity or data in self:
-            return False
+    def insert(self, key: KT, value: VT) -> None:
+        self.validate_key(key)
+        if self.num_elems == self.capacity:
+            raise KeyError
 
-        bucket = hash(data) % self.num_buckets
-        while self.table[bucket] is not None and not self.is_dead[bucket]:
-            if self.table[bucket] == data:
-                return False
+        bucket = hash(key) % self.num_buckets
+        while (entry := self.table[bucket]) is not None and not entry.is_dead:
+            if entry.key == key:
+                raise KeyError
             bucket = (bucket + 1) % self.num_buckets
 
-        self.table[bucket] = data
+        self.table[bucket] = LinearProbingEntry(key, value)
         self.num_elems += 1
-        return True
 
-    def remove(self, data: T) -> bool:
-        self.validate_data(data)
-        index = self._find_data(data)
-        if index is None:
-            return False
+    def remove(self, key: KT) -> None:
+        self.validate_key(key)
+        if (entry := self._find_key(key)) is None:
+            raise KeyError
 
-        self.is_dead[index] = True
+        entry.is_dead = True
         self.num_elems -= 1
-        return True
 
-    def get_elems(self) -> set[T]:
-        return {elem for elem in self.table if elem is not None}
+    def get_elems(self) -> list[tuple[KT, VT]]:
+        return [(elem.key, elem.value) for elem in self.table if elem is not None]
 
-    def _find_data(self, data: T) -> int | None:
-        bucket = hash(data) % self.num_buckets
+    def _find_key(self, key: KT) -> LinearProbingEntry[KT, VT] | None:
+        bucket = hash(key) % self.num_buckets
         for i in range(self.num_buckets):
             index = (bucket + i) % self.num_buckets
-            if self.table[index] == data:
-                return index
-            if self.table[index] is None:
+            entry = self.table[index]
+            if entry is None:
                 break
+            if entry.key == key:
+                return entry
         return None
