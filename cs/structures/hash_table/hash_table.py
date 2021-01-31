@@ -42,6 +42,9 @@ class HashTable(Generic[KT, VT]):
     def __setitem__(self, key: KT, value: VT) -> None:
         self.insert(key, value)
 
+    def __delitem__(self, key: KT) -> None:
+        self.remove(key)
+
     @staticmethod
     def validate_key(key: KT) -> None:
         if key is None:

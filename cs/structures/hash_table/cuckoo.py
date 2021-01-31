@@ -24,9 +24,11 @@ def hash_function(n: int) -> Callable[[KT], int]:
 
 class Cuckoo(HashTable[KT, VT]):
     def __init__(self, num_buckets: int) -> None:
-        if num_buckets <= 1:
-            num_buckets += 1
-        super().__init__(num_buckets // 2)
+        super().__init__(num_buckets)
+        self.num_buckets //= 2
+        if self.num_buckets <= 1:
+            self.num_buckets += 1
+
         self.table_1: list[TableEntry[KT, VT] | None] = [None] * self.num_buckets
         self.table_2 = list(self.table_1)
         self.curr_hash_fn_num = 1
@@ -44,7 +46,7 @@ class Cuckoo(HashTable[KT, VT]):
         return result
 
     def insert(self, key: KT, value: VT) -> None:
-        if self._find_key(key) is not None:
+        if self.num_elems == self.capacity or self._find_key(key) is not None:
             raise KeyError
         self._insert(key, value)
         self.num_elems += 1

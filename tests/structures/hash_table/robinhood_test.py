@@ -8,5 +8,8 @@ class TestRobinHood:
         hash_table = RobinHood[int, int](n)
         for i in range(n):
             hash_table.insert(i, i)
+        hash_table.remove(1)
 
-        assert str(hash_table) == "".join(f"{i}  |  {i}\n" for i in range(n))
+        assert str(hash_table) == "".join(
+            f"{i}  |  {None if i == 1 else i}\n" for i in range(n)
+        )

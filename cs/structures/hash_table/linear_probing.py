@@ -22,7 +22,8 @@ class LinearProbing(HashTable[KT, VT]):
         result = ""
         for i in range(self.num_buckets):
             entry = self.table[i]
-            result += f"{i}  |  {None if entry is None else entry.value}\n"
+            output = None if entry is None or entry.is_dead else entry.value
+            result += f"{i}  |  {output}\n"
         return result
 
     def insert(self, key: KT, value: VT) -> None:
@@ -57,6 +58,6 @@ class LinearProbing(HashTable[KT, VT]):
             entry = self.table[index]
             if entry is None:
                 break
-            if entry.key == key:
+            if entry.key == key and not entry.is_dead:
                 return entry
         return None
