@@ -310,10 +310,8 @@ class Edge(Generic[V], Mapping[str, Any]):
         return 3 + len(self.kwargs)
 
     def __iter__(self) -> Iterator[Any]:
-        for item in ("start", "end", "weight"):
-            yield item
-        for kwarg in self.kwargs:
-            yield kwarg
+        yield from ("start", "end", "weight")
+        yield from self.kwargs
 
     def __getitem__(self, attr: str) -> Any:
         if attr == "start":
