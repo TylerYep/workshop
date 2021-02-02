@@ -153,6 +153,10 @@ class TestSkipList:
     def test_repr() -> None:
         skip_list = SkipList[str, int]()
 
+        assert repr(skip_list) == (
+            "SkipList(key=None, value=None, next=[], p=0.5, max_level=16, level=0)"
+        )
+
         skip_list.insert("A", 12)
         skip_list.insert("B", 13)
         skip_list.insert("C", 142)

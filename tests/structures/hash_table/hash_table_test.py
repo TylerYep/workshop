@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import random
 from typing import TypeVar
 
@@ -15,12 +16,14 @@ parametrize_hash_table_type = pytest.mark.parametrize(
 )
 
 
-def construct_hash_table(hash_table_type: str, num_buckets: int) -> HashTable[KT, VT]:
+def construct_hash_table(
+    hash_table_type: str, num_buckets: int = 1, load_factor: float = 0.4
+) -> HashTable[KT, VT]:
     hash_table_map = {
         constructor.__name__: constructor
         for constructor in (Cuckoo, LinearProbing, RobinHood)
     }
-    return hash_table_map[hash_table_type](num_buckets)
+    return hash_table_map[hash_table_type](num_buckets, load_factor)
 
 
 @parametrize_hash_table_type
@@ -38,9 +41,9 @@ class TestHashTable:
             hash_table.insert(random_value, random_value)
             assert random_value in hash_table
 
-        with pytest.raises(KeyError):
-            # Max capacity
-            hash_table.insert(-2, -2)
+        assert len(hash_table) <= math.ceil(
+            hash_table.load_factor * hash_table.capacity
+        )
 
     @staticmethod
     @pytest.mark.parametrize("n", (1, 100))
@@ -68,3 +71,10 @@ class TestHashTable:
         del hash_table[1]
         with pytest.raises(KeyError):
             _ = hash_table[1]
+
+    @staticmethod
+    def test_repr(hash_table_type: str) -> None:
+        """ Test creating a hash_table and adding 100 values to it. """
+        hash_table: HashTable[int, str] = construct_hash_table(hash_table_type)
+
+        assert repr(hash_table).startswith(hash_table.__class__.__qualname__)

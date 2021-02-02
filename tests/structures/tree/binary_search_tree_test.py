@@ -7,28 +7,9 @@ class TestBinarySearchTree:
     @staticmethod
     @pytest.fixture
     def t() -> BinarySearchTree[int]:
-        r"""
-        8
-        / \
-        3   10
-        / \    \
-        1   6    14
-            / \   /
-            4   7 13
-            \
-            5
-        """
         tree = BinarySearchTree[int]()
-        tree.insert(8)
-        tree.insert(3)
-        tree.insert(6)
-        tree.insert(1)
-        tree.insert(10)
-        tree.insert(14)
-        tree.insert(13)
-        tree.insert(4)
-        tree.insert(7)
-        tree.insert(5)
+        for i in (8, 3, 6, 1, 10, 14, 13, 4, 7, 5):
+            tree.insert(i)
         return tree
 
     @staticmethod
@@ -301,11 +282,8 @@ class TestBinarySearchTree:
     @staticmethod
     def test_print_tree() -> None:
         tree = BinarySearchTree[int]()
-        tree.insert(8)
-        tree.insert(6)
-        tree.insert(1)
-        tree.insert(73)
-        tree.insert(11)
+        for i in (8, 6, 1, 73, 11):
+            tree.insert(i)
 
         assert repr(tree) == (
             "BinarySearchTree(root=BinaryTreeNode(\n"

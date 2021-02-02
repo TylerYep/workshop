@@ -13,7 +13,7 @@ T = TypeVar("T")
 class BloomFilter(Generic[T]):
     """
     Implementation of a Bloom filter. An instance is initialized by its capacity `n`
-    and error rate `p`. The capacity is how many elements can be stored while
+    and error rate `p`. The capacity `n` is how many elements can be stored while
     maintaining no more than `p` false positives.
 
     Code adapted from @ilanschnell's bitarray project.
@@ -39,6 +39,9 @@ class BloomFilter(Generic[T]):
 
     def __contains__(self, key: T) -> bool:
         return all(self.array[i] for i in self._hashes(key))
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__qualname__}({self.array.to01()})"
 
     def calculate_p(self) -> float:
         """

@@ -5,7 +5,7 @@ class TestRobinHood:
     @staticmethod
     def test_print_hash_table() -> None:
         n = 5
-        hash_table = RobinHood[int, int](n)
+        hash_table = RobinHood[int, int](n, load_factor=1)
         for i in range(n):
             hash_table.insert(i, i)
         hash_table.remove(1)

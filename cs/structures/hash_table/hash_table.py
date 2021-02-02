@@ -19,13 +19,21 @@ class TableEntry(Generic[KT, VT]):
         return str(self.key)
 
 
+@dataslots
+@dataclass
 class HashTable(Generic[KT, VT]):
     """ This implementation assumes there are no duplicate keys. """
 
-    def __init__(self, num_buckets: int) -> None:
-        self.num_buckets = num_buckets
-        self.capacity = num_buckets
-        self.num_elems = 0
+    num_buckets: int
+    load_factor: float
+    capacity: int = 0
+    num_elems: int = 0
+
+    def __post_init__(self) -> None:
+        self.capacity = self.num_buckets
+
+    def __bool__(self) -> bool:
+        return self.num_elems > 0
 
     def __len__(self) -> int:
         return self.num_elems

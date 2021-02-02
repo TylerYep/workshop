@@ -14,11 +14,11 @@ class LinearProbingEntry(TableEntry[KT, VT]):
 
 
 class LinearProbing(HashTable[KT, VT]):
-    def __init__(self, num_buckets: int) -> None:
-        super().__init__(num_buckets)
+    def __init__(self, num_buckets: int, load_factor: float = 0.4) -> None:
+        super().__init__(num_buckets, load_factor)
         self.table: list[LinearProbingEntry[KT, VT] | None] = [None] * num_buckets
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         result = ""
         for i in range(self.num_buckets):
             entry = self.table[i]
@@ -28,8 +28,18 @@ class LinearProbing(HashTable[KT, VT]):
 
     def insert(self, key: KT, value: VT) -> None:
         self.validate_key(key)
-        if self.num_elems == self.capacity:
-            raise KeyError
+        # Skip check for duplicates because membership check is very slow.
+
+        # Resize table if size exceeds capacity.
+        if self.num_elems >= self.load_factor * self.capacity:
+            self.capacity *= 2
+            self.num_buckets *= 2
+            self.num_elems = 0
+            table = list(self.table)
+            self.table = [None] * self.num_buckets
+            for entry in table:
+                if entry is not None and not entry.is_dead:
+                    self.insert(entry.key, entry.value)
 
         bucket = hash(key) % self.num_buckets
         while (entry := self.table[bucket]) is not None and not entry.is_dead:

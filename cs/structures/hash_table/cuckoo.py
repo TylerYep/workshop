@@ -23,8 +23,22 @@ def hash_function(n: int) -> Callable[[KT], int]:
 
 
 class Cuckoo(HashTable[KT, VT]):
-    def __init__(self, num_buckets: int) -> None:
-        super().__init__(num_buckets)
+    """
+    A hash system with worst-case constant-time lookup and deletion, and amortized
+    expected O(1) insertion.
+
+    Cuckoo hashing works by maintaining two arrays and two universal hash functions f
+    and g. When an element x is inserted, the value f(x) is computed and the entry is
+    stored in that index in the first array. If that spot was initially empty, we are
+    done. Otherwise, the element y that was already there is "kicked out." We then
+    compute g(y) and store element y at position g(y) in the second array, which may in
+    turn kick out another element, which will be stored in the first array. This process
+    repeats until either a loop is detected (in which case we pick a new hash function
+    and rehash), or all elements finally come to rest.
+    """
+
+    def __init__(self, num_buckets: int, load_factor: float = 0.4) -> None:
+        super().__init__(num_buckets, load_factor)
         self.num_buckets //= 2
         if self.num_buckets <= 1:
             self.num_buckets += 1
@@ -36,7 +50,7 @@ class Cuckoo(HashTable[KT, VT]):
         self.hash_2 = hash_function(self.curr_hash_fn_num + 1)
         self.rehashing_depth_limit = int(6 * math.log(num_buckets * 2))
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         max_width = 20
         result = ""
         for i in range(self.num_buckets):
@@ -46,8 +60,15 @@ class Cuckoo(HashTable[KT, VT]):
         return result
 
     def insert(self, key: KT, value: VT) -> None:
-        if self.num_elems == self.capacity or self._find_key(key) is not None:
+        self.validate_key(key)
+        if self._find_key(key) is not None:
             raise KeyError
+
+        if self.num_elems >= self.load_factor * self.capacity:
+            self.capacity *= 2
+            self.num_buckets *= 2
+            self._rehash()
+
         self._insert(key, value)
         self.num_elems += 1
 
@@ -66,8 +87,6 @@ class Cuckoo(HashTable[KT, VT]):
             self.table_2[bucket] = None
 
     def _insert(self, key: KT, value: VT) -> None:
-        self.validate_key(key)
-
         use_table_1 = True
         curr: TableEntry[KT, VT] | None = TableEntry(key, value)
         # Try inserting key, swapping items up to the given depth limit.
@@ -91,6 +110,9 @@ class Cuckoo(HashTable[KT, VT]):
 
             use_table_1 = not use_table_1
 
+        self._rehash()
+
+    def _rehash(self) -> None:
         # Rehash using a new hash function and recurse to try insert again.
         self.curr_hash_fn_num += 1
         self.hash_1 = hash_function(self.curr_hash_fn_num)

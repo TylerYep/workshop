@@ -83,6 +83,11 @@ def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:
     return prettyprinter.pretty_call(ctx, cls, **kwargs)
 
 
+def default_repr(obj: Any) -> str:
+    params = ", ".join([f"{k}={v!r}" for k, v in obj.__dict__.items()])
+    return f"{obj.__class__.__qualname__}({params})"
+
+
 def weighted_coin_flip(prob: float) -> bool:
     """ Returns True with probability prob. """
     return random.choices([True, False], [prob, 1 - prob])[0]

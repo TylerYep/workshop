@@ -18,8 +18,8 @@ class RobinHoodEntry(TableEntry[KT, VT]):
 
 
 class RobinHood(HashTable[KT, VT]):
-    def __init__(self, num_buckets: int) -> None:
-        super().__init__(num_buckets)
+    def __init__(self, num_buckets: int, load_factor: float = 0.4) -> None:
+        super().__init__(num_buckets, load_factor)
         self.table: list[RobinHoodEntry[KT, VT] | None] = [None] * num_buckets
         self.hash: Callable[[KT], int] = lambda x: hash(x) % num_buckets
 
@@ -30,13 +30,21 @@ class RobinHood(HashTable[KT, VT]):
             result += f"{i}  |  {None if entry is None else entry.value}\n"
         return result
 
-    def __repr__(self) -> str:
-        return str(self.table)
-
     def insert(self, key: KT, value: VT) -> None:
         self.validate_key(key)
-        if self.num_elems == self.capacity or self._find_key(key) is not None:
+        if self._find_key(key) is not None:
             raise KeyError
+
+        # Resize table if size exceeds capacity.
+        if self.num_elems >= self.load_factor * self.capacity:
+            self.capacity *= 2
+            self.num_buckets *= 2
+            self.num_elems = 0
+            table = list(self.table)
+            self.table = [None] * self.num_buckets
+            for entry in table:
+                if entry is not None:
+                    self.insert(entry.key, entry.value)
 
         bucket = self.hash(key) % self.num_buckets
         curr: RobinHoodEntry[KT, VT] | None = RobinHoodEntry(key, value)

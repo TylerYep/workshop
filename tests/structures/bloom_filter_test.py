@@ -21,13 +21,21 @@ class TestBloomFilter:
         )
 
     @staticmethod
+    def test_str() -> None:
+        N = 5
+        bloom = BloomFilter[int](n=5, p=0.2)
+        for i in range(N):
+            bloom.add(i)
+        assert str(bloom) == "BloomFilter(01001101101010111)"
+
+    @staticmethod
     @pytest.mark.parametrize(
         ("n", "p"), [(100, 0.05), (500, 0.01), (1000, 0.005), (5000, 0.002)]
     )
     def test_bloom_filter(n: int, p: float) -> None:
         N = 100
         bloom = BloomFilter[int](n, p)
-        assert repr(bloom) == str(bloom) == f"BloomFilter(n={n}, p={p})"
+        assert repr(bloom) == f"BloomFilter(n={n}, p={p})"
         assert bool(bloom) is False
 
         for i in range(N):

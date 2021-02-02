@@ -20,3 +20,11 @@ class TestLinkedList:
         assert str(removed) == "(0) -> (1) -> (2) -> (3) -> None"
         removed = lst.remove_last()
         assert str(removed) == "(0) -> (1) -> (2) -> None"
+
+    @staticmethod
+    def test_repr() -> None:
+        lst = LinkedList[str]()
+        lst.insert("A")
+        lst.insert("B")
+
+        assert repr(lst) == "LinkedList(head=(B) -> (A) -> None)"
