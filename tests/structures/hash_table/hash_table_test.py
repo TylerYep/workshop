@@ -39,7 +39,11 @@ class TestHashTable:
             assert len(hash_table) == i
             random_value = random_values[i]
             hash_table.insert(random_value, random_value)
-            assert random_value in hash_table
+        # Add duplicate key
+        hash_table[random_values[0]] = 0
+
+        for value in random_values:
+            assert value in hash_table
 
         assert len(hash_table) <= math.ceil(
             hash_table.load_factor * hash_table.capacity

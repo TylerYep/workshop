@@ -32,8 +32,10 @@ class RobinHood(HashTable[KT, VT]):
 
     def insert(self, key: KT, value: VT) -> None:
         self.validate_key(key)
-        if self._find_key(key) is not None:
-            raise KeyError
+        # Replace existing key
+        if (entry := self._find_key(key)) is not None:
+            entry.value = value
+            return
 
         # Resize table if size exceeds capacity.
         if self.num_elems >= self.load_factor * self.capacity:

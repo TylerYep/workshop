@@ -1,25 +1,8 @@
 from __future__ import annotations
 
 import math
-import random
-from collections.abc import Callable
-from typing import cast
 
 from .hash_table import KT, VT, HashTable, TableEntry
-
-_memomask: dict[int, int] = {}
-
-
-def hash_function(n: int) -> Callable[[KT], int]:
-    mask = _memomask.get(n)
-    if mask is None:
-        random.seed(n)
-        mask = _memomask[n] = random.getrandbits(32)
-
-    def myhash(x: KT) -> int:
-        return hash(x) ^ cast(int, mask)
-
-    return myhash
 
 
 class Cuckoo(HashTable[KT, VT]):
@@ -45,9 +28,8 @@ class Cuckoo(HashTable[KT, VT]):
 
         self.table_1: list[TableEntry[KT, VT] | None] = [None] * self.num_buckets
         self.table_2 = list(self.table_1)
-        self.curr_hash_fn_num = 1
-        self.hash_1 = hash_function(self.curr_hash_fn_num)
-        self.hash_2 = hash_function(self.curr_hash_fn_num + 1)
+        self.hash_1 = self.generate_hash_function()
+        self.hash_2 = self.generate_hash_function()
         self.rehashing_depth_limit = int(6 * math.log(num_buckets * 2))
 
     def __str__(self) -> str:
@@ -61,9 +43,12 @@ class Cuckoo(HashTable[KT, VT]):
 
     def insert(self, key: KT, value: VT) -> None:
         self.validate_key(key)
-        if self._find_key(key) is not None:
-            raise KeyError
+        # Replace existing key
+        if (entry := self._find_key(key)) is not None:
+            entry.value = value
+            return
 
+        # Resize table if size exceeds capacity.
         if self.num_elems >= self.load_factor * self.capacity:
             self.capacity *= 2
             self.num_buckets *= 2
@@ -114,9 +99,8 @@ class Cuckoo(HashTable[KT, VT]):
 
     def _rehash(self) -> None:
         # Rehash using a new hash function and recurse to try insert again.
-        self.curr_hash_fn_num += 1
-        self.hash_1 = hash_function(self.curr_hash_fn_num)
-        self.hash_2 = hash_function(self.curr_hash_fn_num + 1)
+        self.hash_1 = self.generate_hash_function()
+        self.hash_2 = self.generate_hash_function()
 
         # Copy all old elements to a temp table
         table = [item for item in self.table_1 + self.table_2 if item is not None]
@@ -125,6 +109,7 @@ class Cuckoo(HashTable[KT, VT]):
         self.table_1 = [None] * self.num_buckets
         self.table_2 = list(self.table_1)
 
+        # Reinsert all elements
         for item in table:
             self._insert(item.key, item.value)
 

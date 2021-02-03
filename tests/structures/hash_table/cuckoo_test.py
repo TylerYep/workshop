@@ -1,4 +1,4 @@
-from cs.structures import Cuckoo
+from cs.structures import Cuckoo, HashTable
 
 
 class TestCuckoo:
@@ -11,9 +11,24 @@ class TestCuckoo:
         hash_table.remove(1)
 
         assert str(hash_table) == (
-            "0  |  8              0  |  6\n"
+            "0  |  6              0  |  5\n"
             "1  |  None           1  |  2\n"
-            "2  |  5              2  |  4\n"
-            "3  |  3              3  |  0\n"
-            "4  |  9              4  |  7\n"
+            "2  |  0              2  |  3\n"
+            "3  |  9              3  |  7\n"
+            "4  |  8              4  |  4\n"
         )
+
+    @staticmethod
+    def test_duplicates() -> None:
+        """ Test creating a hash_table and adding 100 values to it. """
+        N = 2
+        hash_table_1 = Cuckoo[str, int](N)
+        hash_table_1["yo"] = 6
+        hash_table_1["yolo"] = 8
+        hash_table_2 = Cuckoo[str, int](N)
+        hash_table_2["yo"] = 6
+        hash_table_2["yolo"] = 8
+        hash_table_2["yolo"] = 9
+
+        # pylint: disable=protected-access
+        assert len(HashTable._hash_ids) == 10

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import random
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import ClassVar, Generic, TypeVar, cast
 
 from dataslots import dataslots
 
@@ -28,6 +30,7 @@ class HashTable(Generic[KT, VT]):
     load_factor: float
     capacity: int = 0
     num_elems: int = 0
+    _hash_ids: ClassVar[dict[int, int]] = {}
 
     def __post_init__(self) -> None:
         self.capacity = self.num_buckets
@@ -52,6 +55,15 @@ class HashTable(Generic[KT, VT]):
 
     def __delitem__(self, key: KT) -> None:
         self.remove(key)
+
+    @staticmethod
+    def generate_hash_function(n: int | None = None) -> Callable[[KT], int]:
+        if n is None:
+            n = max(HashTable._hash_ids) + 1 if HashTable._hash_ids else 0
+        mask = HashTable._hash_ids.get(n)
+        if mask is None:
+            mask = HashTable._hash_ids[n] = random.getrandbits(32)
+        return lambda x: hash(x) ^ cast(int, mask)
 
     @staticmethod
     def validate_key(key: KT) -> None:

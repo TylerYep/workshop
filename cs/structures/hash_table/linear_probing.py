@@ -43,8 +43,10 @@ class LinearProbing(HashTable[KT, VT]):
 
         bucket = hash(key) % self.num_buckets
         while (entry := self.table[bucket]) is not None and not entry.is_dead:
+            # Replace existing key
             if entry.key == key:
-                raise KeyError
+                entry.value = value
+                return
             bucket = (bucket + 1) % self.num_buckets
 
         self.table[bucket] = LinearProbingEntry(key, value)
