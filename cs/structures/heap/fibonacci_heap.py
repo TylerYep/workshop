@@ -46,6 +46,9 @@ class Entry(Generic[T]):
     def __repr__(self) -> str:
         return str(formatter.pformat(self))
 
+    def __len__(self) -> int:
+        return self.degree
+
 
 @dataclass(init=False)
 class FibonacciHeap(Heap[T]):
@@ -99,6 +102,7 @@ class FibonacciHeap(Heap[T]):
         return self.elem_to_entry[value]
 
     def __or__(self, other: object) -> FibonacciHeap[T]:
+        # TODO - this is a destructive operation
         if isinstance(other, FibonacciHeap):
             result = FibonacciHeap[T]()
             self.merge(other)
@@ -116,16 +120,14 @@ class FibonacciHeap(Heap[T]):
         """
         Merge 2 lists.
 
-        Utility function which, given two pointers into disjoint circularly-
-        linked lists, merges the two lists together into one circularly-linked
-        list in O(1) time. Because the lists may be empty, the return value
-        is the only pointer that's guaranteed to be to an element of the
-        resulting list.
+        Utility function which, given two pointers into disjoint circularly- linked
+        lists, merges the two lists together into one circularly-linked list in O(1)
+        time. Because the lists may be empty, the return value is the only pointer
+        that's guaranteed to be to an element of the resulting list.
 
-        This function assumes that one and two are the minimum elements of the
-        lists they are in, and returns a pointer to whichever is smaller. If
-        this condition does not hold, the return value is some arbitrary pointer
-        into the doubly-linked list.
+        This function assumes one and two are the minimum elements of the lists they are
+        in, and returns a pointer to whichever is smaller. If this condition does not
+        hold, the return value is some arbitrary pointer into the doubly-linked list.
 
         @param one A reference to one of the two deques.
         @param two A reference to the other of the two deques.

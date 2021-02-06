@@ -32,6 +32,17 @@ class Entry(Generic[T]):
     def __repr__(self) -> str:
         return str(formatter.pformat(self))
 
+    def __len__(self) -> int:
+        """
+        Recursively calculate length. Since we never use this function except
+        in tests, this is simpler than keeping track of each node's size.
+        """
+        if self.child is None:
+            return 1 if self.right is None else len(self.right) + 1
+        if self.right is None:
+            return len(self.child) + 1
+        return len(self.child) + len(self.right)
+
 
 @dataclass(init=False)
 class BinomialHeap(Heap[T]):
@@ -90,6 +101,7 @@ class BinomialHeap(Heap[T]):
         return self.elem_to_entry[value]
 
     def __or__(self, other: object) -> BinomialHeap[T]:
+        # TODO - this is a destructive operation
         if isinstance(other, BinomialHeap):
             result = BinomialHeap[T]()
             self.merge(other)
@@ -107,11 +119,11 @@ class BinomialHeap(Heap[T]):
         one: list[Entry[T] | None], two: list[Entry[T] | None]
     ) -> list[Entry[T] | None]:
         """
-        Merging two binomial heaps is similar to adding two binary numbers.
-        We proceed from the "least-significant tree" to the "most-significant
-        tree", merging the two trees and storing the result either back in the
-        same slot (if no trees were added) or in a carry register to be used in
-        the next computation.  This next variable declaration contains the carry.
+        Merging two binomial heaps is similar to adding two binary numbers. We proceed
+        from the "least-significant tree" to the "most-significant tree", merging the
+        two trees and storing the result either back in the same slot (if no trees were
+        added) or in a carry register to be used in the next computation. This next
+        variable declaration contains the carry.
 
         @param one A reference to one of the two deques.
         @param two A reference to the other of the two deques.

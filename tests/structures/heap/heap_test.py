@@ -36,13 +36,17 @@ class TestHeap:
             random_priority = random.randrange(100)
             heap.enqueue(random_value, random_priority)
 
+        assert len(heap) == 100
+
     @staticmethod
     def test_get_min_of_1(heap_type: str) -> None:
         """ Test creating a heap, adding a single value, and retrieving it. """
         heap: Heap[int] = construct_heap(heap_type)
-        heap.enqueue(1, 1)
+        heap.enqueue(1, 2)
 
-        assert heap.peek() == (1, 1)
+        assert 1 in heap
+        assert heap[1].priority == 2
+        assert heap.peek() == (1, 2)
 
     @staticmethod
     def test_uncomparable_types(heap_type: str) -> None:
@@ -74,20 +78,6 @@ class TestHeap:
         heap.enqueue(5, 3)
         with pytest.raises(TypeError):
             heap.dequeue()
-
-    @staticmethod
-    @parametrize_allow_duplicates
-    def test_get_min_of_3(heap_type: str, allow_duplicates: bool) -> None:
-        """
-        Test creating a heap, adding 3 values, and retrieving
-        the minimum-priority entry.
-        """
-        heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
-        heap.enqueue(1, 1)
-        heap.enqueue(10, 0)
-        heap.enqueue(20, 100)
-
-        assert heap.peek() == (10, 0)
 
     @staticmethod
     @parametrize_allow_duplicates
@@ -202,42 +192,26 @@ class TestHeap:
         assert actual_count == 100
 
     @staticmethod
-    def test_merge_duplicates(heap_type: str) -> None:
-        """ Test merging two heaps. """
+    @parametrize_allow_duplicates
+    def test_merge(heap_type: str, allow_duplicates: bool) -> None:
+        """ Test merging two heaps with and without duplicates. """
         heap1: Heap[int] = construct_heap(heap_type)
-        heap2: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
+        heap2: Heap[int] = construct_heap(heap_type, allow_duplicates)
         heap1.enqueue(1, 1)
-        heap1.enqueue(3, 3)
+        heap1.enqueue(2, 2)
         heap1.enqueue(5, 5)
 
         heap2.enqueue(2, 2)
         heap2.enqueue(3, 3)
         heap2.enqueue(4, 4)
-        heap2.enqueue(6, 6)
 
-        heap1.merge(heap2)
+        if not allow_duplicates:
+            with pytest.raises(RuntimeError):
+                heap1.merge(heap2)
 
-        assert len(heap1) == 7
-        assert len(heap2) == 4
-
-        actual_list = []
-        while heap1:
-            actual_list.append(heap1.dequeue())
-
-        assert actual_list == [(1, 1), (2, 2), (3, 3), (3, 3), (4, 4), (5, 5), (6, 6)]
-
-    @staticmethod
-    def test_merge(heap_type: str) -> None:
-        """ Test merging two heaps. """
-        heap1: Heap[int] = construct_heap(heap_type)
-        heap2: Heap[int] = construct_heap(heap_type)
-        heap1.enqueue(1, 1)
-        heap1.enqueue(3, 3)
-        heap1.enqueue(5, 5)
-
-        heap2.enqueue(2, 2)
-        heap2.enqueue(4, 4)
-        heap2.enqueue(6, 6)
+            # Fix the duplicate so we can merge
+            heap2.dequeue()
+            heap2.enqueue(6, 6)
 
         heap1.merge(heap2)
 
@@ -248,22 +222,10 @@ class TestHeap:
         while heap1:
             actual_list.append(heap1.dequeue())
 
-        assert actual_list == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]
-
-    @staticmethod
-    def test_merge_exception(heap_type: str) -> None:
-        """ Test merging two heaps. """
-        heap1: Heap[int] = construct_heap(heap_type)
-        heap2: Heap[int] = construct_heap(heap_type)
-        heap1.enqueue(1, 1)
-        heap1.enqueue(3, 3)
-        heap1.enqueue(5, 5)
-
-        heap2.enqueue(2, 2)
-        heap2.enqueue(3, 3)
-
-        with pytest.raises(RuntimeError):
-            heap1.merge(heap2)
+        if allow_duplicates:
+            assert actual_list == [(1, 1), (2, 2), (2, 2), (3, 3), (4, 4), (5, 5)]
+        else:
+            assert actual_list == [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6)]
 
     @staticmethod
     def test_print_heap(heap_type: str) -> None:

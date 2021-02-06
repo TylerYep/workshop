@@ -50,7 +50,7 @@ class Graph(Generic[V]):
                             self.add_edge(u, v, weight=edge, **kwargs)
                         else:
                             raise TypeError(f"{edge} is not a supported Edge type.")
-                    elif isinstance(graph[u], (list, tuple, set)):
+                    elif isinstance(graph[u], (list, tuple, set, frozenset)):
                         # Values are some other collection; only contains node names.
                         # Use default weight parameter.
                         self.add_edge(u, v, weight)

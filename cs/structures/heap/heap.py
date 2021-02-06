@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 from uuid import UUID
 
 from cs.util import Comparable
@@ -21,6 +21,9 @@ class Heap(Generic[T]):
         raise NotImplementedError
 
     def __ior__(self, other: object) -> None:
+        raise NotImplementedError
+
+    def __getitem__(self, value: T | UUID) -> Any:
         raise NotImplementedError
 
     def enqueue(self, value: T, priority: float = 0) -> T | UUID:
