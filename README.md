@@ -69,6 +69,8 @@ If you have a dataclass, use @dataslots.
 - Iterables cannot be indexed and must get length by casting to tuple or set. Sequences are indexable.
 - Put test cases into classes to avoid naming conflicts!
 - Remove all unnecessary casts to float() and trailing 1.0 in numbers.
+- Prefer `list[]`, `dict[]`, and `int | None` over `List[]`, `Dict[]`, `Optional[]`, and `Union`
+- Use f-strings always.
 - Name functions to include their algorithm name but also the purpose:
 
 1. The best option - name includes classic algorithm name, as well as purpose.

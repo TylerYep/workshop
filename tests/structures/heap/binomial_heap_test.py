@@ -17,4 +17,4 @@ class TestBinomialHeap:
             random_priority = random.randrange(10)
             heap.enqueue(random_value, random_priority)
 
-        assert [len(tree) for tree in heap.trees if tree is not None] == [1, 2, 3, 5]
+        assert [len(tree) for tree in heap.trees if tree is not None] == [1, 2, 4, 8]

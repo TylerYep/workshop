@@ -9,6 +9,24 @@ class TestFibonacciHeap:
     """
 
     @staticmethod
+    def test_remove() -> None:
+        """ Test decrease_key method. """
+        fib_heap = FibonacciHeap[int]()
+        fib_heap.enqueue(1, 1)
+        fib_heap.enqueue(3, 3)
+        fib_heap.enqueue(5, 5)
+
+        fib_heap.remove(3)
+
+        assert len(fib_heap) == 2
+
+        actual_list = []
+        while fib_heap:
+            actual_list.append(fib_heap.dequeue())
+
+        assert actual_list == [(1, 1), (5, 5)]
+
+    @staticmethod
     @parametrize_allow_duplicates
     def test_decrease_key(allow_duplicates: bool) -> None:
         """ Test decrease_key method. """

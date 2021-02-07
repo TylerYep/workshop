@@ -75,7 +75,7 @@ def huffman_compress(
     encoding = ""
     with open(file_path) as f:
         while c := f.read(1):
-            byte = list(filter(lambda l: l.letter == c, letters))[0]
+            [byte] = [letter for letter in letters if letter.letter == c]
             encoding += byte.bitstring
 
     output_path = file_path + ".huf" if output_file_path is None else output_file_path

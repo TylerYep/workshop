@@ -41,7 +41,7 @@ class Entry(Generic[T]):
             return 1 if self.right is None else len(self.right) + 1
         if self.right is None:
             return len(self.child) + 1
-        return len(self.child) + len(self.right)
+        return len(self.child) + len(self.right) + 1
 
 
 @dataclass(init=False)

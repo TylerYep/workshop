@@ -191,7 +191,7 @@ def induced_sort(
         key = suffix_arr[i]
         if key > 0:
             ind = key - 1
-            if suffix_marks[ind] == SuffixType.S:
+            if suffix_marks[ind] is SuffixType.S:
                 bucket = bucket_ends[text[ind]]
                 suffix_arr[bucket] = ind
                 bucket_ends[text[ind]] -= 1
@@ -215,10 +215,10 @@ def get_suffix_annotations(text: list[int]) -> tuple[list[SuffixType], list[int]
         if (
             text[k - 1] > text[k]
             or text[k - 1] == text[k]
-            and suffix_marks[k] == SuffixType.L
+            and suffix_marks[k] is SuffixType.L
         ):
             suffix_marks[k - 1] = SuffixType.L
-            if suffix_marks[k] == SuffixType.S:
+            if suffix_marks[k] is SuffixType.S:
                 lms_suffixes.append(k)
 
     lms_suffixes.reverse()

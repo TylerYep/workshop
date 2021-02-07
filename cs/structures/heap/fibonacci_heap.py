@@ -17,18 +17,18 @@ T = TypeVar("T", bound=Comparable)
 class Entry(Generic[T]):
     """
     Hold an entry in the heap.
-    In order for all of the Fibonacci heap operations to complete in O(1),
-    clients need to have O(1) access to any element in the heap. We make
-    this work by having each insertion operation produce a handle to the
-    node in the tree. In actuality, this handle is the node itself.
+    In order for all of the Fibonacci heap operations to complete in O(1), clients need
+    to have O(1) access to any element in the heap. We make this work by having each
+    insertion operation produce a handle to the node in the tree. In actuality, this
+    handle is the node itself.
 
-    Priority is the first parameter because the dataclass orders Entry as a
-    tuple (priority, value).
+    Priority is the first parameter because the dataclass orders Entry as a tuple
+    (priority, value).
 
     Note that the input type should be bounded by Comparable in order for the
-    implementation to type-check. Otherwise, the heap should still work so long as
-    there are no equal priorities. If you want to use a non-comparable type with this
-    class, use a wrapper class with a custom comparator or only use unique priorities.
+    implementation to type-check. Otherwise, the heap should still work so long as there
+    are no equal priorities. If you want to use a non-comparable type with this class,
+    use a wrapper class with a custom comparator or only use unique priorities.
     """
 
     priority: float
@@ -46,16 +46,10 @@ class Entry(Generic[T]):
     def __repr__(self) -> str:
         return str(formatter.pformat(self))
 
-    def __len__(self) -> int:
-        return self.degree
-
 
 @dataclass(init=False)
 class FibonacciHeap(Heap[T]):
-    """
-    See docs/fibonacci_heap.md for code credits and implementation details.
-    Author: Keith Schwarz (htiek@cs.stanford.edu)
-    """
+    """ See docs/fibonacci_heap.md for code credits and implementation details. """
 
     top: Entry[T] | None
 
