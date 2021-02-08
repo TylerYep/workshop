@@ -22,9 +22,29 @@ def construct_tree(tree_type: str) -> Tree[T]:
 
 @parametrize_tree_types
 class TestTree:
+    """ Tests all types of trees. Note that trees are not necessarily sorted BSTs. """
+
+    @staticmethod
+    def test_iter(tree_type: str) -> None:
+        tree: Tree[int] = construct_tree(tree_type)
+        for elem in TEN_ELEMS:
+            tree.insert(elem)
+
+        prev = None
+        for node in tree:
+            assert prev is None or prev < node.data
+
+    @staticmethod
+    def test_height_is_balanced(tree_type: str) -> None:
+        tree: Tree[int] = construct_tree(tree_type)
+        for elem in (50, 25, 75, 0, 100):
+            tree.insert(elem)
+
+        assert tree.is_balanced() is True
+        assert tree.height() == 3
+
     @staticmethod
     def test_search(tree_type: str) -> None:
-        """ (node.data, node.count, node.frequency) returns: () """
         tree: Tree[int] = construct_tree(tree_type)
         for i in (6, 13, 7, 1, 9):
             tree.insert(i)
@@ -50,8 +70,16 @@ class TestTree:
         tree.insert(3)
         assert 3 in tree
 
+        node = tree.search(3)
+        tree.insert(3)
+        assert node is not None
+        assert node.count == 2
+        tree.remove(3)
+        assert node.count == 1
+
         tree.remove(3)
         assert 3 not in tree
+        assert node.count == 0
 
     @staticmethod
     def test_clear(tree_type: str) -> None:
@@ -69,6 +97,6 @@ class TestTree:
 
         tree.clear()
         with pytest.raises(Exception, match="Binary search tree is empty"):
-            tree.max_element()
+            _ = tree.max_element()
         with pytest.raises(Exception, match="Binary search tree is empty"):
-            tree.min_element()
+            _ = tree.min_element()

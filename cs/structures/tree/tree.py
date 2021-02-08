@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 
 from dataslots import dataslots
 
@@ -65,6 +65,13 @@ class Tree(Generic[T]):
     def __len__(self) -> int:
         return self.size
 
+    @staticmethod
+    def depth(tree: Any) -> int:
+        raise NotImplementedError
+
+    def height(self) -> int:
+        return self.depth(self.root)
+
     def clear(self) -> None:
         self.root = None
 
@@ -75,6 +82,9 @@ class Tree(Generic[T]):
         raise NotImplementedError
 
     def remove(self, data: T) -> None:
+        raise NotImplementedError
+
+    def is_balanced(self) -> bool:
         raise NotImplementedError
 
     def max_element(self) -> T:

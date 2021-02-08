@@ -57,17 +57,15 @@ class BinarySearchTree(Tree[T]):
     size: int = 0
 
     def __iter__(self) -> Iterator[BinaryTreeNode[T]]:
-        node = self.root
-        prev = None
-        while node is not None:
-            prev = node
-            if node.left is not None:
+        """ Performs an in-order traversal over the TreeNodes of the Tree. """
+
+        def _iter(node: BinaryTreeNode[T] | None) -> Iterator[BinaryTreeNode[T]]:
+            if node is not None:
+                yield from _iter(node.left)
                 yield node
-                node = node.left
-            if node.right is not None:
-                yield node
-                node = node.right
-            node = prev
+                yield from _iter(node.right)
+
+        return _iter(self.root)
 
     def __str__(self) -> str:
         from cs.structures.tree.draw_tree import draw_tree
@@ -152,10 +150,13 @@ class BinarySearchTree(Tree[T]):
         if node is None:
             raise Exception(f"TreeNode with data {data} does not exist")
         self.size -= 1
-        if node.count > 1:
-            # If count is greater than 1, we just decrease the count and return.
-            node.count -= 1
-        elif node.right is None:
+
+        # If count is greater than 1, we just decrease the count and return. We reduce
+        # the node count regardless in case we are holding a reference to the node.
+        node.count -= 1
+        if node.count > 0:
+            return
+        if node.right is None:
             _reassign_nodes(node, node.left)
         elif node.left is None:
             _reassign_nodes(node, node.right)
@@ -208,17 +209,18 @@ class BinarySearchTree(Tree[T]):
         return _traverse(self.root)
 
     # def remove(self, data: T) -> None:
-    #     def _remove(node: TreeNode[T]]) -> TreeNode[T] | None:
+    #     def _remove(node: TreeNode[T]) -> TreeNode[T] | None:
     #         if node is None:
-    #             return node
+    #             raise Exception(f"TreeNode with data {data} does not exist")
     #         if data < node.data:
     #             node.left = _remove(node.left)
     #         elif data > node.data:
     #             node.right = _remove(node.right)
     #         else:
+    #             # We are the node that needs to be removed.
     #             # If count is greater than 1, we just decrease the count and return.
-    #             if node.count > 1:
-    #                 node.count -= 1
+    #             node.count -= 1
+    #             if node.count > 0:
     #                 return node
 
     #             # Else, delete the node with only one child or no child
@@ -238,7 +240,13 @@ class BinarySearchTree(Tree[T]):
 
     #             # Replace its data and delete the inorder successor
     #             node.data = current.data
-    #             node.right = _remove(current)
+    # Cannot call remove recursively here because data is wrong.
+    # Needs additional rewiring.
+    #             # TODO: replace the remaining characteristics of current
+    #             node.right = current.right
+    #             if current.right is not None:
+    #                 current.right.parent = node
+
     #         return node
 
     #     self.size -= 1

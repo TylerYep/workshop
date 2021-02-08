@@ -211,6 +211,21 @@ class TestBinarySearchTree:
 
     @staticmethod
     def test_remove_2(tree: BinarySearchTree[int]) -> None:
+        assert str(tree).split("\n") == [
+            "      8",
+            "     / \\",
+            "    /   \\",
+            "   /     \\",
+            "  3      10",
+            " / \\       \\",
+            "1   6      14",
+            "   / \\     /",
+            "  4   7   13",
+            "   \\",
+            "    5",
+            "",
+        ]
+
         tree.remove(3)
 
         assert str(tree).split("\n") == [

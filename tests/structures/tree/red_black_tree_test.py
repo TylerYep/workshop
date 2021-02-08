@@ -57,6 +57,7 @@ class TestRedBlackTree:
             tree.insert(elem)
 
         assert list(tree.traverse("inorder")) == [-8, 0, 4, 8, 10, 11, 12]
+
         ans = RedBlackTreeNode[int](0, color=Color.BLACK)
         ans.left = RedBlackTreeNode[int](-8, parent=ans)
         ans.right = RedBlackTreeNode[int](8, parent=ans, color=Color.RED)
