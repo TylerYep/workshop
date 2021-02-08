@@ -25,7 +25,7 @@ class RedBlackTreeNode(BinaryTreeNode[T]):
     right: RedBlackTreeNode[T] | None = None
     parent: RedBlackTreeNode[T] | None = dfield(None)
     color: Color = dfield(Color.BLACK)
-    rank: int = dfield(0)
+    rank: int = dfield(0)  # Defined here because rank is not updated in BSTs.
 
     @property
     def grandparent(self) -> RedBlackTreeNode[T] | None:
@@ -133,9 +133,8 @@ class RedBlackTree(BinarySearchTree[T]):
             See check_color_properties for more info.
             """
             return node is None or (
-                self.opposite_color(node)
-                is self.color(node.left)
-                is self.color(node.right)
+                node.color is Color.BLACK
+                or self.color(node.left) is self.color(node.right) is Color.BLACK
                 and _check_coloring(node.left)
                 and _check_coloring(node.right)
             )
@@ -377,6 +376,7 @@ class RedBlackTree(BinarySearchTree[T]):
                 curr = curr.right
         return total
 
+    # TODO: fix remove()
     # def remove(self, data: T) -> None:  # pylint: disable=too-many-branches
     #     """  Remove data from this tree. """
 

@@ -208,46 +208,14 @@ class BinarySearchTree(Tree[T]):
 
         return _traverse(self.root)
 
-    # def remove(self, data: T) -> None:
-    #     def _remove(node: TreeNode[T]) -> TreeNode[T] | None:
-    #         if node is None:
-    #             raise Exception(f"TreeNode with data {data} does not exist")
-    #         if data < node.data:
-    #             node.left = _remove(node.left)
-    #         elif data > node.data:
-    #             node.right = _remove(node.right)
-    #         else:
-    #             # We are the node that needs to be removed.
-    #             # If count is greater than 1, we just decrease the count and return.
-    #             node.count -= 1
-    #             if node.count > 0:
-    #                 return node
+    def select(self, rank: int) -> T:
+        """
+        Takes in an integer rank and returns the rank-th order statistic.
 
-    #             # Else, delete the node with only one child or no child
-    #             if node.left is None:
-    #                 if node.right is not None:
-    #                     node.right.parent = node.parent
-    #                 return node.right
-    #             if node.right is None:
-    #                 if node.left is not None:
-    #                     node.left.parent = node.parent
-    #                 return node.left
+        (Equivalent code, but this solution avoids evaluating the iterator)
+            return list(self)[rank].data
+        """
+        return next(node for i, node in enumerate(self) if i == rank).data
 
-    #             # two children: Get inorder successor (smallest in the right subtree)
-    #             current = node.right
-    #             while current.left is not None:
-    #                 current = current.left
-
-    #             # Replace its data and delete the inorder successor
-    #             node.data = current.data
-    # Cannot call remove recursively here because data is wrong.
-    # Needs additional rewiring.
-    #             # TODO: replace the remaining characteristics of current
-    #             node.right = current.right
-    #             if current.right is not None:
-    #                 current.right.parent = node
-
-    #         return node
-
-    #     self.size -= 1
-    #     self.root = _remove(self.root)
+    def rank_of(self, data: T) -> int:
+        return next(i for i, node in enumerate(self) if node.data == data)

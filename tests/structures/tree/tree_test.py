@@ -65,6 +65,17 @@ class TestTree:
         assert (node.data, node.count, node.hits) == (6, 2, 2)
 
     @staticmethod
+    def test_contains(tree_type: str) -> None:
+        tree: Tree[int] = construct_tree(tree_type)
+        for elem in (0, 8, -8, 4, 12, 10, 11):
+            tree.insert(elem)
+
+        for elem in (5, -6, -10, 13):
+            assert elem not in tree
+        for elem in (11, 12, -8, 0):
+            assert elem in tree
+
+    @staticmethod
     def test_basic_remove(tree_type: str) -> None:
         tree: Tree[int] = construct_tree(tree_type)
         tree.insert(3)
@@ -100,3 +111,21 @@ class TestTree:
             _ = tree.max_element()
         with pytest.raises(Exception, match="Binary search tree is empty"):
             _ = tree.min_element()
+
+    @staticmethod
+    def test_rank_select(tree_type: str) -> None:
+        tree: Tree[int] = construct_tree(tree_type)
+        for elem in TEN_ELEMS:
+            tree.insert(elem)
+
+        if isinstance(tree, RedBlackTree):
+            return  # TODO: fix RedBlackTrees
+
+        # [1, 3, 4, 5, 6, 7, 8, 10, 13, 14]
+        assert tree.select(7) == 10
+        assert tree.select(9) == 14
+
+        assert 5 in tree
+        assert tree.rank_of(5) == 3
+        assert 10 in tree
+        assert tree.rank_of(10) == 7

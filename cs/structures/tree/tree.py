@@ -95,3 +95,9 @@ class Tree(Generic[T]):
 
     def traverse(self, method: str = "inorder") -> Iterator[T]:
         raise NotImplementedError
+
+    def select(self, rank: int) -> T:
+        raise NotImplementedError
+
+    def rank_of(self, data: T) -> int:
+        raise NotImplementedError
