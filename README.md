@@ -183,9 +183,9 @@ I need a stable version of Black and a way to remove all trailing commas to rese
 To merge TheAlgorithms:
 
 ```fish
-git pull upstream master
-git rebase --abort
-git merge upstream/master --strategy-option theirs
+git pull upstream master;
+git rebase --abort;
+git merge upstream/master --strategy-option theirs;
 yes d | git mergetool --
 ```
 

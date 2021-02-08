@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Generic, TypeVar
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
-from cs.util import Comparable, formatter
+from cs.util import Comparable, dfield, formatter
 
 T = TypeVar("T", bound=Comparable)
 
@@ -26,8 +26,8 @@ class Entry(Generic[T]):
 
     priority: float
     value: T
-    child: Entry[T] | None = field(compare=False, default=None)
-    right: Entry[T] | None = field(compare=False, default=None)
+    child: Entry[T] | None = dfield(None, repr=True)
+    right: Entry[T] | None = dfield(None, repr=True)
 
     def __repr__(self) -> str:
         return str(formatter.pformat(self))

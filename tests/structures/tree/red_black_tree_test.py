@@ -78,34 +78,24 @@ class TestRedBlackTree:
         for elem in (0, 8, -8, 4, 12, 10, 11):
             tree.insert(elem)
 
-        assert 5 not in tree
-        assert -6 not in tree
-        assert -10 not in tree
-        assert 13 not in tree
-        assert 11 in tree
-        assert 12 in tree
-        assert -8 in tree
-        assert 0 in tree
+        for elem in (5, -6, -10, 13):
+            assert elem not in tree
+        for elem in (11, 12, -8, 0):
+            assert elem in tree
 
     @staticmethod
     def test_remove() -> None:
-        """Test the insert() and remove() method of the tree, verifying the
+        """
+        Test the insert() and remove() method of the tree, verifying the
         insertion and removal of elements, and the balancing of the tree.
         """
         tree = RedBlackTree[int]()
-        tree.insert(0)
-        tree.insert(-12)
-        tree.insert(8)
-        tree.insert(-8)
-        tree.insert(15)
-        tree.insert(4)
-        tree.insert(12)
-        tree.insert(10)
-        tree.insert(9)
-        tree.insert(11)
-        tree.remove(15)
-        tree.remove(-12)
-        tree.remove(9)
+
+        for elem in (0, -12, 8, -8, 15, 4, 12, 10, 9, 11):
+            tree.insert(elem)
+        for elem in (15, -12, 9):
+            tree.remove(elem)
+
         # assert tree.check_correctness()
         assert list(tree.traverse("inorder")) == [-8, 0, 4, 8, 10, 11, 12]
 
@@ -147,11 +137,8 @@ class TestRedBlackTree:
     @staticmethod
     def test_print_tree() -> None:
         tree = RedBlackTree[int]()
-        tree.insert(8)
-        tree.insert(6)
-        tree.insert(1)
-        tree.insert(73)
-        tree.insert(11)
+        for elem in (8, 6, 1, 73, 11):
+            tree.insert(elem)
 
         assert repr(tree) == (
             "RedBlackTree(root=RedBlackTreeNode(\n"

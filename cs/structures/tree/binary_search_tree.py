@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from collections.abc import Iterator
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TypeVar
 
 from dataslots import dataslots
 
 from cs.structures.tree.tree import Tree, TreeNode
-from cs.util import Comparable
+from cs.util import Comparable, dfield
 
 T = TypeVar("T", bound=Comparable)
 
@@ -17,8 +17,7 @@ T = TypeVar("T", bound=Comparable)
 class BinaryTreeNode(TreeNode[T]):
     left: BinaryTreeNode[T] | None = None
     right: BinaryTreeNode[T] | None = None
-    parent: BinaryTreeNode[T] | None = field(compare=False, default=None, repr=False)
-    count: int = 1
+    parent: BinaryTreeNode[T] | None = dfield(None)
 
     @property
     def grandparent(self) -> BinaryTreeNode[T] | None:
@@ -48,11 +47,13 @@ class BinaryTreeNode(TreeNode[T]):
 @dataclass(init=False)
 class BinarySearchTree(Tree[T]):
     """
+    BinarySearchTrees contain nodes in sorted order.
+
     We separate the BinarySearchTree with the TreeNode class to allow the root
     of the tree to be None, which allows this implementation to type-check.
     """
 
-    root: BinaryTreeNode[T] | None
+    root: BinaryTreeNode[T] | None = None
     size: int = 0
 
     def __iter__(self) -> Iterator[BinaryTreeNode[T]]:
@@ -89,9 +90,6 @@ class BinarySearchTree(Tree[T]):
             raise Exception("Binary search tree is empty")
         return self.depth(self.root.left) == self.depth(self.root.right)
 
-    def clear(self) -> None:
-        self.root = None
-
     def search(self, data: T) -> BinaryTreeNode[T] | None:
         """ Searches a node in the tree. """
 
@@ -99,6 +97,7 @@ class BinarySearchTree(Tree[T]):
             if node is None:
                 return None
             if node.data == data:
+                node.hits += 1
                 return node
             return _search(node.left) if data < node.data else _search(node.right)
 

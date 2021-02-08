@@ -6,14 +6,16 @@ from typing import cast
 
 from dataslots import dataslots
 
+from cs.util import dfield
+
 
 @dataslots
 @dataclass(order=True)
 class HuffmanTreeNode:
     freq: int
-    left: HuffmanTreeNode | None = field(default=None, compare=False, repr=False)
-    right: HuffmanTreeNode | None = field(default=None, compare=False, repr=False)
     letter: str = field(default="")
+    left: HuffmanTreeNode | None = dfield(None)
+    right: HuffmanTreeNode | None = dfield(None)
     bitstring: str = field(default="", compare=False)
 
 
@@ -30,7 +32,7 @@ def parse_file(file_path: str) -> list[HuffmanTreeNode]:
             else:
                 chars[c] = 1
 
-    queue = [HuffmanTreeNode(freq, letter=ch) for ch, freq in chars.items()]
+    queue = [HuffmanTreeNode(freq, ch) for ch, freq in chars.items()]
     heapq.heapify(queue)
     return queue
 
@@ -43,7 +45,7 @@ def build_tree(letters: list[HuffmanTreeNode]) -> HuffmanTreeNode:
     while len(letters) > 1:
         left = heapq.heappop(letters)
         right = heapq.heappop(letters)
-        node = HuffmanTreeNode(left.freq + right.freq, left, right)
+        node = HuffmanTreeNode(left.freq + right.freq, left=left, right=right)
         heapq.heappush(letters, node)
     return letters[0]
 

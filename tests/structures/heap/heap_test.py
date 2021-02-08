@@ -230,12 +230,10 @@ class TestHeap:
     @staticmethod
     def test_print_heap(heap_type: str) -> None:
         heap: Heap[int] = construct_heap(heap_type)
-        heap.enqueue(1, 1)
-        heap.enqueue(3, 3)
-        heap.enqueue(5, 2)
-        heap.enqueue(2, 2)
-        heap.enqueue(4, 4)
+        for num in (1, 3, 5, 2, 4):
+            heap.enqueue(num, num)
         heap.enqueue(6, 8)
+
         heap.dequeue()
         if isinstance(heap, FibonacciHeap):
             assert str(heap) == "FibonacciHeap(top=Entry(priority=2, value=2))"
@@ -248,7 +246,7 @@ class TestHeap:
                 "        priority=4,\n"
                 "        value=4,\n"
                 "        child=Entry(priority=8, value=6),\n"
-                "        right=Entry(priority=2, value=5)\n"
+                "        right=Entry(priority=5, value=5)\n"
                 "    )\n"
                 ")])"
             )

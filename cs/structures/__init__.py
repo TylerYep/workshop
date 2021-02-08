@@ -25,7 +25,7 @@ from .stack import Stack
 from .suffix_array import SuffixArray
 from .tree.binary_search_tree import BinarySearchTree
 from .tree.red_black_tree import RedBlackTree, RedBlackTreeNode
-from .tree.tree import Tree
+from .tree.tree import Tree, TreeNode
 from .trie import Trie
 
 __all__ = (
@@ -61,6 +61,7 @@ __all__ = (
     "Stack",
     "SuffixArray",
     "Tree",
+    "TreeNode",
     "Trie",
     "UndirectedGraph",
     "V",

@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum, unique
 from typing import TypeVar
 
 from dataslots import dataslots
 
 from cs.structures.tree.binary_search_tree import BinarySearchTree, BinaryTreeNode
-from cs.util import Comparable
+from cs.util import Comparable, dfield
 
 T = TypeVar("T", bound=Comparable)
 
@@ -23,9 +23,9 @@ class Color(Enum):
 class RedBlackTreeNode(BinaryTreeNode[T]):
     left: RedBlackTreeNode[T] | None = None
     right: RedBlackTreeNode[T] | None = None
-    parent: RedBlackTreeNode[T] | None = field(compare=False, default=None, repr=False)
-    color: Color = field(compare=False, default=Color.BLACK, repr=False)
-    rank: int = field(compare=False, default=0, repr=False)
+    parent: RedBlackTreeNode[T] | None = dfield(None)
+    color: Color = dfield(Color.BLACK)
+    rank: int = dfield(0)
 
     @property
     def grandparent(self) -> RedBlackTreeNode[T] | None:
@@ -53,7 +53,7 @@ class RedBlackTree(BinarySearchTree[T]):
     terms of the size of the tree.
     """
 
-    root: RedBlackTreeNode[T] | None
+    root: RedBlackTreeNode[T] | None = None
     size: int = 0
 
     @staticmethod
@@ -118,12 +118,11 @@ class RedBlackTree(BinarySearchTree[T]):
         """
         Check the coloring of the tree, and return True iff the tree
         is colored in a way which matches these five properties:
-        (wording stolen from wikipedia article)
-         1. Each node is either red or black.
-         2. The root node is black.
-         3. All leaves are black.
-         4. If a node is red, then both its children are black.
-         5. Every path from any node to all of its descendent NIL nodes
+        1. Each node is either red or black.
+        2. The root node is black.
+        3. All leaves are black.
+        4. If a node is red, then both its children are black.
+        5. Every path from any node to all of its descendent NIL nodes
             has the same number of black nodes.
         This function runs in O(n) time, because of properties 4 and 5.
         """

@@ -6,7 +6,7 @@ from typing import Generic, TypeVar
 
 from dataslots import dataslots
 
-from cs.util import Comparable, formatter
+from cs.util import Comparable, dfield, formatter
 
 T = TypeVar("T", bound=Comparable)
 
@@ -14,7 +14,23 @@ T = TypeVar("T", bound=Comparable)
 @dataslots
 @dataclass(order=True, repr=False)
 class TreeNode(Generic[T]):
+    """
+    For inheritance to type-check properly, we will need to re-define any TreeNode
+    member variables in subclasses.
+
+    We define all augmented information for nodes within this class. If this information
+    is not needed for efficiency reasons, it should be fairly simple to remove any lines
+    of code using them. However, the overhead they add is so small that it probably
+    wouldn't be worth it.
+
+    count: # of times this node was added
+    hits: # of times this node was searched
+    rank (RBTree-only): # of nodes smaller than this one
+    """
+
     data: T
+    count: int = dfield(1)
+    hits: int = dfield(0)
 
     def __repr__(self) -> str:
         return str(formatter.pformat(self))
@@ -23,14 +39,19 @@ class TreeNode(Generic[T]):
 @dataclass(init=False)
 class Tree(Generic[T]):
     """
+    Trees can be extended to have any number of child nodes.
+
     We separate the BinarySearchTree with the TreeNode class to allow the root
     of the tree to be None, which allows this implementation to type-check.
 
-    We set init=False because a Tree cannot receive any parameters on creation.
+    We set init=False because a Tree cannot receive any parameters on creation, and we
+    omit default values to root and size to prevent Tree from being instantiated.
+
+    Trees cannot use __slots__ because root needs to be assigned on the first insert.
     """
 
-    root: TreeNode[T] | None = None
-    size: int = 0
+    root: TreeNode[T] | None
+    size: int
 
     def __bool__(self) -> bool:
         return self.root is not None
@@ -45,7 +66,7 @@ class Tree(Generic[T]):
         return self.size
 
     def clear(self) -> None:
-        raise NotImplementedError
+        self.root = None
 
     def search(self, data: T) -> TreeNode[T] | None:
         raise NotImplementedError

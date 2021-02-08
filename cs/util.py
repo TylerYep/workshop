@@ -54,11 +54,9 @@ def init_prettyprinter() -> Formatter:
 
 def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:
     cls = type(value)
-    field_defs = dataclasses.fields(value)
-
     kwargs = {}
-    for field_def in field_defs:
-        # repr is True by default, therefore if this if False, the user
+    for field_def in dataclasses.fields(value):
+        # repr is True by default, therefore if this is False, the user
         # has explicitly indicated they don't want to display the field value.
         if not field_def.repr:
             continue
@@ -81,6 +79,11 @@ def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:
         kwargs |= value.kwargs
 
     return prettyprinter.pretty_call(ctx, cls, **kwargs)
+
+
+def dfield(default: Any, compare: bool = False, repr: bool = False) -> Any:
+    # pylint: disable=redefined-builtin
+    return dataclasses.field(default=default, compare=compare, repr=repr)
 
 
 def default_repr(obj: Any) -> str:
