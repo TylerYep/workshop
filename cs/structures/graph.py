@@ -22,6 +22,7 @@ class Graph(Generic[V]):
     """
 
     INFINITY = float("inf")
+    INT_INFINITY = 1 << 20
     _graph: dict[V, dict[V, Edge[V]]]
     is_directed: bool
 

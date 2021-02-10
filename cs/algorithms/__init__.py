@@ -14,6 +14,7 @@ from .graph.kargers import kargers_min_cut
 from .graph.kruskals import kruskals_mst
 from .graph.prims import prims_mst
 from .graph.toposort import topological_sort
+from .optimal_bst import build_optimal_bst
 from .quick_select import quick_select
 from .sort.bubble_sort import bubble_sort
 from .sort.bucket_sort import bucket_sort
@@ -33,6 +34,7 @@ __all__ = (
     "bubble_sort",
     "bucket_sort",
     "build_suffix_array",
+    "build_optimal_bst",
     "connected_components",
     "depth_first_search",
     "dfs_traversal",

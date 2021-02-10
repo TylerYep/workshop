@@ -44,7 +44,7 @@ class BinaryTreeNode(TreeNode[T]):
         return self.parent is not None and self.parent.right is self
 
 
-@dataclass(init=False)
+@dataclass
 class BinarySearchTree(Tree[T]):
     """
     BinarySearchTrees contain nodes in sorted order.

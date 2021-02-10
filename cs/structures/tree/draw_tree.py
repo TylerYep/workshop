@@ -7,7 +7,7 @@ from typing import Any
 from cs.structures.tree.binary_search_tree import BinaryTreeNode
 
 MAX_HEIGHT = 1000
-INFINITY = 1 << 20
+INFINITY = 1 << 8  # ~1 million
 
 
 @unique

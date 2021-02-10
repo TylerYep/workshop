@@ -40,7 +40,7 @@ class RedBlackTreeNode(BinaryTreeNode[T]):
         return self.parent.right if self.parent.left is self else self.parent.left
 
 
-@dataclass(init=False)
+@dataclass
 class RedBlackTree(BinarySearchTree[T]):
     """
     A Red-Black tree, which is a self-balancing BST (binary search tree). This tree has

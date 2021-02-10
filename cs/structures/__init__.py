@@ -23,7 +23,7 @@ from .rmq.rmq import RMQ
 from .rmq.sparse_table_rmq import SparseTableRMQ
 from .stack import Stack
 from .suffix_array import SuffixArray
-from .tree.binary_search_tree import BinarySearchTree
+from .tree.binary_search_tree import BinarySearchTree, BinaryTreeNode
 from .tree.red_black_tree import RedBlackTree, RedBlackTreeNode
 from .tree.tree import Tree, TreeNode
 from .trie import Trie
@@ -33,6 +33,7 @@ __all__ = (
     "ApproxFiniteMetricOracle",
     "BinaryHeap",
     "BinarySearchTree",
+    "BinaryTreeNode",
     "BinomialHeap",
     "BloomFilter",
     "Cuckoo",
