@@ -82,22 +82,24 @@ def run_tests(
         print("Tests completed!")
 
 
-def test_rmq() -> None:
-    random.seed(0)
-    run_tests(0, 1, 10, 50)
-    run_tests(22, 25, 10, 100)
-    # run_tests(10, 25, 15, 100, True)
-    # run_tests(0, 10000, 5000, 100, True)
+class TestRMQ:
+    @staticmethod
+    def test_rmq() -> None:
+        random.seed(0)
+        run_tests(0, 1, 10, 50)
+        run_tests(22, 25, 10, 100)
+        # run_tests(10, 25, 15, 100, True)
+        # run_tests(0, 10000, 5000, 100, True)
 
+    @staticmethod
+    def test_calc_cart_num() -> None:
+        arr = [93, 84, 33, 64, 62, 83, 63, 58]
+        assert FischerHeunRMQ.calc_cart_num(arr) == int("1010110110100100"[::-1], 2)
 
-def test_calc_cart_num() -> None:
-    arr = [93, 84, 33, 64, 62, 83, 63, 58]
-    assert FischerHeunRMQ.calc_cart_num(arr) == int("1010110110100100"[::-1], 2)
+        arr = [1, 2, 0, 4, 5]
+        arr2 = [17, 34, 5, 100, 120]
+        assert FischerHeunRMQ.calc_cart_num(arr) == FischerHeunRMQ.calc_cart_num(arr2)
 
-    arr = [1, 2, 0, 4, 5]
-    arr2 = [17, 34, 5, 100, 120]
-    assert FischerHeunRMQ.calc_cart_num(arr) == FischerHeunRMQ.calc_cart_num(arr2)
-
-    arr = [952, 946, 414, 894, 675, 154, 627, 154, 414]
-    arr2 = [764, 319, 198, 680, 376, 113, 836, 368, 831]
-    assert FischerHeunRMQ.calc_cart_num(arr) == FischerHeunRMQ.calc_cart_num(arr2)
+        arr = [952, 946, 414, 894, 675, 154, 627, 154, 414]
+        arr2 = [764, 319, 198, 680, 376, 113, 836, 368, 831]
+        assert FischerHeunRMQ.calc_cart_num(arr) == FischerHeunRMQ.calc_cart_num(arr2)
