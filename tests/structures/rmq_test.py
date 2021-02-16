@@ -5,7 +5,7 @@ import pytest
 from cs.structures import RMQ, FischerHeunRMQ, HybridRMQ, PrecomputedRMQ, SparseTableRMQ
 
 parametrize_rmq_type = pytest.mark.parametrize(
-    "rmq_type", ("HybridRMQ", "PrecomputedRMQ", "SparseTableRMQ")
+    "rmq_type", ("FischerHeunRMQ", "HybridRMQ", "PrecomputedRMQ", "SparseTableRMQ")
 )
 
 
@@ -22,7 +22,18 @@ class TestRMQ:
     @parametrize_rmq_type
     @pytest.mark.parametrize("data_range", ((0, 1), (5, 10)))
     def test_all_rmqs(rmq_type: str, data_range: tuple[int, int]) -> None:
-        run_rmq("FischerHeunRMQ", rmq_type, data_range)
+        # Skip running FischerHeunRMQ twice.
+        if rmq_type != "FischerHeunRMQ":
+            run_rmq("FischerHeunRMQ", rmq_type, data_range)
+
+    @staticmethod
+    @parametrize_rmq_type
+    def test_invalid_query(rmq_type: str) -> None:
+        data = list(range(10))
+        rmq = construct_rmq(rmq_type, data)
+
+        with pytest.raises(RuntimeError):
+            _ = rmq.rmq(6, 5)
 
     @staticmethod
     @pytest.mark.parametrize("data_range", ((30, 300),))
