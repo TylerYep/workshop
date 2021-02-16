@@ -6,6 +6,36 @@
 - Imports are done quickly and painlessly. We avoid circular imports by importing algorithms needed to create data structures inline.
 - The `__init__.py` file for the package contains all reasonable user-facing APIs. Tests use the imports from this file where possible, and in all other cases directly imports the function to test.
 
+## Enums
+
+```python
+@unique
+class Direction(Enum):
+    EAST = "east1"
+    SOUTH = "south2"
+    WEST = "west3"
+    NORTH = "north4"
+
+
+Direction("south2")
+>>> Direction.SOUTH
+Direction["SOUTH"]
+>>> Direction.SOUTH
+
+direction = Direction.SOUTH
+direction.name
+>>> SOUTH
+direction.value
+>>> "south2"
+
+(d for d in Direction)
+>>> [<Direction.EAST: 'east1'>, <Direction.SOUTH: 'south2'>, <Direction.WEST: 'west3'>, <Direction.NORTH: 'north4'>]
+>>> assert
+
+str(x[0])
+>>> 'Direction.EAST'
+```
+
 ## Dataclasses
 
 Dataclasses are one of the trickiest things to work with in Python. I tentatively have decided to make any class that would benefit from one of the below points into a dataclass.
