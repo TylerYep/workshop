@@ -7,10 +7,7 @@ from .sparse_table_rmq import SparseTableRMQ
 class HybridRMQ(RMQ):
     def __init__(self, elems: list[int]) -> None:
         super().__init__(elems)
-        self.block_size = math.floor(math.log2(len(elems)))
-        if self.block_size == 0:
-            self.block_size = 1
-
+        self.block_size = max(1, math.floor(math.log2(len(elems))))
         self.block_mins = []
         block_min_vals = []
         for i in range(0, len(elems), self.block_size):
