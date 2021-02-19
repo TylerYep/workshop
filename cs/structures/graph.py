@@ -34,6 +34,7 @@ class Graph(Generic[V]):
         weight: float = 1,
         **kwargs: Any,
     ) -> None:
+        """ Default constructor assumes an adjacency list representation. """
         self.is_directed = is_directed
         self._graph = {}
         if graph is not None:
@@ -41,6 +42,8 @@ class Graph(Generic[V]):
                 self.add_node(u)
             for u in graph:
                 for v in graph[u]:
+                    if v not in self._graph:
+                        self.add_node(v)
                     if isinstance(graph[u], dict):
                         edge = graph[u][v]
                         if isinstance(edge, Edge):
@@ -160,6 +163,16 @@ class Graph(Generic[V]):
                 if u not in graph[v]:
                     return False
         return True
+
+    def to_graphviz(self) -> None:
+        from graphviz import Graph as GraphViz
+
+        dot = GraphViz(format="png")
+        for node in self.nodes:
+            dot.node(node)
+        for edge in self.edges:
+            dot.edge(edge.start, edge.end)
+        dot.render()
 
     def to_matrix(self, *, zero_is_no_edge: bool = True) -> list[list[float]]:
         """ By default, outputs non-existent edges as having weight 0. """

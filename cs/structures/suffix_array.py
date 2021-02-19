@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from cs.algorithms.string.sais import build_suffix_array
-
 
 @dataclass(init=False)
 class SuffixArray:
@@ -11,6 +9,8 @@ class SuffixArray:
     suffix_arr: list[int] = field(repr=False)
 
     def __init__(self, text: str) -> None:
+        from cs.algorithms.string.sais import build_suffix_array
+
         self.text = text + "$"
         self.suffix_arr = build_suffix_array(text)
 
