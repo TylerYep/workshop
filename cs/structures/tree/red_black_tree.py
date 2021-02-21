@@ -377,7 +377,7 @@ class RedBlackTree(BinarySearchTree[T]):
         return total
 
     # TODO: fix remove()
-    # def remove(self, data: T) -> None:  # pylint: disable=too-many-branches
+    # def remove(self, data: T) -> None:
     #     """  Remove data from this tree. """
 
     #     def _remove(node: RedBlackTreeNode[T]) -> RedBlackTreeNode[T] | None:

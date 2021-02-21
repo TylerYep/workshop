@@ -46,7 +46,7 @@ class ApproxFiniteMetricOracle:
             A.append(A_i)
         A.append(set())
 
-        """ Find minimum distances from each vertex to each other set. """
+        # Find minimum distances from each vertex to each other set.
         a_i_v_distances: list[dict[int, float]] = [{} for _ in range(k + 1)]
         self.p: list[dict[int, Vertex]] = [{} for _ in range(k + 1)]
         self.B: dict[int, set[int]] = {}

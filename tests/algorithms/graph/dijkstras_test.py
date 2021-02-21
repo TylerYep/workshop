@@ -49,23 +49,6 @@ class TestDijkstras(AllPairsShortestPaths):
         assert dijkstra_search(G2, 5, 6) == 3
         assert dijkstra_search(G3, "E", "F") == 3
 
-        r"""
-        Layout of G2:
-        E -- (1) --> B -- (1) --> C
-        |                         |
-        (3)                       (1)
-        \                       /
-            F <-- (1) --- D  <--
-        """
-
-        r"""
-        Layout of G3:
-        E -- 1 --> B -- 1 --> C -- 1 --> D -- 1 --> F
-        \                                         /\
-        \                                        ||
-            -------- 2 ---------> G ------- 1 ------
-        """
-
     @staticmethod
     def test_adj_list_neg_weights(shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](
