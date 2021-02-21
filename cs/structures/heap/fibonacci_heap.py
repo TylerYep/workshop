@@ -174,7 +174,7 @@ class FibonacciHeap(Heap[T]):
         if not self.allow_duplicates and value in self.elem_to_entry:
             raise KeyError(
                 f"Duplicate key detected: {value}. "
-                f"Use allow_duplicates = True to allow duplicate entries using UUIDs."
+                "Use allow_duplicates = True to allow duplicate entries using UUIDs."
             )
 
         # Create the entry object, which is a circularly-linked list of length one.

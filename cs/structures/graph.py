@@ -164,10 +164,10 @@ class Graph(Generic[V]):
                     return False
         return True
 
-    def to_graphviz(self) -> None:
+    def to_graphviz(self, img_format: str = "png") -> None:
         from graphviz import Graph as GraphViz
 
-        dot = GraphViz(format="png")
+        dot = GraphViz(format=img_format)
         for node in self.nodes:
             dot.node(node)
         for edge in self.edges:

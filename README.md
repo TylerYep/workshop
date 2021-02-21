@@ -16,7 +16,9 @@ Separated into three sections:
 
 # Usage
 
-`pip install csworkshop`
+```
+pip install csworkshop
+```
 
 ```python
 from cs.algorithms import binary_search

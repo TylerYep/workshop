@@ -69,7 +69,7 @@ def run_tests(minimum: int, maximum: int, num_builds: int, num_queries: int) -> 
                 print(f"\n *** Index out of bounds: {theirs} *** \n")
 
             assert data[ours] == data[theirs], (
-                f"Error: query produced the wrong answer:\n\n"
+                "Error: query produced the wrong answer:\n\n"
                 f"Query: Low: {low}, High: {high}\n"
                 f"{print_arr_with_index(data[low: high], low)}\n"
                 f"Solution Index: {ours}, Your Index: {theirs}\n\n"
