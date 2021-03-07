@@ -1,5 +1,5 @@
-# from collections.abc import Callable
-from typing import Any, Callable  # TODO: Fix in Python 3.10
+from collections.abc import Callable
+from typing import Any
 
 from cs.structures import Graph, V
 
