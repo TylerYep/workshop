@@ -1,5 +1,5 @@
-from collections.abc import Callable
-from typing import Any
+# from collections.abc import Callable
+from typing import Any, Callable  # TODO: remove when Travis supports Python 3.9.2
 
 from cs.structures import Graph, V
 
