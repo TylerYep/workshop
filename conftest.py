@@ -44,7 +44,7 @@ def add_fixtures(metafunc: Any, *fixture_names: str) -> None:
 
 
 def pytest_addoption(parser: Parser) -> None:
-    parser.addoption("--runslow", action="store_true", default=False)
+    parser.addoption("--runslow", action="store_true")
 
 
 def pytest_configure(config: Config) -> None:

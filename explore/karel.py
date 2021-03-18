@@ -1,4 +1,4 @@
-# pylint: disable-all
+# pylint: skip-file
 # from stanfordkarel import *
 
 # turn_left()

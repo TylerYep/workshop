@@ -1,4 +1,4 @@
-# pylint: disable-all
+# pylint: skip-file
 """Spelling Corrector in Python 3; see http://norvig.com/spell-correct.html
 
 Copyright (c) 2007-2016 Peter Norvig

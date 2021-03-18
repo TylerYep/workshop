@@ -1,4 +1,4 @@
-# pylint: disable-all
+# pylint: skip-file
 import math
 
 import matplotlib.pyplot as plt

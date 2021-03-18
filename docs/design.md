@@ -66,9 +66,13 @@ If you have a dataclass, use @dataslots.
 - Order functions within a class using flake8-function-order.
 - Iterables cannot be indexed and must get length by casting to tuple or set. Sequences are indexable.
 - Put test cases into classes to avoid naming conflicts!
-- Remove all unnecessary casts to float() and trailing 1.0 in numbers.
-- Prefer `list[]`, `dict[]`, and `int | None` over `List[]`, `Dict[]`, `Optional[]`, and `Union`
-- Use f-strings always.
+- Prefer `list[]`, `dict[]`, and `int | None` over `List[]`, `Dict[]`, `Optional[]`, and `Union` in Python 3.7+ with `from __future__ import annotations`.
+- Remove all unnecessary casts to `float()` and trailing zero e.g. `1.0` in numbers.
+- Never use `randint`. Alwasy use `randrange`.
+- Never use `@classmethod` (exceptions: ...)
+- Use f-strings always. Only use format strings
+- Never use `default=True/False` with argparse's `store_true`/`store_false` (defaults to False and True respctively).
+
 - Name functions to include their algorithm name but also the purpose:
 
 1. The best option - name includes classic algorithm name, as well as purpose.

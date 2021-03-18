@@ -1,4 +1,4 @@
-# pylint: disable-all
+# pylint: skip-file
 import matplotlib.pyplot as plt
 from probs import Normal, Uniform
 
