@@ -1,5 +1,5 @@
-import os
 import re
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 
@@ -8,8 +8,8 @@ times = []
 folder = "medium_runs_v2"
 folder = "large_runs"
 
-for filename in sorted(os.listdir(folder)):
-    with open(os.path.join(folder, filename)) as f:
+for filename in sorted(Path(folder).glob("*")):
+    with open(filename) as f:
         reg = re.compile(r"primitive calls\) in ([^ seconds]*)")
         for _ in f:
             time = float(reg.findall(f.read())[0])

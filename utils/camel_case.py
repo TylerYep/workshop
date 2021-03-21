@@ -1,5 +1,5 @@
-import os
 import re
+from pathlib import Path
 
 
 def camel_to_snake(name: str) -> str:
@@ -15,9 +15,8 @@ def snake_to_camel(name: str) -> str:
 
 
 def convert_filenames(folder: str) -> None:
-    for filename in os.listdir(folder):
-        if ".py" in filename or ".w" in filename:
-            new_filename = camel_to_snake(filename)
-            full_path = os.path.join(folder, filename)
-            full_new_path = os.path.join(folder, new_filename)
-            os.rename(full_path, full_new_path)
+    folder_path = Path(folder)
+    for filepath in folder_path.glob("*.py") + folder_path.glob("*.w"):
+        result = camel_to_snake(filepath)
+        full_new_path = filepath.with_name(result)
+        filepath.rename(full_new_path)

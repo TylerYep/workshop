@@ -1,16 +1,15 @@
-import os
+from pathlib import Path
 
 
 def mm_dd_yy_TO_yyyy_mm_dd(extension=".md"):
-    for filename in os.listdir():
-        if filename.endswith(extension):
-            new_name = "2020-" + filename.replace("-20" + extension, "")
-            parts = new_name.split("-")
-            for i, part in enumerate(parts):
-                if len(part) < 2:
-                    parts[i] = "0" + parts[i]
-            padded_name = "-".join(parts) + extension
-            os.rename(filename, padded_name)
+    for filename in Path(".").glob(f"*{extension}"):
+        new_name = "2020-" + str(filename).replace("-20" + extension, "")
+        parts = new_name.split("-")
+        for i, part in enumerate(parts):
+            if len(part) < 2:
+                parts[i] = "0" + parts[i]
+        padded_name = "-".join(parts) + extension
+        filename.rename(padded_name)
 
 
 def add_header(extension=".md"):
@@ -26,14 +25,13 @@ def add_header(extension=".md"):
             "---\n",
         ]
     )
-    for filename in os.listdir():
-        if filename.endswith(extension):
-            with open(filename, "r+") as f:
-                top_line = f.readline().replace("# ", "").replace("\n", "")
-                old = f.read()
-                f.seek(0)
-                f.write(header.format(top_line))
-                f.write(old)
+    for filename in Path(".").glob(f"*{extension}"):
+        with open(filename, "r+") as f:
+            top_line = f.readline().replace("# ", "").replace("\n", "")
+            old = f.read()
+            f.seek(0)
+            f.write(header.format(top_line))
+            f.write(old)
 
 
 add_header()

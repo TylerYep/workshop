@@ -1,6 +1,6 @@
 import argparse
-import os
 from collections import defaultdict
+from pathlib import Path
 from pprint import pprint
 
 import matplotlib.pyplot as plt
@@ -15,21 +15,18 @@ def init_pipeline() -> argparse.Namespace:
 def count_project_lines(project: str) -> None:
     counts: dict[int, int] = defaultdict(int)
     lines_above_88 = 0
-    for root, _, files in os.walk(project):
-        for filename in files:
-            if filename.endswith(".py"):
-                full_src_path = os.path.join(root, filename)
-                try:
-                    with open(full_src_path) as f:
-                        for line in f:
-                            length = len(line) - 1
-                            if length > 0:
-                                counts[length] += 1
-                            if length > 88:
-                                lines_above_88 += 1
-                                print(line)
-                except UnicodeDecodeError:
-                    print(full_src_path)
+    for filepath in Path(project).rglob("*.py"):
+        try:
+            with open(filepath) as f:
+                for line in f:
+                    length = len(line) - 1
+                    if length > 0:
+                        counts[length] += 1
+                    if length > 88:
+                        lines_above_88 += 1
+                        print(line)
+        except UnicodeDecodeError:
+            print(filepath)
 
     pprint(dict(counts))
     print(lines_above_88)

@@ -1,37 +1,38 @@
-import os
+from __future__ import annotations
+
 import pprint
+from pathlib import Path
 from types import ModuleType
 
 IGNORED_FOLDERS = {"__pycache__"}
 IGNORED_FILES = {"__init__.py", "util.py"}
-SRC_FOLDER = "cs"
-TEST_FOLDER = "tests"
+SRC_FOLDER = Path("cs")
+TEST_FOLDER = Path("tests")
 
 
 def test_file_coverage() -> None:
     """ Test that all files in cs/ have a corresponding file in tests/. """
-    untested_files = []
-    if not os.path.isdir(SRC_FOLDER) or not os.path.isdir(SRC_FOLDER):
+    untested_files: list[str | tuple[str, str]] = []
+    if not SRC_FOLDER.is_dir() or not TEST_FOLDER.is_dir():
         raise RuntimeError(f"{SRC_FOLDER} and/or {TEST_FOLDER} does not exist.")
-
-    for root, _, files in os.walk(SRC_FOLDER):
-        if set(os.path.normpath(root).split(os.sep)) & IGNORED_FOLDERS:
-            continue
-
-        new_root = root.replace(SRC_FOLDER, TEST_FOLDER)
-        if not os.path.isdir(new_root):
-            # Some folders only use a single test file.
-            if not os.path.isfile(new_root + "_test.py"):
-                untested_files.append(new_root)
-            continue
-
-        for filename in files:
-            if filename not in IGNORED_FILES:
-                basename, ext = os.path.splitext(filename)
-                if ext == ".py":
-                    partner = os.path.join(new_root, basename + "_test.py")
-                    if not os.path.isfile(partner):
-                        untested_files.append(os.path.join(root, filename))
+    for filepath in SRC_FOLDER.rglob("*.py"):
+        if (
+            filepath.name not in IGNORED_FILES
+            and not set(filepath.parts) & IGNORED_FOLDERS
+        ):
+            partner = TEST_FOLDER / filepath.relative_to(SRC_FOLDER)
+            partner_parent = partner.parent
+            if not partner_parent.is_dir():
+                # Some folders only use a single test file.
+                parent_test = (partner_parent.parent / partner_parent.name).with_stem(
+                    f"{partner_parent.name}_test.py"
+                )
+                if not parent_test.is_file():
+                    untested_files.append(str(parent_test))
+                continue
+            partner = partner.with_stem(f"{partner.stem}_test")
+            if not partner.is_file():
+                untested_files.append((str(filepath), str(partner)))
     assert not untested_files, pprint.pformat(untested_files)
 
 

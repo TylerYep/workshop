@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import heapq
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import cast
 
 from dataslots import dataslots
@@ -19,13 +20,13 @@ class HuffmanTreeNode:
     bitstring: str = field(default="", compare=False)
 
 
-def parse_file(file_path: str) -> list[HuffmanTreeNode]:
+def parse_file(filepath: Path) -> list[HuffmanTreeNode]:
     """
     Read the file and build a dict of all letters and their
     frequencies, then convert the dict into a list of Letters.
     """
     chars: dict[str, int] = {}
-    with open(file_path) as f:
+    with open(filepath) as f:
         while c := f.read(1):
             if c in chars:
                 chars[c] += 1
@@ -62,38 +63,39 @@ def encode(root: HuffmanTreeNode, bitstring: str) -> list[HuffmanTreeNode]:
 
 
 def huffman_compress(
-    file_path: str, output_file_path: str | None = None
+    filepath: Path, output_filepath: Path | None = None
 ) -> HuffmanTreeNode:
     """
     Parse the file, build the tree, then run through the file
     again, using the list of Letters to find and print out the
     bitstring for each letter.
     """
-    # print(f"Huffman Coding of {file_path}: ")
-    queue = parse_file(file_path)
+    # print(f"Huffman Coding of {filepath}: ")
+    queue = parse_file(filepath)
     root = build_tree(queue)
     letters = encode(root, "")
 
     encoding = ""
-    with open(file_path) as f:
+    with open(filepath) as f:
         while c := f.read(1):
             [byte] = [letter for letter in letters if letter.letter == c]
             encoding += byte.bitstring
 
-    output_path = file_path + ".huf" if output_file_path is None else output_file_path
-    with open(output_path, "w") as f:
-        f.write(encoding)
+    output_path = (
+        filepath.with_suffix(".huf") if output_filepath is None else output_filepath
+    )
+    output_path.write_text(encoding)
     return root
 
 
-def decode(root: HuffmanTreeNode, file_path: str) -> str:
+def decode(root: HuffmanTreeNode, filepath: Path) -> str:
     """
     Recursively traverse the Huffman Tree to read each
     letter in the bitstring, and return the decoded string of letters.
     """
     output = ""
     curr = root
-    with open(file_path) as f:
+    with open(filepath) as f:
         while bit := f.read(1):
             if bit not in ("0", "1"):
                 raise ValueError(
@@ -110,11 +112,11 @@ def decode(root: HuffmanTreeNode, file_path: str) -> str:
     return output
 
 
-def huffman_decompress(file_path: str, root: HuffmanTreeNode) -> str:
+def huffman_decompress(filepath: Path, root: HuffmanTreeNode) -> str:
     """
     Parse the file, then use the input to find and print
     out the letter for each bitstring.
     """
-    output = decode(root, file_path)
-    # print(f"Huffman Decoding of {file_path}: {output}")
+    output = decode(root, filepath)
+    # print(f"Huffman Decoding of {filepath}: {output}")
     return output

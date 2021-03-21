@@ -1,7 +1,7 @@
 import dataclasses
-import os
 import random
 from abc import abstractmethod
+from pathlib import Path
 from typing import Any, Protocol, TypeVar
 
 import prettyprinter
@@ -43,12 +43,11 @@ def init_prettyprinter() -> Formatter:
     prettyprinter.register_pretty(predicate=dataclasses.is_dataclass)(
         pretty_dataclass_instance
     )
-    for root, _, files in os.walk("cs"):
-        for filename in files:
-            if filename.endswith(".py") and "__" not in filename:
-                module_name = os.path.splitext(filename)[0]
-                prefix = ".".join(root.split(os.sep) + [module_name])
-                IMPLICIT_MODULES.add(prefix)
+    for filepath in Path("cs").rglob("*.py"):
+        module_name = filepath.stem
+        if "__" not in module_name:
+            prefix = ".".join(filepath.parts[:-1] + (module_name,))
+            IMPLICIT_MODULES.add(prefix)
     return Formatter(prettyprinter)
 
 
