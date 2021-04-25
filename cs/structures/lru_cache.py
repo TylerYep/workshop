@@ -16,7 +16,7 @@ class CacheInfo(NamedTuple):
 
 
 class LRUCache(Generic[KT, VT]):
-    """ Uses a regular dictionary and the fact that dictionaries are ordered. """
+    """Uses a regular dictionary and the fact that dictionaries are ordered."""
 
     # Class variable maps the decorator functions to their respective instance
     decorator_instance_map: ClassVar[dict[Callable[..., Any], LRUCache[KT, VT]]] = {}

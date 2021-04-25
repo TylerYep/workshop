@@ -63,7 +63,7 @@ class ApproxDistanceOracle:
         return self.distances[(w, u)] + self.distances[(w, v)]
 
     def compute_delta_a_i_v(self, i: int) -> None:
-        """ Variant on Dijkstra's that tracks witnesses. """
+        """Variant on Dijkstra's that tracks witnesses."""
         q = UIntPQueue()
         self.a_i_v_distances[i] = [Graph.INFINITY] * self.n
         self.p[i] = [Graph.INFINITY] * self.n  # type: ignore[list-item]

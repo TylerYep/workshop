@@ -38,6 +38,8 @@ def run(filename: str) -> None:
         tree = ast.parse(f.read())
         functions = defaultdict(list)
         for node in ast.walk(tree):
+            # if isinstance(node, ast.FunctionDef):
+            #     print(node.name)
             if not isinstance(node, ast.FunctionDef):
                 continue
             for body_node in node.body:

@@ -75,7 +75,7 @@ class LinkedList(Generic[T]):
         return linked_lst
 
     def insert(self, data: T, index: int = 0) -> None:
-        """ Inserts data to the front of the list, or at the specified index. """
+        """Inserts data to the front of the list, or at the specified index."""
         if index < 0 or index > self.size:
             raise IndexError
         self.size += 1
@@ -121,7 +121,7 @@ class LinkedList(Generic[T]):
         curr.next = LinkedListNode(data)
 
     def remove_last(self) -> LinkedListNode[T] | None:
-        """ Deletes the last element of a linked list using only self.head. """
+        """Deletes the last element of a linked list using only self.head."""
 
         def _remove_last(
             lst: LinkedListNode[T] | None,

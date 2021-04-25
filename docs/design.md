@@ -40,7 +40,9 @@ str(x[0])
 
 Dataclasses are one of the trickiest things to work with in Python. I tentatively have decided to make any class that would benefit from one of the below points into a dataclass.
 
-If you want slots, and not using **post_init**, inherit NamedTuple.
+If you want slots, and are not using **post_init**, inherit NamedTuple.
+If you need to represent the data as a json-encoded dict, use dataclasses.
+If you just want a struct, use NamedTuple.
 If you have a dataclass, use @dataslots.
 
 ### Benefits
@@ -57,9 +59,9 @@ If you have a dataclass, use @dataslots.
   - A common example is when a self member variable shouldn't be a constructor parameter. This makes reading the class much easier and allows better control over the logic.
   - Avoid **post_init** when possible.
   - You can also set `init=False` when a dataclass does not accept any parameters in its constructor.
-- Create a separate `__str__` function to use when printing the object for visualizing the state of the data structure. `__repr__` should contain a single line while `__str__` should be the pretty printed representation.
+- Create a separate `__str__` function to use when printing the object for visualizing the state of the data structure. `__repr__` should contain a single line while `__str__` should be the pretty-printed representation.
 - Define `__hash__` myself, since I can choose the necessary fields to make a unique hash. Additionally, using `@dataclass(frozen=True)` is almost never a good idea, since you won't be able to even set attributes in `__post_init__`, and the docs specifically point out a performance penalty.
-- Prefer the `@dataslots` and the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings. Hopefully this will be fixed in Python 3.11 or something.
+- Prefer using `@dataslots` via the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings. Hopefully this will be fixed in Python 3.11 or something.
 
 # Style Guide
 
@@ -70,10 +72,11 @@ If you have a dataclass, use @dataslots.
 - Remove all unnecessary casts to `float()` and trailing zero e.g. `1.0` in numbers.
 - Never use `randint`. Alwasy use `randrange`.
 - Never use `@classmethod` (exceptions: ...)
-- Use f-strings always. Only use format strings
+- Use f-strings always. Only use format strings when you want to insert messages later.
 - Never use `default=True/False` with argparse's `store_true`/`store_false` (defaults to False and True respctively).
+- Prefer `pathlib` over the `os` module for all file navigation purposes.
 
-- Name functions to include their algorithm name but also the purpose:
+- Name functions to include their algorithm name but also its purpose:
 
 1. The best option - name includes classic algorithm name, as well as purpose.
    ```
@@ -95,6 +98,12 @@ If you have a dataclass, use @dataslots.
    partition_graph()
    ```
 
+## Tests
+
+- [Monkeypatch vs mock](https://github.com/pytest-dev/pytest/issues/4576)
+- Use pytest metafuncs for testing multiple functions that have the same API.
+- Use pytest.mark.parametrize for class constructors.
+
 ## In-place operations vs Functional Paradigms in Python
 
 - Avoid destructive operations in Python whenever possible.
@@ -110,11 +119,6 @@ h3 = BinomialHeap.merge(h1, h2)
 ```
 
 - Python has imperative paradigm when it comes to performing actions. For example, `stack.push(5)` does not return a new Stack. This is because we are not interested in keeping track of our state over time. Thus, it is an action that operates in place.
-
-## Tests
-
-- Use pytest metafuncs for testing multiple functions with the same API.
-- Use pytest.mark.parametrize for class constructors.
 
 ## Naming data structure methods
 

@@ -34,7 +34,7 @@ class Graph(Generic[V]):
         weight: float = 1,
         **kwargs: Any,
     ) -> None:
-        """ Default constructor assumes an adjacency list representation. """
+        """Default constructor assumes an adjacency list representation."""
         self.is_directed = is_directed
         self._graph = {}
         if graph is not None:
@@ -133,7 +133,7 @@ class Graph(Generic[V]):
     def from_matrix(
         cls, matrix: Sequence[Sequence[float]], *, zero_is_no_edge: bool = True
     ) -> Graph[int]:
-        """ By default, treat edges with weight 0 as non-existent edges. """
+        """By default, treat edges with weight 0 as non-existent edges."""
         is_directed = False
         n = len(matrix)
         graph: dict[int, dict[int, float]] = {i: {} for i in range(n)}
@@ -175,7 +175,7 @@ class Graph(Generic[V]):
         dot.render()
 
     def to_matrix(self, *, zero_is_no_edge: bool = True) -> list[list[float]]:
-        """ By default, outputs non-existent edges as having weight 0. """
+        """By default, outputs non-existent edges as having weight 0."""
         nodes = sorted(self._graph)
         graph = [
             [0 if zero_is_no_edge else Graph.INFINITY for _ in nodes] for _ in nodes
@@ -187,13 +187,13 @@ class Graph(Generic[V]):
         return graph
 
     def verify_nodes_exist(self, *v_ids: V) -> None:
-        """ Checks existence of provided nodes. """
+        """Checks existence of provided nodes."""
         for v in v_ids:
             if v not in self._graph:
                 raise KeyError(f"Node not found: {v}")
 
     def adj(self, v: V) -> KeysView[V]:
-        """ Used for getting the neighbors of a node in a list-like form. """
+        """Used for getting the neighbors of a node in a list-like form."""
         self.verify_nodes_exist(v)
         return self._graph[v].keys()
 
@@ -214,14 +214,14 @@ class Graph(Generic[V]):
         return len(self._graph[v])
 
     def in_degree(self, v: V) -> int:
-        """ Iterate over neighbors to see whether any reference the current node. """
+        """Iterate over neighbors to see whether any reference the current node."""
         if not self.is_directed:
             raise NotImplementedError("Graph is undirected; use degree() instead.")
         self.verify_nodes_exist(v)
         return sum(v in self._graph[node] and v != node for node in self._graph)
 
     def add_node(self, v: V) -> None:
-        """ You cannot add the same node twice. """
+        """You cannot add the same node twice."""
         if v in self._graph:
             raise KeyError(f"Node already exists: {v}")
         self._graph[v] = {}
@@ -358,7 +358,7 @@ class Edge(Generic[V], Mapping[str, Any]):
 @dataslots
 @dataclass(order=True)
 class Node(Generic[V]):
-    """ An example node class that stores node data. """
+    """An example node class that stores node data."""
 
     data: V
 

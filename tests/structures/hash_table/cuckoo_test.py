@@ -20,7 +20,7 @@ class TestCuckoo:
 
     @staticmethod
     def test_duplicates() -> None:
-        """ Test creating a hash_table and adding 100 values to it. """
+        """Test creating a hash_table and adding 100 values to it."""
         N = 2
         hash_table_1 = Cuckoo[str, int](N)
         hash_table_1["yo"] = 6

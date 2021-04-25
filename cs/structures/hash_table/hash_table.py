@@ -24,7 +24,7 @@ class TableEntry(Generic[KT, VT]):
 @dataslots
 @dataclass
 class HashTable(Generic[KT, VT]):
-    """ This implementation assumes there are no duplicate keys. """
+    """This implementation assumes there are no duplicate keys."""
 
     num_buckets: int
     load_factor: float

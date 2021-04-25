@@ -30,7 +30,7 @@ class Comparable(Protocol):
 
 
 class Formatter:
-    """ Wrapper class for PrettyPrinter. """
+    """Wrapper class for PrettyPrinter."""
 
     def __init__(self, prettyprinter_module: Any) -> None:
         self.pformat = prettyprinter_module.pformat
@@ -38,7 +38,7 @@ class Formatter:
 
 
 def init_prettyprinter() -> Formatter:
-    """ Initialize prettyprinter and add all IMPLICIT_MODULES. """
+    """Initialize prettyprinter and add all IMPLICIT_MODULES."""
     prettyprinter.install_extras(include={"python"})
     prettyprinter.register_pretty(predicate=dataclasses.is_dataclass)(
         pretty_dataclass_instance
@@ -91,7 +91,7 @@ def default_repr(obj: Any) -> str:
 
 
 def weighted_coin_flip(prob: float) -> bool:
-    """ Returns True with probability prob. """
+    """Returns True with probability prob."""
     return random.choices([True, False], [prob, 1 - prob])[0]
 
 

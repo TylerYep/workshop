@@ -21,26 +21,26 @@ class BinaryTreeNode(TreeNode[T]):
 
     @property
     def grandparent(self) -> BinaryTreeNode[T] | None:
-        """ Get the current node's grandparent, or None if it doesn't exist. """
+        """Get the current node's grandparent, or None if it doesn't exist."""
         return None if self.parent is None else self.parent.parent
 
     @property
     def sibling(self) -> BinaryTreeNode[T] | None:
-        """ Get the current node's sibling, or None if it doesn't exist. """
+        """Get the current node's sibling, or None if it doesn't exist."""
         if self.parent is None:
             return None
         return self.parent.right if self.parent.left is self else self.parent.left
 
     def is_root(self) -> bool:
-        """ Returns true iff this node is the root of the tree. """
+        """Returns true iff this node is the root of the tree."""
         return self.parent is None
 
     def is_left(self) -> bool:
-        """ Returns true iff this node is the left child of its parent. """
+        """Returns true iff this node is the left child of its parent."""
         return self.parent is not None and self.parent.left is self
 
     def is_right(self) -> bool:
-        """ Returns true iff this node is the right child of its parent. """
+        """Returns true iff this node is the right child of its parent."""
         return self.parent is not None and self.parent.right is self
 
 
@@ -57,7 +57,7 @@ class BinarySearchTree(Tree[T]):
     size: int = 0
 
     def __iter__(self) -> Iterator[BinaryTreeNode[T]]:
-        """ Performs an in-order traversal over the TreeNodes of the Tree. """
+        """Performs an in-order traversal over the TreeNodes of the Tree."""
 
         def _iter(node: BinaryTreeNode[T] | None) -> Iterator[BinaryTreeNode[T]]:
             if node is not None:
@@ -89,7 +89,7 @@ class BinarySearchTree(Tree[T]):
         return self.depth(self.root.left) == self.depth(self.root.right)
 
     def search(self, data: T) -> BinaryTreeNode[T] | None:
-        """ Searches a node in the tree. """
+        """Searches a node in the tree."""
 
         def _search(node: BinaryTreeNode[T] | None) -> BinaryTreeNode[T] | None:
             if node is None:
@@ -102,7 +102,7 @@ class BinarySearchTree(Tree[T]):
         return _search(self.root)
 
     def insert(self, data: T) -> None:
-        """ Puts a new node in the tree. """
+        """Puts a new node in the tree."""
 
         def _insert(
             node: BinaryTreeNode[T] | None,
@@ -123,7 +123,7 @@ class BinarySearchTree(Tree[T]):
         self.size += 1
 
     def remove(self, data: T) -> None:
-        """ Removes a node in the tree. """
+        """Removes a node in the tree."""
 
         def _reassign_nodes(
             node: BinaryTreeNode[T], new_child: BinaryTreeNode[T] | None
@@ -171,7 +171,7 @@ class BinarySearchTree(Tree[T]):
             _reassign_nodes(node, lowest_node)
 
     def max_element(self) -> T:
-        """ Gets the max data inserted in the tree. """
+        """Gets the max data inserted in the tree."""
         if self.root is None:
             raise Exception("Binary search tree is empty")
         node = self.root
@@ -180,7 +180,7 @@ class BinarySearchTree(Tree[T]):
         return node.data
 
     def min_element(self) -> T:
-        """ Gets the min data inserted in the tree. """
+        """Gets the min data inserted in the tree."""
         if self.root is None:
             raise Exception("Binary search tree is empty")
         node = self.root
@@ -189,7 +189,7 @@ class BinarySearchTree(Tree[T]):
         return node.data
 
     def traverse(self, method: str = "inorder") -> Iterator[T]:
-        """ Return the pre-order, in-order, or post-order traversal of the tree. """
+        """Return the pre-order, in-order, or post-order traversal of the tree."""
         if method not in ("preorder", "inorder", "postorder"):
             raise ValueError(
                 "Method must be one of: 'preorder', 'inorder', or 'postorder'"

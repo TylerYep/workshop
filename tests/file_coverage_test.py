@@ -11,7 +11,7 @@ TEST_FOLDER = Path("tests")
 
 
 def test_file_coverage() -> None:
-    """ Test that all files in cs/ have a corresponding file in tests/. """
+    """Test that all files in cs/ have a corresponding file in tests/."""
     untested_files: list[str | tuple[str, str]] = []
     if not SRC_FOLDER.is_dir() or not TEST_FOLDER.is_dir():
         raise RuntimeError(f"{SRC_FOLDER} and/or {TEST_FOLDER} does not exist.")
@@ -37,7 +37,7 @@ def test_file_coverage() -> None:
 
 
 def test_all_exported() -> None:
-    """ Test that __all__ contains only names that are actually exported. """
+    """Test that __all__ contains only names that are actually exported."""
     import cs.algorithms as algorithms
     import cs.maths as maths
     import cs.structures as structures

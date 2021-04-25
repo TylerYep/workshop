@@ -13,7 +13,7 @@ def merge_sort(array: list[T]) -> list[T]:
     """
 
     def merge(left: list[T], right: list[T]) -> list[T]:
-        """ Merge sort merging function. """
+        """Merge sort merging function."""
         left_index, right_index = 0, 0
         result = []
         while left_index < len(left) and right_index < len(right):

@@ -9,7 +9,7 @@ T = TypeVar("T")
 @dataslots
 @dataclass
 class Queue(Generic[T]):
-    """ You should probably use the Python built-in list or deque instead. """
+    """You should probably use the Python built-in list or deque instead."""
 
     _queue: list[T] = field(default_factory=list)
 

@@ -35,7 +35,7 @@ class Entry(Generic[T]):
     value: T
 
     def __post_init__(self) -> None:
-        """ Initialize an Entry in the heap. """
+        """Initialize an Entry in the heap."""
         # Number of children
         self.degree = 0
         self.is_marked = False
@@ -49,7 +49,7 @@ class Entry(Generic[T]):
 
 @dataclass(init=False)
 class FibonacciHeap(Heap[T]):
-    """ See docs/fibonacci_heap.md for code credits and implementation details. """
+    """See docs/fibonacci_heap.md for code credits and implementation details."""
 
     top: Entry[T] | None
 
@@ -80,7 +80,7 @@ class FibonacciHeap(Heap[T]):
         return item in self.elem_to_entry
 
     def __getitem__(self, value: T | UUID) -> Entry[T]:
-        """ Gets the correct Entry object from the given value or UUID. """
+        """Gets the correct Entry object from the given value or UUID."""
         if self.allow_duplicates and not isinstance(value, UUID):
             raise RuntimeError(
                 "You must pass in a valid UUID or set allow_duplicates = False."

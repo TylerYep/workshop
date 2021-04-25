@@ -29,7 +29,7 @@ def construct_heap(heap_type: str, allow_duplicates: bool = False) -> Heap[T]:
 class TestHeap:
     @staticmethod
     def test_enqueue_100(heap_type: str) -> None:
-        """ Test creating a heap and adding 100 values to it. """
+        """Test creating a heap and adding 100 values to it."""
         heap: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
         for _ in range(100):
             random_value = random.randrange(100)
@@ -40,7 +40,7 @@ class TestHeap:
 
     @staticmethod
     def test_get_min_of_1(heap_type: str) -> None:
-        """ Test creating a heap, adding a single value, and retrieving it. """
+        """Test creating a heap, adding a single value, and retrieving it."""
         heap: Heap[int] = construct_heap(heap_type)
         heap.enqueue(1, 2)
 
@@ -108,7 +108,7 @@ class TestHeap:
     @staticmethod
     @parametrize_allow_duplicates
     def test_empty(heap_type: str, allow_duplicates: bool) -> None:
-        """ Test an empty heap to see if it's Falsy. """
+        """Test an empty heap to see if it's Falsy."""
         assert bool(construct_heap(heap_type, allow_duplicates)) is False
 
         heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
@@ -177,7 +177,7 @@ class TestHeap:
 
     @staticmethod
     def test_duplicates(heap_type: str) -> None:
-        """ Add lots of duplicates and see what happens. """
+        """Add lots of duplicates and see what happens."""
         heap: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
         for _ in range(10):
             for index2 in range(10):
@@ -194,7 +194,7 @@ class TestHeap:
     @staticmethod
     @parametrize_allow_duplicates
     def test_merge(heap_type: str, allow_duplicates: bool) -> None:
-        """ Test merging two heaps with and without duplicates. """
+        """Test merging two heaps with and without duplicates."""
         heap1: Heap[int] = construct_heap(heap_type)
         heap2: Heap[int] = construct_heap(heap_type, allow_duplicates)
         heap1.enqueue(1, 1)

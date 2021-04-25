@@ -38,7 +38,7 @@ class TestRMQ:
     @staticmethod
     @pytest.mark.parametrize("data_range", ((30, 300),))
     def test_fischerheun_rmq(data_range: tuple[int, int]) -> None:
-        """ Separate tests to get complete test coverage of Fischer-Heun. """
+        """Separate tests to get complete test coverage of Fischer-Heun."""
         run_rmq("HybridRMQ", "FischerHeunRMQ", data_range)
 
     @staticmethod

@@ -37,7 +37,7 @@ def assert_a_faster_than_b(
 
 
 def add_fixtures(metafunc: Any, *fixture_names: str) -> None:
-    """ Used for linking fixtures in class vars to the inherited superclass. """
+    """Used for linking fixtures in class vars to the inherited superclass."""
     for name in fixture_names:
         if name in inspect.signature(metafunc.function).parameters:
             metafunc.parametrize(name, [getattr(metafunc.cls, name)])

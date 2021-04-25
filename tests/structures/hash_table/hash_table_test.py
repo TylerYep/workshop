@@ -31,7 +31,7 @@ class TestHashTable:
     @staticmethod
     @pytest.mark.parametrize("n", (1, 100))
     def test_insert_contains(hash_table_type: str, n: int) -> None:
-        """ Test creating a hash_table and adding 100 values to it. """
+        """Test creating a hash_table and adding 100 values to it."""
         hash_table: HashTable[int, int] = construct_hash_table(hash_table_type, n)
         random_values = list(range(n))
         random.shuffle(random_values)
@@ -52,7 +52,7 @@ class TestHashTable:
     @staticmethod
     @pytest.mark.parametrize("n", (1, 100))
     def test_remove(hash_table_type: str, n: int) -> None:
-        """ Test creating a hash_table and removing 100 values from it. """
+        """Test creating a hash_table and removing 100 values from it."""
         hash_table: HashTable[int, int] = construct_hash_table(hash_table_type, n)
         for i in range(n):
             hash_table.insert(i, i)
@@ -65,7 +65,7 @@ class TestHashTable:
 
     @staticmethod
     def test_accessors(hash_table_type: str) -> None:
-        """ Test creating a hash_table and adding 100 values to it. """
+        """Test creating a hash_table and adding 100 values to it."""
         n = 10
         hash_table: HashTable[int, str] = construct_hash_table(hash_table_type, n)
         for i in range(n):
@@ -78,7 +78,7 @@ class TestHashTable:
 
     @staticmethod
     def test_repr(hash_table_type: str) -> None:
-        """ Test creating a hash_table and adding 100 values to it. """
+        """Test creating a hash_table and adding 100 values to it."""
         hash_table: HashTable[int, str] = construct_hash_table(hash_table_type)
 
         assert repr(hash_table).startswith(hash_table.__class__.__qualname__)

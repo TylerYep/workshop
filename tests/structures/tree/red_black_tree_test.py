@@ -47,7 +47,7 @@ class TestRedBlackTree:
 
     @staticmethod
     def test_insert() -> None:
-        """ Test that the insert() method correctly balances, colors, and inserts. """
+        """Test that the insert() method correctly balances, colors, and inserts."""
         tree = RedBlackTree[int]()
 
         for elem in (0, 8, -8, 4, 12, 10, 11):

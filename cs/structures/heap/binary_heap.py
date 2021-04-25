@@ -45,7 +45,7 @@ class BinaryHeap(Generic[T]):
         return self._heap[index]
 
     def update(self, item: T, new_item: T) -> None:
-        """ Updates given item value in heap if present. """
+        """Updates given item value in heap if present."""
         if item not in self.elem_to_index:
             raise KeyError("Item not found")
         index = self.elem_to_index[item]
@@ -58,7 +58,7 @@ class BinaryHeap(Generic[T]):
         self._heapify_down(index)
 
     def dequeue(self, item: T) -> None:
-        """ Deletes given item from heap if present. """
+        """Deletes given item from heap if present."""
         if item not in self.elem_to_index:
             raise KeyError("Item not found")
         index = self.elem_to_index[item]
@@ -73,7 +73,7 @@ class BinaryHeap(Generic[T]):
             self._heapify_down(index)
 
     def enqueue(self, item: T) -> None:
-        """ Inserts given item with given value in heap. """
+        """Inserts given item with given value in heap."""
         new_node = item
         if len(self._heap) == self.size:
             self._heap.append(new_node)
@@ -84,7 +84,7 @@ class BinaryHeap(Generic[T]):
         self._heapify_up(self.size - 1)
 
     def peek(self) -> T:
-        """ Returns top item tuple (Calculated value, item) from heap if present. """
+        """Returns top item tuple (Calculated value, item) from heap if present."""
         if self.size == 0:
             raise ValueError("Heap is empty.")
         return self._heap[0]
@@ -99,21 +99,21 @@ class BinaryHeap(Generic[T]):
         return top_item
 
     def _parent(self, i: int) -> int | None:
-        """ Returns parent index of given index if exists, else None. """
+        """Returns parent index of given index if exists, else None."""
         return ((i - 1) // 2) if 0 < i < self.size else None
 
     def _left(self, i: int) -> int | None:
-        """ Returns left-child-index of given index if exists, else None. """
+        """Returns left-child-index of given index if exists, else None."""
         left = int(2 * i + 1)
         return left if 0 < left < self.size else None
 
     def _right(self, i: int) -> int | None:
-        """ Returns right-child-index of given index if exists, else None. """
+        """Returns right-child-index of given index if exists, else None."""
         right = int(2 * i + 2)
         return right if 0 < right < self.size else None
 
     def _swap(self, i: int, j: int) -> None:
-        """ Performs changes required for swapping two elements in the heap. """
+        """Performs changes required for swapping two elements in the heap."""
         # First update the indexes of the items in index map.
         self.elem_to_index[self._heap[i]], self.elem_to_index[self._heap[j]] = (
             self.elem_to_index[self._heap[j]],
@@ -123,7 +123,7 @@ class BinaryHeap(Generic[T]):
         self._heap[i], self._heap[j] = self._heap[j], self._heap[i]
 
     def _cmp(self, i: int, j: int) -> bool:
-        """ Compares the two items using default comparison. """
+        """Compares the two items using default comparison."""
         return self.key(self._heap[i]) < self.key(self._heap[j])
 
     def _get_valid_parent(self, i: int) -> int:
@@ -142,14 +142,14 @@ class BinaryHeap(Generic[T]):
         return valid_parent
 
     def _heapify_up(self, index: int) -> None:
-        """ Fixes the heap in upward direction of given index. """
+        """Fixes the heap in upward direction of given index."""
         parent = self._parent(index)
         while parent is not None and not self._cmp(index, parent):
             self._swap(index, parent)
             index, parent = parent, self._parent(parent)
 
     def _heapify_down(self, index: int) -> None:
-        """ Fixes the heap in downward direction of given index. """
+        """Fixes the heap in downward direction of given index."""
         valid_parent = self._get_valid_parent(index)
         while valid_parent != index:
             self._swap(index, valid_parent)

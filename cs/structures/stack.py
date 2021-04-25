@@ -9,7 +9,7 @@ T = TypeVar("T")
 @dataslots
 @dataclass
 class Stack(Generic[T]):
-    """ You should probably use the Python built-in List instead. """
+    """You should probably use the Python built-in List instead."""
 
     _stack: list[T] = field(default_factory=list)
 

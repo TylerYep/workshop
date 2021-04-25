@@ -39,7 +39,7 @@ def build_suffix_array(orig_text: str) -> list[int]:
     """
 
     def _sais(text: list[int]) -> list[int]:
-        """ Helper function required to handle the recursive call. """
+        """Helper function required to handle the recursive call."""
 
         # Handle empty string edge case
         if not orig_text:
@@ -246,7 +246,7 @@ def to_rank_array(text: str) -> list[int]:
 
 
 def rank_text_to_str(char_map: dict[str, int], rank_text: list[int]) -> str:
-    """ Util function to convert rank text back into strings. """
+    """Util function to convert rank text back into strings."""
     result = ""
     reversed_char_map = {}
     reversed_char_map[0] = "$"

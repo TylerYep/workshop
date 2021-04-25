@@ -29,12 +29,12 @@ class RedBlackTreeNode(BinaryTreeNode[T]):
 
     @property
     def grandparent(self) -> RedBlackTreeNode[T] | None:
-        """ Redefined here because @property cannot be inherited. """
+        """Redefined here because @property cannot be inherited."""
         return None if self.parent is None else self.parent.parent
 
     @property
     def sibling(self) -> RedBlackTreeNode[T] | None:
-        """ Redefined here because @property cannot be inherited. """
+        """Redefined here because @property cannot be inherited."""
         if self.parent is None:
             return None
         return self.parent.right if self.parent.left is self else self.parent.left
@@ -58,12 +58,12 @@ class RedBlackTree(BinarySearchTree[T]):
 
     @staticmethod
     def color(node: RedBlackTreeNode[T] | None) -> Color:
-        """ Returns the color of a node, allowing for None leaves. """
+        """Returns the color of a node, allowing for None leaves."""
         return Color.BLACK if node is None else node.color
 
     @staticmethod
     def opposite_color(node: RedBlackTreeNode[T]) -> Color:
-        """ Returns the color of a node, allowing for None leaves. """
+        """Returns the color of a node, allowing for None leaves."""
         return Color.RED if node.color is Color.BLACK else Color.BLACK
 
     @staticmethod
@@ -184,7 +184,7 @@ class RedBlackTree(BinarySearchTree[T]):
         self.insert_repair(node)
 
     def insert_repair(self, node: RedBlackTreeNode[T]) -> None:
-        """ Repair the coloring from inserting into a tree. """
+        """Repair the coloring from inserting into a tree."""
         while node.parent is not None:
             # For simplicity, get our parent, sibling, uncle, and grandparent.
             # These are the nodes marked in this diagram:
@@ -347,7 +347,7 @@ class RedBlackTree(BinarySearchTree[T]):
         old_parent.parent = node
 
     def select(self, rank: int) -> T:
-        """ Takes in an integer rank and returns the rank-th order statistic. """
+        """Takes in an integer rank and returns the rank-th order statistic."""
         curr = self.root
         while curr is not None:
             if rank == curr.rank:

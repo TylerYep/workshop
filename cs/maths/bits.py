@@ -24,14 +24,14 @@ class Bits:
         return self.binary_str(self.val, self.length)
 
     def __repr__(self) -> str:
-        return f"Bits({str(self)}, " f"val={self.val}, length={self.length})"
+        return f"Bits({str(self)}, val={self.val}, length={self.length})"
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, int):
             return self.val == other
         if isinstance(other, Bits):
             return str(self) == str(other)
-        raise TypeError(f"{other} cannot be compared with Bits.")
+        return NotImplemented
 
     def __len__(self) -> int:
         return self.length
@@ -57,41 +57,41 @@ class Bits:
         self.val //= 2 ** other
 
     def __invert__(self) -> Bits:
-        """ Inverts all bits. """
+        """Inverts all bits."""
         return Bits.from_num(~self.val, self.length)
 
     def __and__(self, other: object) -> Bits:
-        """ Intersection of two role sets. """
+        """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be intersected with Bits.")
         return Bits.from_num(self.val & other.val, self.length)
 
     def __iand__(self, other: object) -> None:
-        """ Intersection of two role sets. """
+        """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be intersected with Bits.")
         self.val &= other.val
 
     def __or__(self, other: object) -> Bits:
-        """ Intersection of two role sets. """
+        """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be or'd with Bits.")
         return Bits.from_num(self.val | other.val, self.length)
 
     def __ior__(self, other: object) -> None:
-        """ Intersection of two role sets. """
+        """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be or'd with Bits.")
         self.val |= other.val
 
     def __xor__(self, other: object) -> Bits:
-        """ Intersection of two role sets. """
+        """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be xor'd with Bits.")
         return Bits.from_num(self.val ^ other.val, self.length)
 
     def __ixor__(self, other: object) -> None:
-        """ Intersection of two role sets. """
+        """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be xor'd with Bits.")
         self.val ^= other.val
@@ -153,7 +153,7 @@ class Bits:
 
     @property
     def solo(self) -> int:
-        """ Assumes is_solo is True. """
+        """Assumes is_solo is True."""
         if not self.is_solo:
             raise RuntimeError("Does not contain a solo bit.")
         return self.length - int(math.log2(self.val)) - 1
@@ -169,14 +169,14 @@ class Bits:
         return f"{coerced_positive_val:0{length}b}"
 
     def is_one(self, index: int) -> bool:
-        """ Returns True if the bit at given index is 1. """
+        """Returns True if the bit at given index is 1."""
         if index > self.length:
             return False
         return (self.val & (1 << index)) == 0
         # return ((self.val >> index) & 1) == 1
 
     def set_bit(self, index: int, new_val: bool = True) -> Bits:
-        """ Mark an index as the given value of its current state. """
+        """Mark an index as the given value of its current state."""
         if not 0 <= index < self.length:
             raise RuntimeError("Invalid bit; cannot be set.")
 
@@ -189,7 +189,7 @@ class Bits:
         return Bits.from_num(self.val, self.length)
 
     def flip_index(self, index: int) -> Bits:
-        """ Mark an index as opposite of its current state. """
+        """Mark an index as opposite of its current state."""
         return Bits.from_num(self.val ^ (1 << index), self.length)
         # reversed_index = self.length - index - 1
         # new_val = self.val

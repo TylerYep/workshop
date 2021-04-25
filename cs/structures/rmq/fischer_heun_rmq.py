@@ -31,7 +31,7 @@ class FischerHeunRMQ(RMQ):
 
     @staticmethod
     def calc_cart_num(arr: list[int]) -> int:
-        """ Calculate cartesian number. """
+        """Calculate cartesian number."""
         result = ""
         stack: list[int] = []
         for elem in arr:

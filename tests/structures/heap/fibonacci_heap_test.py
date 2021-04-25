@@ -10,7 +10,7 @@ class TestFibonacciHeap:
 
     @staticmethod
     def test_remove() -> None:
-        """ Test decrease_key method. """
+        """Test decrease_key method."""
         fib_heap = FibonacciHeap[int]()
         fib_heap.enqueue(1, 1)
         fib_heap.enqueue(3, 3)
@@ -29,7 +29,7 @@ class TestFibonacciHeap:
     @staticmethod
     @parametrize_allow_duplicates
     def test_decrease_key(allow_duplicates: bool) -> None:
-        """ Test decrease_key method. """
+        """Test decrease_key method."""
         fib_heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
         fib_heap.enqueue(1, 1)
         entry3 = fib_heap.enqueue(3, 3)
@@ -46,7 +46,7 @@ class TestFibonacciHeap:
     @staticmethod
     @parametrize_allow_duplicates
     def test_severe_decrease_key(allow_duplicates: bool) -> None:
-        """ More severe decrease_key test, based on SSCCE code from Marian Aioanei. """
+        """More severe decrease_key test, based on SSCCE code from Marian Aioanei."""
         heap = FibonacciHeap[int](allow_duplicates=allow_duplicates)
         expected_count = 17
         entries = {}
@@ -69,7 +69,7 @@ class TestFibonacciHeap:
 
     @staticmethod
     def test_duplicates_with_decreases() -> None:
-        """ Add lots of duplicates and see what happens. """
+        """Add lots of duplicates and see what happens."""
         heap = FibonacciHeap[int](allow_duplicates=True)
         priority = 0.0
         entries = {}

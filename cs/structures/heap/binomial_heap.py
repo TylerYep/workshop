@@ -85,7 +85,7 @@ class BinomialHeap(Heap[T]):
         return item in self.elem_to_entry
 
     def __getitem__(self, value: T | UUID) -> Entry[T]:
-        """ Gets the correct Entry object from the given value or UUID. """
+        """Gets the correct Entry object from the given value or UUID."""
         if self.allow_duplicates and not isinstance(value, UUID):
             raise RuntimeError(
                 "You must pass in a valid UUID or set allow_duplicates = False."
@@ -131,7 +131,7 @@ class BinomialHeap(Heap[T]):
         """
 
         def _merge_trees(one: Entry[T], two: Entry[T]) -> Entry[T]:
-            """ Merge 2 trees. """
+            """Merge 2 trees."""
             if two < one:
                 one, two = two, one
             two.right = one.child

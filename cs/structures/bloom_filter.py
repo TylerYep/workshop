@@ -52,7 +52,7 @@ class BloomFilter(Generic[T]):
         return pow(1 - math.exp(-self.k * self.n / self.m), self.k)
 
     def approx_items(self) -> int:
-        """ Return the approximate number of items in the Bloom filter. """
+        """Return the approximate number of items in the Bloom filter."""
         count = self.array.count()
         return 0 if count == 0 else int(-self.m / self.k * math.log(1 - count / self.m))
 

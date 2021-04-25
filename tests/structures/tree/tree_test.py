@@ -22,7 +22,7 @@ def construct_tree(tree_type: str) -> Tree[T]:
 
 @parametrize_tree_types
 class TestTree:
-    """ Tests all types of trees. Note that trees are not necessarily sorted BSTs. """
+    """Tests all types of trees. Note that trees are not necessarily sorted BSTs."""
 
     @staticmethod
     def test_iter(tree_type: str) -> None:
