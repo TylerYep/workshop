@@ -1,5 +1,5 @@
-# from collections.abc import Callable
-from typing import Any, Callable  # TODO: remove when Travis supports Python 3.9.2
+from collections.abc import Callable
+from typing import Any
 
 from cs.structures import Graph, V
 
@@ -18,7 +18,7 @@ class MaxFlow:
                 [0, 0, 9, 0, 0, 20],
                 [0, 0, 0, 7, 0, 4],
                 [0, 0, 0, 0, 0, 0],
-            ],
+            ]
         )
 
         assert max_flow_fn(graph, 0, 5) == 23

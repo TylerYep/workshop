@@ -133,11 +133,7 @@ def compute_edge_lengths(
 
 
 def print_level(
-    node: AsciiNode | None,
-    x: int,
-    level: int,
-    result: list[str],
-    print_next: int = 0,
+    node: AsciiNode | None, x: int, level: int, result: list[str], print_next: int = 0
 ) -> int:
     """
     This function prints the given level of the given tree, assuming that the node

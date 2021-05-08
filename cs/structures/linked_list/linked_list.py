@@ -123,9 +123,7 @@ class LinkedList(Generic[T]):
     def remove_last(self) -> LinkedListNode[T] | None:
         """Deletes the last element of a linked list using only self.head."""
 
-        def _remove_last(
-            lst: LinkedListNode[T] | None,
-        ) -> LinkedListNode[T] | None:
+        def _remove_last(lst: LinkedListNode[T] | None) -> LinkedListNode[T] | None:
             if lst is None or lst.next is None:
                 return None
             lst.next = _remove_last(lst.next)

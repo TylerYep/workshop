@@ -115,10 +115,7 @@ class Graph(Generic[V]):
 
     @classmethod
     def from_edgelist(
-        cls,
-        edge_list: Iterable[Edge[V]],
-        *,
-        is_directed: bool = True,
+        cls, edge_list: Iterable[Edge[V]], *, is_directed: bool = True
     ) -> Graph[V]:
         graph = Graph[V](is_directed=is_directed)
         for edge in edge_list:

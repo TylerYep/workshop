@@ -134,20 +134,10 @@ class TestGraph:
 
     @staticmethod
     def test_to_matrix() -> None:
-        matrix = [
-            [0, 1, 5, 0],
-            [1, 0, 8, 0],
-            [5, 8, 0, 8],
-            [0, 0, 8, 1],
-        ]
+        matrix = [[0, 1, 5, 0], [1, 0, 8, 0], [5, 8, 0, 8], [0, 0, 8, 1]]
         assert Graph.from_matrix(matrix).to_matrix() == matrix
 
-        matrix = [
-            [0, 1, 5, 0],
-            [0, 0, 2, 0],
-            [0, 0, 0, 8],
-            [0, 0, 0, 1],
-        ]
+        matrix = [[0, 1, 5, 0], [0, 0, 2, 0], [0, 0, 0, 8], [0, 0, 0, 1]]
         assert Graph.from_matrix(matrix).to_matrix() == matrix
 
         graph = Graph[int]()
@@ -160,12 +150,7 @@ class TestGraph:
         graph.add_edge(3, 5)
         new_matrix = graph.to_matrix()
 
-        assert new_matrix == [
-            [0, 1, 1, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 1],
-            [0, 0, 0, 0],
-        ]
+        assert new_matrix == [[0, 1, 1, 0], [0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 0, 0]]
 
     @staticmethod
     def test_from_graph() -> None:
@@ -246,4 +231,4 @@ class TestGraph:
             .replace("},", "}, ")
             .replace("),", "), ")
         )
-        assert repr(graph) == (f"Graph(_graph={graph_str}, is_directed=True)")
+        assert repr(graph) == f"Graph(_graph={graph_str}, is_directed=True)"

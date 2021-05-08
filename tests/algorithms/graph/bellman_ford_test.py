@@ -26,8 +26,7 @@ class TestFloydWarshall(AllPairsShortestPaths):
         e51 = Edge(5, 1, 2)
         e52 = Edge(5, 2, 3)
         graph2 = Graph.from_edgelist(
-            [e01, e05, e12, e15, e23, e24, e43, e45, e51, e52],
-            is_directed=False,
+            [e01, e05, e12, e15, e23, e24, e43, e45, e51, e52], is_directed=False
         )
 
         with pytest.raises(AssertionError):

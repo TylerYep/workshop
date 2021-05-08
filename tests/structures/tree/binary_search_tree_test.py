@@ -46,38 +46,21 @@ class TestBinarySearchTree:
 
         tree.insert(10)
 
-        assert str(tree).split("\n") == [
-            "8",
-            " \\",
-            " 10",
-            "",
-        ]
+        assert str(tree).split("\n") == ["8", " \\", " 10", ""]
         assert tree.root.right is not None
         assert tree.root.right.parent == tree.root
         assert tree.root.right.data == 10
 
         tree.insert(3)
 
-        assert str(tree).split("\n") == [
-            "  8",
-            " / \\",
-            "3  10",
-            "",
-        ]
+        assert str(tree).split("\n") == ["  8", " / \\", "3  10", ""]
         assert tree.root.left is not None
         assert tree.root.left.parent == tree.root
         assert tree.root.left.data == 3
 
         tree.insert(6)
 
-        assert str(tree).split("\n") == [
-            "  8",
-            " / \\",
-            "3  10",
-            " \\",
-            "  6",
-            "",
-        ]
+        assert str(tree).split("\n") == ["  8", " / \\", "3  10", " \\", "  6", ""]
         assert tree.root.left.right is not None
         assert tree.root.left.right.parent == tree.root.left
         assert tree.root.left.right.data == 6

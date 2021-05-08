@@ -29,11 +29,7 @@ def test_sort() -> None:
 
 def test_positive_int_sort() -> None:
     sort_fns = (bucket_sort, radix_sort)
-    arrays: tuple[list[int], ...] = (
-        [0, 5, 2, 3, 2],
-        [],
-        list(range(10, 0, -1)),
-    )
+    arrays: tuple[list[int], ...] = ([0, 5, 2, 3, 2], [], list(range(10, 0, -1)))
 
     for sort_fn in sort_fns:
         for array in arrays:

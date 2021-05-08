@@ -105,8 +105,7 @@ class BinarySearchTree(Tree[T]):
         """Puts a new node in the tree."""
 
         def _insert(
-            node: BinaryTreeNode[T] | None,
-            parent: BinaryTreeNode[T] | None = None,
+            node: BinaryTreeNode[T] | None, parent: BinaryTreeNode[T] | None = None
         ) -> BinaryTreeNode[T]:
             if node is None:
                 node = BinaryTreeNode(data, parent=parent)

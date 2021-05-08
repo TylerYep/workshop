@@ -14,12 +14,7 @@ class TestDrawTree:
         assert str(t).split("\n") == ["17", ""]
 
         t.insert(14)
-        assert str(t).split("\n") == [
-            " 17",
-            " /",
-            "14",
-            "",
-        ]
+        assert str(t).split("\n") == [" 17", " /", "14", ""]
 
         for i in range(0, 10, 2):
             t.insert(i)
