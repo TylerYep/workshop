@@ -2,8 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
 .DS_Store
 *.gv.png
+animation.gif
 
 # C extensions
 *.so

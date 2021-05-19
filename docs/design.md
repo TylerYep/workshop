@@ -201,6 +201,10 @@ https://blog.ionelmc.ro/2014/05/25/python-packaging/
 
 ## 3.10
 
+- Replace the `dataslots` library with the builtin `slots=True`. Remove pip requirement.
+- Add `zip(..., strict=True)` once mypy detects the new parameter.
+
+## 3.11
+
 - Remove all `from __future__` imports.
   However, this might be painful if I need numpy, as I would need to add them all back.
-- Add `zip(..., strict=True)` once mypy detects the new parameter.
