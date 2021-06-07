@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import cast
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from cs.util import dfield
 

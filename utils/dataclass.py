@@ -1,7 +1,7 @@
 import timeit
 from dataclasses import dataclass
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 
 def test(a):

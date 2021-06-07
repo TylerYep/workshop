@@ -4,7 +4,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from cs.util import Comparable, dfield, formatter
 

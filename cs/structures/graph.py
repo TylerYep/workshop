@@ -4,7 +4,7 @@ from collections.abc import Callable, Iterable, Iterator, KeysView, Mapping, Seq
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from cs.util import Comparable, formatter
 
@@ -162,7 +162,7 @@ class Graph(Generic[V]):
         return True
 
     def to_graphviz(self, img_format: str = "png") -> None:
-        from graphviz import Graph as GraphViz
+        from graphviz import Graph as GraphViz  # type: ignore[import]
 
         dot = GraphViz(format=img_format)
         for node in self.nodes:

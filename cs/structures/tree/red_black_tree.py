@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import Enum, unique
 from typing import TypeVar
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from cs.structures.tree.binary_search_tree import BinarySearchTree, BinaryTreeNode
 from cs.util import Comparable, dfield

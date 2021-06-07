@@ -4,8 +4,8 @@ from abc import abstractmethod
 from pathlib import Path
 from typing import Any, Protocol, TypeVar
 
-import prettyprinter
-from prettyprinter.prettyprinter import IMPLICIT_MODULES
+import prettyprinter  # type: ignore[import]
+from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import]
 
 C = TypeVar("C", bound="Comparable")
 
@@ -61,13 +61,13 @@ def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:
             continue
 
         default = field_def.default
-        default_factory = field_def.default_factory  # type: ignore
+        default_factory: Any = field_def.default_factory  # type: ignore[misc]
         true_val = getattr(value, field_def.name)
         display_attr = (
-            default is default_factory is dataclasses.MISSING  # type: ignore
+            default is default_factory is dataclasses.MISSING
             or (default is not dataclasses.MISSING and default != true_val)
             or (
-                default_factory is not dataclasses.MISSING  # type: ignore
+                default_factory is not dataclasses.MISSING
                 and default_factory() != true_val
             )
         )

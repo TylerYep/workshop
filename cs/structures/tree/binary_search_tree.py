@@ -4,7 +4,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import TypeVar
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from cs.structures.tree.tree import Tree, TreeNode
 from cs.util import Comparable, dfield

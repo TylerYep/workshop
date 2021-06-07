@@ -5,7 +5,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import ClassVar, Generic, TypeVar, cast
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")

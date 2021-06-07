@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from dataslots import dataslots
+from dataslots import dataslots  # type: ignore[import]
 
 from .hash_table import KT, VT, HashTable, TableEntry
 

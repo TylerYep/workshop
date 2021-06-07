@@ -70,7 +70,7 @@ If you have a dataclass, use @dataslots.
 - Put test cases into classes to avoid naming conflicts!
 - Prefer `list[]`, `dict[]`, and `int | None` over `List[]`, `Dict[]`, `Optional[]`, and `Union` in Python 3.7+ with `from __future__ import annotations`.
 - Remove all unnecessary casts to `float()` and trailing zero e.g. `1.0` in numbers.
-- Never use `randint`. Alwasy use `randrange`.
+- Never use `randint`. Always use `randrange`.
 - Never use `@classmethod` (exceptions: ...)
 - Use f-strings always. Only use format strings when you want to insert messages later.
 - Never use `default=True/False` with argparse's `store_true`/`store_false` (defaults to False and True respctively).
