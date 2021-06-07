@@ -24,16 +24,12 @@ class ApproxDistanceOracle:
             prob = self.n ** (-1 / k)
             self.A[i] = {x for x in self.A[i - 1] if weighted_coin_flip(prob)}
 
-        self.a_i_v_distances: list[list[float]] = [
-            [None] * self.n for _ in range(k + 1)  # type: ignore[list-item]
-        ]
-        self.p: list[list[int]] = [
-            [None] * self.n for _ in range(k + 1)  # type: ignore[list-item]
-        ]
+        self.a_i_v_distances: list[list[float]] = [[0] * self.n for _ in range(k + 1)]
+        self.p: list[list[int]] = [[0] * self.n for _ in range(k + 1)]
 
         # Initialize a_i_v_distances of A_k to INFINITY
         self.a_i_v_distances[k] = [Graph.INFINITY] * self.n
-        self.p[k] = [None] * self.n  # type: ignore[list-item]
+        self.p[k] = [0] * self.n
 
         # Initialize empty bunches
         self.B: list[set[int]] = [{v} for v in self.graph]

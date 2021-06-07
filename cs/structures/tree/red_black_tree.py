@@ -296,7 +296,7 @@ class RedBlackTree(BinarySearchTree[T]):
             parent.color = Color.BLACK
             uncle.color = Color.BLACK
             node.color = Color.RED
-            node = grandparent  # type: ignore
+            node = grandparent  # type: ignore[assignment]
 
     def rotate_with_parent(self, node: RedBlackTreeNode[T]) -> None:
         """

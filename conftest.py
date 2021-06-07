@@ -4,7 +4,6 @@ import time
 from collections.abc import Callable
 from typing import Any
 
-# import numpy as np
 import pytest
 from _pytest.config import Config
 from _pytest.config.argparsing import Parser
@@ -14,7 +13,6 @@ from _pytest.nodes import Node
 @pytest.fixture(autouse=True)
 def _set_random_seed(seed: int = 0) -> None:
     random.seed(seed)
-    # np.random.seed(seed)
 
 
 def assert_a_faster_than_b(

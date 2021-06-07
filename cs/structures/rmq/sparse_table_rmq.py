@@ -20,12 +20,8 @@ class SparseTableRMQ(RMQ):
                 self.rmq_table[i][j] = self.return_smaller_index(index1, index2)
 
     def __repr__(self) -> str:
-        try:
-            import numpy as np
-
-            return pformat(np.transpose(np.array(self.rmq_table)))
-        except ImportError:
-            return pformat(self.rmq_table)
+        # return pformat(np.transpose(np.array(self.rmq_table)))
+        return pformat(self.rmq_table)
 
     def rmq(self, low: int, high: int) -> int:
         if low >= high:
