@@ -26,7 +26,7 @@ def print_arr_with_index(data: list[int], low: int) -> str:
 
 def run_tests(minimum: int, maximum: int, num_builds: int, num_queries: int) -> None:
     print((minimum, maximum), num_builds, num_queries)
-    data = [random.randint(minimum, maximum - 1) for _ in range(maximum)]
+    data = [random.randrange(minimum, maximum) for _ in range(maximum)]
 
     total_build_time_ref, total_build_time_test = 0.0, 0.0
     total_run_time_ref, total_run_time_test = 0.0, 0.0
@@ -44,8 +44,8 @@ def run_tests(minimum: int, maximum: int, num_builds: int, num_queries: int) -> 
         total_build_time_test += t_end - t_start
 
         for _ in range(num_queries):
-            low = random.randint(minimum, maximum - 1)
-            high = random.randint(minimum, maximum - 1)
+            low = random.randrange(minimum, maximum)
+            high = random.randrange(minimum, maximum)
             if low > high:
                 low, high = high, low
             high += 1

@@ -24,12 +24,3 @@ pip install csworkshop
 from cs.algorithms import binary_search
 from cs.structures import Graph, FibonacciHeap
 ```
-
-## Key Tenets
-
-- Must work functionally
-  - Unit tested, applicable
-- Must be easy to read
-  - Type-checkable, linted, and formatted code
-  - Educational, designed for a CS students
-  - Sacrifice efficiency and concision for readability

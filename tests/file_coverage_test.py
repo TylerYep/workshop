@@ -38,9 +38,7 @@ def test_file_coverage() -> None:
 
 def test_all_exported() -> None:
     """Test that __all__ contains only names that are actually exported."""
-    import cs.algorithms as algorithms
-    import cs.maths as maths
-    import cs.structures as structures
+    from cs import algorithms, maths, structures
 
     for module in (algorithms, maths, structures):
         if hasattr(module, "__all__"):

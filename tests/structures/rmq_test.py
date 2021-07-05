@@ -63,14 +63,14 @@ def run_rmq(
     num_queries: int = 10,
 ) -> None:
     minimum, maximum = data_range
-    data = [random.randint(minimum, maximum - 1) for _ in range(maximum)]
+    data = [random.randrange(minimum, maximum) for _ in range(maximum)]
     for _ in range(num_builds):
         # Compare all output to the fastest RMQ
         reference_rmq = construct_rmq(ref_rmq_type, data)
         proposed_rmq = construct_rmq(proposed_rmq_type, data)
         for _ in range(num_queries):
-            low = random.randint(minimum, maximum - 1)
-            high = random.randint(minimum, maximum - 1)
+            low = random.randrange(minimum, maximum)
+            high = random.randrange(minimum, maximum)
             if low > high:
                 low, high = high, low
             high += 1

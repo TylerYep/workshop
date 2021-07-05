@@ -14,11 +14,12 @@ def create_all_exports(init_file_content: str) -> tuple[str]:
 
     # Super janky parens matching
     reg = re.compile(r"\(.*,\n\)", re.DOTALL)
-    matches += [
-        m.replace(" " * 4, "").replace(",", "")
-        for m in reg.findall(init_file_content)[0].split("\n")
-        if "(" not in m and ")" not in m and "from" not in m
-    ]
+    if all_parens := reg.findall(init_file_content):
+        matches += [
+            m.replace(" " * 4, "").replace(",", "")
+            for m in all_parens[0].split("\n")
+            if all(x not in m for x in ("(", ")", "from"))
+        ]
 
     exports = []
     for result in matches:

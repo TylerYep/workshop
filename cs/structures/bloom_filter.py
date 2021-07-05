@@ -4,7 +4,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
-from bitarray import bitarray  # type: ignore[import]
+from bitarray import bitarray
 
 T = TypeVar("T")
 

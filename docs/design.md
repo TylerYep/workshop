@@ -98,6 +98,10 @@ If you have a dataclass, use @dataslots.
    partition_graph()
    ```
 
+- cast() vs type-coercion:
+  - The best way to think about this is that the type annotation sets the type of the variable, not the type of the expression. To force the type of an expression you can use `cast(<type>, <expression>)`.
+  - [explanation](https://github.com/python/typing/issues/15)
+
 ## Tests
 
 - [Monkeypatch vs mock](https://github.com/pytest-dev/pytest/issues/4576)
@@ -166,6 +170,25 @@ Tuple shapes maybe, to distinguish a shape comment from a regular comment.
 Using this mode, the code is compiled uniquely and increases runtime.
 
 Once you are confident with your shapes, you can simply run your program normally.
+
+# Different torch functions
+
+In general, we should use the `named_` prefixes for these functions
+
+- `modules()`
+  - recursively walks through all modules.
+- `parameters()`
+  - returns `nn.Parameter`s.
+- `children()`
+  - only walks through direct children.
+  - returns `nn.Module`s.
+- `state_dict()`
+  - contains `parameters`, but also contains `buffers`, etc
+  - e.g. `running_mean`, `running_var`
+  - used for saving and loading models
+
+- [source](https://stackoverflow.com/questions/54746829/pytorch-whats-the-difference-between-state-dict-and-parameters)
+- [source](https://discuss.pytorch.org/t/module-children-vs-module-modules/4551)
 
 # Line lengths
 

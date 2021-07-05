@@ -16,13 +16,6 @@ def get_plan() -> list[float]:
 
     - The order of nums roughly correlates with the timesteps of the simulation.
     - You can call sim(plan) to get the distance traveled using that plan.
-
-    Suggested algorithm (gradient descent):
-    Loop:
-        Generate 40 small random numbers. Add these to the plan and simulate.
-        If the result is better, keep it.
-        Else, generate a new set of small random numbers.
-
     """
     plan = [1 for _ in range(MAX_LENGTH)]
     return plan
@@ -191,9 +184,10 @@ def create_movie(data, show_movie: bool = True) -> None:
         head.center = (data[j][0][5], data[j][1][5])
         return patch, head
 
-    animation.FuncAnimation(
+    movie = animation.FuncAnimation(
         fig, animate, init_func=init, frames=len(data), interval=20
-    ).save("animation.gif", fps=50)
+    )
+    movie.save("animation.gif", fps=50)
     if show_movie:
         plt.show()
 

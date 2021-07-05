@@ -1,7 +1,7 @@
 import math
 
 import pytest
-from bitarray import bitarray  # type: ignore[import]
+from bitarray import bitarray
 
 from cs.structures import BloomFilter
 
