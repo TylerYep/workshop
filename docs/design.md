@@ -61,7 +61,7 @@ If you have a dataclass, use @dataslots.
   - You can also set `init=False` when a dataclass does not accept any parameters in its constructor.
 - Create a separate `__str__` function to use when printing the object for visualizing the state of the data structure. `__repr__` should contain a single line while `__str__` should be the pretty-printed representation.
 - Define `__hash__` myself, since I can choose the necessary fields to make a unique hash. Additionally, using `@dataclass(frozen=True)` is almost never a good idea, since you won't be able to even set attributes in `__post_init__`, and the docs specifically point out a performance penalty.
-- Prefer using `@dataslots` via the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings. Hopefully this will be fixed in Python 3.11 or something.
+- Prefer using `@dataslots` via the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings. This will be fixed in Python 3.10.
 
 # Style Guide
 
@@ -99,7 +99,7 @@ If you have a dataclass, use @dataslots.
    ```
 
 - cast() vs type-coercion:
-  - The best way to think about this is that the type annotation sets the type of the variable, not the type of the expression. To force the type of an expression you can use `cast(<type>, <expression>)`.
+  - The best way to think about this is that the colon type annotation sets the type of the variable, not the type of the expression. To force the type of an expression you can use `cast(<type>, <expression>)`.
   - [explanation](https://github.com/python/typing/issues/15)
 
 ## Tests
