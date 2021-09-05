@@ -26,7 +26,7 @@ def add_header(extension=".md"):
         ]
     )
     for filename in Path(".").glob(f"*{extension}"):
-        with open(filename, "r+") as f:
+        with open(filename, "r+", encoding="utf-8") as f:
             top_line = f.readline().replace("# ", "").replace("\n", "")
             old = f.read()
             f.seek(0)

@@ -34,7 +34,7 @@ def recurse_to_function_name(ast_node) -> str:
 
 
 def run(filename: str) -> None:
-    with open(filename) as f:
+    with open(filename, encoding="utf-8") as f:
         tree = ast.parse(f.read())
         functions = defaultdict(list)
         for node in ast.walk(tree):

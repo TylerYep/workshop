@@ -3,7 +3,7 @@ import sys
 
 
 def regex(filename: str, regexp: str) -> None:
-    with open(filename) as f:
+    with open(filename, encoding="utf-8") as f:
         matches = []
         reg = re.compile(regexp)
         for line in f:

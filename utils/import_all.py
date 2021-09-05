@@ -43,6 +43,6 @@ if __name__ == "__main__":
     # assert len(result) == 8
     # print(result)
 
-    with open(sys.argv[1]) as f:
+    with open(sys.argv[1], encoding="utf-8") as f:
         content = f.read()
         print(create_all_exports(content))
