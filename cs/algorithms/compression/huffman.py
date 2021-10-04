@@ -84,7 +84,7 @@ def huffman_compress(
     output_path = (
         filepath.with_suffix(".huf") if output_filepath is None else output_filepath
     )
-    output_path.write_text(encoding)
+    output_path.write_text(encoding, encoding="utf-8")
     return root
 
 

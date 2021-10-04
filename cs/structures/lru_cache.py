@@ -75,7 +75,7 @@ class LRUCache(Generic[KT, VT]):
             def cache_info() -> LRUCache[KT, VT]:
                 return cls.decorator_instance_map[func]
 
-            cache_decorator_wrapper.cache_info = cache_info  # type: ignore
+            cache_decorator_wrapper.cache_info = cache_info  # type: ignore[attr-defined]  # noqa
             return cache_decorator_wrapper
 
         return cache_decorator_inner

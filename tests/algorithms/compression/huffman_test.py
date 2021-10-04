@@ -20,4 +20,4 @@ def test_huffman(tmp_path: Path) -> None:
 
     output = huffman_decompress(compressed_file_name, tree)
 
-    assert file_to_compress.read_text() == output
+    assert file_to_compress.read_text(encoding="utf-8") == output
