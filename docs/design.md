@@ -30,7 +30,6 @@ direction.value
 
 (d for d in Direction)
 >>> [<Direction.EAST: 'east1'>, <Direction.SOUTH: 'south2'>, <Direction.WEST: 'west3'>, <Direction.NORTH: 'north4'>]
->>> assert
 
 str(x[0])
 >>> 'Direction.EAST'
