@@ -5,9 +5,9 @@ import pytest
 from cs.algorithms import dijkstra_search, dijkstra_shortest_paths
 from cs.structures import Graph
 from tests.algorithms.graph.problems.apsp import AllPairsShortestPaths, APSPFunction
-from tests.conftest import add_fixtures
 
 
+@pytest.mark.add_function("shortest_paths_fn")
 class TestDijkstras(AllPairsShortestPaths):
     shortest_paths_fn = AllPairsShortestPaths.single_source_to_all_pairs(
         dijkstra_shortest_paths
@@ -76,7 +76,3 @@ class TestDijkstras(AllPairsShortestPaths):
 
         with pytest.raises(RuntimeError):
             _ = shortest_paths_fn(graph)
-
-
-def pytest_generate_tests(metafunc: Any) -> None:
-    add_fixtures(metafunc, "shortest_paths_fn")

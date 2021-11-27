@@ -1,13 +1,11 @@
-from typing import Any
-
 import pytest
 
 from cs.algorithms import bellman_ford_shortest_paths
 from cs.structures import Edge, Graph
 from tests.algorithms.graph.problems.apsp import AllPairsShortestPaths
-from tests.conftest import add_fixtures
 
 
+@pytest.mark.add_function("shortest_paths_fn")
 class TestFloydWarshall(AllPairsShortestPaths):
     shortest_paths_fn = AllPairsShortestPaths.single_source_to_all_pairs(
         bellman_ford_shortest_paths
@@ -31,7 +29,3 @@ class TestFloydWarshall(AllPairsShortestPaths):
 
         with pytest.raises(AssertionError):
             _ = bellman_ford_shortest_paths(graph2, 0)
-
-
-def pytest_generate_tests(metafunc: Any) -> None:
-    add_fixtures(metafunc, "shortest_paths_fn")
