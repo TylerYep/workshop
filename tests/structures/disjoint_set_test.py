@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from conftest import assert_a_faster_than_b
 from cs.structures import DisjointSet
+from tests.conftest import assert_a_faster_than_b
 
 
 class TestDisjointSet:

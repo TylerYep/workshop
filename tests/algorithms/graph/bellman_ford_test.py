@@ -2,10 +2,10 @@ from typing import Any
 
 import pytest
 
-from conftest import add_fixtures
 from cs.algorithms import bellman_ford_shortest_paths
 from cs.structures import Edge, Graph
 from tests.algorithms.graph.problems.apsp import AllPairsShortestPaths
+from tests.conftest import add_fixtures
 
 
 class TestFloydWarshall(AllPairsShortestPaths):

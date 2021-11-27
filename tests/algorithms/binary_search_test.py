@@ -1,7 +1,7 @@
 import bisect
 
-from conftest import assert_a_faster_than_b
 from cs.algorithms import binary_search, left_right_binary_search, linear_search
+from tests.conftest import assert_a_faster_than_b
 
 
 def test_binary_search() -> None:

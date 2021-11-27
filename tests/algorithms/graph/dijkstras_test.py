@@ -2,10 +2,10 @@ from typing import Any
 
 import pytest
 
-from conftest import add_fixtures
 from cs.algorithms import dijkstra_search, dijkstra_shortest_paths
 from cs.structures import Graph
 from tests.algorithms.graph.problems.apsp import AllPairsShortestPaths, APSPFunction
+from tests.conftest import add_fixtures
 
 
 class TestDijkstras(AllPairsShortestPaths):

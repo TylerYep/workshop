@@ -1,8 +1,8 @@
 from typing import Any
 
-from conftest import add_fixtures
 from cs.algorithms import edmonds_karp_max_flow
 from tests.algorithms.graph.problems.max_flow import MaxFlow
+from tests.conftest import add_fixtures
 
 
 class TestEdmondsKarp(MaxFlow):

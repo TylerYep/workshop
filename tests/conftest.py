@@ -10,6 +10,10 @@ from _pytest.config.argparsing import Parser
 from _pytest.nodes import Node
 
 
+def pytest_idempotent_decorator() -> str:
+    return "cs.util.idempotent"
+
+
 @pytest.fixture(autouse=True)
 def _set_random_seed(seed: int = 0) -> None:
     random.seed(seed)
@@ -43,10 +47,6 @@ def add_fixtures(metafunc: Any, *fixture_names: str) -> None:
 
 def pytest_addoption(parser: Parser) -> None:
     parser.addoption("--runslow", action="store_true")
-
-
-def pytest_configure(config: Config) -> None:
-    config.addinivalue_line("markers", "slow: mark test as slow to run")
 
 
 def pytest_collection_modifyitems(config: Config, items: list[Node]) -> None:
