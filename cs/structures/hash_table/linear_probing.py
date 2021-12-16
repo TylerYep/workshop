@@ -2,13 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from dataslots import dataslots  # type: ignore[import]
-
 from .hash_table import KT, VT, HashTable, TableEntry
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class LinearProbingEntry(TableEntry[KT, VT]):
     is_dead: bool = False
 

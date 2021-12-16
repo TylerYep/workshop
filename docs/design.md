@@ -148,8 +148,7 @@ h3 = BinomialHeap.merge(h1, h2)
 - All type checking and linting should only happen on changed files, assuming a clean run to begin with.
 - We include pytest because it's more annoying to look at CI breaking than to wait a bit and fix it to begin with.
 - Pytest should always run on all files, since we expect those to be only the unit tests, and as a result, very fast.
-- If we limit pytest to changed files, then it runs on all files only when there are no changed files,
-  and runs on only a couple files if many files are changed. Not what we want, I think.
+- If we limit pytest to changed files, then it runs on all files only when there are no changed files, and runs on only a couple files if many files are changed. Not what we want, I think.
 
 # Dynamic Shape-Checking / Type-Checking (Typorch)
 

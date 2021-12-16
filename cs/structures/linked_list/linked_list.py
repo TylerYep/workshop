@@ -4,13 +4,10 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
-from dataslots import dataslots  # type: ignore[import]
-
 T = TypeVar("T")
 
 
-@dataslots
-@dataclass(repr=False)
+@dataclass(repr=False, slots=True)
 class LinkedListNode(Generic[T]):
     data: T
     next: LinkedListNode[T] | None = None

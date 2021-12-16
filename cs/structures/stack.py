@@ -1,13 +1,10 @@
 from dataclasses import dataclass, field
 from typing import Generic, TypeVar
 
-from dataslots import dataslots  # type: ignore[import]
-
 T = TypeVar("T")
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class Stack(Generic[T]):
     """You should probably use the Python built-in List instead."""
 

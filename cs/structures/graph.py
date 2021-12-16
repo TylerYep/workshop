@@ -4,8 +4,6 @@ from collections.abc import Callable, Iterable, Iterator, KeysView, Mapping, Seq
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from dataslots import dataslots  # type: ignore[import]
-
 from cs.util import Comparable, formatter
 
 V = TypeVar("V", bound=Comparable)
@@ -352,8 +350,7 @@ class Edge(Generic[V], Mapping[str, Any]):
         return hash((self.start, self.end))
 
 
-@dataslots
-@dataclass(order=True)
+@dataclass(order=True, slots=True)
 class Node(Generic[V]):
     """An example node class that stores node data."""
 

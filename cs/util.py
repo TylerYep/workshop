@@ -62,7 +62,7 @@ def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:
             continue
 
         default = field_def.default
-        default_factory: Any = field_def.default_factory  # type: ignore[misc]
+        default_factory: Any = field_def.default_factory
         true_val = getattr(value, field_def.name)
         display_attr = (
             default is default_factory is dataclasses.MISSING

@@ -5,13 +5,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import cast
 
-from dataslots import dataslots  # type: ignore[import]
-
 from cs.util import dfield
 
 
-@dataslots
-@dataclass(order=True)
+@dataclass(order=True, slots=True)
 class HuffmanTreeNode:
     freq: int
     letter: str = field(default="")

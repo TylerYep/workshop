@@ -5,14 +5,11 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import ClassVar, Generic, TypeVar, cast
 
-from dataslots import dataslots  # type: ignore[import]
-
 KT = TypeVar("KT")
 VT = TypeVar("VT")
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class TableEntry(Generic[KT, VT]):
     key: KT
     value: VT
@@ -21,8 +18,7 @@ class TableEntry(Generic[KT, VT]):
         return str(self.key)
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class HashTable(Generic[KT, VT]):
     """This implementation assumes there are no duplicate keys."""
 

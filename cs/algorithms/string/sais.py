@@ -2,16 +2,13 @@ from collections import Counter
 from dataclasses import dataclass
 from enum import Enum, unique
 
-from dataslots import dataslots  # type: ignore[import]
-
 
 @unique
 class SuffixType(Enum):
     S, L = "S", "L"
 
 
-@dataslots
-@dataclass
+@dataclass(slots=True)
 class LMSBlock:
     start: int
     end: int

@@ -4,8 +4,6 @@ from dataclasses import dataclass
 from enum import Enum, unique
 from typing import TypeVar
 
-from dataslots import dataslots  # type: ignore[import]
-
 from cs.structures.tree.binary_search_tree import BinarySearchTree, BinaryTreeNode
 from cs.util import Comparable, dfield
 
@@ -18,8 +16,7 @@ class Color(Enum):
     RED = "red"
 
 
-@dataslots
-@dataclass(order=True, repr=False)
+@dataclass(order=True, repr=False, slots=True)
 class RedBlackTreeNode(BinaryTreeNode[T]):
     left: RedBlackTreeNode[T] | None = None
     right: RedBlackTreeNode[T] | None = None

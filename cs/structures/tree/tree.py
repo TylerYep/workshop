@@ -4,15 +4,12 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from dataslots import dataslots  # type: ignore[import]
-
 from cs.util import Comparable, dfield, formatter
 
 T = TypeVar("T", bound=Comparable)
 
 
-@dataslots
-@dataclass(order=True, repr=False)
+@dataclass(order=True, repr=False, slots=True)
 class TreeNode(Generic[T]):
     """
     For inheritance to type-check properly, we will need to re-define any TreeNode

@@ -4,16 +4,13 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import TypeVar
 
-from dataslots import dataslots  # type: ignore[import]
-
 from cs.structures.tree.tree import Tree, TreeNode
 from cs.util import Comparable, dfield
 
 T = TypeVar("T", bound=Comparable)
 
 
-@dataslots
-@dataclass(order=True, repr=False)
+@dataclass(order=True, repr=False, slots=True)
 class BinaryTreeNode(TreeNode[T]):
     left: BinaryTreeNode[T] | None = None
     right: BinaryTreeNode[T] | None = None
