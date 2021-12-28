@@ -42,7 +42,7 @@ def test_all_exported() -> None:
 
     for module in (algorithms, maths, structures):
         if hasattr(module, "__all__"):
-            module_all = module.__all__  # type: ignore[attr-defined]
+            module_all = module.__all__
             missing_export = [name for name in module_all if not hasattr(module, name)]
             extra_exports = [
                 name

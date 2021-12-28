@@ -60,7 +60,7 @@ If you have a dataclass, use @dataslots.
   - You can also set `init=False` when a dataclass does not accept any parameters in its constructor.
 - Create a separate `__str__` function to use when printing the object for visualizing the state of the data structure. `__repr__` should contain a single line while `__str__` should be the pretty-printed representation.
 - Define `__hash__` myself, since I can choose the necessary fields to make a unique hash. Additionally, using `@dataclass(frozen=True)` is almost never a good idea, since you won't be able to even set attributes in `__post_init__`, and the docs specifically point out a performance penalty.
-- Prefer using `@dataslots` via the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings. This will be fixed in Python 3.10.
+- Prefer using `@dataslots` via the _dataslots_ library over using `__slots__` all the time. It is a clean single decorator and dependency rather than an ugly list of strings. This will be fixed in Python 3.10 with `@dataclass(slots=True)`
 
 # Style Guide
 
@@ -222,8 +222,11 @@ https://blog.ionelmc.ro/2014/05/25/python-packaging/
 
 ## 3.10
 
-- Replace the `dataslots` library with the builtin `slots=True`. Remove pip requirement.
 - Add `zip(..., strict=True)` once mypy detects the new parameter.
+
+## Pytest 7.0.0
+
+- Remove _.pytest imports for most projects
 
 ## 3.11
 

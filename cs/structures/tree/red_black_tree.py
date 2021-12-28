@@ -375,8 +375,6 @@ class RedBlackTree(BinarySearchTree[T]):
 
     # TODO: fix remove()
     # def remove(self, data: T) -> None:
-    #     """  Remove data from this tree. """
-
     #     def _remove(node: RedBlackTreeNode[T]) -> RedBlackTreeNode[T] | None:
     #         nonlocal data
     #         if node.data == data:
@@ -435,8 +433,7 @@ class RedBlackTree(BinarySearchTree[T]):
     #     _remove(self.root)
 
     # def _remove_repair(self, node: RedBlackTreeNode[T]) -> None:
-    #     """ Repair the coloring of the tree that may have been messed up. """
-    #     if self.color(node.sibling) is Color.RED:
+    #         #  if self.color(node.sibling) is Color.RED:
     #         node.sibling.color = Color.BLACK
     #         node.parent.color = Color.RED
     #         if node.is_left:

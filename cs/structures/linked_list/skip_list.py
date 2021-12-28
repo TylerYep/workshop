@@ -54,7 +54,7 @@ class SkipList(Generic[KT, VT]):
         node = self
         forwards = node.next.copy()
         lines = [
-            f"[{'root' if node.key is None else node.key}]".ljust(label_size, "-")
+            f"[{node.key or 'root'}]".ljust(label_size, "-")
             + f"*{' ' * key_size}" * len(forwards),
             " " * label_size + f"|{' ' * key_size}" * len(forwards),
         ]

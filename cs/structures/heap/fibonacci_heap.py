@@ -128,10 +128,10 @@ class FibonacciHeap(Heap[T]):
         @return A reference to the smallest element of the resulting list.
         """
         if one is None:
-            return None if two is None else two
+            return two or None
 
         if two is None:
-            return None if one is None else one
+            return one or None
 
         # Both non-None; actually do the splice.
         # We have two lists that look like this and we want to switch A and B.

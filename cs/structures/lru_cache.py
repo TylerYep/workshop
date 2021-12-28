@@ -19,7 +19,8 @@ class LRUCache(Generic[KT, VT]):
     """Uses a regular dictionary and the fact that dictionaries are ordered."""
 
     # Class variable maps the decorator functions to their respective instance
-    decorator_instance_map: ClassVar[dict[Callable[..., Any], LRUCache[KT, VT]]] = {}
+    # ClassVar[dict[Callable[..., Any], LRUCache[KT, VT]]]
+    decorator_instance_map: ClassVar[dict[Callable[..., Any], LRUCache[Any, Any]]] = {}
 
     def __init__(self, max_capacity: int) -> None:
         self.cache: dict[KT, VT] = {}

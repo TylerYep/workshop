@@ -27,7 +27,7 @@ def prims_mst(graph: Graph[V], start_node: V | None = None) -> Graph[V]:
         return mst
 
     heap = FibonacciHeap[V]()
-    start = next(iter(graph)) if start_node is None else start_node
+    start = start_node or next(iter(graph))
     mst.add_node(start)
     _add_outgoing_edges(graph, start, mst, heap)
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Sequence, TypeVar
+from collections.abc import Sequence
+from typing import TypeVar
 
 from cs.structures import BinarySearchTree, BinaryTreeNode, Graph
 from cs.util import Comparable

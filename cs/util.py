@@ -1,8 +1,9 @@
 import dataclasses
 import random
 from abc import abstractmethod
+from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Protocol, TypeVar
+from typing import Any, Callable, Protocol, TypeVar, cast, overload
 
 import prettyprinter  # type: ignore[import]
 from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import]
@@ -96,13 +97,33 @@ def weighted_coin_flip(prob: float) -> bool:
     return random.choices([True, False], [prob, 1 - prob])[0]
 
 
-def idempotent(func: _F) -> _F:
+@overload
+def idempotent(func: _F | None) -> _F:
+    ...
+
+
+@overload
+def idempotent(
+    *, equal_return: bool = False, enforce_tests: bool = True
+) -> Callable[[_F], _F]:
+    ...
+
+
+def idempotent(
+    func: _F | None = None, equal_return: bool = False, enforce_tests: bool = True
+) -> Any:
     """
     No-op during runtime.
-    This marker allows Pytest to override the decorated function
-    during test-time to verify the function is idempotent.
+    This marker allows Pytest to override the decorated function during
+    test-time to verify the function is idempotent (e.g. no side effects).
     """
-    return func
+    del equal_return, enforce_tests
+
+    @wraps(cast(_F, func))
+    def _idempotent_inner(user_func: _F) -> _F:
+        return user_func
+
+    return _idempotent_inner if func is None else _idempotent_inner(func)
 
 
 formatter = init_prettyprinter()

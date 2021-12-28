@@ -351,7 +351,7 @@ class Edge(Generic[V], Mapping[str, Any]):
 
 
 @dataclass(order=True, slots=True)
-class Node(Generic[V]):
+class Node(Generic[V]):  # type: ignore[misc]  # will be fixed in mypy 0.931
     """An example node class that stores node data."""
 
     data: V
