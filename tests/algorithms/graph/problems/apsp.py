@@ -16,6 +16,7 @@ class AllPairsShortestPaths:
     ) -> APSPFunction[V]:
         return lambda graph: {start: shortest_paths_fn(graph, start) for start in graph}
 
+    # TODO: Pytest 7 allows us to mark these as `@staticmethod`
     # @staticmethod
     def test_no_paths(self, shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str]({"a": {}, "b": {}, "c": {}})

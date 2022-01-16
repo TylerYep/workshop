@@ -64,8 +64,17 @@ If you have a dataclass, use @dataslots.
 
 # Style Guide
 
+## Type-hints for Collections
+
+- Use the most specific type annotation possible!
+
+- Iterables cannot be indexed and are not necessarily Sized (generators).
+- Collections are Sized Iterables, but are not indexable (sets with len(), no generators).
+- Sequences are indexable and size is required (include lists, tuples).
+
+## Etc
+
 - Order functions within a class using flake8-function-order.
-- Iterables cannot be indexed and must get length by casting to tuple or set. Sequences are indexable.
 - Put test cases into classes to avoid naming conflicts!
 - Prefer `list[]`, `dict[]`, and `int | None` over `List[]`, `Dict[]`, `Optional[]`, and `Union` in Python 3.7+ with `from __future__ import annotations`.
 - Remove all unnecessary casts to `float()` and trailing zero e.g. `1.0` in numbers.
@@ -181,6 +190,7 @@ In general, we should use the `named_` prefixes for these functions
   - only walks through direct children.
   - returns `nn.Module`s.
 - `state_dict()`
+
   - contains `parameters`, but also contains `buffers`, etc
   - e.g. `running_mean`, `running_var`
   - used for saving and loading models
@@ -226,7 +236,7 @@ https://blog.ionelmc.ro/2014/05/25/python-packaging/
 
 ## Pytest 7.0.0
 
-- Remove _.pytest imports for most projects
+- Remove \_pytest imports for most projects
 
 ## 3.11
 

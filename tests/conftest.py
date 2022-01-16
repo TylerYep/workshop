@@ -48,10 +48,6 @@ def pytest_collection_modifyitems(config: Config, items: list[Node]) -> None:
                 item.add_marker(skip_slow)
 
 
-def pytest_idempotent_decorator() -> str:
-    return "cs.util.idempotent"
-
-
 def assert_a_faster_than_b(
     variant_a: Callable[..., Any],
     variant_b: Callable[..., Any],

@@ -57,7 +57,7 @@ def simulate_qwop(plan: list[float]) -> tuple[float, list[np.ndarray]]:
     for i in range(200):
         # This is equivalent to a nested for loop:
         # for j in range(20):
-        #     for k in range(10):  (k = i - j * 5)
+        #     for k in range(10):  # k = i - j * 5
         j = (i // 10) * 2
         lamb = 0.1 * (i - j * 5) + 0.05
         t0 = ((plan[j - 2] if j > 0 else 0.5) * (1 - lamb)) + (plan[j] * lamb)
