@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import Any, ClassVar, Generic, NamedTuple, TypeVar
+from functools import wraps
+from typing import Any, ClassVar, Generic, NamedTuple, ParamSpec, TypeVar
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
-F = TypeVar("F", bound=Callable[..., Any])
+P = ParamSpec("P")
+R = TypeVar("R")
 
 
 class CacheInfo(NamedTuple):
@@ -61,9 +63,10 @@ class LRUCache(Generic[KT, VT]):
         )
 
     @classmethod
-    def lru_cache(cls, size: int = 128) -> Callable[[F], Callable[..., Any]]:
-        def cache_decorator_inner(func: F) -> Callable[..., Any]:
-            def cache_decorator_wrapper(*args: Any, **kwargs: Any) -> Any:
+    def lru_cache(cls, size: int = 128) -> Callable[[Callable[P, R]], Callable[P, R]]:
+        def cache_decorator_inner(func: Callable[P, R]) -> Callable[P, R]:
+            @wraps(func)
+            def cache_decorator_wrapper(*args: P.args, **kwargs: P.kwargs) -> Any:
                 if func not in cls.decorator_instance_map:
                     cls.decorator_instance_map[func] = LRUCache(size)
 
@@ -82,5 +85,5 @@ class LRUCache(Generic[KT, VT]):
         return cache_decorator_inner
 
 
-def lru_cache(size: int = 128) -> Callable[[F], Callable[..., Any]]:
+def lru_cache(size: int = 128) -> Callable[[Callable[P, R]], Callable[P, R]]:
     return LRUCache.lru_cache(size)
