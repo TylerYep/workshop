@@ -14,7 +14,7 @@ class SparseTableRMQ(RMQ):
             self.rmq_table[0][i] = i
 
         for i in range(1, log_elems + 1):
-            for j in range(len(elems) - (2 ** i) + 1):
+            for j in range(len(elems) - (2**i) + 1):
                 index1 = self.rmq_table[i - 1][j]
                 index2 = self.rmq_table[i - 1][j + 2 ** (i - 1)]
                 self.rmq_table[i][j] = self.return_smaller_index(index1, index2)
@@ -32,5 +32,5 @@ class SparseTableRMQ(RMQ):
 
         k = 63 - get_k(high - low)
         index1 = self.rmq_table[k][low]
-        index2 = self.rmq_table[k][high - 2 ** k]
+        index2 = self.rmq_table[k][high - 2**k]
         return self.return_smaller_index(index1, index2)

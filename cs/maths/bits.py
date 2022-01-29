@@ -39,22 +39,22 @@ class Bits:
     def __lshift__(self, other: object) -> Bits:
         if not isinstance(other, int):
             raise TypeError("Bit shifts require an integer shift amount.")
-        return Bits(str(self.val * (2 ** other)), length=self.length)
+        return Bits(str(self.val * (2**other)), length=self.length)
 
     def __rshift__(self, other: object) -> Bits:
         if not isinstance(other, int):
             raise TypeError("Bit shifts require an integer shift amount.")
-        return Bits(str(self.val // (2 ** other)), length=self.length)
+        return Bits(str(self.val // (2**other)), length=self.length)
 
     def __ilshift__(self, other: object) -> None:
         if not isinstance(other, int):
             raise TypeError("Bit shifts require an integer shift amount.")
-        self.val *= 2 ** other
+        self.val *= 2**other
 
     def __irshift__(self, other: object) -> None:
         if not isinstance(other, int):
             raise TypeError("Bit shifts require an integer shift amount.")
-        self.val //= 2 ** other
+        self.val //= 2**other
 
     def __invert__(self) -> Bits:
         """Inverts all bits."""
@@ -165,7 +165,7 @@ class Bits:
     @staticmethod
     def binary_str(val: int, length: int) -> str:
         # return bin(val & (2 ** length - 1))
-        coerced_positive_val = val & (2 ** length - 1)
+        coerced_positive_val = val & (2**length - 1)
         return f"{coerced_positive_val:0{length}b}"
 
     def is_one(self, index: int) -> bool:

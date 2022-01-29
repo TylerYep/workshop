@@ -34,6 +34,6 @@ def fibonacci_formula(n: int) -> list[int]:
     phi_1 = (1 + sqrt_5) / 2
     phi_2 = (1 - sqrt_5) / 2
     for i in range(2, n):
-        temp_out = (phi_1 ** i - phi_2 ** i) / sqrt_5
+        temp_out = (phi_1**i - phi_2**i) / sqrt_5
         seq_out.append(int(temp_out))
     return seq_out

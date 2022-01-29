@@ -81,7 +81,7 @@ def simulate_qwop(plan: list[float]) -> tuple[float, list[np.ndarray]]:
         # Array broadcasting: (5,) * (5, 2) -> (5, 2)
         forceedge = (((edgel - dist) * edgesp - distv * edgef) * dispn).T
         edgeang = np.arctan2(disp.T[1], disp.T[0])  # (5,)
-        edgeangv = (dispv.T[0] * disp.T[1] - dispv.T[1] * disp.T[0]) / (dist ** 2)
+        edgeangv = (dispv.T[0] * disp.T[1] - dispv.T[1] * disp.T[0]) / (dist**2)
         # (5, 2)
 
         spin += normalize_angle(edgeang[4] - lastang)
@@ -99,7 +99,7 @@ def simulate_qwop(plan: list[float]) -> tuple[float, list[np.ndarray]]:
 
         # Swap two axes, normalize, multiply first col by -1
         disp[:, [0, 1]] = disp[:, [1, 0]]
-        edgetorque = disp / (dist ** 2).reshape(5, 1)
+        edgetorque = disp / (dist**2).reshape(5, 1)
         edgetorque[:, 0] *= -1
 
         for z in range(4):

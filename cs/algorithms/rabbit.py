@@ -22,7 +22,7 @@ class RabbitGameState:
         self.guess_count += 1
         if self.holes[guess]:
             self.end_game(f"You found the rabbit in {self.guess_count} guesses!!")
-        elif self.guess_count > self.num_holes ** 2:
+        elif self.guess_count > self.num_holes**2:
             self.end_game(f"You lost after {self.guess_count} guesses!!")
         else:
             self.rabbit_hop()

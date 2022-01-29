@@ -44,7 +44,7 @@ def convert_si_prefix(
     known_amount: float, from_prefix: SI_Unit, to_prefix: SI_Unit
 ) -> float:
     difference: float = from_prefix - to_prefix
-    return known_amount * (10 ** difference)
+    return known_amount * (10**difference)
 
 
 def convert_binary_prefix(
