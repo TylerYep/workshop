@@ -9,16 +9,14 @@ APSPFunction = Callable[[Graph[V]], dict[V, dict[V, float]]]
 
 
 class AllPairsShortestPaths:
-    # pylint: disable=no-self-use
     @staticmethod
     def single_source_to_all_pairs(
         shortest_paths_fn: SingleSourceFunction[V],
     ) -> APSPFunction[V]:
         return lambda graph: {start: shortest_paths_fn(graph, start) for start in graph}
 
-    # TODO: Pytest 7 allows us to mark these as `@staticmethod`
-    # @staticmethod
-    def test_no_paths(self, shortest_paths_fn: APSPFunction[Any]) -> None:
+    @staticmethod
+    def test_no_paths(shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str]({"a": {}, "b": {}, "c": {}})
 
         assert shortest_paths_fn(graph) == {
@@ -27,8 +25,8 @@ class AllPairsShortestPaths:
             "c": {"a": INF, "b": INF, "c": 0},
         }
 
-    # @staticmethod
-    def test_adj_list_neg_weights(self, shortest_paths_fn: APSPFunction[Any]) -> None:
+    @staticmethod
+    def test_adj_list_neg_weights(shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](
             {
                 "a": {"b": -1, "c": 4},
@@ -67,8 +65,8 @@ class AllPairsShortestPaths:
             "S": {"A": 6, "B": 9, "C": 13, "D": 16, "E": 14, "S": 0},
         }
 
-    # @staticmethod
-    def test_adj_list(self, shortest_paths_fn: APSPFunction[Any]) -> None:
+    @staticmethod
+    def test_adj_list(shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](
             {
                 "A": {"B": 2, "C": 5},
@@ -119,8 +117,8 @@ class AllPairsShortestPaths:
             6: {2: INF, 3: INF, 4: INF, 5: INF, 6: 0},
         }
 
-    # @staticmethod
-    def edge_list(self, shortest_paths_fn: APSPFunction[Any]) -> None:
+    @staticmethod
+    def edge_list(shortest_paths_fn: APSPFunction[Any]) -> None:
         e01 = Edge(0, 1, -1)
         e05 = Edge(0, 5, 2)
         e12 = Edge(1, 2, 2)
@@ -142,8 +140,8 @@ class AllPairsShortestPaths:
             5: {0: INF, 1: 2, 2: 3, 3: 0, 4: 4, 5: 0},
         }
 
-    # @staticmethod
-    def test_matrix(self, shortest_paths_fn: APSPFunction[Any]) -> None:
+    @staticmethod
+    def test_matrix(shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph.from_matrix(
             [[0, 5, INF, 10], [INF, 0, 3, INF], [INF, INF, 0, 1], [INF, INF, INF, 0]]
         )

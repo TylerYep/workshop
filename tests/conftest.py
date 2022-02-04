@@ -5,10 +5,6 @@ from collections.abc import Callable
 from typing import Any
 
 import pytest
-from _pytest.config import Config
-from _pytest.config.argparsing import Parser
-from _pytest.nodes import Node
-from _pytest.python import Metafunc
 
 
 @pytest.fixture(autouse=True)
@@ -16,7 +12,7 @@ def _set_random_seed(seed: int = 0) -> None:
     random.seed(seed)
 
 
-def pytest_configure(config: Config) -> None:
+def pytest_configure(config: pytest.Config) -> None:
     config.addinivalue_line(
         "markers",
         (
@@ -26,7 +22,7 @@ def pytest_configure(config: Config) -> None:
     )
 
 
-def pytest_generate_tests(metafunc: Metafunc) -> None:
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
     marker = metafunc.definition.get_closest_marker("add_function")
     if marker is not None:
         for function_name in marker.args:
@@ -36,11 +32,13 @@ def pytest_generate_tests(metafunc: Metafunc) -> None:
                 )
 
 
-def pytest_addoption(parser: Parser) -> None:
+def pytest_addoption(parser: pytest.Parser) -> None:
     parser.addoption("--runslow", action="store_true")
 
 
-def pytest_collection_modifyitems(config: Config, items: list[Node]) -> None:
+def pytest_collection_modifyitems(
+    config: pytest.Config, items: list[pytest.Item]
+) -> None:
     if not config.getoption("--runslow"):
         skip_slow = pytest.mark.skip(reason="need --runslow option to run this test")
         for item in items:
