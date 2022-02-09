@@ -132,10 +132,7 @@ class TestSkipList:
     @staticmethod
     def test_iter_always_yields_sorted_values() -> None:
         def is_sorted(lst: list[int]) -> bool:
-            for item, next_item in zip(lst, lst[1:]):
-                if next_item < item:
-                    return False
-            return True
+            return all(lst[i] <= lst[i + 1] for i in range(len(lst) - 1))
 
         skip_list = SkipList[int, int]()
         for i in range(10):

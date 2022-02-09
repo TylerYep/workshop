@@ -179,8 +179,8 @@ def create_movie(data, show_movie: bool = True) -> None:
         return patch, head
 
     def animate(j):
-        points = zip([data[j][0][i] for i in joints], [data[j][1][i] for i in joints])
-        patch.set_xy(list(points))
+        points = [(data[j][0][i], data[j][1][i]) for i in joints]
+        patch.set_xy(points)
         head.center = (data[j][0][5], data[j][1][5])
         return patch, head
 

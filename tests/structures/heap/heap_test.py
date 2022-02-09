@@ -158,15 +158,12 @@ class TestHeap:
         """
         for intended_length in (0, 1, 2, 3, 10, 100):
             heap: Heap[int] = construct_heap(heap_type, allow_duplicates)
-            random_values = range(intended_length)
-            random_priorities = range(intended_length)
-            tuples = list(zip(random_priorities, random_values))
-            random.shuffle(tuples)
+            val_priority_tuples = [(i, i) for i in range(intended_length)]
+            random.shuffle(val_priority_tuples)
 
-            for tuple_ in tuples:
+            for tuple_ in val_priority_tuples:
                 heap.enqueue(*tuple_)
-            expected_list = tuples[:]
-            expected_list.sort()
+            expected_list = sorted(val_priority_tuples)
 
             assert len(heap) == intended_length
             actual_list = [heap.dequeue() for _ in range(intended_length)]

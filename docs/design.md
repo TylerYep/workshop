@@ -230,14 +230,6 @@ yes d | git mergetool --
 
 https://blog.ionelmc.ro/2014/05/25/python-packaging/
 
-## 3.10
-
-- Add `zip(..., strict=True)` once mypy detects the new parameter.
-
-## Pytest 7.0.0
-
-- Remove \_pytest imports for most projects
-
 ## 3.11
 
 - Remove all `from __future__` imports.
