@@ -76,4 +76,4 @@ def choose_hash_table_type(num_buckets: int) -> HashTable:
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
