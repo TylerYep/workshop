@@ -38,6 +38,6 @@ def test_kruskals() -> None:
     graph.add_edge(5, 4, 3)
 
     assert kruskals_mst(graph) == Graph.from_edgelist(
-        {Edge(5, 2, 1), Edge(3, 2, 3), Edge(2, 1, 2), Edge(5, 4, 3), Edge(1, 0, 4)},
+        {Edge(5, 2, 1), Edge(3, 4, 3), Edge(2, 1, 2), Edge(5, 4, 3), Edge(2, 0, 4)},
         is_directed=False,
     )

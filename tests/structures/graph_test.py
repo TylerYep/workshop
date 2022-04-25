@@ -115,12 +115,12 @@ class TestGraph:
         assert len(graph) == 4
         assert len(graph.nodes) == 4
         assert len(graph.edges) == 4
-        assert graph.edges == {
+        assert graph.edges == (
             Edge("hi", "hello", 3),
             Edge("bye", "hello", 2),
             Edge("bye", "what up", 4),
             Edge("bye", "bye", 0),
-        }
+        )
         assert list(graph.adj("bye")) == ["hello", "what up", "bye"]
         assert graph.degree("bye") == 3
 
@@ -202,7 +202,6 @@ class TestGraph:
         graph = Graph[int]()
         for i in range(4):
             graph.add_node(i)
-
         graph.add_edge(0, 1)
         for i in range(2):
             for j in range(1, 4):
@@ -232,3 +231,34 @@ class TestGraph:
             .replace("),", "), ")
         )
         assert repr(graph) == f"Graph(_graph={graph_str}, is_directed=True)"
+
+    @staticmethod
+    def test_repr_kwargs() -> None:
+        graph = Graph[int]()
+        for i in range(4):
+            graph.add_node(i)
+        graph.add_edge(0, 1)
+        for i in range(2):
+            for j in range(1, 4):
+                graph.add_edge(i, j)
+
+        flow_graph = Graph.from_graph(
+            graph, edge_fn=lambda e: Edge(**e, flow=e.end + 1)
+        )
+        graph_str = str(flow_graph)
+        assert graph_str == (
+            "{\n"
+            "    0: {\n"
+            "        1: Edge(start=0, end=1, weight=1, flow=2),\n"
+            "        2: Edge(start=0, end=2, weight=1, flow=3),\n"
+            "        3: Edge(start=0, end=3, weight=1, flow=4)\n"
+            "    },\n"
+            "    1: {\n"
+            "        1: Edge(start=1, end=1, weight=1, flow=2),\n"
+            "        2: Edge(start=1, end=2, weight=1, flow=3),\n"
+            "        3: Edge(start=1, end=3, weight=1, flow=4)\n"
+            "    },\n"
+            "    2: {},\n"
+            "    3: {}\n"
+            "}"
+        )

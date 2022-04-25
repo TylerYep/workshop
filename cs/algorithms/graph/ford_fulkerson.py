@@ -1,6 +1,33 @@
 from __future__ import annotations
 
+from typing import Any, Iterable, Mapping, cast
+
 from cs.structures import Edge, Graph, V
+
+
+def bipartite_matching(
+    graph: Graph[V], left: Iterable[V] | Mapping[V, int], right: Iterable[V]
+) -> tuple[Graph[V], list[Edge[V]]]:
+    source = cast(Any, "Source")
+    sink = cast(Any, "Sink")
+    graph.add_node(source)
+    graph.add_node(sink)
+    if isinstance(left, Mapping):
+        for node, count in left.items():
+            graph.add_edge(source, node, weight=count)
+    else:
+        for node in left:
+            graph.add_edge(source, node, weight=1)
+    for node in right:
+        graph.add_edge(node, sink)
+
+    max_flow_graph = ford_max_flow_network(graph, source, sink)
+    matching_edges = [
+        edge
+        for edge in max_flow_graph.edges
+        if edge["flow"] >= 1 and edge.start in left and edge.end in right
+    ]
+    return max_flow_graph, matching_edges
 
 
 def ford_max_flow(graph: Graph[V], source: V, sink: V) -> float:

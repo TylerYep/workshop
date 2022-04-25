@@ -83,8 +83,8 @@ class Graph(Generic[V]):
         return self._graph.keys()
 
     @property
-    def edges(self) -> set[Edge[V]]:
-        return {self._graph[u][v] for u in self._graph for v in self._graph[u]}
+    def edges(self) -> tuple[Edge[V], ...]:
+        return tuple(self._graph[u][v] for u in self._graph for v in self._graph[u])
 
     @classmethod
     def from_graph(
@@ -164,9 +164,9 @@ class Graph(Generic[V]):
 
         dot = GraphViz(format=img_format)
         for node in self.nodes:
-            dot.node(node)
+            dot.node(str(node))
         for edge in self.edges:
-            dot.edge(edge.start, edge.end)
+            dot.edge(str(edge.start), str(edge.end))
         dot.render()
 
     def to_matrix(self, *, zero_is_no_edge: bool = True) -> list[list[float]]:

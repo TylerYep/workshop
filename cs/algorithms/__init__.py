@@ -7,7 +7,7 @@ from .graph.dfs import depth_first_search, dfs_traversal
 from .graph.dijkstras import dijkstra_search, dijkstra_shortest_paths
 from .graph.edmonds_karp import edmonds_karp_max_flow
 from .graph.floyd_warshall import floyd_warshall_shortest_paths
-from .graph.ford_fulkerson import ford_max_flow
+from .graph.ford_fulkerson import bipartite_matching, ford_max_flow
 from .graph.hamiltonian_cycle import hamiltonian_cycle
 from .graph.johnsons import johnsons_shortest_paths
 from .graph.kargers import kargers_min_cut
@@ -30,6 +30,7 @@ from .string.sais import build_suffix_array
 __all__ = (
     "bellman_ford_shortest_paths",
     "binary_search",
+    "bipartite_matching",
     "breadth_first_search",
     "bubble_sort",
     "bucket_sort",
