@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 import random
-from typing import TypeVar
+from typing import TypeVar, cast
 
 import pytest
 
@@ -23,7 +23,9 @@ def construct_hash_table(
         constructor.__name__: constructor
         for constructor in (Cuckoo, LinearProbing, RobinHood)
     }
-    return hash_table_map[hash_table_type](num_buckets, load_factor)
+    return cast(
+        HashTable[KT, VT], hash_table_map[hash_table_type](num_buckets, load_factor)
+    )
 
 
 @parametrize_hash_table_type

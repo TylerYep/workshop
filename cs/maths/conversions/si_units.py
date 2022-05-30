@@ -44,11 +44,11 @@ def convert_si_prefix(
     known_amount: float, from_prefix: SI_Unit, to_prefix: SI_Unit
 ) -> float:
     difference: float = from_prefix - to_prefix
-    return known_amount * (10**difference)
+    return known_amount * float(10**difference)
 
 
 def convert_binary_prefix(
     known_amount: float, from_prefix: Binary_Unit, to_prefix: Binary_Unit
 ) -> float:
     difference: float = from_prefix.value - to_prefix.value
-    return known_amount * (2 ** (difference * 10))
+    return known_amount * float(2 ** (difference * 10))
