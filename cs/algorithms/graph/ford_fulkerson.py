@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Iterable, Mapping, cast
+from collections.abc import Iterable, Mapping
+from typing import Any, cast
 
 from cs.structures import Edge, Graph, V
 
@@ -32,7 +33,7 @@ def bipartite_matching(
 
 def ford_max_flow(graph: Graph[V], source: V, sink: V) -> float:
     result = ford_max_flow_network(graph, source, sink)
-    return sum(edge["flow"] for edge in result[source].values())
+    return cast(float, sum(edge["flow"] for edge in result[source].values()))
 
 
 def ford_max_flow_network(graph: Graph[V], source: V, sink: V) -> Graph[V]:
