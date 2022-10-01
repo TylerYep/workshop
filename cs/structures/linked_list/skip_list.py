@@ -46,7 +46,7 @@ class SkipList(Generic[KT, VT]):
         None    *...
         """
         items = list(self)
-        if len(items) == 0:
+        if not items:
             return f"SkipList(level={self.level})"
 
         key_size = max(len(str(item)) for item in items)

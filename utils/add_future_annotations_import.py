@@ -1,3 +1,5 @@
+from pathlib import Path
+
 FLAKE8_OUTPUT = """
 
 """
@@ -10,8 +12,7 @@ def main() -> None:
         if line and add_line in line:
             filename = line.split(":")[0]
             filepath = f"/Users/tyler.yep/robinhood/rh/{filename}"
-            with open(filepath, encoding="utf-8") as f:
-                lines = f.read()
+            lines = Path(filepath).read_text(encoding="utf-8")
             if lines.split("\n")[0] != add_line:
                 with open(filepath, "w", encoding="utf-8") as f:
                     f.write(f"{add_line}\n{lines}")

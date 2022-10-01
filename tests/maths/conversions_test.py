@@ -4,6 +4,7 @@ from cs.maths.conversions.molecular_chemistry import (
     moles_to_volume,
     pressure_and_volume_to_temperature,
 )
+from cs.maths.conversions.ordinal import make_ordinal
 from cs.maths.conversions.roman_to_integer import roman_to_int
 from cs.maths.conversions.si_units import (
     Binary_Unit,
@@ -25,6 +26,13 @@ from cs.maths.conversions.temperature import (
     rankine_to_fahrenheit,
     rankine_to_kelvin,
 )
+
+
+def test_ordinal() -> None:
+    assert make_ordinal(0) == "0th"
+    assert make_ordinal(3) == "3rd"
+    assert make_ordinal(122) == "122nd"
+    assert make_ordinal(213) == "213th"
 
 
 def test_molecular_chemistry() -> None:

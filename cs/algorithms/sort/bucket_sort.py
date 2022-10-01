@@ -17,7 +17,7 @@ def bucket_sort(array: list[int]) -> list[int]:
         return array
     min_value, max_value = min(array), max(array)
     bucket_count = (max_value - min_value) // BUCKET_SIZE + 1
-    buckets: list[list[int]] = [[] for _ in range(int(bucket_count))]
+    buckets: list[list[int]] = [[] for _ in range(bucket_count)]
 
     for item in array:
         buckets[int((item - min_value) // BUCKET_SIZE)].append(item)

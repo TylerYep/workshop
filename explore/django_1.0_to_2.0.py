@@ -43,8 +43,7 @@ def replace(src, replacements):
     chunks = []
     end = len(src)
     for (start, stop), mod in reversed(replacements):
-        chunks.append(src[stop:end])
-        chunks.append(mod)
+        chunks += [src[stop:end], mod]
         end = start
     chunks.append(src[0:end])
 
@@ -70,8 +69,8 @@ class Visitor(ast.NodeVisitor):
             return
 
         src = (
-            self.tree.get_text(node)[:-1].rstrip().rstrip(",")
-            + ", on_delete=models.CASCADE)"
+            f"{self.tree.get_text(node)[:-1].rstrip().rstrip(',')}, "
+            "on_delete=models.CASCADE)"
         )
         self.replacements.append((self.tree.get_text_range(node), src))
 

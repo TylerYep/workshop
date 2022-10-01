@@ -24,7 +24,7 @@ class Bits:
         return self.binary_str(self.val, self.length)
 
     def __repr__(self) -> str:
-        return f"Bits({str(self)}, val={self.val}, length={self.length})"
+        return f"Bits({self}, val={self.val}, length={self.length})"
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, int):
@@ -114,8 +114,8 @@ class Bits:
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be added with Bits.")
         length = max(len(self), len(other))
-        lhs = [0] * (length - len(self)) + [int(digit) for digit in self]
-        rhs = [0] * (length - len(other)) + [int(digit) for digit in other]
+        lhs = [0] * (length - len(self)) + list(self)
+        rhs = [0] * (length - len(other)) + list(other)
         carry = 0
         result = []
         for i in range(1, len(lhs) + 1):
@@ -131,8 +131,8 @@ class Bits:
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be subtracted from Bits.")
         length = max(len(self), len(other))
-        lhs = [0] * (length - len(self)) + [int(digit) for digit in self]
-        rhs = [0] * (length - len(other)) + [int(digit) for digit in other]
+        lhs = [0] * (length - len(self)) + list(self)
+        rhs = [0] * (length - len(other)) + list(other)
         result = []
         for i in range(1, len(lhs) + 1):
             difference = lhs[-i] - rhs[-i]

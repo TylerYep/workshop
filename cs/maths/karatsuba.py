@@ -107,8 +107,8 @@ def multiply(lhs: list[int], rhs: list[int], base: int) -> list[int]:
     an array of digits corresponding to their product using the Karatsuba
     algorithm.
     """
-    assert len(lhs) > 0
-    assert len(rhs) > 0
+    assert lhs
+    assert rhs
 
     # Pad the two inputs to be the same length.
     length = max(len(lhs), len(rhs))

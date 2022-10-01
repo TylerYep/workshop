@@ -171,7 +171,7 @@ class TwoLayerNet:
             self.params["b2"] -= learning_rate * grads["b2"]
 
             if verbose and it % 100 == 0:
-                print(f"iteration {int(it)} / {int(num_iters)}: loss {loss:f}")
+                print(f"iteration {it} / {num_iters}: loss {loss:f}")
 
             # Every epoch, check train and val accuracy and decay learning rate.
             if it % iterations_per_epoch == 0:
