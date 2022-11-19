@@ -80,7 +80,9 @@ def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:
     return prettyprinter.pretty_call(ctx, cls, **kwargs)
 
 
-def dfield(default: Any, compare: bool = False, repr: bool = False) -> Any:
+def dfield(
+    default: Any, compare: bool = False, repr: bool = False  # noqa: A002
+) -> Any:
     # pylint: disable=redefined-builtin
     return dataclasses.field(default=default, compare=compare, repr=repr)
 

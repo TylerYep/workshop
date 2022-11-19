@@ -35,8 +35,7 @@ def main() -> None:
             except KeyError:
                 print("Error - skipping command")
             print(f"    Called table.remove({data})")
-            if data in curr_elements:
-                curr_elements.remove(data)
+            curr_elements.discard(data)
         print(hash_table)
 
 

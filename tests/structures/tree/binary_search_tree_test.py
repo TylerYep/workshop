@@ -126,7 +126,7 @@ class TestBinarySearchTree:
             "",
         ]
         assert tree.root.left.right.right is None
-        assert tree.root.left.right.left.data == 4
+        assert tree.root.left.right.left.data == 4  # type: ignore[unreachable]
 
         tree.remove(6)
 

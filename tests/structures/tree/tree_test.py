@@ -3,6 +3,7 @@ from typing import TypeVar, cast
 import pytest
 
 from cs.structures import BinarySearchTree, RedBlackTree, Tree
+from cs.structures.tree.tree import TreeNode
 from cs.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
@@ -30,9 +31,10 @@ class TestTree:
         for elem in TEN_ELEMS:
             tree.insert(elem)
 
-        prev = None
+        prev: TreeNode[int] | None = None
         for node in tree:
-            assert prev is None or prev < node.data
+            assert prev is None or prev.data < node.data
+            prev = node
 
     @staticmethod
     def test_height_is_balanced(tree_type: str) -> None:

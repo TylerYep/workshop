@@ -10,7 +10,7 @@ T = TypeVar("T")
 @dataclass(repr=False, slots=True)
 class LinkedListNode(Generic[T]):
     data: T
-    next: LinkedListNode[T] | None = None
+    next: LinkedListNode[T] | None = None  # noqa: A003
 
     def __repr__(self) -> str:
         return f"({self.data}) -> {self.next}"

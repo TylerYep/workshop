@@ -114,7 +114,7 @@ class FibonacciHeap(Heap[T]):
         """
         Merge 2 lists.
 
-        Utility function which, given two pointers into disjoint circularly- linked
+        Utility function which, given two pointers into disjoint circularly-linked
         lists, merges the two lists together into one circularly-linked list in O(1)
         time. Because the lists may be empty, the return value is the only pointer
         that's guaranteed to be to an element of the resulting list.
@@ -146,7 +146,8 @@ class FibonacciHeap(Heap[T]):
         # +----+     +----+     +----+
         one.next, two.next = two.next, one.next
         one.next.prev, two.next.prev = one, two
-        return one if one < two else two
+        # If equal, does not matter which we return.
+        return min(one, two)
 
     @staticmethod
     def _check_priority(priority: float) -> None:
@@ -309,9 +310,10 @@ class FibonacciHeap(Heap[T]):
                 tree_table[curr.degree] = None
 
                 # Determine which of the two trees has the smaller root, storing
-                # the two trees accordingly.
-                minimum = other if other < curr else curr
-                maximum = curr if other < curr else other
+                # the two trees accordingly. In the event of a tie, ensure
+                # minimum and maximum and assigned different trees.
+                minimum = min(curr, other)
+                maximum = max(other, curr)
 
                 # Break max out of the root list, then merge it into min's child list.
                 maximum.next.prev = maximum.prev

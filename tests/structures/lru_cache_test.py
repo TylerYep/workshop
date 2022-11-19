@@ -19,7 +19,7 @@ class TestLRUCache:
         cache[4] = 4
 
         assert cache[1] is None
-        assert cache[3] == 3
+        assert cache[3] == 3  # type: ignore[unreachable]
         assert cache[4] == 4
 
         assert str(cache) == "CacheInfo(hits=3, misses=2, capacity=2, current_size=2)"
