@@ -8,6 +8,7 @@ import prettyprinter  # type: ignore[import]
 from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import]
 
 C = TypeVar("C", bound="Comparable")
+T = TypeVar("T")
 
 
 class Comparable(Protocol):
@@ -80,9 +81,7 @@ def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:
     return prettyprinter.pretty_call(ctx, cls, **kwargs)
 
 
-def dfield(
-    default: Any, compare: bool = False, repr: bool = False  # noqa: A002
-) -> Any:
+def dfield(default: T, compare: bool = False, repr: bool = False) -> T:  # noqa: A002
     # pylint: disable=redefined-builtin
     return dataclasses.field(default=default, compare=compare, repr=repr)
 

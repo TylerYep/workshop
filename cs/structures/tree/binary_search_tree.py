@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import TypeVar
+from typing import TypeVar, cast
 
 from cs.structures.tree.tree import Tree, TreeNode
 from cs.util import Comparable, dfield
@@ -70,9 +70,10 @@ class BinarySearchTree(Tree[T]):
         return draw_tree(self.root)
 
     @staticmethod
-    def depth(tree: BinaryTreeNode[T] | None) -> int:
+    def depth(tree: TreeNode[T] | None) -> int:
         if tree is None:
             return 0
+        tree = cast(BinaryTreeNode[T], tree)
         return 1 + max(
             BinarySearchTree.depth(tree.left), BinarySearchTree.depth(tree.right)
         )

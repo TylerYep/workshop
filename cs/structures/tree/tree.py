@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar
+from typing import Generic, TypeVar
 
 from cs.util import Comparable, dfield, formatter
 
@@ -63,7 +63,7 @@ class Tree(Generic[T]):
         return self.size
 
     @staticmethod
-    def depth(tree: Any) -> int:
+    def depth(tree: TreeNode[T] | None) -> int:
         raise NotImplementedError
 
     def height(self) -> int:

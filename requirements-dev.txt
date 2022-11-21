@@ -13,7 +13,7 @@ gitpython==3.1.29
 graphviz==0.20.1
 matplotlib==3.6.2
 networkx==2.8.8
-numpy==1.23.4
+numpy==1.23.5
 pandas==1.5.1
 prettyprinter==0.18.0
 scipy==1.9.3; python_version < "3.11"
@@ -42,7 +42,7 @@ mypy==0.991
 pre-commit==2.20.0
 pur==7.0.0
 pycln==2.1.2
-pylint==2.15.5
+pylint==2.15.6
 pylint-django==2.5.3
 pylint-pytest==1.1.2
 pyre-check==0.9.17
