@@ -6,7 +6,6 @@ __pycache__/
 .DS_Store
 *.gv.png
 animation.gif
-mypycov/
 
 # C extensions
 *.so

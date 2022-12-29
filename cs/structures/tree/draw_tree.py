@@ -96,7 +96,7 @@ def compute_edge_lengths(
     compute_edge_lengths(node.right, lprofile, rprofile)
 
     # first fill in the edge_length of node
-    if node.left is None and node.right is None:
+    if node.left is node.right is None:
         node.edge_length = 0
     else:
         hmin = 0
