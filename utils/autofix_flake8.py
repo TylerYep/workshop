@@ -10,17 +10,21 @@ FLAKE8_OUTPUT = """
 def main() -> None:
     lines_changed: dict[str, int] = {}
     for line in FLAKE8_OUTPUT.split("\n"):
-        if line:
-            filepath, row, col, _ = extract_details(line)
-            all_lines = Path(filepath).read_text(encoding="utf-8")
-            lines = all_lines.split("\n")
+        if not line:
+            continue
 
+        filepath, row, col, _ = extract_details(line)
+        all_lines = Path(filepath).read_text(encoding="utf-8")
+        lines = all_lines.split("\n")
+        try:
             if "from __future__ import annotations" in line:
                 add_future_annotations(filepath, all_lines, lines, lines_changed)
             elif "E231 missing whitespace after" in line:
                 fix_trailing_commas(filepath, lines, row, col, lines_changed)
             elif "F541 f-string is missing placeholders" in line:
                 fix_empty_f_strings(filepath, lines, row, col, lines_changed)
+        except Exception as exc:  # pylint: disable=broad-except
+            print(f"Error occurred: {exc}\n{filepath}\n{line}\n")
     print(f"Lines modified: {lines_changed}")
 
 
