@@ -6,7 +6,7 @@ wheel==0.38.4
 # Prod requirements
 bitarray==2.6.2
 dataslots==1.2.0
-django==4.1.5
+django==4.1.6
 efficientnet_pytorch==0.7.1; python_version < "3.11"
 freezegun==1.2.2
 gitpython==3.1.30
