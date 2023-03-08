@@ -23,6 +23,8 @@ def main() -> None:
                 fix_trailing_commas(filepath, lines, row, col, lines_changed)
             elif "F541 f-string is missing placeholders" in line:
                 fix_empty_f_strings(filepath, lines, row, col, lines_changed)
+            elif "E265 block comment should start with '# '" in line:
+                fix_missing_comment_space(filepath, lines, row, col, lines_changed)
         except Exception as exc:  # pylint: disable=broad-except
             print(f"Error occurred: {exc}\n{filepath}\n{line}\n")
     print(f"Lines modified: {lines_changed}")
@@ -58,6 +60,17 @@ def fix_empty_f_strings(
             lines[row] = lines[row][:col] + lines[row][col + 1 :]
             f.write("\n".join(lines))
             key = "unnecessary f-string"
+            lines_changed[key] = lines_changed.get(key, 0) + 1
+
+
+def fix_missing_comment_space(
+    filepath: str, lines: list[str], row: int, col: int, lines_changed: dict[str, int]
+) -> None:
+    if lines[row][col] == "#":
+        with open(filepath, "w", encoding="utf-8") as f:
+            lines[row] = lines[row].replace("#", "# ")
+            f.write("\n".join(lines))
+            key = "missing comment space"
             lines_changed[key] = lines_changed.get(key, 0) + 1
 
 
