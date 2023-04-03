@@ -29,7 +29,12 @@ def main() -> None:
         all_lines = Path(filepath).read_text(encoding="utf-8")
         lines = all_lines.split("\n")
         try:
-            if ADD_ALL_TYPE_IGNORES:
+            if (
+                "unused 'type: ignore' comment" in line
+                or 'unused "type: ignore" comment' in line
+            ):
+                remove_unused_type_ignore(filepath, lines, row, lines_changed)
+            elif ADD_ALL_TYPE_IGNORES:
                 add_type_ignore(
                     filepath,
                     lines,
@@ -62,11 +67,8 @@ def main() -> None:
                     error_code,
                     context="subclass_has_type_Any",
                 )
-            elif (
-                "unused 'type: ignore' comment" in line
-                or 'unused "type: ignore" comment' in line
-            ):
-                remove_unused_type_ignore(filepath, lines, row, lines_changed)
+            else:
+                print(f"Line not handled: {line}")
         except Exception as exc:  # pylint: disable=broad-except
             print(f"Error occurred: {exc}\n when processing{filepath}:{row}")
     print(f"Lines modified: {lines_changed}")
@@ -90,9 +92,10 @@ def add_type_ignore(  # pylint: disable=too-many-arguments
 def remove_unused_type_ignore(
     filepath: str, lines: list[str], row: int, lines_changed: dict[str, int]
 ) -> None:
-    if "  # type: ignore" in lines[row]:
+    ignore = "  # type: ignore"
+    if ignore in lines[row]:
         with open(filepath, "w", encoding="utf-8") as f:
-            lines[row] = lines[row][: lines[row].index("  # type: ignore")]
+            lines[row] = lines[row][: lines[row].index(ignore)]
             f.write("\n".join(lines))
         key = "unused type ignore"
         lines_changed[key] = lines_changed.get(key, 0) + 1
@@ -104,7 +107,7 @@ def extract_details(mypy_error_line: str) -> tuple[str, int, bool, str]:
     filepath = f"{Path.home()}/robinhood/rh/{filename}"
     row = int(row_str) - 1
     is_note = error_or_note.strip() == "note"
-    if is_note:
+    if is_note or "[" not in mypy_error_line:
         error_code = ""
     else:
         error_code = mypy_error_line[mypy_error_line.rindex("[") + 1 : -1]
