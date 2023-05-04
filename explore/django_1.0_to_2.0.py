@@ -75,7 +75,7 @@ class Visitor(ast.NodeVisitor):
         self.replacements.append((self.tree.get_text_range(node), src))
 
 
-for path in walk(pathlib.Path(".")):
+for path in walk(pathlib.Path()):
     src = path.read_text()
 
     try:

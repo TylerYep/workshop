@@ -231,12 +231,8 @@ def to_rank_array(text: str) -> list[int]:
     [1, 2, 3, 4, 3, 2, 2, 4, 1, 3, 2, 2, 4, 1, 2, 2, 3, 4, 3, 2, 2, 0]
     """
     chars = sorted(set(text))
-    char_map: dict[str, int] = {}
-    for ch in chars:
-        char_map[ch] = len(char_map) + 1
-    result: list[int] = []
-    for ch in text:
-        result.append(char_map[ch])
+    char_map = {ch: i + 1 for i, ch in enumerate(chars)}
+    result = [char_map[ch] for ch in text]
     # End string terminator
     result.append(0)
     return result

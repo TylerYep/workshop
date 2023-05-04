@@ -10,8 +10,7 @@ def connected_components(graph: Graph[V]) -> list[set[V]]:
     from cs.algorithms import dfs_traversal
 
     visited: set[V] = set()
-    components_list: list[set[V]] = []
-    for v in graph:
-        if v not in visited:
-            components_list.append(dfs_traversal(graph, v, visited))
+    components_list: list[set[V]] = [
+        dfs_traversal(graph, v, visited) for v in graph if v not in visited
+    ]
     return components_list

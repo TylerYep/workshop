@@ -1,3 +1,5 @@
+import operator
+
 from cs.structures import BinaryHeap
 
 
@@ -15,7 +17,7 @@ class TestBinaryHeap:
 
     @staticmethod
     def test_min_heap() -> None:
-        h = BinaryHeap[int](key=lambda x: -x)
+        h = BinaryHeap[int](key=operator.neg)
         h.enqueue(34)
         h.enqueue(31)
         h.enqueue(37)

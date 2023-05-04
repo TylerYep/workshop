@@ -6,6 +6,7 @@ MIT license: www.opensource.org/licenses/mit-license.php
 """
 
 import re
+import string
 from collections import Counter
 
 
@@ -38,7 +39,7 @@ def known(words):
 
 def edits1(word):
     "All edits that are one edit away from `word`."
-    letters = "abcdefghijklmnopqrstuvwxyz"
+    letters = string.ascii_lowercase
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     deletes = [L + R[1:] for L, R in splits if R]
     transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]
