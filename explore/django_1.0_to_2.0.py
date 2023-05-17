@@ -51,7 +51,7 @@ def replace(src, replacements):
 
 
 class Visitor(ast.NodeVisitor):
-    def __init__(self, tree):
+    def __init__(self, tree) -> None:
         self.tree = tree
         self.replacements = []
 

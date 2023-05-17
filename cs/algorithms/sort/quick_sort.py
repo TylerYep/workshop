@@ -21,4 +21,4 @@ def quick_sort(array: list[T]) -> list[T]:
             greater.append(element)
         else:
             lesser.append(element)
-    return quick_sort(lesser) + [pivot] + quick_sort(greater)
+    return [*quick_sort(lesser), pivot, *quick_sort(greater)]

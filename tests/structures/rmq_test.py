@@ -20,7 +20,7 @@ def construct_rmq(rmq_type: str, data: list[int]) -> RMQ:
 class TestRMQ:
     @staticmethod
     @parametrize_rmq_type
-    @pytest.mark.parametrize("data_range", ((0, 1), (5, 10)))
+    @pytest.mark.parametrize("data_range", [(0, 1), (5, 10)])
     def test_all_rmqs(rmq_type: str, data_range: tuple[int, int]) -> None:
         # Skip running FischerHeunRMQ twice.
         if rmq_type != "FischerHeunRMQ":
@@ -36,7 +36,7 @@ class TestRMQ:
             _ = rmq.rmq(6, 5)
 
     @staticmethod
-    @pytest.mark.parametrize("data_range", ((30, 300),))
+    @pytest.mark.parametrize("data_range", [(30, 300)])
     def test_fischerheun_rmq(data_range: tuple[int, int]) -> None:
         """Separate tests to get complete test coverage of Fischer-Heun."""
         run_rmq("HybridRMQ", "FischerHeunRMQ", data_range)

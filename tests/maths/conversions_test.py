@@ -7,8 +7,8 @@ from cs.maths.conversions.molecular_chemistry import (
 from cs.maths.conversions.ordinal import make_ordinal
 from cs.maths.conversions.roman_to_integer import roman_to_int
 from cs.maths.conversions.si_units import (
-    Binary_Unit,
-    SI_Unit,
+    BinaryUnit,
+    SIUnit,
     convert_binary_prefix,
     convert_si_prefix,
 )
@@ -52,12 +52,12 @@ def test_roman_numerals() -> None:
 
 
 def test_si_units() -> None:
-    assert convert_si_prefix(1, SI_Unit.giga, SI_Unit.mega) == 1000
-    assert convert_si_prefix(1, SI_Unit.mega, SI_Unit.giga) == 0.001
-    assert convert_si_prefix(1, SI_Unit.kilo, SI_Unit.kilo) == 1
-    assert convert_binary_prefix(1, Binary_Unit.giga, Binary_Unit.mega) == 1024
-    assert convert_binary_prefix(1, Binary_Unit.mega, Binary_Unit.giga) == 0.0009765625
-    assert convert_binary_prefix(1, Binary_Unit.kilo, Binary_Unit.kilo) == 1
+    assert convert_si_prefix(1, SIUnit.giga, SIUnit.mega) == 1000
+    assert convert_si_prefix(1, SIUnit.mega, SIUnit.giga) == 0.001
+    assert convert_si_prefix(1, SIUnit.kilo, SIUnit.kilo) == 1
+    assert convert_binary_prefix(1, BinaryUnit.giga, BinaryUnit.mega) == 1024
+    assert convert_binary_prefix(1, BinaryUnit.mega, BinaryUnit.giga) == 0.0009765625
+    assert convert_binary_prefix(1, BinaryUnit.kilo, BinaryUnit.kilo) == 1
 
 
 def test_celsius() -> None:

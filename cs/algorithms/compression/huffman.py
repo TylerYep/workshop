@@ -114,6 +114,5 @@ def huffman_decompress(filepath: Path, root: HuffmanTreeNode) -> str:
     Parse the file, then use the input to find and print
     out the letter for each bitstring.
     """
-    output = decode(root, filepath)
-    # print(f"Huffman Decoding of {filepath}: {output}")
-    return output
+    # print(f"Huffman Decoding of {filepath}: {decode(root, filepath)}")
+    return decode(root, filepath)

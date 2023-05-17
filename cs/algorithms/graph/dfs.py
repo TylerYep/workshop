@@ -19,7 +19,7 @@ def depth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:
             visited.add(vertex)
             for neighbor in graph[vertex]:
                 if neighbor not in visited:
-                    stack.append((neighbor, path + [neighbor]))
+                    stack.append((neighbor, [*path, neighbor]))
     return []
 
 
@@ -36,7 +36,7 @@ def depth_first_search_recursive(graph: Graph[V], start: V, end: V) -> list[V]:
         if curr not in visited:
             visited.add(curr)
             for neighbor in graph[curr]:
-                if result := _dfs(neighbor, visited, path + [neighbor]):
+                if result := _dfs(neighbor, visited, [*path, neighbor]):
                     return result
         return []
 

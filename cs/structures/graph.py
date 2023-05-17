@@ -48,11 +48,11 @@ class Graph(Generic[V]):
                             self.add_edge(**edge)
                         elif isinstance(edge, dict):
                             self.add_edge(u, v, **edge)
-                        elif isinstance(edge, (int, float)):
+                        elif isinstance(edge, int | float):
                             self.add_edge(u, v, weight=edge, **kwargs)
                         else:
                             raise TypeError(f"{edge} is not a supported Edge type.")
-                    elif isinstance(graph[u], (list, tuple, set, frozenset)):
+                    elif isinstance(graph[u], list | tuple | set | frozenset):
                         # Values are some other collection; only contains node names.
                         # Use default weight parameter.
                         self.add_edge(u, v, weight)
@@ -309,7 +309,7 @@ class Edge(Generic[V], Mapping[str, Any]):
     end: V
     weight: float
 
-    def __init__(self, start: V, end: V, weight: float = 1, **kwargs: Any):
+    def __init__(self, start: V, end: V, weight: float = 1, **kwargs: Any) -> None:
         self.start = start
         self.end = end
         self.weight = weight

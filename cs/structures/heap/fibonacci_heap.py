@@ -333,7 +333,7 @@ class FibonacciHeap(Heap[T]):
                 minimum.degree += 1
 
                 # Continue merging this tree.
-                curr = minimum
+                curr = minimum  # noqa: PLW2901
 
             # Update the global min based on this node. Note that we compare
             # for <= instead of < here. That's because if we just did a

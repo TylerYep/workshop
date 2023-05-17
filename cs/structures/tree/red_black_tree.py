@@ -325,11 +325,10 @@ class RedBlackTree(BinarySearchTree[T]):
         grandparent = node.grandparent
         if grandparent is None:
             self.root = node
+        elif node.parent.is_left():
+            grandparent.left = node
         else:
-            if node.parent.is_left():
-                grandparent.left = node
-            else:
-                grandparent.right = node
+            grandparent.right = node
 
         # Step 3: Update parent pointers.
         #  1. The child node that got swapped needs its parent updated.

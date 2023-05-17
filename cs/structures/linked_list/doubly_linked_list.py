@@ -109,7 +109,7 @@ class DoublyLinkedList(Generic[T]):
 
     def pop_head(self) -> T:
         if self.head is None:
-            raise Exception("List is empty")
+            raise RuntimeError("List is empty")
 
         self.size -= 1
         head_data = self.head.data
@@ -123,7 +123,7 @@ class DoublyLinkedList(Generic[T]):
 
     def pop_tail(self) -> T:
         if self.head is None or self.tail is None:
-            raise Exception("List is empty")
+            raise RuntimeError("List is empty")
 
         self.size -= 1
         tail_data = self.tail.data
@@ -137,14 +137,14 @@ class DoublyLinkedList(Generic[T]):
 
     def remove(self, data: T) -> None:
         if self.head is None or self.tail is None:
-            raise Exception("List is empty")
+            raise RuntimeError("List is empty")
 
         current = self.head
         while current.data != data:  # Find the position to delete
             if current.next is not None:
                 current = current.next
             else:  # We have reached the end an no value matches
-                raise Exception("List does not contain value.")
+                raise RuntimeError("List does not contain value.")
 
         if current == self.head:
             _ = self.pop_head()

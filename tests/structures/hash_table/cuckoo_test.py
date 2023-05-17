@@ -31,4 +31,4 @@ class TestCuckoo:
         hash_table_2["yolo"] = 9
 
         # pylint: disable=protected-access
-        assert len(HashTable._hash_ids) == 10
+        assert len(HashTable._hash_ids) == 10  # noqa: SLF001

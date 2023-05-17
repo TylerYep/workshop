@@ -66,7 +66,7 @@ class BloomFilter(Generic[T]):
         Generate k different hashes, each of which maps a key to one of
         the m array positions with a uniform random distribution.
         """
-        h = hashlib.new("md5")
+        h = hashlib.sha256()
         h.update(str(key).encode())
         x = int(h.hexdigest(), 16)
         for _ in range(self.k):

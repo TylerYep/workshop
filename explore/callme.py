@@ -5,7 +5,8 @@ from collections import defaultdict
 
 from cs.structures import Graph
 
-IGNORED = dir(__builtins__) + [
+IGNORED = [
+    *dir(__builtins__),
     "defaultdict",
     "Decimal",
     "Http404",
@@ -27,7 +28,7 @@ def recurse_to_function_name(ast_node) -> str:
         return ast_node.id
     if isinstance(ast_node, ast.Call):
         return recurse_to_function_name(ast_node.func)
-    if isinstance(ast_node, (ast.Attribute, ast.Constant, ast.Subscript)):
+    if isinstance(ast_node, ast.Attribute | ast.Constant | ast.Subscript):
         # These are not real functions!
         return ""
     return ast_node

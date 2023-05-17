@@ -94,7 +94,7 @@ class TestHeap:
         assert heap.peek() == (100, 1.0)
 
     @staticmethod
-    @pytest.mark.parametrize("entries", ((3,), (4, 2), (2, 7, 1, 8, 3, 1, 4)))
+    @pytest.mark.parametrize("entries", [(3,), (4, 2), (2, 7, 1, 8, 3, 1, 4)])
     def test_enqueue_dequeue_no_priority(heap_type: str, entries: tuple[int]) -> None:
         h: Heap[int] = construct_heap(heap_type, allow_duplicates=True)
         for i in entries:

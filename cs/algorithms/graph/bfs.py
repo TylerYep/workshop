@@ -21,5 +21,5 @@ def breadth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:
         visited.add(vertex)
         for neighbor, edge in graph[vertex].items():
             if neighbor not in visited and edge.weight > 0:
-                queue.append((neighbor, path + [neighbor]))
+                queue.append((neighbor, [*path, neighbor]))
     return []

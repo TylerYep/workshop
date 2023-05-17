@@ -92,7 +92,7 @@ class LinkedList(Generic[T]):
 
     def remove(self, data: T) -> None:
         if self.head is None:
-            raise Exception("List is empty")
+            raise RuntimeError("List is empty")
 
         if self.head.data == data:
             self.head = self.head.next
@@ -105,7 +105,7 @@ class LinkedList(Generic[T]):
                 return
             prev = node
 
-        raise Exception("Node not found")
+        raise RuntimeError("Node not found")
 
     def add_to_end(self, data: T) -> None:
         if self.head is None:

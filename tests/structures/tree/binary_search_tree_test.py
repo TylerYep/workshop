@@ -6,7 +6,7 @@ from tests.structures.tree.tree_test import TEN_ELEMS
 
 class TestBinarySearchTree:
     @staticmethod
-    @pytest.fixture
+    @pytest.fixture()
     def tree() -> BinarySearchTree[int]:
         tree = BinarySearchTree[int]()
         for elem in TEN_ELEMS:

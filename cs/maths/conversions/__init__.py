@@ -5,7 +5,7 @@ from .molecular_chemistry import (
     pressure_and_volume_to_temperature,
 )
 from .roman_to_integer import roman_to_int
-from .si_units import Binary_Unit, SI_Unit, convert_binary_prefix, convert_si_prefix
+from .si_units import BinaryUnit, SIUnit, convert_binary_prefix, convert_si_prefix
 from .temperature import (
     celsius_to_fahrenheit,
     celsius_to_kelvin,
@@ -22,8 +22,8 @@ from .temperature import (
 )
 
 __all__ = (
-    "Binary_Unit",
-    "SI_Unit",
+    "BinaryUnit",
+    "SIUnit",
     "celsius_to_fahrenheit",
     "celsius_to_kelvin",
     "celsius_to_rankine",

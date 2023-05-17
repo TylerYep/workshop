@@ -17,7 +17,7 @@ class TestBloomFilter:
         assert bloom.k == 3
         assert bloom.m == 67
         assert bloom.array == bitarray(
-            "1010110110101011011101101110111101110111101011011000111111101110000"
+            "1101110101000110111111100001011111110101010001010010100001100110110"
         )
 
     @staticmethod
@@ -26,7 +26,7 @@ class TestBloomFilter:
         bloom = BloomFilter[int](n=5, p=0.2)
         for i in range(N):
             bloom.add(i)
-        assert str(bloom) == "BloomFilter(01001101101010111)"
+        assert str(bloom) == "BloomFilter(10110101001111011)"
 
     @staticmethod
     @pytest.mark.parametrize(

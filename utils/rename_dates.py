@@ -13,17 +13,15 @@ def mm_dd_yy_TO_yyyy_mm_dd(extension=".md"):
 
 
 def add_header(extension=".md"):
-    header = "\n".join(
-        [
-            "---",
-            "title: {}",
-            "author: Tyler Yep",
-            "author_title: Software Engineer @ Robinhood",
-            "author_url: https://github.com/tyleryep",
-            "author_image_url: https://github.com/tyleryep.png",
-            "tags: [robinhood, intern]",
-            "---\n",
-        ]
+    header = (
+        "---\n"
+        "title: {}\n"
+        "author: Tyler Yep\n"
+        "author_title: Software Engineer @ Robinhood\n"
+        "author_url: https://github.com/tyleryep\n"
+        "author_image_url: https://github.com/tyleryep.png\n"
+        "tags: [robinhood, intern]\n"
+        "---\n"
     )
     for filename in Path().glob(f"*{extension}"):
         with open(filename, "r+", encoding="utf-8") as f:

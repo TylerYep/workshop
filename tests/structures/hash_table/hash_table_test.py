@@ -31,7 +31,7 @@ def construct_hash_table(
 @parametrize_hash_table_type
 class TestHashTable:
     @staticmethod
-    @pytest.mark.parametrize("n", (1, 100))
+    @pytest.mark.parametrize("n", [1, 100])
     def test_insert_contains(hash_table_type: str, n: int) -> None:
         """Test creating a hash_table and adding 100 values to it."""
         hash_table: HashTable[int, int] = construct_hash_table(hash_table_type, n)
@@ -52,7 +52,7 @@ class TestHashTable:
         )
 
     @staticmethod
-    @pytest.mark.parametrize("n", (1, 100))
+    @pytest.mark.parametrize("n", [1, 100])
     def test_remove(hash_table_type: str, n: int) -> None:
         """Test creating a hash_table and removing 100 values from it."""
         hash_table: HashTable[int, int] = construct_hash_table(hash_table_type, n)

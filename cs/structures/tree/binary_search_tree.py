@@ -83,7 +83,7 @@ class BinarySearchTree(Tree[T]):
 
     def is_balanced(self) -> bool:
         if self.root is None:
-            raise Exception("Binary search tree is empty")
+            raise RuntimeError("Binary search tree is empty")
         return self.depth(self.root.left) == self.depth(self.root.right)
 
     def search(self, data: T) -> BinaryTreeNode[T] | None:
@@ -145,7 +145,7 @@ class BinarySearchTree(Tree[T]):
 
         node = self.search(data)
         if node is None:
-            raise Exception(f"TreeNode with data {data} does not exist")
+            raise RuntimeError(f"TreeNode with data {data} does not exist")
         self.size -= 1
 
         # If count is greater than 1, we just decrease the count and return. We reduce
@@ -170,7 +170,7 @@ class BinarySearchTree(Tree[T]):
     def max_element(self) -> T:
         """Gets the max data inserted in the tree."""
         if self.root is None:
-            raise Exception("Binary search tree is empty")
+            raise RuntimeError("Binary search tree is empty")
         node = self.root
         while node.right is not None:
             node = node.right
@@ -179,7 +179,7 @@ class BinarySearchTree(Tree[T]):
     def min_element(self) -> T:
         """Gets the min data inserted in the tree."""
         if self.root is None:
-            raise Exception("Binary search tree is empty")
+            raise RuntimeError("Binary search tree is empty")
         node = self.root
         while node.left is not None:
             node = node.left

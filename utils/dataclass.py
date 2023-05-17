@@ -10,7 +10,7 @@ def test(a):
             x: int = 4
             y: str = "yooo"
 
-            def __repr__(self):
+            def __repr__(self) -> str:
                 return self.y
 
         return A()
@@ -21,7 +21,7 @@ def test(a):
             x: int = 4
             y: str = "yooo"
 
-            def __repr__(self):
+            def __repr__(self) -> str:
                 return self.y
 
         return B()

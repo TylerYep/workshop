@@ -5,7 +5,7 @@ from enum import IntEnum, unique
 
 
 @unique
-class SI_Unit(IntEnum):
+class SIUnit(IntEnum):
     yotta = 24
     zetta = 21
     exa = 18
@@ -29,7 +29,7 @@ class SI_Unit(IntEnum):
 
 
 @unique
-class Binary_Unit(IntEnum):
+class BinaryUnit(IntEnum):
     yotta = 8
     zetta = 7
     exa = 6
@@ -41,14 +41,14 @@ class Binary_Unit(IntEnum):
 
 
 def convert_si_prefix(
-    known_amount: float, from_prefix: SI_Unit, to_prefix: SI_Unit
+    known_amount: float, from_prefix: SIUnit, to_prefix: SIUnit
 ) -> float:
     difference: float = from_prefix - to_prefix
     return known_amount * float(10**difference)
 
 
 def convert_binary_prefix(
-    known_amount: float, from_prefix: Binary_Unit, to_prefix: Binary_Unit
+    known_amount: float, from_prefix: BinaryUnit, to_prefix: BinaryUnit
 ) -> float:
     difference: float = from_prefix.value - to_prefix.value
     return known_amount * float(2 ** (difference * 10))

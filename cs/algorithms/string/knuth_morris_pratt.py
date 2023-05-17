@@ -48,15 +48,15 @@ def kmp_string_match(needle: str, haystack: str) -> int | None:
                 return index
 
         # Otherwise, we need to look at the fail table to determine what to do next.
-        else:
-            # If we couldn't match the first character, then just advance the
-            # start index.  We need to try again.
-            if match == 0:
-                index += 1
 
-            # Otherwise, see how much we need to skip forward before we have
-            # another feasible match.
-            else:
-                index += match - fail[match]
-                match = fail[match]
+        # If we couldn't match the first character, then just advance the
+        # start index.  We need to try again.
+        elif match == 0:
+            index += 1
+
+        # Otherwise, see how much we need to skip forward before we have
+        # another feasible match.
+        else:
+            index += match - fail[match]
+            match = fail[match]
     return None
