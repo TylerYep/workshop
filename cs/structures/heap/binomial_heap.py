@@ -80,7 +80,7 @@ class BinomialHeap(Heap[T]):
 
     def __contains__(self, item: T) -> bool:
         if self.allow_duplicates:
-            # TODO
+            # TODO: implement
             raise NotImplementedError
         return item in self.elem_to_entry
 
@@ -101,7 +101,7 @@ class BinomialHeap(Heap[T]):
         return self.elem_to_entry[value]
 
     def __or__(self, other: object) -> BinomialHeap[T]:
-        # TODO - this is a destructive operation
+        # TODO: this is a destructive operation
         if isinstance(other, BinomialHeap):
             result = BinomialHeap[T]()
             self.merge(other)

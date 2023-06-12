@@ -96,7 +96,7 @@ class FibonacciHeap(Heap[T]):
         return self.elem_to_entry[value]
 
     def __or__(self, other: object) -> FibonacciHeap[T]:
-        # TODO - this is a destructive operation
+        # TODO: this is a destructive operation
         if isinstance(other, FibonacciHeap):
             result = FibonacciHeap[T]()
             self.merge(other)

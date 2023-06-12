@@ -23,7 +23,7 @@ def parse_file(filepath: Path) -> list[HuffmanTreeNode]:
     frequencies, then convert the dict into a list of Letters.
     """
     chars: dict[str, int] = {}
-    with open(filepath, encoding="utf-8") as f:
+    with filepath.open(encoding="utf-8") as f:
         while c := f.read(1):
             if c in chars:
                 chars[c] += 1
@@ -73,7 +73,7 @@ def huffman_compress(
     letters = encode(root, "")
 
     encoding = ""
-    with open(filepath, encoding="utf-8") as f:
+    with filepath.open(encoding="utf-8") as f:
         while c := f.read(1):
             [byte] = [letter for letter in letters if letter.letter == c]
             encoding += byte.bitstring
@@ -92,7 +92,7 @@ def decode(root: HuffmanTreeNode, filepath: Path) -> str:
     """
     output = ""
     curr = root
-    with open(filepath, encoding="utf-8") as f:
+    with filepath.open(encoding="utf-8") as f:
         while bit := f.read(1):
             if bit not in ("0", "1"):
                 raise ValueError(
