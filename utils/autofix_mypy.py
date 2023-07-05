@@ -75,7 +75,7 @@ def main() -> None:
 
 
 def add_type_ignore(  # pylint: disable=too-many-arguments
-    filepath: str,
+    filepath: Path,
     lines: list[str],
     row: int,
     lines_changed: dict[str, int],
@@ -83,28 +83,28 @@ def add_type_ignore(  # pylint: disable=too-many-arguments
     context: str,
 ) -> None:
     if "# type: ignore" not in lines[row]:
-        with open(filepath, "w", encoding="utf-8") as f:
+        with filepath.open("w", encoding="utf-8") as f:
             lines[row] = f"{lines[row]}  # type: ignore[{error_code}]"
             f.write("\n".join(lines))
         lines_changed[context] = lines_changed.get(context, 0) + 1
 
 
 def remove_unused_type_ignore(
-    filepath: str, lines: list[str], row: int, lines_changed: dict[str, int]
+    filepath: Path, lines: list[str], row: int, lines_changed: dict[str, int]
 ) -> None:
     ignore = "  # type: ignore"
     if ignore in lines[row]:
-        with open(filepath, "w", encoding="utf-8") as f:
+        with filepath.open("w", encoding="utf-8") as f:
             lines[row] = lines[row][: lines[row].index(ignore)]
             f.write("\n".join(lines))
         key = "unused type ignore"
         lines_changed[key] = lines_changed.get(key, 0) + 1
 
 
-def extract_details(mypy_error_line: str) -> tuple[str, int, bool, str]:
+def extract_details(mypy_error_line: str) -> tuple[Path, int, bool, str]:
     # After the 3rd index is the type error message (could have more colons).
     filename, row_str, error_or_note = mypy_error_line.split(":")[:3]
-    filepath = f"{Path.home()}/robinhood/rh/{filename}"
+    filepath = Path.home() / f"robinhood/rh/{filename}"
     row = int(row_str) - 1
     is_note = error_or_note.strip() == "note"
     if is_note or "[" not in mypy_error_line:

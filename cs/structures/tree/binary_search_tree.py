@@ -106,8 +106,7 @@ class BinarySearchTree(Tree[T]):
             node: BinaryTreeNode[T] | None, parent: BinaryTreeNode[T] | None = None
         ) -> BinaryTreeNode[T]:
             if node is None:
-                node = BinaryTreeNode(data, parent=parent)
-                return node
+                return BinaryTreeNode(data, parent=parent)
             if data == node.data:
                 node.count += 1
             elif data < node.data:

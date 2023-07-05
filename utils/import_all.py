@@ -1,5 +1,6 @@
 import re
 import sys
+from pathlib import Path
 
 
 def create_all_exports(init_file_content: str) -> tuple[str]:
@@ -43,6 +44,6 @@ if __name__ == "__main__":
     # assert len(result) == 8
     # print(result)
 
-    with open(sys.argv[1], encoding="utf-8") as f:
+    with Path(sys.argv[1]).open(encoding="utf-8") as f:
         content = f.read()
         print(create_all_exports(content))

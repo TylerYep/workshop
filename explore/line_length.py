@@ -17,7 +17,7 @@ def count_project_lines(project: str) -> None:
     lines_above_88 = 0
     for filepath in Path(project).rglob("*.py"):
         try:
-            with open(filepath, encoding="utf-8") as f:
+            with filepath.open(encoding="utf-8") as f:
                 for line in f:
                     length = len(line) - 1
                     if length > 0:

@@ -31,21 +31,21 @@ def main() -> None:
 
 
 def add_future_annotations(
-    filepath: str, all_lines: str, lines: list[str], lines_changed: dict[str, int]
+    filepath: Path, all_lines: str, lines: list[str], lines_changed: dict[str, int]
 ) -> None:
     add_line = "from __future__ import annotations"
     if lines[0] != add_line:
-        with open(filepath, "w", encoding="utf-8") as f:
+        with filepath.open("w", encoding="utf-8") as f:
             f.write(f"{add_line}\n{all_lines}")
         key = "future_annotations"
         lines_changed[key] = lines_changed.get(key, 0) + 1
 
 
 def fix_trailing_commas(
-    filepath: str, lines: list[str], row: int, col: int, lines_changed: dict[str, int]
+    filepath: Path, lines: list[str], row: int, col: int, lines_changed: dict[str, int]
 ) -> None:
     if lines[row][col] == ",":
-        with open(filepath, "w", encoding="utf-8") as f:
+        with filepath.open("w", encoding="utf-8") as f:
             lines[row] = lines[row][:col] + lines[row][col + 1 :]
             f.write("\n".join(lines))
             key = "trailing comma"
@@ -53,10 +53,10 @@ def fix_trailing_commas(
 
 
 def fix_empty_f_strings(
-    filepath: str, lines: list[str], row: int, col: int, lines_changed: dict[str, int]
+    filepath: Path, lines: list[str], row: int, col: int, lines_changed: dict[str, int]
 ) -> None:
     if lines[row][col] == "f":
-        with open(filepath, "w", encoding="utf-8") as f:
+        with filepath.open("w", encoding="utf-8") as f:
             lines[row] = lines[row][:col] + lines[row][col + 1 :]
             f.write("\n".join(lines))
             key = "unnecessary f-string"
@@ -64,19 +64,19 @@ def fix_empty_f_strings(
 
 
 def fix_missing_comment_space(
-    filepath: str, lines: list[str], row: int, col: int, lines_changed: dict[str, int]
+    filepath: Path, lines: list[str], row: int, col: int, lines_changed: dict[str, int]
 ) -> None:
     if lines[row][col] == "#":
-        with open(filepath, "w", encoding="utf-8") as f:
+        with filepath.open("w", encoding="utf-8") as f:
             lines[row] = lines[row].replace("#", "# ")
             f.write("\n".join(lines))
             key = "missing comment space"
             lines_changed[key] = lines_changed.get(key, 0) + 1
 
 
-def extract_details(flake8_error_line: str) -> tuple[str, int, int, str]:
+def extract_details(flake8_error_line: str) -> tuple[Path, int, int, str]:
     filename, row_str, col_str, message_lines = flake8_error_line.split(":")[:4]
-    filepath = f"{Path.home()}/robinhood/rh/{filename}"
+    filepath = Path.home() / f"robinhood/rh/{filename}"
     row = int(row_str) - 1
     col = int(col_str) - 1
     message = "".join(message_lines)

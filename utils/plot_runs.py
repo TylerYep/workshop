@@ -8,8 +8,8 @@ times = []
 folder = "medium_runs_v2"
 folder = "large_runs"
 
-for filename in sorted(Path(folder).glob("*")):
-    with open(filename, encoding="utf-8") as f:
+for filepath in sorted(Path(folder).glob("*")):
+    with filepath.open(encoding="utf-8") as f:
         reg = re.compile(r"primitive calls\) in ([^ seconds]*)")
         for _ in f:
             time = float(reg.findall(f.read())[0])

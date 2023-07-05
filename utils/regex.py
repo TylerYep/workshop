@@ -1,9 +1,10 @@
 import re
 import sys
+from pathlib import Path
 
 
-def regex(filename: str, regexp: str) -> None:
-    with open(filename, encoding="utf-8") as f:
+def regex(filepath: str, regexp: str) -> None:
+    with Path(filepath).open(encoding="utf-8") as f:
         matches = []
         reg = re.compile(regexp)
         for line in f:
