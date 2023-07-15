@@ -94,10 +94,7 @@ def add_type_ignore(  # pylint: disable=too-many-arguments
     context: str,
 ) -> None:
     if "# type: ignore" in lines[row]:
-        line_without_type_ignore, error_codes = extract_type_ignores(lines[row])
-        error_codes.add(error_code)
-        error_codes_str = ",".join(sorted(error_codes))
-        new_line = f"{line_without_type_ignore}  # type: ignore[{error_codes_str}]"
+        new_line = add_to_existing_type_ignores(lines[row], error_code)
     else:
         new_line = f"{lines[row]}  # type: ignore[{error_code}]"
 
@@ -141,22 +138,21 @@ def extract_details(mypy_error_line: str) -> tuple[Path, int, bool, str]:
     return filepath, row, is_note, error_code
 
 
-def extract_type_ignores(line: str) -> tuple[str, set[str]]:
+def add_to_existing_type_ignores(line: str, error_code: str) -> str:
     assert "# type: ignore" in line
     type_ignore_start = line.rindex("# type: ignore")
-    parts = line[type_ignore_start + len("# type: ignore") :]
-    print(parts)
+    start_bracket = type_ignore_start + len("# type: ignore")
+    parts = line[start_bracket:]
     if parts[0] == "[":
         type_ignore_end = parts.index("]")
-        error_codes = {
-            error_code.strip() for error_code in parts[1:type_ignore_end].split(",")
-        }
-        new_line = (
-            line[:type_ignore_start]
-            + line[type_ignore_start + len("# type: ignore") + type_ignore_end + 1 :]
+        error_codes = {code.strip() for code in parts[1:type_ignore_end].split(",")}
+        error_codes.add(error_code)
+        return (
+            line[: start_bracket + 1]
+            + ",".join(sorted(error_codes))
+            + line[start_bracket + type_ignore_end :]
         )
-        return new_line, error_codes
-    return line.replace("# type: ignore", ""), []
+    return line[:start_bracket] + f"[{error_code}]" + line[start_bracket:]
 
 
 if __name__ == "__main__":
