@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+ROOT_DIR = Path.home() / "robinhood/rh2"
 FLAKE8_OUTPUT = """
 
 """
@@ -76,7 +77,7 @@ def fix_missing_comment_space(
 
 def extract_details(flake8_error_line: str) -> tuple[Path, int, int, str]:
     filename, row_str, col_str, message_lines = flake8_error_line.split(":")[:4]
-    filepath = Path.home() / f"robinhood/rh/{filename}"
+    filepath = ROOT_DIR / filename
     row = int(row_str) - 1
     col = int(col_str) - 1
     message = "".join(message_lines)

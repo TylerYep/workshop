@@ -1,5 +1,5 @@
 # Setup requirements
-pip==23.1.2
+pip==23.2
 setuptools==68.0.0
 wheel==0.40.0
 
@@ -40,8 +40,8 @@ get-mnist==1.0.1
 isort==5.12.0
 mypy==1.4.1
 pre-commit==3.3.3
-pur==7.1.0
-pycln==2.1.5
+pur==7.1.1
+pycln==2.1.6
 pylint==2.17.4
 pylint-django==2.5.3
 pylint-pytest==1.1.2
