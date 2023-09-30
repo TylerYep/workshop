@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import traceback
 import warnings
 from pathlib import Path
 
-ROOT_DIR = Path.home() / "robinhood/rh2"
+ROOT_DIR = Path.home() / "robinhood/rh"
 MYPY_OUTPUT = """
 
 """
@@ -20,23 +21,23 @@ def main() -> None:
     \n
     """
     lines_changed: dict[str, int] = {}
-    for line in MYPY_OUTPUT.split("\n"):
-        if not line:
+    for mypy_error_line in MYPY_OUTPUT.split("\n"):
+        if not mypy_error_line:
             continue
 
-        filepath, row, is_note, error_code = extract_details(line)
+        filepath, row, is_note, error_code = extract_details(mypy_error_line)
         if is_note:
             continue
 
         all_lines = Path(filepath).read_text(encoding="utf-8")
         lines = all_lines.split("\n")
         try:
-            if "nused 'type: ignore' comment" in line.replace('"', "'"):
+            if "nused 'type: ignore' comment" in mypy_error_line.replace('"', "'"):
                 remove_unused_type_ignore(filepath, lines, row, lines_changed)
             elif (
-                "found module but no type hints or library stubs" in line
+                "found module but no type hints or library stubs" in mypy_error_line
                 or "module is installed, but missing library stubs or py.typed marker"
-                in line
+                in mypy_error_line
             ):
                 assert error_code == "import"
                 add_type_ignore(
@@ -47,7 +48,7 @@ def main() -> None:
                     error_code,
                     context="missing_import",
                 )
-            elif "Class cannot subclass " in line:
+            elif "Class cannot subclass " in mypy_error_line:
                 assert error_code == "misc"
                 add_type_ignore(
                     filepath,
@@ -57,7 +58,7 @@ def main() -> None:
                     error_code,
                     context="subclass_has_type_Any",
                 )
-            elif "Missing type parameters for generic type " in line:
+            elif "Missing type parameters for generic type " in mypy_error_line:
                 add_type_ignore(
                     filepath,
                     lines,
@@ -66,9 +67,22 @@ def main() -> None:
                     error_code,
                     context="generic_type",
                 )
-            elif "is not subscriptable, use 'typing." in line.replace('"', "'"):
+            elif "is not subscriptable, use 'typing." in mypy_error_line.replace(
+                '"', "'"
+            ):
                 add_future_annotations(
                     filepath, lines, lines_changed, context="needs_future_annotations"
+                )
+            elif "type: ignore' comment without error code" in mypy_error_line.replace(
+                '"', "'"
+            ):
+                add_error_code(
+                    filepath,
+                    mypy_error_line,
+                    lines,
+                    row,
+                    lines_changed,
+                    context="add_error_code",
                 )
             elif ADD_ALL_TYPE_IGNORES:
                 add_type_ignore(
@@ -80,9 +94,10 @@ def main() -> None:
                     context="added_type_ignore",
                 )
             else:
-                print(f"Line not handled: {line}")
+                print(f"Line not handled: {mypy_error_line}")
         except Exception as exc:  # pylint: disable=broad-except
             print(f"Error occurred: {exc}\n when processing{filepath}:{row}")
+            traceback.print_exc()
     print(f"Lines modified: {lines_changed}")
 
 
@@ -126,6 +141,26 @@ def remove_unused_type_ignore(
         lines_changed[key] = lines_changed.get(key, 0) + 1
 
 
+def add_error_code(
+    filepath: Path,
+    mypy_error_line: str,
+    lines: list[str],
+    row: int,
+    lines_changed: dict[str, int],
+    context: str,
+) -> None:
+    start_tag = 'consider "type: ignore['
+    end_tag = ']" instead)'
+    new_error_code = mypy_error_line[
+        mypy_error_line.rindex(start_tag)
+        + len(start_tag) : mypy_error_line.index(end_tag)
+    ]
+    with filepath.open("w", encoding="utf-8") as f:
+        lines[row] = add_to_existing_type_ignores(lines[row], new_error_code)
+        f.write("\n".join(lines))
+    lines_changed[context] = lines_changed.get(context, 0) + 1
+
+
 def extract_details(mypy_error_line: str) -> tuple[Path, int, bool, str]:
     # After the 3rd index is the type error message (could have more colons).
     filename, row_str, error_or_note = mypy_error_line.split(":")[:3]
@@ -149,7 +184,7 @@ def add_to_existing_type_ignores(line: str, error_code: str) -> str:
     type_ignore_start = line.rindex("# type: ignore")
     start_bracket = type_ignore_start + len("# type: ignore")
     parts = line[start_bracket:]
-    if parts[0] == "[":
+    if parts and parts[0] == "[":
         type_ignore_end = parts.index("]")
         error_codes = {code.strip() for code in parts[1:type_ignore_end].split(",")}
         error_codes.add(error_code)
