@@ -13,7 +13,7 @@ T = TypeVar("T")
 
 class Comparable(Protocol):
     @abstractmethod
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         pass
 
     @abstractmethod

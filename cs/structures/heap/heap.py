@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, Self, TypeVar
 from uuid import UUID
 
 from cs.util import Comparable
@@ -20,7 +20,7 @@ class Heap(Generic[T]):
     def __contains__(self, item: T) -> bool:
         raise NotImplementedError
 
-    def __ior__(self, other: object) -> None:
+    def __ior__(self, other: object) -> Self:
         raise NotImplementedError
 
     def __getitem__(self, value: T | UUID) -> Any:

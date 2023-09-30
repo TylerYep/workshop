@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Generic, Self, TypeVar
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -109,9 +109,10 @@ class BinomialHeap(Heap[T]):
             return result
         raise NotImplementedError
 
-    def __ior__(self, other: object) -> None:
+    def __ior__(self, other: object) -> Self:
         if isinstance(other, BinomialHeap):
             self.merge(other)
+            return self
         raise NotImplementedError
 
     @staticmethod

@@ -1,3 +1,4 @@
+target-version = "py311"
 select = ["ALL"]
 ignore = [
     "ANN101",  # Missing type annotation for `self` in method

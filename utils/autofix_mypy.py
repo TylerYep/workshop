@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from pathlib import Path
 
 ROOT_DIR = Path.home() / "robinhood/rh2"
@@ -131,8 +132,13 @@ def extract_details(mypy_error_line: str) -> tuple[Path, int, bool, str]:
     filepath = ROOT_DIR / filename
     row = int(row_str) - 1
     is_note = error_or_note.strip() == "note"
-    if is_note or "[" not in mypy_error_line:
+    if is_note:
         error_code = ""
+    elif "[" not in mypy_error_line:
+        warnings.warn(
+            f"Error code not found in {mypy_error_line}. "
+            "Did you turn on `show_error_codes=True in your mypy config file?"
+        )
     else:
         error_code = mypy_error_line[mypy_error_line.rindex("[") + 1 : -1]
     return filepath, row, is_note, error_code

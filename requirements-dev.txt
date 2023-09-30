@@ -1,58 +1,58 @@
 # Setup requirements
-pip==23.2
-setuptools==68.0.0
-wheel==0.40.0
+pip==23.2.1
+setuptools==68.2.2
+wheel==0.41.2
 
 # Prod requirements
-bitarray==2.7.6
+bitarray==2.8.1
 dataslots==1.2.0
-django==4.2.3
+django==4.2.5
 efficientnet_pytorch==0.7.1; python_version < "3.11"
 freezegun==1.2.2
-gitpython==3.1.32
+gitpython==3.1.37
 graphviz==0.20.1
-matplotlib==3.7.2
+matplotlib==3.8.0
 networkx==3.1
-numpy==1.25.1
-pandas==2.0.3
+numpy==1.26.0
+pandas==2.1.1
 prettyprinter==0.18.0
-scipy==1.11.1; python_version < "3.11"
-tensorboard==2.13.0; python_version < "3.11"
-tensorflow==2.13.0; python_version < "3.11"
+scipy==1.11.3; python_version < "3.11"
+tensorboard==2.14.1; python_version < "3.11"
+tensorflow==2.14.0; python_version < "3.11"
 torch==2.0.1; python_version < "3.11"
 torchinfo==1.8.0; python_version < "3.11"
 torchvision==0.15.2; python_version < "3.11"
-tqdm==4.65.0
+tqdm==4.66.1
 
 # Dev requirements
-black==23.7.0
-blacken-docs==1.15.0
+black==23.9.1
+blacken-docs==1.16.0
 codecov==2.1.13
-django-stubs==4.2.3
-flake8==6.0.0
-flake8-bugbear==23.7.10
+django-stubs==4.2.4
+flake8==6.1.0
+flake8-bugbear==23.9.16
 flake8-builtins==2.1.0
 flake8-comprehensions==3.14.0
 flake8-function-order==0.0.5
 flake8-future-annotations==1.1.0
-flynt==1.0.0
+flynt==1.0.1
 get-mnist==1.0.1
 isort==5.12.0
-mypy==1.4.1
-pre-commit==3.3.3
-pur==7.1.1
-pycln==2.1.6
-pylint==2.17.4
+mypy==1.5.1
+pre-commit==3.4.0
+pur==7.3.1
+pycln==2.2.2
+pylint==2.17.6
 pylint-django==2.5.3
 pylint-pytest==1.1.2
 pyre-check==0.9.18
-pytest==7.4.0
+pytest==7.4.2
 pytest-cov==4.1.0
 pytest-deadfixtures==2.2.1
 pytest-idempotent==1.3.1
 pytest-timeout==2.1.0
-pyupgrade==3.9.0
-ruff==0.0.278
+pyupgrade==3.13.0
+ruff==0.0.291
 scalene==1.5.19
 sort-requirements==1.3.0
 twine==4.0.2

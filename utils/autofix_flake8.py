@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-ROOT_DIR = Path.home() / "robinhood/rh2"
+ROOT_DIR = Path.home() / "robinhood/rh"
 FLAKE8_OUTPUT = """
 
 """
@@ -36,8 +36,13 @@ def add_future_annotations(
 ) -> None:
     add_line = "from __future__ import annotations"
     if lines[0] != add_line:
-        with filepath.open("w", encoding="utf-8") as f:
-            f.write(f"{add_line}\n{all_lines}")
+        if "type: ignore" in lines[0]:
+            with filepath.open("w", encoding="utf-8") as f:
+                lines.insert(1, add_line)
+                f.write("\n".join(lines))
+        else:
+            with filepath.open("w", encoding="utf-8") as f:
+                f.write(f"{add_line}\n\n{all_lines}")
         key = "future_annotations"
         lines_changed[key] = lines_changed.get(key, 0) + 1
 
