@@ -141,7 +141,7 @@ def remove_unused_type_ignore(
         lines_changed[key] = lines_changed.get(key, 0) + 1
 
 
-def add_error_code(
+def add_error_code(  # pylint: disable=too-many-arguments
     filepath: Path,
     mypy_error_line: str,
     lines: list[str],

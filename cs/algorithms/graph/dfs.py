@@ -19,7 +19,7 @@ def depth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:
             visited.add(vertex)
             for neighbor in graph[vertex]:
                 if neighbor not in visited:
-                    stack.append((neighbor, [*path, neighbor]))
+                    stack.append((neighbor, [*path, neighbor]))  # noqa: PERF401
     return []
 
 

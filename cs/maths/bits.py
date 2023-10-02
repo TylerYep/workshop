@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 from collections.abc import Iterator
+from typing import Self
 
 
 class Bits:
@@ -46,15 +47,17 @@ class Bits:
             raise TypeError("Bit shifts require an integer shift amount.")
         return Bits(str(self.val // (2**other)), length=self.length)
 
-    def __ilshift__(self, other: object) -> None:
+    def __ilshift__(self, other: object) -> Self:
         if not isinstance(other, int):
             raise TypeError("Bit shifts require an integer shift amount.")
         self.val *= 2**other
+        return self
 
-    def __irshift__(self, other: object) -> None:
+    def __irshift__(self, other: object) -> Self:
         if not isinstance(other, int):
             raise TypeError("Bit shifts require an integer shift amount.")
         self.val //= 2**other
+        return self
 
     def __invert__(self) -> Bits:
         """Inverts all bits."""
@@ -66,11 +69,12 @@ class Bits:
             raise TypeError(f"{other} cannot be intersected with Bits.")
         return Bits.from_num(self.val & other.val, self.length)
 
-    def __iand__(self, other: object) -> None:
+    def __iand__(self, other: object) -> Self:
         """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be intersected with Bits.")
         self.val &= other.val
+        return self
 
     def __or__(self, other: object) -> Bits:
         """Intersection of two role sets."""
@@ -78,11 +82,12 @@ class Bits:
             raise TypeError(f"{other} cannot be or'd with Bits.")
         return Bits.from_num(self.val | other.val, self.length)
 
-    def __ior__(self, other: object) -> None:
+    def __ior__(self, other: object) -> Self:
         """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be or'd with Bits.")
         self.val |= other.val
+        return self
 
     def __xor__(self, other: object) -> Bits:
         """Intersection of two role sets."""
@@ -90,11 +95,12 @@ class Bits:
             raise TypeError(f"{other} cannot be xor'd with Bits.")
         return Bits.from_num(self.val ^ other.val, self.length)
 
-    def __ixor__(self, other: object) -> None:
+    def __ixor__(self, other: object) -> Self:
         """Intersection of two role sets."""
         if not isinstance(other, Bits):
             raise TypeError(f"{other} cannot be xor'd with Bits.")
         self.val ^= other.val
+        return self
 
     def __getitem__(self, index: int) -> int:
         return int(str(self)[index])
