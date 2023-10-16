@@ -160,7 +160,7 @@ class Graph(Generic[V]):
         return True
 
     def to_graphviz(self, img_format: str = "png") -> None:
-        from graphviz import Graph as GraphViz  # type: ignore[import]
+        from graphviz import Graph as GraphViz  # type: ignore[import-untyped]
 
         dot = GraphViz(format=img_format)
         for node in self.nodes:

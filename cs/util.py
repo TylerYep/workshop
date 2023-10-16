@@ -4,8 +4,8 @@ from abc import abstractmethod
 from pathlib import Path
 from typing import Any, Protocol, TypeVar
 
-import prettyprinter  # type: ignore[import]
-from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import]
+import prettyprinter  # type: ignore[import-untyped]
+from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import-untyped]
 
 C = TypeVar("C", bound="Comparable")
 T = TypeVar("T")
