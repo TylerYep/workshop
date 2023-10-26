@@ -172,7 +172,8 @@ def extract_details(mypy_error_line: str) -> tuple[Path, int, bool, str]:
     elif "[" not in mypy_error_line:
         warnings.warn(
             f"Error code not found in {mypy_error_line}. "
-            "Did you turn on `show_error_codes=True in your mypy config file?"
+            "Did you turn on `show_error_codes=True in your mypy config file?",
+            stacklevel=2,
         )
     else:
         error_code = mypy_error_line[mypy_error_line.rindex("[") + 1 : -1]
