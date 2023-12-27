@@ -181,9 +181,11 @@ def extract_details(mypy_error_line: str) -> tuple[Path, int, bool, str]:
 
 
 def add_to_existing_type_ignores(line: str, error_code: str) -> str:
-    assert "# type: ignore" in line
-    type_ignore_start = line.rindex("# type: ignore")
-    start_bracket = type_ignore_start + len("# type: ignore")
+    ignore_key = "# type: ignore"
+    if "# type:ignore" in line:
+        line = line.replace("# type:ignore", ignore_key)
+    type_ignore_start = line.rindex(ignore_key)
+    start_bracket = type_ignore_start + len(ignore_key)
     parts = line[start_bracket:]
     if parts and parts[0] == "[":
         type_ignore_end = parts.index("]")

@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import ClassVar, Generic, TypeVar, cast
+from typing import ClassVar, Generic, TypeVar
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
@@ -59,7 +59,7 @@ class HashTable(Generic[KT, VT]):
         mask = HashTable._hash_ids.get(n)
         if mask is None:
             mask = HashTable._hash_ids[n] = random.getrandbits(32)
-        return lambda x: hash(x) ^ cast(int, mask)
+        return lambda x: hash(x) ^ mask
 
     @staticmethod
     def validate_key(key: KT) -> None:

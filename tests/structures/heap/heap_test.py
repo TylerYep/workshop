@@ -59,7 +59,7 @@ class TestHeap:
             def __init__(self, a: int) -> None:
                 self.a = a
 
-        a_heap: Heap[A] = construct_heap(heap_type)  # type: ignore[type-var,assignment]
+        a_heap: Heap[A] = construct_heap(heap_type)  # type: ignore[type-var]
         a_2 = A(2)
         a_heap.enqueue(A(1), 1)
         a_heap.enqueue(a_2, 3)
