@@ -24,7 +24,6 @@ def get_plan() -> list[float]:
 # ------------------- Do Not Edit Beyond This Point -------------------
 
 
-# pylint: disable=too-many-statements
 def simulate_qwop(plan: list[float]) -> tuple[float, list[np.ndarray]]:
     """Simulates the game of QWOP."""
     if len(plan) > MAX_LENGTH:

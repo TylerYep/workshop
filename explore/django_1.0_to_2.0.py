@@ -1,4 +1,3 @@
-# pylint: skip-file
 import ast
 import inspect
 import pathlib

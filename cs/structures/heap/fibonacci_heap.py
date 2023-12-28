@@ -1,4 +1,3 @@
-# pylint: disable=too-many-branches
 from __future__ import annotations
 
 import math

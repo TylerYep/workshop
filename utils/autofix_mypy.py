@@ -1,4 +1,3 @@
-# pylint: disable=too-many-branches
 from __future__ import annotations
 
 import traceback
@@ -113,7 +112,7 @@ def main() -> None:
                 )
             else:
                 print(f"Line not handled: {mypy_error_line}")
-        except Exception as exc:  # pylint: disable=broad-except
+        except Exception as exc:
             print(f"Error occurred: {exc}\n when processing{filepath}:{row}")
             traceback.print_exc()
 
@@ -121,7 +120,7 @@ def main() -> None:
     print(f"Lines modified: {lines_changed}")
 
 
-def add_type_ignore(  # pylint: disable=too-many-arguments
+def add_type_ignore(
     filepath: Path,
     lines: list[str],
     row: int,
@@ -173,7 +172,7 @@ def remove_unused_type_ignore(
         lines_changed[key] = lines_changed.get(key, 0) + 1
 
 
-def add_error_code(  # pylint: disable=too-many-arguments
+def add_error_code(
     filepath: Path,
     mypy_error_line: str,
     lines: list[str],

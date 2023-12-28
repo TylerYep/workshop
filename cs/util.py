@@ -82,7 +82,6 @@ def pretty_dataclass_instance(value: Any, ctx: Any) -> Any:
 
 
 def dfield(default: T, compare: bool = False, repr: bool = False) -> T:  # noqa: A002
-    # pylint: disable=redefined-builtin,invalid-field-call
     return dataclasses.field(default=default, compare=compare, repr=repr)
 
 

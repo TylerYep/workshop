@@ -26,12 +26,6 @@ repos:
         types: [python]
         require_serial: true
 
-      - id: pylint
-        name: pylint
-        entry: pylint
-        language: python
-        types: [python]
-
       - id: pytest
         name: pytest
         entry: pytest --cov=cs --cov-report=html --durations=0

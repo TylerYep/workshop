@@ -1,4 +1,3 @@
-# pylint: skip-file
 import numpy as np
 
 from .softmax import softmax

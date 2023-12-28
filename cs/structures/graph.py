@@ -232,7 +232,6 @@ class Graph(Generic[V]):
         self.verify_nodes_exist(start, end)
         self._graph[start][end] = Edge(start, end, weight, **kwargs)
         if not self.is_directed:
-            # pylint: disable=arguments-out-of-order
             self._graph[end][start] = Edge(end, start, weight, **kwargs)
 
     def has_edge(self, start: V, end: V) -> bool:
