@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from collections.abc import Iterator
-from typing import Self
+from typing import Self, override
 
 
 class Bits:
@@ -21,12 +21,15 @@ class Bits:
         self.val = int(val, 2) if val else -1  # -1 == 111111
         self.length = length or len(val)
 
+    @override
     def __str__(self) -> str:
         return self.binary_str(self.val, self.length)
 
+    @override
     def __repr__(self) -> str:
         return f"Bits({self}, val={self.val}, length={self.length})"
 
+    @override
     def __eq__(self, other: object) -> bool:
         if isinstance(other, int):
             return self.val == other

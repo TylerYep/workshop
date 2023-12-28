@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import override
 
 from cs.util import formatter
 
@@ -18,6 +19,7 @@ class Trie:
     size: int = 0
     children: dict[str, Trie] = field(default_factory=dict)
 
+    @override
     def __str__(self) -> str:
         return str(formatter.pformat(self))
 

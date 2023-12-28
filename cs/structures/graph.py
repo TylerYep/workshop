@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Iterator, KeysView, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, TypeVar, override
 
 from cs.util import Comparable, formatter
 
@@ -59,6 +59,7 @@ class Graph(Generic[V]):
                     else:
                         raise TypeError(f"{graph[u]} is not a supported Edge mapping.")
 
+    @override
     def __str__(self) -> str:
         return str(formatter.pformat(self._graph))
 
@@ -314,13 +315,16 @@ class Edge(Generic[V], Mapping[str, Any]):
         self.weight = weight
         self.kwargs = kwargs
 
+    @override
     def __len__(self) -> int:
         return 3 + len(self.kwargs)
 
+    @override
     def __iter__(self) -> Iterator[Any]:
         yield from ("start", "end", "weight")
         yield from self.kwargs
 
+    @override
     def __getitem__(self, attr: str) -> Any:
         if attr == "start":
             return self.start
@@ -339,12 +343,14 @@ class Edge(Generic[V], Mapping[str, Any]):
             self.weight = value
         self.kwargs[attr] = value
 
+    @override
     def __repr__(self) -> str:
         result = str(formatter.pformat(self))[:-1]
         for key, kwarg in self.kwargs.items():
             result += f", {key}={kwarg}"
         return result + ")"
 
+    @override
     def __hash__(self) -> int:
         return hash((self.start, self.end))
 
@@ -355,6 +361,7 @@ class Node(Generic[V]):
 
     data: V
 
+    @override
     def __hash__(self) -> int:
         return hash(self.data)
 

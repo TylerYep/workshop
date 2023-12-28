@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import override
 
 from .hash_table import KT, VT, HashTable, TableEntry
 
@@ -10,6 +11,7 @@ from .hash_table import KT, VT, HashTable, TableEntry
 class RobinHoodEntry(TableEntry[KT, VT]):
     dist: int = -1
 
+    @override
     def __repr__(self) -> str:
         return f"({self.value}, {self.dist})"
 
@@ -20,6 +22,7 @@ class RobinHood(HashTable[KT, VT]):
         self.table: list[RobinHoodEntry[KT, VT] | None] = [None] * num_buckets
         self.hash: Callable[[KT], int] = lambda x: hash(x) % num_buckets
 
+    @override
     def __str__(self) -> str:
         result = ""
         for i in range(self.num_buckets):
@@ -27,6 +30,7 @@ class RobinHood(HashTable[KT, VT]):
             result += f"{i}  |  {None if entry is None else entry.value}\n"
         return result
 
+    @override
     def insert(self, key: KT, value: VT) -> None:
         self.validate_key(key)
         # Replace existing key
@@ -58,6 +62,7 @@ class RobinHood(HashTable[KT, VT]):
             bucket = (bucket + 1) % self.num_buckets
         self.num_elems += 1
 
+    @override
     def remove(self, key: KT) -> None:
         self.validate_key(key)
         bucket = self.hash(key) % self.num_buckets
@@ -81,6 +86,7 @@ class RobinHood(HashTable[KT, VT]):
             i, j = j, (i + 1) % self.num_buckets
         self.table[i] = None
 
+    @override
     def _find_key(self, key: KT) -> RobinHoodEntry[KT, VT] | None:
         bucket = self.hash(key) % self.num_buckets
         for i in range(self.num_buckets):

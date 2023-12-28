@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from functools import wraps
-from typing import Any, ClassVar, Generic, NamedTuple, ParamSpec, TypeVar
+from typing import Any, ClassVar, Generic, NamedTuple, ParamSpec, TypeVar, override
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
@@ -57,6 +57,7 @@ class LRUCache(Generic[KT, VT]):
     def __contains__(self, key: KT) -> bool:
         return key in self.cache
 
+    @override
     def __repr__(self) -> str:
         return str(
             CacheInfo(self.hits, self.misses, self.max_capacity, len(self.cache))

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import override
 
 
 @dataclass(init=False)
@@ -14,6 +15,7 @@ class SuffixArray:
         self.text = text + "$"
         self.suffix_arr = build_suffix_array(text)
 
+    @override
     def __str__(self) -> str:
         return str([self.text[suffix_index:] for suffix_index in self.suffix_arr])
 

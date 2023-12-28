@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Hashable, Iterator
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, override
 
 T = TypeVar("T")
 
@@ -18,6 +18,7 @@ class DisjointSetNode(Generic[T]):
     def __post_init__(self) -> None:
         self.parent = self
 
+    @override
     def __hash__(self) -> int:
         return hash(self.data)
 
@@ -66,6 +67,7 @@ class DisjointSet(Generic[T]):
     def __getitem__(self, elem: T) -> DisjointSetNode[T]:
         return self.node_data[self.data_to_index[elem]]
 
+    @override
     def __repr__(self) -> str:
         return f"DisjointSet({self.itersets()})"
 

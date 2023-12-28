@@ -1,7 +1,8 @@
 import math
 from pprint import pformat
+from typing import override
 
-from .rmq import RMQ
+from cs.structures.rmq.rmq import RMQ
 
 
 class SparseTableRMQ(RMQ):
@@ -19,10 +20,12 @@ class SparseTableRMQ(RMQ):
                 index2 = self.rmq_table[i - 1][j + 2 ** (i - 1)]
                 self.rmq_table[i][j] = self.return_smaller_index(index1, index2)
 
+    @override
     def __repr__(self) -> str:
         # return pformat(np.transpose(np.array(self.rmq_table)))
         return pformat(self.rmq_table)
 
+    @override
     def rmq(self, low: int, high: int) -> int:
         if low >= high:
             raise RuntimeError("In the range, low must be lower than high.")

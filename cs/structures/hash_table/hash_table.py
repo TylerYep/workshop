@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import ClassVar, Generic, TypeVar
+from typing import ClassVar, Generic, TypeVar, override
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")
@@ -14,6 +14,7 @@ class TableEntry(Generic[KT, VT]):
     key: KT
     value: VT
 
+    @override
     def __repr__(self) -> str:
         return str(self.key)
 

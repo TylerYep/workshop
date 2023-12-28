@@ -1,7 +1,8 @@
 import math
+from typing import override
 
-from .rmq import RMQ
-from .sparse_table_rmq import SparseTableRMQ
+from cs.structures.rmq.rmq import RMQ
+from cs.structures.rmq.sparse_table_rmq import SparseTableRMQ
 
 
 class HybridRMQ(RMQ):
@@ -19,6 +20,7 @@ class HybridRMQ(RMQ):
 
         self.summary_rmq = SparseTableRMQ(block_min_vals)
 
+    @override
     def rmq(self, low: int, high: int) -> int:
         if low >= high:
             raise RuntimeError("In the range, low must be lower than high.")

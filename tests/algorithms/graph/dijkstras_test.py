@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, override
 
 import pytest
 
@@ -50,6 +50,7 @@ class TestDijkstras(AllPairsShortestPaths):
         assert dijkstra_search(G3, "E", "F") == 3
 
     @staticmethod
+    @override
     def test_adj_list_neg_weights(shortest_paths_fn: APSPFunction[Any]) -> None:
         graph = Graph[str](
             {

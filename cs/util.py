@@ -2,7 +2,7 @@ import dataclasses
 import random
 from abc import abstractmethod
 from pathlib import Path
-from typing import Any, Protocol, TypeVar
+from typing import Any, Protocol, TypeVar, override
 
 import prettyprinter  # type: ignore[import-untyped]
 from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import-untyped]
@@ -13,6 +13,7 @@ T = TypeVar("T")
 
 class Comparable(Protocol):
     @abstractmethod
+    @override
     def __eq__(self, other: object) -> bool:
         pass
 

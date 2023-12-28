@@ -1,4 +1,6 @@
-from .rmq import RMQ
+from typing import override
+
+from cs.structures.rmq.rmq import RMQ
 
 
 class PrecomputedRMQ(RMQ):
@@ -15,6 +17,7 @@ class PrecomputedRMQ(RMQ):
                 index2 = self.rmq_table[i][j + 1]
                 self.rmq_table[i][j] = self.return_smaller_index(index1, index2)
 
+    @override
     def rmq(self, low: int, high: int) -> int:
         if low >= high:
             raise RuntimeError("In the range, low must be lower than high.")

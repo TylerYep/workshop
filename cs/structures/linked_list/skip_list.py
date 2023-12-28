@@ -7,7 +7,7 @@ from __future__ import annotations
 import random
 from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Generic, TypeVar, cast
+from typing import Generic, TypeVar, cast, override
 
 from cs.util import Comparable
 
@@ -24,6 +24,7 @@ class SkipList(Generic[KT, VT]):
     max_level: int = 16
     level: int = 0
 
+    @override
     def __str__(self) -> str:
         """
         :return: Visual representation of SkipList

@@ -1,8 +1,9 @@
 import math
+from typing import override
 
-from .precomputed_rmq import PrecomputedRMQ
-from .rmq import RMQ
-from .sparse_table_rmq import SparseTableRMQ
+from cs.structures.rmq.precomputed_rmq import PrecomputedRMQ
+from cs.structures.rmq.rmq import RMQ
+from cs.structures.rmq.sparse_table_rmq import SparseTableRMQ
 
 
 class FischerHeunRMQ(RMQ):
@@ -42,6 +43,7 @@ class FischerHeunRMQ(RMQ):
             result += "1"
         return int(result[::-1], 2)
 
+    @override
     def rmq(self, low: int, high: int) -> int:
         if low >= high:
             raise RuntimeError("In the range, low must be lower than high.")

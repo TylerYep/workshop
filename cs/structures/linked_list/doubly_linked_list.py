@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, override
 
 T = TypeVar("T")
 
@@ -13,6 +13,7 @@ class DoublyLinkedListNode(Generic[T]):
     prev: DoublyLinkedListNode[T] | None = None
     next: DoublyLinkedListNode[T] | None = None  # noqa: A003
 
+    @override
     def __repr__(self) -> str:
         return f"({self.data}) -> {self.next}"
 

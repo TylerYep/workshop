@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+from typing import override
 
 from .hash_table import KT, VT, HashTable, TableEntry
 
@@ -32,6 +33,7 @@ class Cuckoo(HashTable[KT, VT]):
         self.hash_2 = self.generate_hash_function()
         self.rehashing_depth_limit = int(6 * math.log(num_buckets * 2))
 
+    @override
     def __str__(self) -> str:
         max_width = 20
         result = ""
@@ -41,6 +43,7 @@ class Cuckoo(HashTable[KT, VT]):
             result += f"{table_row_1:<{max_width}} {table_row_2}\n"
         return result
 
+    @override
     def insert(self, key: KT, value: VT) -> None:
         self.validate_key(key)
         # Replace existing key
@@ -57,6 +60,7 @@ class Cuckoo(HashTable[KT, VT]):
         self._insert(key, value)
         self.num_elems += 1
 
+    @override
     def remove(self, key: KT) -> None:
         self.validate_key(key)
         self.num_elems -= 1
@@ -113,6 +117,7 @@ class Cuckoo(HashTable[KT, VT]):
         for item in table:
             self._insert(item.key, item.value)
 
+    @override
     def _find_key(self, key: KT) -> TableEntry[KT, VT] | None:
         bucket = self.hash_1(key) % self.num_buckets
         entry = self.table_1[bucket]

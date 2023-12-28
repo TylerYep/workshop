@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import TypeVar, cast
+from typing import TypeVar, cast, override
 
 from cs.structures.tree.tree import Tree, TreeNode
 from cs.util import Comparable, dfield
@@ -11,7 +11,8 @@ T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(order=True, repr=False, slots=True)
-class BinaryTreeNode(TreeNode[T]):
+@override
+class BinaryTreeNode(TreeNode[T]):  # type: ignore[explicit-override]
     left: BinaryTreeNode[T] | None = None
     right: BinaryTreeNode[T] | None = None
     parent: BinaryTreeNode[T] | None = dfield(None)
@@ -53,6 +54,7 @@ class BinarySearchTree(Tree[T]):
     root: BinaryTreeNode[T] | None = None
     size: int = 0
 
+    @override
     def __iter__(self) -> Iterator[BinaryTreeNode[T]]:
         """Performs an in-order traversal over the TreeNodes of the Tree."""
 
@@ -64,12 +66,14 @@ class BinarySearchTree(Tree[T]):
 
         return _iter(self.root)
 
+    @override
     def __str__(self) -> str:
         from cs.structures.tree.draw_tree import draw_tree
 
         return draw_tree(self.root)
 
     @staticmethod
+    @override
     def depth(tree: TreeNode[T] | None) -> int:
         if tree is None:
             return 0
@@ -78,14 +82,17 @@ class BinarySearchTree(Tree[T]):
             BinarySearchTree.depth(tree.left), BinarySearchTree.depth(tree.right)
         )
 
+    @override
     def height(self) -> int:
         return self.depth(self.root)
 
+    @override
     def is_balanced(self) -> bool:
         if self.root is None:
             raise RuntimeError("Binary search tree is empty")
         return self.depth(self.root.left) == self.depth(self.root.right)
 
+    @override
     def search(self, data: T) -> BinaryTreeNode[T] | None:
         """Searches a node in the tree."""
 
@@ -99,6 +106,7 @@ class BinarySearchTree(Tree[T]):
 
         return _search(self.root)
 
+    @override
     def insert(self, data: T) -> None:
         """Puts a new node in the tree."""
 
@@ -118,6 +126,7 @@ class BinarySearchTree(Tree[T]):
         self.root = _insert(self.root)
         self.size += 1
 
+    @override
     def remove(self, data: T) -> None:
         """Removes a node in the tree."""
 
@@ -166,6 +175,7 @@ class BinarySearchTree(Tree[T]):
                 node.right.parent = lowest_node
             _reassign_nodes(node, lowest_node)
 
+    @override
     def max_element(self) -> T:
         """Gets the max data inserted in the tree."""
         if self.root is None:
@@ -175,6 +185,7 @@ class BinarySearchTree(Tree[T]):
             node = node.right
         return node.data
 
+    @override
     def min_element(self) -> T:
         """Gets the min data inserted in the tree."""
         if self.root is None:
@@ -184,6 +195,7 @@ class BinarySearchTree(Tree[T]):
             node = node.left
         return node.data
 
+    @override
     def traverse(self, method: str = "inorder") -> Iterator[T]:
         """Return the pre-order, in-order, or post-order traversal of the tree."""
         if method not in ("preorder", "inorder", "postorder"):
@@ -204,6 +216,7 @@ class BinarySearchTree(Tree[T]):
 
         return _traverse(self.root)
 
+    @override
     def select(self, rank: int) -> T:
         """
         Takes in an integer rank and returns the rank-th order statistic.
@@ -213,5 +226,6 @@ class BinarySearchTree(Tree[T]):
         """
         return next(node for i, node in enumerate(self) if i == rank).data
 
+    @override
     def rank_of(self, data: T) -> int:
         return next(i for i, node in enumerate(self) if node.data == data)

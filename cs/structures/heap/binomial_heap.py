@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Generic, Self, TypeVar
+from typing import Generic, Self, TypeVar, override
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -29,6 +29,7 @@ class Entry(Generic[T]):
     child: Entry[T] | None = dfield(None, repr=True)
     right: Entry[T] | None = dfield(None, repr=True)
 
+    @override
     def __repr__(self) -> str:
         return str(formatter.pformat(self))
 
@@ -72,18 +73,22 @@ class BinomialHeap(Heap[T]):
         # elem_to_entry's keys instead.
         self.allow_duplicates = allow_duplicates
 
+    @override
     def __bool__(self) -> bool:
         return bool(self.trees)
 
+    @override
     def __len__(self) -> int:
         return self.size
 
+    @override
     def __contains__(self, item: T) -> bool:
         if self.allow_duplicates:
             # TODO: implement
             raise NotImplementedError
         return item in self.elem_to_entry
 
+    @override
     def __getitem__(self, value: T | UUID) -> Entry[T]:
         """Gets the correct Entry object from the given value or UUID."""
         if self.allow_duplicates and not isinstance(value, UUID):
@@ -109,6 +114,7 @@ class BinomialHeap(Heap[T]):
             return result
         raise NotImplementedError
 
+    @override
     def __ior__(self, other: object) -> Self:
         if isinstance(other, BinomialHeap):
             self.merge(other)
@@ -196,6 +202,7 @@ class BinomialHeap(Heap[T]):
         if math.isnan(priority):
             raise ValueError(f"Priority {priority} is invalid.")
 
+    @override
     def enqueue(self, value: T, priority: float = 0) -> T | UUID:
         """
         Insert an element into the Binomial heap with the specified priority.
@@ -224,6 +231,7 @@ class BinomialHeap(Heap[T]):
         self.elem_to_entry[key] = result
         return key
 
+    @override
     def peek(self) -> tuple[T, float]:
         """
         Return an Entry object corresponding to the minimum element of the heap.
@@ -238,6 +246,7 @@ class BinomialHeap(Heap[T]):
         top = min(entry for entry in self.trees if entry is not None)
         return top.value, top.priority
 
+    @override
     def dequeue(self) -> tuple[T, float]:
         """
         Dequeue and return the minimum element of the Binomial heap.
@@ -276,6 +285,7 @@ class BinomialHeap(Heap[T]):
             del self.elem_to_entry[result.value]
         return result.value, result.priority
 
+    @override
     def merge(self, other: Heap[T]) -> None:
         """
         Merge 2 Binomial heaps.

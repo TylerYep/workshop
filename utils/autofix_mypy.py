@@ -7,10 +7,11 @@ from pathlib import Path
 MYPY_OUTPUT = """
 
 """
-ADD_ALL_TYPE_IGNORES = True
+ADD_ALL_TYPE_IGNORES = False
+# ROOT_DIR = Path.home() / "Documents/Github/workshop"
+ROOT_DIR = Path.home() / "robinhood/rh2"
 
 # Replace cache path with path to your local rh directory.
-ROOT_DIR = Path.home() / "robinhood/rh2"
 MYPY_OUTPUT = MYPY_OUTPUT.replace(
     MYPY_OUTPUT[1 : MYPY_OUTPUT.index("/rh") + len("/rh")], str(ROOT_DIR)
 ).replace("error:\n", "error: ")
@@ -26,7 +27,7 @@ def main() -> None:
     \n
     """
     lines_changed: dict[str, int] = {}
-    insert_extra_lines: dict[int, str] = {}
+    insert_extra_lines: dict[Path, dict[int, str]] = {}
     for mypy_error_line in MYPY_OUTPUT.split("\n"):
         if not mypy_error_line:
             continue
@@ -94,7 +95,9 @@ def main() -> None:
                     context="add_error_code",
                 )
             elif "is not using @override but is overriding a method" in mypy_error_line:
+                assert error_code == "explicit-override"
                 add_override(
+                    filepath,
                     lines,
                     row,
                     lines_changed,
@@ -116,7 +119,7 @@ def main() -> None:
             print(f"Error occurred: {exc}\n when processing{filepath}:{row}")
             traceback.print_exc()
 
-    write_extra_lines(filepath, lines, insert_extra_lines)
+    write_extra_lines(insert_extra_lines)
     print(f"Lines modified: {lines_changed}")
 
 
@@ -149,14 +152,17 @@ def add_future_annotations(
 
 
 def add_override(
+    filepath: Path,
     lines: list[str],
     row: int,
     lines_changed: dict[str, int],
-    insert_extra_lines: dict[int, str],
+    insert_extra_lines: dict[Path, dict[int, str]],
     context: str,
 ) -> None:
     indent = len(lines[row]) - len(lines[row].lstrip())
-    insert_extra_lines[row] = f"{' ' * indent}@override\n"
+    if filepath not in insert_extra_lines:
+        insert_extra_lines[filepath] = {}
+    insert_extra_lines[filepath][row] = f"{' ' * indent}@override"
     lines_changed[context] = lines_changed.get(context, 0) + 1
 
 
@@ -231,16 +237,16 @@ def add_to_existing_type_ignores(line: str, error_code: str) -> str:
     return line[:start_bracket] + f"[{error_code}]" + line[start_bracket:]
 
 
-def write_extra_lines(
-    filepath: Path, lines: list[str], insert_extra_lines: dict[int, str]
-) -> None:
-    for line_num_to_insert_before, new_line in sorted(
-        insert_extra_lines.items(), key=lambda x: x[0], reverse=True
-    ):
-        lines.insert(line_num_to_insert_before, new_line)
+def write_extra_lines(insert_extra_lines: dict[Path, dict[int, str]]) -> None:
+    for filepath, extra_lines in insert_extra_lines.items():
+        lines = filepath.read_text(encoding="utf-8").split("\n")
+        for line_num_to_insert_before, new_line in sorted(
+            extra_lines.items(), key=lambda x: x[0], reverse=True
+        ):
+            lines.insert(line_num_to_insert_before, new_line)
 
-    with filepath.open("w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+        with filepath.open("w", encoding="utf-8") as f:
+            f.write("\n".join(lines))
 
 
 if __name__ == "__main__":

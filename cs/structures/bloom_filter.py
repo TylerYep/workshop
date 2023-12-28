@@ -2,7 +2,7 @@ import hashlib
 import math
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, override
 
 from bitarray import bitarray
 
@@ -40,6 +40,7 @@ class BloomFilter(Generic[T]):
     def __contains__(self, key: T) -> bool:
         return all(self.array[i] for i in self._hashes(key))
 
+    @override
     def __str__(self) -> str:
         return f"{self.__class__.__qualname__}({self.array.to01()})"
 

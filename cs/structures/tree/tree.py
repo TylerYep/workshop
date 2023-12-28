@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, override
 
 from cs.util import Comparable, dfield, formatter
 
@@ -29,6 +29,7 @@ class TreeNode(Generic[T]):
     count: int = dfield(1)
     hits: int = dfield(0)
 
+    @override
     def __repr__(self) -> str:
         return str(formatter.pformat(self))
 

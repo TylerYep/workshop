@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import override
 
 from .hash_table import KT, VT, HashTable, TableEntry
 
@@ -15,6 +16,7 @@ class LinearProbing(HashTable[KT, VT]):
         super().__init__(num_buckets, load_factor)
         self.table: list[LinearProbingEntry[KT, VT] | None] = [None] * num_buckets
 
+    @override
     def __str__(self) -> str:
         result = ""
         for i in range(self.num_buckets):
@@ -23,6 +25,7 @@ class LinearProbing(HashTable[KT, VT]):
             result += f"{i}  |  {output}\n"
         return result
 
+    @override
     def insert(self, key: KT, value: VT) -> None:
         self.validate_key(key)
         # Skip check for duplicates because membership check is very slow.
@@ -49,6 +52,7 @@ class LinearProbing(HashTable[KT, VT]):
         self.table[bucket] = LinearProbingEntry(key, value)
         self.num_elems += 1
 
+    @override
     def remove(self, key: KT) -> None:
         self.validate_key(key)
         if (entry := self._find_key(key)) is None:
@@ -60,6 +64,7 @@ class LinearProbing(HashTable[KT, VT]):
     def get_elems(self) -> list[tuple[KT, VT]]:
         return [(elem.key, elem.value) for elem in self.table if elem is not None]
 
+    @override
     def _find_key(self, key: KT) -> LinearProbingEntry[KT, VT] | None:
         bucket = hash(key) % self.num_buckets
         for i in range(self.num_buckets):

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, unique
-from typing import TypeVar
+from typing import TypeVar, override
 
 from cs.structures.tree.binary_search_tree import BinarySearchTree, BinaryTreeNode
 from cs.util import Comparable, dfield
@@ -17,7 +17,8 @@ class Color(Enum):
 
 
 @dataclass(order=True, repr=False, slots=True)
-class RedBlackTreeNode(BinaryTreeNode[T]):
+@override
+class RedBlackTreeNode(BinaryTreeNode[T]):  # type: ignore[explicit-override]
     left: RedBlackTreeNode[T] | None = None
     right: RedBlackTreeNode[T] | None = None
     parent: RedBlackTreeNode[T] | None = dfield(None)
@@ -25,11 +26,13 @@ class RedBlackTreeNode(BinaryTreeNode[T]):
     rank: int = dfield(0)  # Defined here because rank is not updated in BSTs.
 
     @property
+    @override
     def grandparent(self) -> RedBlackTreeNode[T] | None:
         """Redefined here because @property cannot be inherited."""
         return None if self.parent is None else self.parent.parent
 
     @property
+    @override
     def sibling(self) -> RedBlackTreeNode[T] | None:
         """Redefined here because @property cannot be inherited."""
         if self.parent is None:
@@ -155,6 +158,7 @@ class RedBlackTree(BinarySearchTree[T]):
             and _black_height(self.root) != -1
         )
 
+    @override
     def insert(self, data: T) -> None:
         """
         Inserts data into the subtree rooted at the root, and then performs any
@@ -342,6 +346,7 @@ class RedBlackTree(BinarySearchTree[T]):
         node.parent = old_parent.parent
         old_parent.parent = node
 
+    @override
     def select(self, rank: int) -> T:
         """Takes in an integer rank and returns the rank-th order statistic."""
         curr = self.root
@@ -355,6 +360,7 @@ class RedBlackTree(BinarySearchTree[T]):
                 curr = curr.right
         raise RuntimeError("Not enough elements in tree.")
 
+    @override
     def rank_of(self, data: T) -> int:
         """
         Inverse of select; takes in a node in the tree and returns the number
