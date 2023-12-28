@@ -1,14 +1,20 @@
+# pylint: disable=too-many-branches
 from __future__ import annotations
 
 import traceback
 import warnings
 from pathlib import Path
 
-ROOT_DIR = Path.home() / "robinhood/rh"
 MYPY_OUTPUT = """
 
 """
-ADD_ALL_TYPE_IGNORES = False
+ADD_ALL_TYPE_IGNORES = True
+
+# Replace cache path with path to your local rh directory.
+ROOT_DIR = Path.home() / "robinhood/rh2"
+MYPY_OUTPUT = MYPY_OUTPUT.replace(
+    MYPY_OUTPUT[1 : MYPY_OUTPUT.index("/rh") + len("/rh")], str(ROOT_DIR)
+).replace("error:\n", "error: ")
 
 
 def main() -> None:
@@ -21,15 +27,19 @@ def main() -> None:
     \n
     """
     lines_changed: dict[str, int] = {}
+    insert_extra_lines: dict[int, str] = {}
     for mypy_error_line in MYPY_OUTPUT.split("\n"):
         if not mypy_error_line:
+            continue
+
+        if "rh" not in mypy_error_line or "error: " not in mypy_error_line:
             continue
 
         filepath, row, is_note, error_code = extract_details(mypy_error_line)
         if is_note:
             continue
 
-        all_lines = Path(filepath).read_text(encoding="utf-8")
+        all_lines = filepath.read_text(encoding="utf-8")
         lines = all_lines.split("\n")
         try:
             if "nused 'type: ignore' comment" in mypy_error_line.replace('"', "'"):
@@ -84,6 +94,14 @@ def main() -> None:
                     lines_changed,
                     context="add_error_code",
                 )
+            elif "is not using @override but is overriding a method" in mypy_error_line:
+                add_override(
+                    lines,
+                    row,
+                    lines_changed,
+                    insert_extra_lines,
+                    context="override",
+                )
             elif ADD_ALL_TYPE_IGNORES:
                 add_type_ignore(
                     filepath,
@@ -98,6 +116,8 @@ def main() -> None:
         except Exception as exc:  # pylint: disable=broad-except
             print(f"Error occurred: {exc}\n when processing{filepath}:{row}")
             traceback.print_exc()
+
+    write_extra_lines(filepath, lines, insert_extra_lines)
     print(f"Lines modified: {lines_changed}")
 
 
@@ -126,6 +146,18 @@ def add_future_annotations(
     with filepath.open("w", encoding="utf-8") as f:
         lines.insert(0, "from __future__ import annotations")
         f.write("\n".join(lines))
+    lines_changed[context] = lines_changed.get(context, 0) + 1
+
+
+def add_override(
+    lines: list[str],
+    row: int,
+    lines_changed: dict[str, int],
+    insert_extra_lines: dict[int, str],
+    context: str,
+) -> None:
+    indent = len(lines[row]) - len(lines[row].lstrip())
+    insert_extra_lines[row] = f"{' ' * indent}@override\n"
     lines_changed[context] = lines_changed.get(context, 0) + 1
 
 
@@ -197,6 +229,18 @@ def add_to_existing_type_ignores(line: str, error_code: str) -> str:
             + line[start_bracket + type_ignore_end :]
         )
     return line[:start_bracket] + f"[{error_code}]" + line[start_bracket:]
+
+
+def write_extra_lines(
+    filepath: Path, lines: list[str], insert_extra_lines: dict[int, str]
+) -> None:
+    for line_num_to_insert_before, new_line in sorted(
+        insert_extra_lines.items(), key=lambda x: x[0], reverse=True
+    ):
+        lines.insert(line_num_to_insert_before, new_line)
+
+    with filepath.open("w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
 
 
 if __name__ == "__main__":
