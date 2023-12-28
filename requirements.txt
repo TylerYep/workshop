@@ -1,4 +1,5 @@
 bitarray
 graphviz
+matplotlib
 prettyprinter
 tqdm

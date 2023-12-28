@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import math
+from typing import Any
 
 import numpy as np
 from matplotlib import animation
@@ -172,12 +173,12 @@ def create_movie(data: list[np.ndarray], show_movie: bool = True) -> None:
     patch = plt.Polygon([[0, 0], [0, 0]], closed=None, fill=None, edgecolor="k")
     head = plt.Circle((0, 0), radius=0.15, fc="k", ec="k")
 
-    def init() -> tuple[plt.Patch, plt.Patch]:
+    def init() -> tuple[Any, Any]:
         ax.add_patch(patch)
         ax.add_patch(head)
         return patch, head
 
-    def animate(j: int) -> tuple[plt.Patch, plt.Patch]:
+    def animate(j: int) -> tuple[Any, Any]:
         points = [(data[j][0][i], data[j][1][i]) for i in joints]
         patch.set_xy(points)
         head.center = (data[j][0][5], data[j][1][5])

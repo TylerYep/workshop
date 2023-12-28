@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 
-def create_all_exports(init_file_content: str) -> tuple[str]:
+def create_all_exports(init_file_content: str) -> str:
     file_parts = init_file_content.split("\n")
     matches = []
     reg = re.compile("from .* import ")
