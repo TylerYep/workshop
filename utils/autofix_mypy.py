@@ -112,7 +112,7 @@ def main() -> None:
                 )
             else:
                 print(f"Line not handled: {mypy_error_line}")
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             print(f"Error occurred: {exc}\n when processing{filepath}:{row}")
             traceback.print_exc()
 
@@ -183,8 +183,9 @@ def add_error_code(
     start_tag = 'consider "type: ignore['
     end_tag = ']" instead)'
     new_error_code = mypy_error_line[
-        mypy_error_line.rindex(start_tag)
-        + len(start_tag) : mypy_error_line.index(end_tag)
+        mypy_error_line.rindex(start_tag) + len(start_tag) : mypy_error_line.index(
+            end_tag
+        )
     ]
     with filepath.open("w", encoding="utf-8") as f:
         lines[row] = add_to_existing_type_ignores(lines[row], new_error_code)

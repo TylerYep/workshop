@@ -14,6 +14,7 @@ ignore = [
 	"FBT002",  # Boolean default value in function definition
 	"FBT003",  # Boolean positional value in function call
 	"FIX002",  # Line contains TODO
+	"ISC001",  # Isort
     "PLR0911", # Too many return statements (11 > 6)
 	"PLR2004", # Magic value used in comparison, consider replacing 2 with a constant variable
     "PLR0912", # Too many branches
@@ -34,7 +35,7 @@ ignore = [
     "N806",    # Variable `G` in function should be lowercase
 	"RUF009",  # Do not perform function call `dfield` in dataclass defaults
 ]
-exclude = ["explore", "utils"]
+exclude = ["explore"]
 
 [flake8-pytest-style]
 fixture-parentheses = false

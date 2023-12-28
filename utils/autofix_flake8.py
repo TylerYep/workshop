@@ -26,7 +26,7 @@ def main() -> None:
                 fix_empty_f_strings(filepath, lines, row, col, lines_changed)
             elif "E265 block comment should start with '# '" in line:
                 fix_missing_comment_space(filepath, lines, row, col, lines_changed)
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             print(f"Error occurred: {exc}\n{filepath}\n{line}\n")
     print(f"Lines modified: {lines_changed}")
 

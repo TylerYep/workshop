@@ -5,11 +5,8 @@ from pathlib import Path
 
 def regex(filepath: str, regexp: str) -> None:
     with Path(filepath).open(encoding="utf-8") as f:
-        matches = []
         reg = re.compile(regexp)
-        for line in f:
-            if reg.search(line):
-                matches.append(line[:-1])
+        matches = [line[:-1] for line in f if reg.search(line)]
         for m in matches:
             print(m)
 

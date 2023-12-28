@@ -1,6 +1,6 @@
 import itertools
 from collections import Counter
-from pprint import pprint
+from pprint import pformat
 
 MAX_WEIGHTS_ON_HANDLE = 6
 MAX_WEIGHTS_ON_BAR = 12
@@ -24,7 +24,7 @@ def calculate_weight_combinations(weights: list[float]) -> None:
                 every_other_elem = config[1::2]
                 configs[every_other_elem] = round(result, 2)
     sorted_by_value = sorted(configs.items(), key=lambda e: e[1])
-    pprint(sorted_by_value)
+    print(pformat(sorted_by_value))
 
 
 if __name__ == "__main__":

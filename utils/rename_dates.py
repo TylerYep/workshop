@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def mm_dd_yy_TO_yyyy_mm_dd(extension=".md"):
+def convert_mm_dd_yy_to_yyyy_mm_dd(extension: str = ".md") -> None:
     for filepath in Path().glob(f"*{extension}"):
         new_name = "2020-" + str(filepath).replace("-20" + extension, "")
         parts = new_name.split("-")
@@ -12,7 +12,7 @@ def mm_dd_yy_TO_yyyy_mm_dd(extension=".md"):
         filepath.rename(padded_name)
 
 
-def add_header(extension=".md"):
+def add_header(extension: str = ".md") -> None:
     header = (
         "---\n"
         "title: {}\n"
