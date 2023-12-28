@@ -1,3 +1,4 @@
 bitarray
+graphviz
 prettyprinter
 tqdm
