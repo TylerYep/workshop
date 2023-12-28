@@ -13,12 +13,6 @@ repos:
         language: python
         types_or: [python, pyi]
 
-      - id: pyupgrade
-        name: pyupgrade
-        entry: pyupgrade --py311-plus
-        language: python
-        types: [python]
-
       - id: mypy
         name: mypy
         entry: mypy
