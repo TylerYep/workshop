@@ -4,7 +4,9 @@ import numpy as np
 from cs.ml import KNearestNeighbor
 
 
-def k_fold_validation(X_train, y_train, num_folds=5):
+def k_fold_validation(
+    X_train: np.ndarray, y_train: np.ndarray, num_folds: int = 5
+) -> int:
     k_choices = [1, 3, 5, 8, 10, 12, 15, 20, 50, 100]
 
     # Split up the training data into folds. After splitting, X_train_folds and

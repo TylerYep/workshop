@@ -23,6 +23,7 @@ ignore = [
 	"S101",    # Use of `assert` detected
 	"S311",    # Standard pseudo-random generators are not suitable for cryptographic purposes
 	"T201",    # print() found
+	"T203",    # pprint() found
 	"TCH001",  # Move application import into a type-checking block
     "TCH003",  # Move standard library import into a type-checking block
 	"TD002",   # Missing author in TODO; try: `# TODO(<author_name>): ...`
@@ -35,7 +36,11 @@ ignore = [
     "N806",    # Variable `G` in function should be lowercase
 	"RUF009",  # Do not perform function call `dfield` in dataclass defaults
 ]
-exclude = ["explore"]
+exclude = [
+	"explore/django_1.0_to_2.0.py",
+	"explore/neural_net.py",
+	"explore/runner.py",
+]
 
 [flake8-pytest-style]
 fixture-parentheses = false

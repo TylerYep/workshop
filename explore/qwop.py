@@ -17,8 +17,7 @@ def get_plan() -> list[float]:
     - The order of nums roughly correlates with the timesteps of the simulation.
     - You can call sim(plan) to get the distance traveled using that plan.
     """
-    plan = [1 for _ in range(MAX_LENGTH)]
-    return plan
+    return [1 for _ in range(MAX_LENGTH)]
 
 
 # ------------------- Do Not Edit Beyond This Point -------------------
@@ -156,7 +155,7 @@ def normalize_angle(ang: float) -> float:
     return ang
 
 
-def create_movie(data, show_movie: bool = True) -> None:
+def create_movie(data: list[np.ndarray], show_movie: bool = True) -> None:
     """
     The following code is given as an example to store a video of the run and to display
     the run in a graphics window. You will treat sim(plan) as a black box objective
@@ -173,12 +172,12 @@ def create_movie(data, show_movie: bool = True) -> None:
     patch = plt.Polygon([[0, 0], [0, 0]], closed=None, fill=None, edgecolor="k")
     head = plt.Circle((0, 0), radius=0.15, fc="k", ec="k")
 
-    def init():
+    def init() -> tuple[plt.Patch, plt.Patch]:
         ax.add_patch(patch)
         ax.add_patch(head)
         return patch, head
 
-    def animate(j):
+    def animate(j: int) -> tuple[plt.Patch, plt.Patch]:
         points = [(data[j][0][i], data[j][1][i]) for i in joints]
         patch.set_xy(points)
         head.center = (data[j][0][5], data[j][1][5])

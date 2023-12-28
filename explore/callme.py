@@ -3,6 +3,7 @@ import ast
 import pprint
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 from cs.structures import Graph
 
@@ -22,7 +23,7 @@ def should_add(result: str) -> bool:
     return result and result not in IGNORED and "{}" not in result
 
 
-def recurse_to_function_name(ast_node) -> str:
+def recurse_to_function_name(ast_node: Any) -> str:
     if isinstance(ast_node, str):
         return ast_node
     if isinstance(ast_node, ast.Name):
