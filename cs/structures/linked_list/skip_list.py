@@ -19,7 +19,7 @@ VT = TypeVar("VT")
 class SkipList(Generic[KT, VT]):
     key: KT | None = None
     value: VT | None = None
-    next: list[SkipList[KT, VT]] = field(default_factory=list)  # noqa: A003
+    next: list[SkipList[KT, VT]] = field(default_factory=list)
     p: float = 0.5
     max_level: int = 16
     level: int = 0

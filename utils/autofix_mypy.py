@@ -8,23 +8,24 @@ MYPY_OUTPUT = """
 
 """
 ADD_ALL_TYPE_IGNORES = False
-# ROOT_DIR = Path.home() / "Documents/Github/workshop"
-ROOT_DIR = Path.home() / "robinhood/rh2"
 
-# Replace cache path with path to your local rh directory.
-MYPY_OUTPUT = MYPY_OUTPUT.replace(
-    MYPY_OUTPUT[1 : MYPY_OUTPUT.index("/rh") + len("/rh")], str(ROOT_DIR)
-).replace("error:\n", "error: ")
+if "/rh" in MYPY_OUTPUT:
+    ROOT_FOLDER = "rh"
+    ROOT_DIR = Path.home() / f"robinhood/{ROOT_FOLDER}"
+    # Replace cache path with path to your local rh directory.
+    MYPY_OUTPUT = MYPY_OUTPUT.replace(
+        MYPY_OUTPUT[1 : MYPY_OUTPUT.index("/rh") + len("/rh")], str(ROOT_DIR)
+    ).replace("error:\n", "error: ")
+
+else:
+    ROOT_FOLDER = "workshop"
+    ROOT_DIR = Path.home() / f"Documents/Github/{ROOT_FOLDER}"
 
 
 def main() -> None:
     """
     Run type-checking and copy+paste all errors into the output above.
-    Then run this function.
-
-    To add error codes, find and replace:
-    # type: ignore.*\n
-    \n
+    Then run this function to autofix most type errors for you.
     """
     lines_changed: dict[str, int] = {}
     insert_extra_lines: dict[Path, dict[int, str]] = {}
@@ -32,7 +33,9 @@ def main() -> None:
         if not mypy_error_line:
             continue
 
-        if "rh" not in mypy_error_line or "error: " not in mypy_error_line:
+        if "error: " not in mypy_error_line or (
+            "/rh" in MYPY_OUTPUT and "rh" not in mypy_error_line
+        ):
             continue
 
         filepath, row, is_note, error_code = extract_details(mypy_error_line)
@@ -49,7 +52,7 @@ def main() -> None:
                 or "module is installed, but missing library stubs or py.typed marker"
                 in mypy_error_line
             ):
-                assert error_code == "import"
+                assert error_code in ("import", "import-untyped")
                 add_type_ignore(
                     filepath,
                     lines,

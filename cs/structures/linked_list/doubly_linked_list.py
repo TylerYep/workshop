@@ -11,7 +11,7 @@ T = TypeVar("T")
 class DoublyLinkedListNode(Generic[T]):
     data: T
     prev: DoublyLinkedListNode[T] | None = None
-    next: DoublyLinkedListNode[T] | None = None  # noqa: A003
+    next: DoublyLinkedListNode[T] | None = None
 
     @override
     def __repr__(self) -> str:

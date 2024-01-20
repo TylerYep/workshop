@@ -23,7 +23,7 @@ def main() -> None:
             error_messages[error_code] = error_message
     for error_code, error_message in sorted(error_messages.items()):
         spaces = 8 - len(error_code)
-        print(f"\"{error_code}\",{' ' * spaces}# {error_message}")
+        print(f'"{error_code}",{' ' * spaces}# {error_message}')
 
 
 def extract_details(ruff_error_line: str) -> tuple[Path, int, int, str]:
