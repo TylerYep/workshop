@@ -4,6 +4,7 @@ This code is largely untested. You can look in tests/ to see some examples, or
 run them using `pytest -vv`.
 It seems to work fine, but take that with a grain of salt.
 """
+
 import math
 
 from cs.util import weighted_coin_flip
