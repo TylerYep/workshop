@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from cs.structures import Graph, V
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from cs.structures import Graph, V
 
 
 def depth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:

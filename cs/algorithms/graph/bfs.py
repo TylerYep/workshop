@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from collections import deque
+from typing import TYPE_CHECKING
 
-from cs.structures import Graph, V
+if TYPE_CHECKING:
+    from cs.structures import Graph, V
 
 
 def breadth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:

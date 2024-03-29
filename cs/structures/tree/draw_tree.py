@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from cs.structures.tree.binary_search_tree import BinaryTreeNode
+if TYPE_CHECKING:
+    from cs.structures.tree.binary_search_tree import BinaryTreeNode
 
 MAX_HEIGHT = 1000
 INFINITY = 1 << 8  # ~1 million

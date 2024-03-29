@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Iterator
-from typing import Self, override
+from typing import TYPE_CHECKING, Self, override
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 class Bits:

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, TypeVar, override
+from typing import TYPE_CHECKING, Generic, TypeVar, override
 
 from cs.util import Comparable, dfield, formatter
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 T = TypeVar("T", bound=Comparable)
 

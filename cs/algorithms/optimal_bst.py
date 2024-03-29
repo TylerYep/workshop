@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from cs.structures import BinarySearchTree, BinaryTreeNode, Graph
 from cs.util import Comparable
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 T = TypeVar("T", bound=Comparable)
 

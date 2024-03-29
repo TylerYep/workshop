@@ -1,8 +1,19 @@
 from __future__ import annotations
 
-from collections.abc import Callable
 from functools import wraps
-from typing import Any, ClassVar, Generic, NamedTuple, ParamSpec, TypeVar, override
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    ClassVar,
+    Generic,
+    NamedTuple,
+    ParamSpec,
+    TypeVar,
+    override,
+)
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import random
-from collections.abc import Callable
 from dataclasses import dataclass
-from typing import ClassVar, Generic, TypeVar, override
+from typing import TYPE_CHECKING, ClassVar, Generic, TypeVar, override
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 KT = TypeVar("KT")
 VT = TypeVar("VT")

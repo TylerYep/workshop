@@ -5,11 +5,13 @@ https://epaperpress.com/sortsearch/download/skiplist.pdf
 from __future__ import annotations
 
 import random
-from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Generic, TypeVar, cast, override
+from typing import TYPE_CHECKING, Generic, TypeVar, cast, override
 
 from cs.util import Comparable
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 KT = TypeVar("KT", bound=Comparable)
 VT = TypeVar("VT")

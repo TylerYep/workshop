@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import TypeVar, cast, override
+from typing import TYPE_CHECKING, TypeVar, cast, override
 
 from cs.structures.tree.tree import Tree, TreeNode
 from cs.util import Comparable, dfield
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 T = TypeVar("T", bound=Comparable)
 

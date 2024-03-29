@@ -36,12 +36,12 @@ def count_project_lines(project: str) -> None:
 
     total_lines = sum(counts.values())
     cumulative = 0
-    marker = 0
+    # marker = 0
     for i in range(lengths):
         if cumulative > total_lines * 0.98:
             break
         cumulative += counts[i]
-        marker += 1
+        # marker += 1
 
     # plt.axvline(x=marker, color="b", linestyle="-")
     plt.show()

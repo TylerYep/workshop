@@ -1,10 +1,12 @@
-from typing import TypeVar, cast
+from typing import TYPE_CHECKING, TypeVar, cast
 
 import pytest
 
 from cs.structures import BinarySearchTree, RedBlackTree, Tree
-from cs.structures.tree.tree import TreeNode
 from cs.util import Comparable
+
+if TYPE_CHECKING:
+    from cs.structures.tree.tree import TreeNode
 
 T = TypeVar("T", bound=Comparable)
 parametrize_tree_types = pytest.mark.parametrize(

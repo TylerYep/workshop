@@ -15,9 +15,9 @@ def test_huffman(tmp_path: Path) -> None:
     while leftmost.left is not None:
         leftmost = leftmost.left
 
-    assert leftmost == HuffmanTreeNode(freq=5, letter="v")
+    assert leftmost == HuffmanTreeNode(freq=41, letter="(")
     assert repr(leftmost) == (
-        "HuffmanTreeNode(freq=5, letter='v', bitstring='000000000')"
+        "HuffmanTreeNode(freq=41, letter='(', bitstring='000000')"
     )
 
     output = huffman_decompress(compressed_file_name, tree)

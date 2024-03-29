@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import heapq
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from cs.util import dfield
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 @dataclass(order=True, slots=True)
