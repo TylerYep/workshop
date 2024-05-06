@@ -4,6 +4,7 @@ each node exactly once. Determining whether such paths and cycles exist in graph
 the 'Hamiltonian path problem', which is NP-complete. Wikipedia:
 https://en.wikipedia.org/wiki/Hamiltonian_path
 """
+
 from __future__ import annotations
 
 from typing import cast
