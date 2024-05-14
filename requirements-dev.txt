@@ -23,7 +23,7 @@ tensorflow==2.16.1; python_version < "3.11"
 torch==2.2.1; python_version < "3.11"
 torchinfo==1.8.0; python_version < "3.11"
 torchvision==0.17.1; python_version < "3.11"
-tqdm==4.66.2
+tqdm==4.66.3
 
 # Dev requirements
 black==24.3.0
