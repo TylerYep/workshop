@@ -1,6 +1,6 @@
 # Setup requirements
 pip==24.0
-setuptools==69.2.0
+setuptools==70.0.0
 wheel==0.43.0
 
 # Prod requirements
