@@ -18,7 +18,7 @@ class Color(Enum):
 
 @dataclass(order=True, repr=False, slots=True)
 @override
-class RedBlackTreeNode(BinaryTreeNode[T]):  # type: ignore[explicit-override]
+class RedBlackTreeNode(BinaryTreeNode[T]):
     left: RedBlackTreeNode[T] | None = None
     right: RedBlackTreeNode[T] | None = None
     parent: RedBlackTreeNode[T] | None = dfield(None)

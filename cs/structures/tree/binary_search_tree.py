@@ -14,7 +14,7 @@ T = TypeVar("T", bound=Comparable)
 
 @dataclass(order=True, repr=False, slots=True)
 @override
-class BinaryTreeNode(TreeNode[T]):  # type: ignore[explicit-override]
+class BinaryTreeNode(TreeNode[T]):
     left: BinaryTreeNode[T] | None = None
     right: BinaryTreeNode[T] | None = None
     parent: BinaryTreeNode[T] | None = dfield(None)
