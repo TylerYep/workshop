@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 T = TypeVar("T", bound=Comparable)
 parametrize_tree_types = pytest.mark.parametrize(
-    "tree_type", ("BinarySearchTree", "RedBlackTree")
+    "tree_type", ["BinarySearchTree", "RedBlackTree"]
 )
 TEN_ELEMS = (8, 3, 6, 1, 10, 14, 13, 4, 7, 5)
 

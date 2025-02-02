@@ -29,6 +29,7 @@ from .tree.tree import Tree, TreeNode
 from .trie import Trie
 
 __all__ = (
+    "RMQ",
     "ApproxDistanceOracle",
     "ApproxFiniteMetricOracle",
     "BinaryHeap",
@@ -53,7 +54,6 @@ __all__ = (
     "Node",
     "PrecomputedRMQ",
     "Queue",
-    "RMQ",
     "RedBlackTree",
     "RedBlackTreeNode",
     "RobinHood",

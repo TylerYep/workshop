@@ -12,7 +12,7 @@ from cs.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 parametrize_hash_table_type = pytest.mark.parametrize(
-    "hash_table_type", ("Cuckoo", "LinearProbing", "RobinHood")
+    "hash_table_type", ["Cuckoo", "LinearProbing", "RobinHood"]
 )
 
 

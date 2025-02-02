@@ -5,7 +5,7 @@ import pytest
 from cs.structures import RMQ, FischerHeunRMQ, HybridRMQ, PrecomputedRMQ, SparseTableRMQ
 
 parametrize_rmq_type = pytest.mark.parametrize(
-    "rmq_type", ("FischerHeunRMQ", "HybridRMQ", "PrecomputedRMQ", "SparseTableRMQ")
+    "rmq_type", ["FischerHeunRMQ", "HybridRMQ", "PrecomputedRMQ", "SparseTableRMQ"]
 )
 
 

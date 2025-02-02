@@ -10,10 +10,10 @@ from cs.util import Comparable
 
 T = TypeVar("T", bound=Comparable)
 parametrize_heap_type = pytest.mark.parametrize(
-    "heap_type", ("BinomialHeap", "FibonacciHeap")
+    "heap_type", ["BinomialHeap", "FibonacciHeap"]
 )
 parametrize_allow_duplicates = pytest.mark.parametrize(
-    "allow_duplicates", (True, False)
+    "allow_duplicates", [True, False]
 )
 
 

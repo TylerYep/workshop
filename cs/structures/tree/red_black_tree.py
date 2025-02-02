@@ -134,9 +134,11 @@ class RedBlackTree(BinarySearchTree[T]):
             """
             return node is None or (
                 node.color is Color.BLACK
-                or self.color(node.left) is self.color(node.right) is Color.BLACK
-                and _check_coloring(node.left)
-                and _check_coloring(node.right)
+                or (
+                    self.color(node.left) is self.color(node.right) is Color.BLACK
+                    and _check_coloring(node.left)
+                    and _check_coloring(node.right)
+                )
             )
 
         def _black_height(node: RedBlackTreeNode[T] | None) -> int:

@@ -20,7 +20,7 @@ def construct_rmq(rmq_type: str, data: list[int]) -> RMQ:
 def print_arr_with_index(data: list[int], low: int) -> str:
     result = f"\nIndex | Data\n{'-' * 15}\n"
     for i, value in enumerate(data):
-        result += f"{low+i if low else i:5d} | {value}\n"
+        result += f"{low + i if low else i:5d} | {value}\n"
     return result
 
 
@@ -71,7 +71,7 @@ def run_tests(minimum: int, maximum: int, num_builds: int, num_queries: int) -> 
             assert data[ours] == data[theirs], (
                 "Error: query produced the wrong answer:\n\n"
                 f"Query: Low: {low}, High: {high}\n"
-                f"{print_arr_with_index(data[low: high], low)}\n"
+                f"{print_arr_with_index(data[low:high], low)}\n"
                 f"Solution Index: {ours}, Your Index: {theirs}\n\n"
                 f"Val at index {ours}: {data[ours]}, "
                 f"Val at index {theirs}: {data[theirs]}"

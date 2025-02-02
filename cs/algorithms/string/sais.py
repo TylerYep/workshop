@@ -209,10 +209,8 @@ def get_suffix_annotations(text: list[int]) -> tuple[list[SuffixType], list[int]
     lms_suffixes: list[int] = []
     suffix_marks = [SuffixType.S] * len(text)
     for k in range(len(text) - 1, 0, -1):
-        if (
-            text[k - 1] > text[k]
-            or text[k - 1] == text[k]
-            and suffix_marks[k] is SuffixType.L
+        if text[k - 1] > text[k] or (
+            text[k - 1] == text[k] and suffix_marks[k] is SuffixType.L
         ):
             suffix_marks[k - 1] = SuffixType.L
             if suffix_marks[k] is SuffixType.S:
@@ -241,10 +239,8 @@ def to_rank_array(text: str) -> list[int]:
 def rank_text_to_str(char_map: dict[str, int], rank_text: list[int]) -> str:
     """Util function to convert rank text back into strings."""
     result = ""
-    reversed_char_map = {}
+    reversed_char_map = {ch2: ch for ch, ch2 in char_map.items()}
     reversed_char_map[0] = "$"
-    for ch in char_map:
-        reversed_char_map[char_map[ch]] = ch
     for num in rank_text:
         result += reversed_char_map[num]
     return result

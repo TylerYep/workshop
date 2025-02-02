@@ -349,7 +349,7 @@ class FibonacciHeap(Heap[T]):
             # reparent operation that merged two different trees of equal
             # priority, we need to make sure that the min pointer points to
             # the root-level one.
-            if curr <= self.top:
+            if curr <= self.top:  # noqa: PLR1730
                 self.top = curr
         if not self.allow_duplicates:
             del self.elem_to_entry[min_elem.value]
