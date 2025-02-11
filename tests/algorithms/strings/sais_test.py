@@ -1,4 +1,4 @@
-from cs.algorithms.string.sais import (
+from cs.algorithms.strings.sais import (
     build_suffix_array,
     build_suffix_array_naive,
     get_suffix_annotations,

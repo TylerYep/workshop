@@ -23,9 +23,9 @@ from .sort.merge_sort import merge_sort
 from .sort.quick_sort import quick_sort
 from .sort.radix_sort import radix_sort
 from .sort.selection_sort import selection_sort
-from .string.knuth_morris_pratt import kmp_string_match
-from .string.lcs import longest_common_subsequence
-from .string.sais import build_suffix_array
+from .strings.knuth_morris_pratt import kmp_string_match
+from .strings.lcs import longest_common_subsequence
+from .strings.sais import build_suffix_array
 
 __all__ = (
     "bellman_ford_shortest_paths",
