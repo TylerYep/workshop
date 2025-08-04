@@ -9,8 +9,8 @@ from cs.structures import Edge, Graph, V
 def bipartite_matching(
     graph: Graph[V], left: Iterable[V] | Mapping[V, int], right: Iterable[V]
 ) -> tuple[Graph[V], list[Edge[V]]]:
-    source = cast(Any, "Source")
-    sink = cast(Any, "Sink")
+    source = cast("Any", "Source")
+    sink = cast("Any", "Sink")
     graph.add_node(source)
     graph.add_node(sink)
     if isinstance(left, Mapping):
@@ -33,7 +33,7 @@ def bipartite_matching(
 
 def ford_max_flow(graph: Graph[V], source: V, sink: V) -> float:
     result = ford_max_flow_network(graph, source, sink)
-    return cast(float, sum(edge["flow"] for edge in result[source].values()))
+    return cast("float", sum(edge["flow"] for edge in result[source].values()))
 
 
 def ford_max_flow_network(graph: Graph[V], source: V, sink: V) -> Graph[V]:

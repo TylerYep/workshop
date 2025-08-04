@@ -79,7 +79,7 @@ class BinarySearchTree(Tree[T]):
     def depth(tree: TreeNode[T] | None) -> int:
         if tree is None:
             return 0
-        tree = cast(BinaryTreeNode[T], tree)
+        tree = cast("BinaryTreeNode[T]", tree)
         return 1 + max(
             BinarySearchTree.depth(tree.left), BinarySearchTree.depth(tree.right)
         )

@@ -81,7 +81,7 @@ class SkipList(Generic[KT, VT]):
     def __iter__(self) -> Iterator[KT]:
         node = self
         while len(node.next) != 0:
-            yield cast(KT, node.next[0].key)
+            yield cast("KT", node.next[0].key)
             node = node.next[0]
 
     def __getitem__(self, key: KT) -> VT:

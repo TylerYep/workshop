@@ -20,7 +20,7 @@ def construct_tree(tree_type: str) -> Tree[T]:
         constructor.__name__: constructor
         for constructor in (BinarySearchTree, RedBlackTree)
     }
-    return cast(Tree[T], tree_map[tree_type]())
+    return cast("Tree[T]", tree_map[tree_type]())
 
 
 @parametrize_tree_types

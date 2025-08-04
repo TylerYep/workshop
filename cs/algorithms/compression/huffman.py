@@ -104,9 +104,9 @@ def decode(root: HuffmanTreeNode, filepath: Path) -> str:
                 output += curr.letter
                 curr = root
             if bit == "0":
-                curr = cast(HuffmanTreeNode, curr.left)
+                curr = cast("HuffmanTreeNode", curr.left)
             elif bit == "1":
-                curr = cast(HuffmanTreeNode, curr.right)
+                curr = cast("HuffmanTreeNode", curr.right)
     output += curr.letter
     return output
 

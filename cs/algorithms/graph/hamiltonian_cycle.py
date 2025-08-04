@@ -37,4 +37,4 @@ def hamiltonian_cycle(graph: Graph[V], start: V) -> list[V]:
 
     path: list[V | None] = [None] * (len(graph) + 1)
     path[0] = path[-1] = start
-    return cast(list[V], path) if hamilton_cycle(graph, path, 1) else []
+    return cast("list[V]", path) if hamilton_cycle(graph, path, 1) else []

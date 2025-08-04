@@ -2,7 +2,7 @@ import dataclasses
 import random
 from abc import abstractmethod
 from pathlib import Path
-from typing import Any, Protocol, TypeVar, override
+from typing import Any, Protocol, Self, TypeVar, override
 
 import prettyprinter  # type: ignore[import-untyped]
 from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import-untyped]
@@ -21,13 +21,13 @@ class Comparable(Protocol):
     def __lt__(self: C, other: C) -> bool:
         pass
 
-    def __gt__(self: C, other: C) -> bool:
+    def __gt__(self, other: Self) -> bool:
         return (not self < other) and self != other
 
-    def __le__(self: C, other: C) -> bool:
+    def __le__(self, other: Self) -> bool:
         return self < other or self == other
 
-    def __ge__(self: C, other: C) -> bool:
+    def __ge__(self, other: Self) -> bool:
         return not self < other
 
 
