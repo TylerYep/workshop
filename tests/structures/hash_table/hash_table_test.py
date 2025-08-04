@@ -24,7 +24,7 @@ def construct_hash_table(
         for constructor in (Cuckoo, LinearProbing, RobinHood)
     }
     return cast(
-        HashTable[KT, VT], hash_table_map[hash_table_type](num_buckets, load_factor)
+        "HashTable[KT, VT]", hash_table_map[hash_table_type](num_buckets, load_factor)
     )
 
 
