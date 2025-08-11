@@ -5,7 +5,6 @@ from typing import (
     TYPE_CHECKING,
     Any,
     ClassVar,
-    Generic,
     NamedTuple,
     ParamSpec,
     TypeVar,
@@ -28,7 +27,7 @@ class CacheInfo(NamedTuple):
     current_size: int
 
 
-class LRUCache(Generic[KT, VT]):
+class LRUCache[KT, VT]:
     """Uses a regular dictionary and the fact that dictionaries are ordered."""
 
     # Class variable maps the decorator functions to their respective instance

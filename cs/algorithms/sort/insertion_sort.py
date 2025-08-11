@@ -5,7 +5,7 @@ from cs.util import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-def insertion_sort(array: list[T]) -> list[T]:
+def insertion_sort[T: Comparable](array: list[T]) -> list[T]:
     """
     Insertion sort algorithm implementation.
 

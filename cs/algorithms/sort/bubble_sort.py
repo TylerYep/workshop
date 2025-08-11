@@ -5,7 +5,7 @@ from cs.util import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-def bubble_sort(array: list[T]) -> list[T]:
+def bubble_sort[T: Comparable](array: list[T]) -> list[T]:
     """
     Bubble sort algorithm implementation.
 

@@ -94,7 +94,7 @@ def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> float | None:
 def dijkstra_shortest_paths_heapq(graph: Graph[V], start: V) -> dict[V, float]:
     heap: list[tuple[float, V]] = [(0, start)]
     visited: set[V] = set()
-    distances = {v: Graph.INFINITY for v in graph}
+    distances = dict.fromkeys(graph, Graph.INFINITY)
     distances[start] = 0
     while heap:
         cost, u = heapq.heappop(heap)

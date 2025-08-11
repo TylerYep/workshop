@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Generic, TypeVar, override
+from typing import TYPE_CHECKING, TypeVar, override
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -10,7 +10,7 @@ T = TypeVar("T")
 
 
 @dataclass(repr=False, slots=True)
-class LinkedListNode(Generic[T]):
+class LinkedListNode[T]:
     data: T
     next: LinkedListNode[T] | None = None
 
@@ -20,7 +20,7 @@ class LinkedListNode(Generic[T]):
 
 
 @dataclass(init=False)
-class LinkedList(Generic[T]):
+class LinkedList[T]:
     head: LinkedListNode[T] | None
 
     def __init__(self) -> None:

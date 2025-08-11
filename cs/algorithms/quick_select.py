@@ -7,7 +7,7 @@ from cs.util import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-def quick_select(items: Sequence[T], index: int) -> T:
+def quick_select[T: Comparable](items: Sequence[T], index: int) -> T:
     """
     A Python implementation of the quick select algorithm (also called the kth order
     statistic), which is efficient for calculating the value that would appear in the

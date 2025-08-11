@@ -2,15 +2,13 @@ import hashlib
 import math
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Generic, TypeVar, override
+from typing import override
 
 from bitarray import bitarray
 
-T = TypeVar("T")
-
 
 @dataclass
-class BloomFilter(Generic[T]):
+class BloomFilter[T]:
     """
     Implementation of a Bloom filter. An instance is initialized by its capacity `n`
     and error rate `p`. The capacity `n` is how many elements can be stored while

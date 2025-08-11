@@ -5,7 +5,7 @@ from cs.util import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-def selection_sort(array: list[T]) -> list[T]:
+def selection_sort[T: Comparable](array: list[T]) -> list[T]:
     """
     Selection sort algorithm implementation.
 

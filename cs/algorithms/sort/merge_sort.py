@@ -5,7 +5,7 @@ from cs.util import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-def merge_sort(array: list[T]) -> list[T]:
+def merge_sort[T: Comparable](array: list[T]) -> list[T]:
     """
     Merge sort algorithm implementation.
 

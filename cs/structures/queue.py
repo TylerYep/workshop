@@ -1,12 +1,11 @@
-# noqa: A005
 from dataclasses import dataclass, field
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
 @dataclass(slots=True)
-class Queue(Generic[T]):
+class Queue[T]:
     """You should probably use the Python built-in list or deque instead."""
 
     _queue: list[T] = field(default_factory=list)

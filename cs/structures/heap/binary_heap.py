@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from cs.util import Comparable
 
@@ -12,7 +12,7 @@ T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(init=False)
-class BinaryHeap(Generic[T]):
+class BinaryHeap[T: Comparable]:
     """
     A generic Heap class, represented using an array. We use an array
     rather than a binary tree because heaps grow in a balanced manner, which

@@ -3,13 +3,13 @@ from __future__ import annotations
 from collections.abc import Hashable, Iterator
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import Generic, TypeVar, override
+from typing import TypeVar, override
 
 T = TypeVar("T")
 
 
 @dataclass
-class DisjointSetNode(Generic[T]):
+class DisjointSetNode[T]:
     data: T
     index: int
     rank: int = 0
@@ -31,7 +31,7 @@ class UnionMode(Enum):
 
 
 @dataclass(init=False, repr=False)
-class DisjointSet(Generic[T]):
+class DisjointSet[T]:
     """
     Implementation of DisjointSet used in Kruskal's algorithm as a union-find data
     structure. Let # of elements n and a(n) be the inverse Ackermann function.

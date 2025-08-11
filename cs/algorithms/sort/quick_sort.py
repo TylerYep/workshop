@@ -5,7 +5,7 @@ from cs.util import Comparable
 T = TypeVar("T", bound=Comparable)
 
 
-def quick_sort(array: list[T]) -> list[T]:
+def quick_sort[T: Comparable](array: list[T]) -> list[T]:
     """
     Quick sort algorithm implementation.
 

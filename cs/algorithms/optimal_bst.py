@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 T = TypeVar("T", bound=Comparable)
 
 
-def build_optimal_bst(
+def build_optimal_bst[T: Comparable](
     nodes: Sequence[BinaryTreeNode[T]],
 ) -> tuple[BinarySearchTree[T], float]:
     """

@@ -39,6 +39,10 @@ class Bits:
             return str(self) == str(other)
         return NotImplemented
 
+    @override
+    def __hash__(self) -> int:
+        return hash((self.val, self.length))
+
     def __len__(self) -> int:
         return self.length
 

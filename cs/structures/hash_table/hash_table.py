@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, ClassVar, Generic, TypeVar, override
+from typing import TYPE_CHECKING, ClassVar, TypeVar, override
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -12,7 +12,7 @@ VT = TypeVar("VT")
 
 
 @dataclass(slots=True)
-class TableEntry(Generic[KT, VT]):
+class TableEntry[KT, VT]:
     key: KT
     value: VT
 
@@ -22,7 +22,7 @@ class TableEntry(Generic[KT, VT]):
 
 
 @dataclass(slots=True)
-class HashTable(Generic[KT, VT]):
+class HashTable[KT, VT]:
     """This implementation assumes there are no duplicate keys."""
 
     num_buckets: int

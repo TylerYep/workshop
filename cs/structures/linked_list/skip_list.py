@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Generic, TypeVar, cast, override
+from typing import TYPE_CHECKING, TypeVar, cast, override
 
 from cs.util import Comparable
 
@@ -19,7 +19,7 @@ VT = TypeVar("VT")
 
 
 @dataclass
-class SkipList(Generic[KT, VT]):
+class SkipList[KT: Comparable, VT]:
     key: KT | None = None
     value: VT | None = None
     next: list[SkipList[KT, VT]] = field(default_factory=list)

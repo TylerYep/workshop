@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Generic, TypeVar, override
+from typing import TYPE_CHECKING, TypeVar, override
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -10,7 +10,7 @@ T = TypeVar("T")
 
 
 @dataclass(repr=False, slots=True)
-class DoublyLinkedListNode(Generic[T]):
+class DoublyLinkedListNode[T]:
     data: T
     prev: DoublyLinkedListNode[T] | None = None
     next: DoublyLinkedListNode[T] | None = None
@@ -21,7 +21,7 @@ class DoublyLinkedListNode(Generic[T]):
 
 
 @dataclass(init=False)
-class DoublyLinkedList(Generic[T]):
+class DoublyLinkedList[T]:
     """
     - A linked list is similar to an array, it holds values. However, links
         in a linked list do not have indexes.

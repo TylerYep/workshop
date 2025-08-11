@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Generic, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self, TypeVar
 
 from cs.util import Comparable
 
@@ -12,7 +12,7 @@ T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(init=False)
-class Heap(Generic[T]):
+class Heap[T: Comparable]:
     def __bool__(self) -> bool:
         raise NotImplementedError
 

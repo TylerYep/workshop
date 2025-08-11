@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Iterator, KeysView, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar, override
+from typing import Any, TypeVar, override
 
 from cs.util import Comparable, formatter
 
@@ -10,7 +10,7 @@ V = TypeVar("V", bound=Comparable)
 
 
 @dataclass(init=False)
-class Graph(Generic[V]):
+class Graph[V: Comparable]:
     """
     Use a Dict of Dicts to avoid storing nodes with no edges, as well as
     provide instant lookup for nodes and their neighbors.
@@ -299,7 +299,7 @@ class Graph(Generic[V]):
 
 
 @dataclass(init=False, repr=False, order=True)
-class Edge(Generic[V], Mapping[str, Any]):
+class Edge[V: Comparable](Mapping[str, Any]):
     """
     The edge class that stores edge data.
     Edges are given sort order using start, end, and weight.
@@ -356,7 +356,7 @@ class Edge(Generic[V], Mapping[str, Any]):
 
 
 @dataclass(order=True, slots=True)
-class Node(Generic[V]):
+class Node[V: Comparable]:
     """An example node class that stores node data."""
 
     data: V
@@ -366,11 +366,11 @@ class Node(Generic[V]):
         return hash(self.data)
 
 
-class DirectedGraph(Generic[V], Graph[V]):
+class DirectedGraph[V: Comparable](Graph[V]):
     def __init__(self, graph: dict[V, Any] | None = None) -> None:
         super().__init__(graph)
 
 
-class UndirectedGraph(Generic[V], Graph[V]):
+class UndirectedGraph[V: Comparable](Graph[V]):
     def __init__(self, graph: dict[V, Any] | None = None) -> None:
         super().__init__(graph, is_directed=False)

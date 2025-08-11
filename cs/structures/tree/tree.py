@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Generic, TypeVar, override
+from typing import TYPE_CHECKING, TypeVar, override
 
 from cs.util import Comparable, dfield, formatter
 
@@ -12,7 +12,7 @@ T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(order=True, repr=False, slots=True)
-class TreeNode(Generic[T]):
+class TreeNode[T: Comparable]:
     """
     For inheritance to type-check properly, we will need to re-define any TreeNode
     member variables in subclasses.
@@ -37,7 +37,7 @@ class TreeNode(Generic[T]):
 
 
 @dataclass(init=False)
-class Tree(Generic[T]):
+class Tree[T: Comparable]:
     """
     Trees can be extended to have any number of child nodes.
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Generic, Self, TypeVar, override
+from typing import Self, TypeVar, override
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
@@ -12,7 +12,7 @@ T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(order=True)
-class Entry(Generic[T]):
+class Entry[T: Comparable]:
     """
     Hold an entry in the heap.
     In order for all of the Binomial heap operations to complete in O(1),

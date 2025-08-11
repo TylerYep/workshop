@@ -24,7 +24,7 @@ class TestTrie:
 
     @staticmethod
     def test_trie_removes() -> None:
-        words = "banana bananas bandana band apple all beast".split()
+        words = ["banana", "bananas", "bandana", "band", "apple", "all", "beast"]
         root = Trie()
         for word in words:
             root.insert(word)
@@ -40,7 +40,7 @@ class TestTrie:
 
     @staticmethod
     def test_repr() -> None:
-        words = "t to".split()
+        words = ["t", "to"]
         trie = Trie()
         for word in words:
             trie.insert(word)
