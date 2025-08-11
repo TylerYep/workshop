@@ -3,14 +3,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, override
 
-from .hash_table import KT, VT, HashTable, TableEntry
+from cs.structures.hash_table.hash_table import HashTable, TableEntry
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
 
 @dataclass(slots=True)
-class RobinHoodEntry(TableEntry[KT, VT]):
+class RobinHoodEntry[KT, VT](TableEntry[KT, VT]):
     dist: int = -1
 
     @override
@@ -18,7 +18,7 @@ class RobinHoodEntry(TableEntry[KT, VT]):
         return f"({self.value}, {self.dist})"
 
 
-class RobinHood(HashTable[KT, VT]):
+class RobinHood[KT, VT](HashTable[KT, VT]):
     def __init__(self, num_buckets: int, load_factor: float = 0.4) -> None:
         super().__init__(num_buckets, load_factor)
         self.table: list[RobinHoodEntry[KT, VT] | None] = [None] * num_buckets

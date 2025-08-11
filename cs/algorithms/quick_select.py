@@ -1,10 +1,7 @@
 import random
 from collections.abc import Sequence
-from typing import TypeVar
 
 from cs.util import Comparable
-
-T = TypeVar("T", bound=Comparable)
 
 
 def quick_select[T: Comparable](items: Sequence[T], index: int) -> T:

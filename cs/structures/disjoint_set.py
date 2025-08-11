@@ -3,9 +3,7 @@ from __future__ import annotations
 from collections.abc import Hashable, Iterator
 from dataclasses import dataclass
 from enum import Enum, auto, unique
-from typing import TypeVar, override
-
-T = TypeVar("T")
+from typing import override
 
 
 @dataclass

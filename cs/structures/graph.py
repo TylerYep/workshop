@@ -2,11 +2,9 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Iterator, KeysView, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any, TypeVar, override
+from typing import Any, override
 
 from cs.util import Comparable, formatter
-
-V = TypeVar("V", bound=Comparable)
 
 
 @dataclass(init=False)

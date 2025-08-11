@@ -2,21 +2,18 @@ from __future__ import annotations
 
 import math
 import random
-from typing import TypeVar, cast
+from typing import cast
 
 import pytest
 
 from cs.structures import Cuckoo, HashTable, LinearProbing, RobinHood
-from cs.structures.hash_table.hash_table import KT, VT
-from cs.util import Comparable
 
-T = TypeVar("T", bound=Comparable)
 parametrize_hash_table_type = pytest.mark.parametrize(
     "hash_table_type", ["Cuckoo", "LinearProbing", "RobinHood"]
 )
 
 
-def construct_hash_table(
+def construct_hash_table[KT, VT](
     hash_table_type: str, num_buckets: int = 1, load_factor: float = 0.4
 ) -> HashTable[KT, VT]:
     hash_table_map = {

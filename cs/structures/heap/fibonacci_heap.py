@@ -3,13 +3,11 @@ from __future__ import annotations
 import math
 from collections import deque
 from dataclasses import dataclass
-from typing import Self, TypeVar, override
+from typing import Self, override
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
 from cs.util import Comparable, formatter
-
-T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(order=True)
@@ -48,7 +46,7 @@ class Entry[T: Comparable]:
 
 
 @dataclass(init=False)
-class FibonacciHeap(Heap[T]):
+class FibonacciHeap[T: Comparable](Heap[T]):
     """See docs/fibonacci_heap.md for code credits and implementation details."""
 
     top: Entry[T] | None

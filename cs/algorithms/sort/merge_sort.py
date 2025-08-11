@@ -1,8 +1,4 @@
-from typing import TypeVar
-
 from cs.util import Comparable
-
-T = TypeVar("T", bound=Comparable)
 
 
 def merge_sort[T: Comparable](array: list[T]) -> list[T]:

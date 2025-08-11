@@ -1,7 +1,4 @@
 from dataclasses import dataclass, field
-from typing import TypeVar
-
-T = TypeVar("T")
 
 
 @dataclass(slots=True)

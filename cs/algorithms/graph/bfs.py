@@ -3,11 +3,13 @@ from __future__ import annotations
 from collections import deque
 from typing import TYPE_CHECKING
 
+from cs.util import Comparable
+
 if TYPE_CHECKING:
-    from cs.structures import Graph, V
+    from cs.structures import Graph
 
 
-def breadth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:
+def breadth_first_search[V: Comparable](graph: Graph[V], start: V, end: V) -> list[V]:
     """
     Identical to DFS except with a queue and pop(0).
     Does not benefit from an additional visited check because it uses a queue.

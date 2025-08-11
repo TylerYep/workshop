@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from cs.util import Comparable
+
 if TYPE_CHECKING:
-    from cs.structures import Graph, V
+    from cs.structures import Graph
 
 
-def depth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:
+def depth_first_search[V: Comparable](graph: Graph[V], start: V, end: V) -> list[V]:
     """
     Iterative version of DFS.
 
@@ -26,7 +28,9 @@ def depth_first_search(graph: Graph[V], start: V, end: V) -> list[V]:
     return []
 
 
-def depth_first_search_recursive(graph: Graph[V], start: V, end: V) -> list[V]:
+def depth_first_search_recursive[V: Comparable](
+    graph: Graph[V], start: V, end: V
+) -> list[V]:
     """
     Recursive version of DFS.
 
@@ -46,7 +50,9 @@ def depth_first_search_recursive(graph: Graph[V], start: V, end: V) -> list[V]:
     return _dfs(start, set(), [start])
 
 
-def dfs_traversal(graph: Graph[V], start: V, visited: set[V] | None) -> set[V]:
+def dfs_traversal[V: Comparable](
+    graph: Graph[V], start: V, visited: set[V] | None
+) -> set[V]:
     """
     Explores graph starting with start using a depth-first-search traversal.
     Modifies a visited set in place, and returns a set of connected vertices.

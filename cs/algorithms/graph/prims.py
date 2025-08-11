@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from cs.structures import FibonacciHeap, Graph, V
+from cs.structures import FibonacciHeap, Graph
+from cs.util import Comparable
 
 
-def prims_mst(graph: Graph[V], start_node: V | None = None) -> Graph[V]:
+def prims_mst[V: Comparable](graph: Graph[V], start_node: V | None = None) -> Graph[V]:
     """
     Given a connected, undirected graph with real-valued edge costs, returns an MST of
     that graph.
@@ -41,7 +42,7 @@ def prims_mst(graph: Graph[V], start_node: V | None = None) -> Graph[V]:
     return mst
 
 
-def _add_outgoing_edges(
+def _add_outgoing_edges[V: Comparable](
     graph: Graph[V], u: V, mst: Graph[V], heap: FibonacciHeap[V]
 ) -> None:
     """
@@ -56,7 +57,9 @@ def _add_outgoing_edges(
             heap.decrease_key(v, e.weight)
 
 
-def _min_cost_endpoint(node: V, graph: Graph[V], mst: Graph[V]) -> tuple[V, float]:
+def _min_cost_endpoint[V: Comparable](
+    node: V, graph: Graph[V], mst: Graph[V]
+) -> tuple[V, float]:
     """
     Given a node in the source graph and a set of nodes that we've visited
     so far, returns the minimum-cost edge from that node to some node that

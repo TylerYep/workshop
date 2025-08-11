@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, TypeVar, cast, override
+from typing import TYPE_CHECKING, cast, override
 
 from cs.structures.tree.tree import Tree, TreeNode
 from cs.util import Comparable, dfield
@@ -9,12 +9,10 @@ from cs.util import Comparable, dfield
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-T = TypeVar("T", bound=Comparable)
-
 
 @dataclass(order=True, repr=False, slots=True)
 @override
-class BinaryTreeNode(TreeNode[T]):
+class BinaryTreeNode[T: Comparable](TreeNode[T]):
     left: BinaryTreeNode[T] | None = None
     right: BinaryTreeNode[T] | None = None
     parent: BinaryTreeNode[T] | None = dfield(None)
@@ -45,7 +43,7 @@ class BinaryTreeNode(TreeNode[T]):
 
 
 @dataclass
-class BinarySearchTree(Tree[T]):
+class BinarySearchTree[T: Comparable](Tree[T]):
     """
     BinarySearchTrees contain nodes in sorted order.
 

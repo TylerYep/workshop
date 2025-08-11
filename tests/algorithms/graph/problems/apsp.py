@@ -1,8 +1,10 @@
 from collections.abc import Callable
-from typing import Any
+from typing import Any, TypeVar
 
-from cs.structures import Edge, Graph, V
+from cs.structures import Edge, Graph
+from cs.util import Comparable
 
+V = TypeVar("V", bound=Comparable)
 INF = Graph.INFINITY
 SingleSourceFunction = Callable[[Graph[V], V], dict[V, float]]
 APSPFunction = Callable[[Graph[V]], dict[V, dict[V, float]]]

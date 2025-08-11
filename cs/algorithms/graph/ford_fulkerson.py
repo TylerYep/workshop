@@ -3,10 +3,11 @@ from __future__ import annotations
 from collections.abc import Iterable, Mapping
 from typing import Any, cast
 
-from cs.structures import Edge, Graph, V
+from cs.structures import Edge, Graph
+from cs.util import Comparable
 
 
-def bipartite_matching(
+def bipartite_matching[V: Comparable](
     graph: Graph[V], left: Iterable[V] | Mapping[V, int], right: Iterable[V]
 ) -> tuple[Graph[V], list[Edge[V]]]:
     source = cast(Any, "Source")
@@ -31,12 +32,14 @@ def bipartite_matching(
     return max_flow_graph, matching_edges
 
 
-def ford_max_flow(graph: Graph[V], source: V, sink: V) -> float:
+def ford_max_flow[V: Comparable](graph: Graph[V], source: V, sink: V) -> float:
     result = ford_max_flow_network(graph, source, sink)
     return cast(float, sum(edge["flow"] for edge in result[source].values()))
 
 
-def ford_max_flow_network(graph: Graph[V], source: V, sink: V) -> Graph[V]:
+def ford_max_flow_network[V: Comparable](
+    graph: Graph[V], source: V, sink: V
+) -> Graph[V]:
     """
     Given a graph and a pair of nodes s and t, produces a maximum s-t flow in that
     graph. Flow that already exists in the input network will be used as a guess of
@@ -98,7 +101,7 @@ def ford_max_flow_network(graph: Graph[V], source: V, sink: V) -> Graph[V]:
     return flow_network
 
 
-def add_flow(graph: Graph[V], edge: Edge[V], amount: int) -> None:
+def add_flow[V: Comparable](graph: Graph[V], edge: Edge[V], amount: int) -> None:
     """
     Adds or subtracts the indicated number of flow units across this edge. If the amount
     of flow added or removed exceeds the capacity of the edge, throws a RuntimeError.
@@ -116,7 +119,7 @@ def add_flow(graph: Graph[V], edge: Edge[V], amount: int) -> None:
     graph[edge.end][edge.start]["capacity"] += amount
 
 
-def find_path(
+def find_path[V: Comparable](
     residual_graph: Graph[V], start: V, end: V, visited: set[V] | None = None
 ) -> list[Edge[V]] | None:
     """

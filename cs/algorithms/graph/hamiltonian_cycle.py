@@ -7,12 +7,15 @@ https://en.wikipedia.org/wiki/Hamiltonian_path
 
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
-from cs.structures import Graph, V
+from cs.util import Comparable
+
+if TYPE_CHECKING:
+    from cs.structures import Graph
 
 
-def hamiltonian_cycle(graph: Graph[V], start: V) -> list[V]:
+def hamiltonian_cycle[V: Comparable](graph: Graph[V], start: V) -> list[V]:
     """
     Either return array of vertices indicating the hamiltonian cycle
     or an empty list indicating that hamiltonian cycle was not found.

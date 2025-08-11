@@ -3,10 +3,10 @@ from __future__ import annotations
 import math
 from typing import override
 
-from .hash_table import KT, VT, HashTable, TableEntry
+from cs.structures.hash_table.hash_table import HashTable, TableEntry
 
 
-class Cuckoo(HashTable[KT, VT]):
+class Cuckoo[KT, VT](HashTable[KT, VT]):
     """
     A hash system with worst-case constant-time lookup and deletion, and amortized
     expected O(1) insertion.

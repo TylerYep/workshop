@@ -1,14 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Self, TypeVar
+from typing import TYPE_CHECKING, Any, Self
 
 from cs.util import Comparable
 
 if TYPE_CHECKING:
     from uuid import UUID
-
-T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(init=False)

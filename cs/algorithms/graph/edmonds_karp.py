@@ -1,8 +1,9 @@
 from cs.algorithms import breadth_first_search
-from cs.structures import Graph, V
+from cs.structures import Graph
+from cs.util import Comparable
 
 
-def edmonds_karp_max_flow(graph: Graph[V], source: V, sink: V) -> float:
+def edmonds_karp_max_flow[V: Comparable](graph: Graph[V], source: V, sink: V) -> float:
     flow_network = Graph.from_graph(graph)
     max_flow = 0.0
 

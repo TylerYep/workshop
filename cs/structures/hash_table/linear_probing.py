@@ -3,15 +3,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import override
 
-from .hash_table import KT, VT, HashTable, TableEntry
+from cs.structures.hash_table.hash_table import HashTable, TableEntry
 
 
 @dataclass(slots=True)
-class LinearProbingEntry(TableEntry[KT, VT]):
+class LinearProbingEntry[KT, VT](TableEntry[KT, VT]):
     is_dead: bool = False
 
 
-class LinearProbing(HashTable[KT, VT]):
+class LinearProbing[KT, VT](HashTable[KT, VT]):
     def __init__(self, num_buckets: int, load_factor: float = 0.4) -> None:
         super().__init__(num_buckets, load_factor)
         self.table: list[LinearProbingEntry[KT, VT] | None] = [None] * num_buckets

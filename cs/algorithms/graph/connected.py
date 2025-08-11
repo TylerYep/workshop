@@ -1,7 +1,8 @@
-from cs.structures import Graph, V
+from cs.structures import Graph
+from cs.util import Comparable
 
 
-def connected_components(graph: Graph[V]) -> list[set[V]]:
+def connected_components[V: Comparable](graph: Graph[V]) -> list[set[V]]:
     """
     This function returns the list of connected components of the given Graph.
 

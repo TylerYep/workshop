@@ -2,13 +2,11 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Self, TypeVar, override
+from typing import Self, override
 from uuid import UUID, uuid4
 
 from cs.structures.heap.heap import Heap
 from cs.util import Comparable, dfield, formatter
-
-T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(order=True)
@@ -46,7 +44,7 @@ class Entry[T: Comparable]:
 
 
 @dataclass(init=False)
-class BinomialHeap(Heap[T]):
+class BinomialHeap[T: Comparable](Heap[T]):
     """
     Binomial Heap implementation using a list of trees, represented by Entry objects.
 

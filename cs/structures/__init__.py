@@ -2,7 +2,7 @@ from .ado.ado_finite_metric import ApproxFiniteMetricOracle
 from .ado.ado_graph import ApproxDistanceOracle
 from .bloom_filter import BloomFilter
 from .disjoint_set import DisjointSet
-from .graph import DirectedGraph, Edge, Graph, Node, UndirectedGraph, V
+from .graph import DirectedGraph, Edge, Graph, Node, UndirectedGraph
 from .hash_table.cuckoo import Cuckoo
 from .hash_table.hash_table import HashTable
 from .hash_table.linear_probing import LinearProbing
@@ -65,6 +65,5 @@ __all__ = (
     "TreeNode",
     "Trie",
     "UndirectedGraph",
-    "V",
     "lru_cache",
 )

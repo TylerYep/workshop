@@ -1,7 +1,8 @@
-from cs.structures import Graph, V
+from cs.structures import Graph
+from cs.util import Comparable
 
 
-def topological_sort(graph: Graph[V]) -> list[V]:
+def topological_sort[V: Comparable](graph: Graph[V]) -> list[V]:
     """
     Perform topological sort on a directed acyclic graph.
 

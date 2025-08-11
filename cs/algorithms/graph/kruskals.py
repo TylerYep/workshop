@@ -1,7 +1,8 @@
-from cs.structures import DisjointSet, Graph, V
+from cs.structures import DisjointSet, Graph
+from cs.util import Comparable
 
 
-def kruskals_mst(graph: Graph[V]) -> Graph[V]:
+def kruskals_mst[V: Comparable](graph: Graph[V]) -> Graph[V]:
     """
     Kruskal's Algorithm to find an MST.
     Not 100% deterministic because edges with the same weight are arbitrarily ordered.

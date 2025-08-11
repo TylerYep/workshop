@@ -1,14 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, TypeVar, override
+from typing import TYPE_CHECKING, override
 
 from cs.util import Comparable, dfield, formatter
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
-
-T = TypeVar("T", bound=Comparable)
 
 
 @dataclass(order=True, repr=False, slots=True)

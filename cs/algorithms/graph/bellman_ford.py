@@ -1,7 +1,8 @@
-from cs.structures import Graph, V
+from cs.structures import Graph
+from cs.util import Comparable
 
 
-def bellman_ford_shortest_paths(
+def bellman_ford_shortest_paths[V: Comparable](
     graph: Graph[V], start: V, *, check_negative_cycles: bool = True
 ) -> dict[V, float]:
     """

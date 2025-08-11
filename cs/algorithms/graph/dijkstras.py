@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import heapq
 
-from cs.structures import FibonacciHeap, Graph, V
+from cs.structures import FibonacciHeap, Graph
+from cs.util import Comparable
 
 
-def dijkstra_search(graph: Graph[V], start: V, end: V) -> float | None:
+def dijkstra_search[V: Comparable](graph: Graph[V], start: V, end: V) -> float | None:
     """
     Identical to BFS and DFS, except uses a priority queue and weights from the graph.
 
@@ -34,7 +35,7 @@ def dijkstra_search(graph: Graph[V], start: V, end: V) -> float | None:
     return None
 
 
-def dijkstra_shortest_paths(graph: Graph[V], start: V) -> dict[V, float]:
+def dijkstra_shortest_paths[V: Comparable](graph: Graph[V], start: V) -> dict[V, float]:
     """
     Dijkstra's algorithm for the single-source shortest paths problem.
 
@@ -68,7 +69,9 @@ def dijkstra_shortest_paths(graph: Graph[V], start: V) -> dict[V, float]:
     return distances
 
 
-def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> float | None:
+def dijkstra_search_heapq[V: Comparable](
+    graph: Graph[V], start: V, end: V
+) -> float | None:
     """
     Identical to BFS and DFS, except uses a priority queue and weights from the graph.
 
@@ -91,7 +94,9 @@ def dijkstra_search_heapq(graph: Graph[V], start: V, end: V) -> float | None:
     return None
 
 
-def dijkstra_shortest_paths_heapq(graph: Graph[V], start: V) -> dict[V, float]:
+def dijkstra_shortest_paths_heapq[V: Comparable](
+    graph: Graph[V], start: V
+) -> dict[V, float]:
     heap: list[tuple[float, V]] = [(0, start)]
     visited: set[V] = set()
     distances = dict.fromkeys(graph, Graph.INFINITY)

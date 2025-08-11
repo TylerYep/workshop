@@ -1,7 +1,10 @@
-from cs.structures import Graph, V
+from cs.structures import Graph
+from cs.util import Comparable
 
 
-def floyd_warshall_shortest_paths(graph: Graph[V]) -> dict[V, dict[V, float]]:
+def floyd_warshall_shortest_paths[V: Comparable](
+    graph: Graph[V],
+) -> dict[V, dict[V, float]]:
     """
     Calculates the shortest distance between all vertex pairs using dynamic programming.
     distance[u][v] will contain the shortest distance from vertex u to v.

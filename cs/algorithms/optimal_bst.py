@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING
 
 from cs.structures import BinarySearchTree, BinaryTreeNode, Graph
 from cs.util import Comparable
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
-
-T = TypeVar("T", bound=Comparable)
 
 
 def build_optimal_bst[T: Comparable](

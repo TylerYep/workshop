@@ -2,12 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum, unique
-from typing import TypeVar, override
+from typing import override
 
 from cs.structures.tree.binary_search_tree import BinarySearchTree, BinaryTreeNode
 from cs.util import Comparable, dfield
-
-T = TypeVar("T", bound=Comparable)
 
 
 @unique
@@ -18,7 +16,7 @@ class Color(Enum):
 
 @dataclass(order=True, repr=False, slots=True)
 @override
-class RedBlackTreeNode(BinaryTreeNode[T]):
+class RedBlackTreeNode[T: Comparable](BinaryTreeNode[T]):
     left: RedBlackTreeNode[T] | None = None
     right: RedBlackTreeNode[T] | None = None
     parent: RedBlackTreeNode[T] | None = dfield(None)
@@ -41,7 +39,7 @@ class RedBlackTreeNode(BinaryTreeNode[T]):
 
 
 @dataclass
-class RedBlackTree(BinarySearchTree[T]):
+class RedBlackTree[T: Comparable](BinarySearchTree[T]):
     """
     A Red-Black tree, which is a self-balancing BST (binary search tree). This tree has
     similar performance to AVL trees, but the balancing is less strict, so it will

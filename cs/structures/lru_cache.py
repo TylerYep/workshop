@@ -6,18 +6,11 @@ from typing import (
     Any,
     ClassVar,
     NamedTuple,
-    ParamSpec,
-    TypeVar,
     override,
 )
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-KT = TypeVar("KT")
-VT = TypeVar("VT")
-P = ParamSpec("P")
-R = TypeVar("R")
 
 
 class CacheInfo(NamedTuple):
@@ -74,7 +67,9 @@ class LRUCache[KT, VT]:
         )
 
     @classmethod
-    def lru_cache(cls, size: int = 128) -> Callable[[Callable[P, R]], Callable[P, R]]:
+    def lru_cache[**P, R](
+        cls, size: int = 128
+    ) -> Callable[[Callable[P, R]], Callable[P, R]]:
         def cache_decorator_inner(func: Callable[P, R]) -> Callable[P, R]:
             @wraps(func)
             def cache_decorator_wrapper(*args: P.args, **kwargs: P.kwargs) -> Any:
@@ -98,5 +93,5 @@ class LRUCache[KT, VT]:
         return cache_decorator_inner
 
 
-def lru_cache(size: int = 128) -> Callable[[Callable[P, R]], Callable[P, R]]:
+def lru_cache[**P, R](size: int = 128) -> Callable[[Callable[P, R]], Callable[P, R]]:
     return LRUCache.lru_cache(size)

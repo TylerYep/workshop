@@ -2,13 +2,10 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, ClassVar, TypeVar, override
+from typing import TYPE_CHECKING, ClassVar, override
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-KT = TypeVar("KT")
-VT = TypeVar("VT")
 
 
 @dataclass(slots=True)

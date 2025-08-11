@@ -7,15 +7,12 @@ from __future__ import annotations
 
 import random
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, TypeVar, cast, override
+from typing import TYPE_CHECKING, cast, override
 
 from cs.util import Comparable
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
-
-KT = TypeVar("KT", bound=Comparable)
-VT = TypeVar("VT")
 
 
 @dataclass

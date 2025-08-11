@@ -1,8 +1,10 @@
 from collections.abc import Callable
-from typing import Any
+from typing import Any, TypeVar
 
-from cs.structures import Graph, V
+from cs.structures import Graph
+from cs.util import Comparable
 
+V = TypeVar("V", bound=Comparable)
 MaxFlowFunction = Callable[[Graph[V], V, V], float]
 
 

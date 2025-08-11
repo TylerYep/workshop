@@ -8,7 +8,6 @@ import prettyprinter  # type: ignore[import-untyped]
 from prettyprinter.prettyprinter import IMPLICIT_MODULES  # type: ignore[import-untyped]
 
 C = TypeVar("C", bound="Comparable")
-T = TypeVar("T")
 
 
 class Comparable(Protocol):
