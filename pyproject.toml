@@ -1,4 +1,87 @@
-target-version = "py312"
+[project]
+name = "csworkshop"
+version = "0.0.3"
+description = "CS Design Studio"
+readme = "README.md"
+authors = [
+    { name = "Tyler Yep", email = "tyep@cs.stanford.edu" },
+]
+license = "MIT"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.13"
+dependencies = [
+    "bitarray",
+    "graphviz",
+    "matplotlib",
+    "prettyprinter",
+    "tqdm",
+]
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "pytest-deadfixtures",
+    "pytest-idempotent",
+    "pytest-timeout",
+    "ruff",
+    "types-setuptools",
+    "types-tqdm",
+]
+
+[build-system]
+requires = [
+    "setuptools>=61.2",
+]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/tyleryep/workshop"
+
+[tool.setuptools]
+include-package-data = true
+license-files = [
+    "LICENSE",
+]
+
+[tool.setuptools.package-data]
+cs = [
+    "py.typed",
+]
+
+[tool.setuptools.packages.find]
+exclude = [
+    "explore",
+    "explore.*",
+    "utils",
+    "tests",
+    "tests.*",
+    "tests.*.*",
+]
+namespaces = false
+
+[tool.mypy]
+strict = true
+warn_unreachable = true
+disallow_any_unimported = true
+extra_checks = true
+enable_error_code = "explicit-override,ignore-without-code"
+
+[[tool.mypy.overrides]]
+module = [
+    "explore.*",
+]
+ignore_errors = true
+
+[tool.ruff]
+target-version = "py313"
 lint.select = ["ALL"]
 lint.ignore = [
 	"ANN401",  # Dynamically typed expressions (typing.Any) are disallowed
@@ -12,7 +95,6 @@ lint.ignore = [
 	"FBT002",  # Boolean default value in function definition
 	"FBT003",  # Boolean positional value in function call
 	"FIX002",  # Line contains TODO
-	"ISC001",  # Isort
 	"PLR0911", # Too many return statements (11 > 6)
 	"PLR2004", # Magic value used in comparison, consider replacing 2 with a constant variable
 	"PLR0912", # Too many branches
@@ -22,6 +104,7 @@ lint.ignore = [
 	"S311",    # Standard pseudo-random generators are not suitable for cryptographic purposes
 	"T201",    # print() found
 	"T203",    # pprint() found
+	"TC006",   # Add quotes to type expression in `typing.cast()`
 	"TD002",   # Missing author in TODO; try: `# TODO(<author_name>): ...`
 	"TD003",   # Missing issue link on the line following this TODO
 	"TD005",   # Missing issue description after `TODO`
@@ -37,6 +120,3 @@ exclude = [
 	"explore/neural_net.py",
 	"explore/runner.py",
 ]
-
-[lint.flake8-pytest-style]
-fixture-parentheses = false

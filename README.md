@@ -1,6 +1,6 @@
 # workshop
 
-[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/release/python-3120/)
+[![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/release/python-3130/)
 [![PyPI version](https://badge.fury.io/py/csworkshop.svg)](https://badge.fury.io/py/csworkshop)
 [![Build Status](https://github.com/TylerYep/workshop/actions/workflows/test.yml/badge.svg)](https://github.com/TylerYep/workshop/actions/workflows/test.yml)
 [![GitHub license](https://img.shields.io/github/license/TylerYep/workshop)](https://github.com/TylerYep/workshop/blob/main/LICENSE)
