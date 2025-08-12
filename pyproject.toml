@@ -2,10 +2,10 @@
 name = "csworkshop"
 version = "0.0.3"
 description = "CS Design Studio"
-readme = "README.md"
 authors = [
     { name = "Tyler Yep", email = "tyep@cs.stanford.edu" },
 ]
+readme = "README.md"
 license = "MIT"
 classifiers = [
     "Operating System :: OS Independent",
@@ -28,9 +28,6 @@ dev = [
     "pre-commit",
     "pytest",
     "pytest-cov",
-    "pytest-deadfixtures",
-    "pytest-idempotent",
-    "pytest-timeout",
     "ruff",
     "types-setuptools",
     "types-tqdm",
