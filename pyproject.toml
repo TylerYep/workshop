@@ -1,6 +1,6 @@
 [project]
 name = "csworkshop"
-version = "0.0.3"
+version = "0.0.4"
 description = "CS Design Studio"
 authors = [
     { name = "Tyler Yep", email = "tyep@cs.stanford.edu" },
@@ -29,6 +29,7 @@ dev = [
     "pytest",
     "pytest-cov",
     "ruff",
+    "ty",
     "types-setuptools",
     "types-tqdm",
 ]
